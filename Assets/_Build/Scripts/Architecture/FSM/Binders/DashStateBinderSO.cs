@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using R3;
+
+[CreateAssetMenu(fileName = " DashStateBinderSO", menuName = "Scriptable Objects/ DashStateBinderSO")]
+[Serializable]
+public class DashStateBinderSO : FiniteStateBinderSO
+{
+    [SerializeField] private DashParameters _parameters;
+
+    public (FiniteState, IEnumerable<IFiniteTransition>) Bind(IHolder<IEntityFeature> holder)
+    {
+        var inputProvider = ServiceLocator.Current.Get<IInputProvider>();
+
+        var flipper = holder.Items[typeof(Flipper)] as Flipper;
+
+        var dashState = new DashState();
+        dashState.Init(_parameters, Observable.EveryValueChanged(flipper, x => x.IsLooksToTheRight));
+
+        float _waitToDash = 0;
+        dashState.OnEnter.Subscribe(_ => {
+            _waitToDash = _parameters.Cooldown;
+            Observable.EveryUpdate().TakeWhile(_ => _waitToDash > 0).Subscribe(_ => _waitToDash -= Time.deltaTime);
+        });
+
+        var transitions = new IFiniteTransition[]
+        {
+            new FiniteTransition<WalkState, DashState>(() => inputProvider.GetShift && _waitToDash <= 0),
+            new FiniteTransition<DashState, IdleState>(() => dashState.IsCompleted.CurrentValue),
+            new FiniteTransition<IdleState, DashState>(() => inputProvider.GetShift && _waitToDash <= 0),
+            new FiniteTransition<JumpState, DashState>(() => inputProvider.GetShift && _waitToDash <= 0),
+        };
+        return (dashState, transitions);
+    }
+}
