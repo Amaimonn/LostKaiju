@@ -218,7 +218,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2143187253820395415}
   _animator: {fileID: 6690856542506860452}
-  _groundCheckPoint: {fileID: 4884114573771679061}
   _flipper: {fileID: 631335597214750238}
   _groundCheck: {fileID: 4039892922003256134}
   _inputModelConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
