@@ -2,19 +2,17 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public abstract class InputModel
+public abstract class CharacterModel
 {
     public Rigidbody2D ModelRigidbody { get; protected set;}
     public Animator ModelAnimator { get; protected set;}
-    public GroundCheck GroundCheck { get; protected set;}
-    public Flipper Flipper { get; protected set;}
+    public Holder<IEntityFeature> Features { get; protected set;}
 
-    public virtual void Bind(IPlayer player, GroundCheck groundCheck = null, Flipper flipper = null)
+    public virtual void Bind(IPlayer player, Holder<IEntityFeature> features)
     {
         ModelRigidbody = player.PlayerRigidbody;
         ModelAnimator = player.PlayerAnimator;
-        GroundCheck = groundCheck;
-        Flipper = flipper;
+        Features = features;
     }
 
     public abstract void UpdateLogic();

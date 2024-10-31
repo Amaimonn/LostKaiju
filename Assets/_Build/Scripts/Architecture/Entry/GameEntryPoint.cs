@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class EntryPoint
+public class GameEntryPoint
 {
-    private static EntryPoint _instance;
+    private static GameEntryPoint _instance;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void EnterTheGame()

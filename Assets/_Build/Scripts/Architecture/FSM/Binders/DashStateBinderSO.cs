@@ -9,11 +9,11 @@ public class DashStateBinderSO : FiniteStateBinderSO
 {
     [SerializeField] private DashParameters _parameters;
 
-    public (FiniteState, IEnumerable<IFiniteTransition>) Bind(IHolder<IEntityFeature> holder)
+    public (FiniteState, IEnumerable<IFiniteTransition>) Bind(Holder<IEntityFeature> features)
     {
         var inputProvider = ServiceLocator.Current.Get<IInputProvider>();
 
-        var flipper = holder.Items[typeof(Flipper)] as Flipper;
+        var flipper = features.Resolve<Flipper>();
 
         var dashState = new DashState();
         dashState.Init(_parameters, Observable.EveryValueChanged(flipper, x => x.IsLooksToTheRight));

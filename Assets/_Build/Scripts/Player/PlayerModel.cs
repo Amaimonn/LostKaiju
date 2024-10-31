@@ -3,7 +3,7 @@ using ObservableCollections;
 using R3;
 using System;
 
-public class PlayerModel : InputModel
+public class PlayerModel : CharacterModel
 {
     private readonly PlayerControlsData _data;
     private FiniteStateMachine _finiteStateMachine;
@@ -20,17 +20,18 @@ public class PlayerModel : InputModel
         _data = data;
     }
 
-    public override void Bind(IPlayer player, GroundCheck groundCheck, Flipper flipper)
+    public override void Bind(IPlayer player, Holder<IEntityFeature> features)
     {
-        base.Bind(player, groundCheck, flipper);
-
+        base.Bind(player, features);
+        var groundCheck = features.Resolve<GroundCheck>();
+        var flipper = features.Resolve<Flipper>();
         _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
 
         var walkParameters = _data.Walk;
         walkParameters.WalkRigidbody = ModelRigidbody;
 
         var walkState = new WalkState();
-        walkState.OnEnter.Subscribe(_ => ModelAnimator.CrossFade(AnimationClips.WALK, 0.1f));
+        walkState.OnEnter.Subscribe(_ => ModelAnimator.CrossFade(AnimationClips.WALK, 0.02f));
         walkState.Init(walkParameters, () => groundCheck.IsGrounded);
         walkState.IsPositiveDirectionX.Subscribe(flipper.LookRight);
 
@@ -39,7 +40,10 @@ public class PlayerModel : InputModel
         
         var jumpState = new JumpState();
         jumpState.Init(jumpParameters);
-        jumpState.OnEnter.Subscribe( _ => _waitToJump = _data.JumpCooldown);
+        jumpState.OnEnter.Subscribe( _ => {
+            _waitToJump = _data.JumpCooldown;
+            ModelAnimator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f);
+        });
 
         var idleState = new IdleState();
         idleState.OnEnter.Subscribe(_ => ModelAnimator.CrossFade(AnimationClips.IDLE, 0.2f));
