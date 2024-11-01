@@ -1,11 +1,12 @@
 /// <summary>
 /// Info to enter target scene from main menu
 /// </summary>
-public class MainMenuExitContext : SceneContext
+public class MainMenuExitContext
 {
     public SceneContext TagretSceneContext { get; }
 
-    public MainMenuExitContext(string sceneName) : base(sceneName)
+    public MainMenuExitContext(SceneContext tagretSceneContext)
     {
+        TagretSceneContext = tagretSceneContext;
     }
 }

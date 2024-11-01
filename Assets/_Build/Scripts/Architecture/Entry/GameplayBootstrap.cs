@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameplayBootstrap : MonoBehaviour
 {
-    public void Boot()
+    public void Boot(GameplayEnterContext gameplayEnterContext)
     {
         
     }

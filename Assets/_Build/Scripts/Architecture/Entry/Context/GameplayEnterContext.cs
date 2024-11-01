@@ -3,6 +3,7 @@
 /// </summary>
 public class GameplayEnterContext : SceneContext
 {
+
     public GameplayEnterContext(string sceneName) : base(sceneName)
     {
     }
