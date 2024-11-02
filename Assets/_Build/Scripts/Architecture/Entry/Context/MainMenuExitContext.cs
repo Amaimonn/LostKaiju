@@ -1,12 +1,12 @@
 /// <summary>
-/// Info to enter target scene from main menu
+/// Info to enter the Hub scene from the Main menu. Exiting the Main menu leads to the Hub.
 /// </summary>
 public class MainMenuExitContext
 {
-    public SceneContext TagretSceneContext { get; }
+    public HubEnterContext HubEnterContext { get; }
 
-    public MainMenuExitContext(SceneContext tagretSceneContext)
+    public MainMenuExitContext(HubEnterContext hubEnterContext)
     {
-        TagretSceneContext = tagretSceneContext;
+        HubEnterContext = hubEnterContext;
     }
 }

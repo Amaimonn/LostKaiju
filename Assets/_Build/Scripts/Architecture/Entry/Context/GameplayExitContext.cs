@@ -1,5 +1,5 @@
 /// <summary>
-/// Info to get back to hub from gameplay scene
+/// Info to get back to the Hub from the Gameplay scene. Exiting the Gameplay leads to the Hub.
 /// </summary>
 public class GameplayExitContext
 {

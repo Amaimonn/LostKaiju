@@ -1,9 +1,11 @@
 using UnityEngine;
+using R3;
 
 public class GameplayBootstrap : MonoBehaviour
 {
-    public void Boot(GameplayEnterContext gameplayEnterContext)
+    public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
     {
-        
+        var exitGameplaySignal = new Subject<GameplayExitContext>();
+        return exitGameplaySignal;
     }
 }
