@@ -220,7 +220,7 @@ MonoBehaviour:
   _animator: {fileID: 6690856542506860452}
   _flipper: {fileID: 631335597214750238}
   _groundCheck: {fileID: 4039892922003256134}
-  _inputModelConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
+  _behaviourConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
 --- !u!1001 &9143937978568036235
 PrefabInstance:
   m_ObjectHideFlags: 0

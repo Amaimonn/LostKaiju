@@ -1,4 +1,4 @@
 public interface IInputModelHandler
 {
-    public void Bind(CharacterModel model);
+    public void Bind(CharacterBehaviour model);
 }

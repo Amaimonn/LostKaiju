@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OccludableSensor<T> : Sensor<T>
+public class OccludableSensor<T> : Sensor<T> where T : Component
 {
     [SerializeField] protected Transform _rayOrigin;
     [SerializeField] protected float _rayDistance;
@@ -48,7 +48,7 @@ public class OccludableSensor<T> : Sensor<T>
         {
             if (_detected.Value == null)
             {
-                RaycastHit2D hit = Physics2D.Raycast(_rayOrigin.position, _rayDirection.position - _rayOrigin.position, _rayDistance, _rayMask);
+                RaycastHit2D hit = Physics2D.Raycast(_rayOrigin.position, target.transform.position - _rayOrigin.position, _rayDistance, _rayMask);
                 if (hit)
                 {
                     if (hit.collider.TryGetComponent<T>(out var visible))
@@ -56,7 +56,7 @@ public class OccludableSensor<T> : Sensor<T>
                         if (visible.Equals(target))
                         {
                             _detected.Value = visible;
-                            Debug.DrawLine(_rayOrigin.position, hit.point, Color.red, 0.1f);
+                            Debug.DrawLine(_rayOrigin.position, hit.point, Color.red, 1f);
                         }
                     }
                     else

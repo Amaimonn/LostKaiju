@@ -1,22 +1,42 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Holder<T>
+public class Holder<TElement> where TElement : class
 {
-    protected Dictionary<Type, T> _items = new();
+    protected Dictionary<Type, TElement> _items = new();
 
-    public virtual TT Resolve<TT>() where TT : T
+    public virtual TKeyType Resolve<TKeyType>() where TKeyType : class, TElement
     {
-        var item = _items[typeof(TT)];
-
-        if (item == null)
-            return default;
-
-        return (TT) _items[typeof(TT)];
+        var resolveType = typeof(TKeyType);
+        if (_items.TryGetValue(resolveType, out var item))
+        {
+            return (TKeyType)item;
+        }
+        else
+        {
+            Debug.LogWarning($"Can't resolve {resolveType.Name}");
+            return null;
+        }
     }
 
-    public void Register<TT> (TT item) where TT : T
+    public void Register<TKeyType>(TKeyType item) where TKeyType : TElement
     {
-        _items[typeof(TT)] = item;
+        var registeredType = typeof(TKeyType);
+
+        if (_items.ContainsKey(registeredType))
+            Debug.Log($"Override key {registeredType.Name}");
+
+        _items[registeredType] = item;
+    }
+
+    public void UnRegister<TKeyType>()
+    {
+        var unregisteredType = typeof(TKeyType);
+
+        if (_items.ContainsKey(unregisteredType))
+            _items.Remove(unregisteredType);
+        else
+            Debug.LogWarning($"There is no key type {unregisteredType.Name} in Holder");
     }
 }

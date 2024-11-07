@@ -1,28 +1,21 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour, IPlayer
+public class PlayerCharacter : PlayerBinder
 {    
-    public Rigidbody2D PlayerRigidbody => _rigidbody;
-    public Animator PlayerAnimator => _animator;
+    public override Rigidbody2D PlayerRigidbody => _rigidbody;
+    public override Animator PlayerAnimator => _animator;
 
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Animator _animator;
     [SerializeField] private Flipper _flipper;
     [SerializeField] private GroundCheck _groundCheck;
-    [SerializeField] private InputModelConfig _inputModelConfig;
+    [SerializeField] private CharacterBehaviourSO _behaviourConfig;
 
-    protected CharacterModel CurrentModel => _currentConfig == _inputModelConfig ? _currentModel : SetInputModel(_inputModelConfig);
+    protected CharacterBehaviour CurrentBehaviour => _currentConfig == _behaviourConfig ? _currentModel : SetBehaviour(_behaviourConfig);
     
+    protected CharacterBehaviourSO _currentConfig;
+    protected CharacterBehaviour _currentModel;
     protected Holder<IEntityFeature> _features = new();
-    protected InputModelConfig _currentConfig;
-    protected CharacterModel _currentModel;
-
-    // public void Bind(InputModel model)
-    // {
-    //     // _inputModel = model;
-    // }
 
     private void Awake()
     {
@@ -32,20 +25,20 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
 
     private void Update()
     {
-        CurrentModel.UpdateLogic();
+        CurrentBehaviour.UpdateLogic();
     }
 
     private void FixedUpdate()
     {
-        CurrentModel.FixedUpdateLogic();
+        CurrentBehaviour.FixedUpdateLogic();
     }
 
-    private CharacterModel SetInputModel(InputModelConfig config)
+    private CharacterBehaviour SetBehaviour(CharacterBehaviourSO config)
     {
-        Debug.Log("New model set up");
+        Debug.Log("New behaviour set up");
         _currentConfig = config;
         _currentModel = config.GetModel();
-        _currentModel.Bind(this, _features);
+        _currentModel.Bind(_rigidbody, _animator, _features);
         return _currentModel;
     }
 }

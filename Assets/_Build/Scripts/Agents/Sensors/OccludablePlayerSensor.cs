@@ -1,3 +1,3 @@
-public class OccludablePlayerSensor : OccludableSensor<IPlayer>
+public class OccludablePlayerSensor : OccludableSensor<PlayerBinder>
 {
 }

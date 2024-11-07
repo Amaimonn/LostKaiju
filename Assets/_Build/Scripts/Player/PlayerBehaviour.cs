@@ -1,56 +1,55 @@
 using UnityEngine;
 using ObservableCollections;
 using R3;
-using System;
 
-public class PlayerModel : CharacterModel
+public class PlayerBehaviour : CharacterBehaviour
 {
     private readonly PlayerControlsData _data;
     private FiniteStateMachine _finiteStateMachine;
-    //private ReactiveProperty<bool> _isGrounded = new();
-    protected Func<bool> _checkIsGrounded;
     private float _jumpInputBufferedTime;
     private float _waitToJump;
     private float _waitToDash;
     private bool _readJump;
     private IInputProvider _inputProvider;
 
-    public PlayerModel(PlayerControlsData data)
+    public PlayerBehaviour(PlayerControlsData data)
     {
         _data = data;
     }
 
-    public override void Bind(IPlayer player, Holder<IEntityFeature> features)
+    public override void Bind(Rigidbody2D rigidbody, Animator animator, Holder<IEntityFeature> features)
     {
-        base.Bind(player, features);
+        base.Bind(rigidbody, animator, features);
+
         var groundCheck = features.Resolve<GroundCheck>();
         var flipper = features.Resolve<Flipper>();
+
         _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
 
         var walkParameters = _data.Walk;
-        walkParameters.WalkRigidbody = ModelRigidbody;
+        walkParameters.WalkRigidbody = CharacterRigidbody;
 
         var walkState = new WalkState();
-        walkState.OnEnter.Subscribe(_ => ModelAnimator.CrossFade(AnimationClips.WALK, 0.02f));
+        walkState.OnEnter.Subscribe(_ => CharacterAnimator.CrossFade(AnimationClips.WALK, 0.02f));
         walkState.Init(walkParameters, () => groundCheck.IsGrounded);
         walkState.IsPositiveDirectionX.Subscribe(flipper.LookRight);
 
         var jumpParameters = _data.Jump;
-        jumpParameters.JumpRigidbody = ModelRigidbody;
+        jumpParameters.JumpRigidbody = CharacterRigidbody;
         
         var jumpState = new JumpState();
         jumpState.Init(jumpParameters);
         jumpState.OnEnter.Subscribe( _ => {
             _waitToJump = _data.JumpCooldown;
-            ModelAnimator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f);
+            CharacterAnimator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f);
         });
 
         var idleState = new IdleState();
-        idleState.OnEnter.Subscribe(_ => ModelAnimator.CrossFade(AnimationClips.IDLE, 0.2f));
+        idleState.OnEnter.Subscribe(_ => CharacterAnimator.CrossFade(AnimationClips.IDLE, 0.2f));
 
         var dashParameters = new DashParameters
         {
-            rigidBody = ModelRigidbody
+            rigidBody = CharacterRigidbody
         };
 
         var dashState = new DashState();
@@ -121,10 +120,10 @@ public class PlayerModel : CharacterModel
 
     private void ApplyFriction()
     {
-        if (Mathf.Abs(ModelRigidbody.linearVelocityX) > 0.01f)
+        if (Mathf.Abs(CharacterRigidbody.linearVelocityX) > 0.01f)
         {
-            float frictionForce = Mathf.Min(Mathf.Abs(ModelRigidbody.linearVelocityX), _data.Walk.FrictionKoefficient);
-            ModelRigidbody.AddForceX(frictionForce * -Mathf.Sign(ModelRigidbody.linearVelocityX), ForceMode2D.Impulse);
+            float frictionForce = Mathf.Min(Mathf.Abs(CharacterRigidbody.linearVelocityX), _data.Walk.FrictionKoefficient);
+            CharacterRigidbody.AddForceX(frictionForce * -Mathf.Sign(CharacterRigidbody.linearVelocityX), ForceMode2D.Impulse);
         }
     }
 }
