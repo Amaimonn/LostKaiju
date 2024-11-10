@@ -1,12 +1,15 @@
-/// <summary>
-/// Info to get back to the Hub from the Gameplay scene. Exiting the Gameplay leads to the Hub.
-/// </summary>
-public class GameplayExitContext
+namespace Assets._Build.Scripts.Architecture.Entry.Context
 {
-    public HubEnterContext HubEnterContext { get; }
-
-    public GameplayExitContext(HubEnterContext hubEnterContext)
+    /// <summary>
+    /// Info to get back to the Hub from the Gameplay scene. Exiting the Gameplay leads to the Hub.
+    /// </summary>
+    public class GameplayExitContext
     {
-        HubEnterContext = hubEnterContext;
+        public HubEnterContext HubEnterContext { get; }
+
+        public GameplayExitContext(HubEnterContext hubEnterContext)
+        {
+            HubEnterContext = hubEnterContext;
+        }
     }
 }

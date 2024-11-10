@@ -1,9 +1,12 @@
-public abstract class SceneContext
+namespace Assets._Build.Scripts.Architecture.Entry
 {
-    public string SceneName { get; }
-
-    public SceneContext(string sceneName)
+    public abstract class SceneContext
     {
-        SceneName = sceneName;
+        public string SceneName { get; }
+
+        public SceneContext(string sceneName)
+        {
+            SceneName = sceneName;
+        }
     }
 }

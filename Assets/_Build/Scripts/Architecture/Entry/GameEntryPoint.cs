@@ -1,23 +1,29 @@
 using UnityEngine;
 
-public class GameEntryPoint
+using Assets._Build.Scripts.Architecture.Providers;
+using Assets._Build.Scripts.Architecture.Services;
+
+namespace Assets._Build.Scripts.Architecture.Entry
 {
-    private static GameEntryPoint _instance;
-
-    public GameEntryPoint()
+    public class GameEntryPoint
     {
-        ServiceLocator.Current.Register<IInputProvider>(new BaseInputProvider());
-    }
+        private static GameEntryPoint _instance;
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    public static void EnterTheGame()
-    {
-        _instance = new();
-        _instance.Run();
-    }
+        public GameEntryPoint()
+        {
+            ServiceLocator.Current.Register<IInputProvider>(new BaseInputProvider());
+        }
 
-    public void Run()
-    {
-        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void EnterTheGame()
+        {
+            _instance = new();
+            _instance.Run();
+        }
+
+        public void Run()
+        {
+            
+        }
     }
 }

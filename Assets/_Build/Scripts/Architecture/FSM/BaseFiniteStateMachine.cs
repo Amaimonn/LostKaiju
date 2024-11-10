@@ -1,28 +1,31 @@
 using System;
 using UnityEngine;
 
-public class BaseFiniteStateMachine : FiniteStateMachine
+namespace Assets._Build.Scripts.Architecture.FSM
 {
-    public BaseFiniteStateMachine(Type startStateType) : base(startStateType)
+    public class BaseFiniteStateMachine : FiniteStateMachine
     {
-    }
-
-    public override void ChangeState(Type stateType)
-    {
-        if (_currentStateType == stateType)
-            return;
-
-        if (_states.TryGetValue(stateType, out var newState))
+        public BaseFiniteStateMachine(Type startStateType) : base(startStateType)
         {
-            Debug.Log($"{_currentStateType} --> {stateType}");
-            CurrentState?.Exit();
-            CurrentState = newState;
-            _currentStateType = stateType;
-            CurrentState.Enter();
         }
-        else
+
+        public override void ChangeState(Type stateType)
         {
-            Debug.Log($"There is no {stateType} in FSM");
+            if (_currentStateType == stateType)
+                return;
+
+            if (_states.TryGetValue(stateType, out var newState))
+            {
+                Debug.Log($"{_currentStateType.Name} --> {stateType.Name}");
+                CurrentState?.Exit();
+                CurrentState = newState;
+                _currentStateType = stateType;
+                CurrentState.Enter();
+            }
+            else
+            {
+                Debug.Log($"There is no {stateType.Name} in FSM");
+            }
         }
     }
 }

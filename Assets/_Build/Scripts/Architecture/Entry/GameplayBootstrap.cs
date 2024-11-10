@@ -1,15 +1,21 @@
 using UnityEngine;
 using R3;
 
-public class GameplayBootstrap : MonoBehaviour
-{
-    [SerializeField] private Transform _playerInitPosition;
-    [SerializeField] private PlayerBinder _playerBinder;
+using Assets._Build.Scripts.Player.View;
+using Assets._Build.Scripts.Architecture.Entry.Context;
 
-    public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
+namespace Assets._Build.Scripts.Architecture.Entry
+{
+    public class GameplayBootstrap : MonoBehaviour
     {
-        var exitGameplaySignal = new Subject<GameplayExitContext>();
-        var player = Instantiate(_playerBinder, _playerInitPosition.position, Quaternion.identity);
-        return exitGameplaySignal;
+        [SerializeField] private Transform _playerInitPosition;
+        [SerializeField] private PlayerBinder _playerBinder;
+
+        public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
+        {
+            var exitGameplaySignal = new Subject<GameplayExitContext>();
+            var player = Instantiate(_playerBinder, _playerInitPosition.position, Quaternion.identity);
+            return exitGameplaySignal;
+        }
     }
 }

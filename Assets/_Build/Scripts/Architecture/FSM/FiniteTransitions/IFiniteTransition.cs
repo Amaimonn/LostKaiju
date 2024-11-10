@@ -1,12 +1,12 @@
 using System;
 
-public interface IFiniteTransition
+namespace Assets._Build.Scripts.Architecture.FSM.FiniteTransitions
 {
-    //public FiniteState FromState {get;}
-    public Type FromStateType {get;}
-
-    //public FiniteState ToState {get;}
-    public Type ToStateType {get;}
-    
-    public Func<bool> Condition {get;}
+    public interface IFiniteTransition
+    {
+        public Type FromStateType {get;}
+        public Type ToStateType {get;}
+        
+        public Func<bool> Condition {get;}
+    }
 }

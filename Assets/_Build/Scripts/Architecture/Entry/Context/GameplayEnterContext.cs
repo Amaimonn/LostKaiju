@@ -1,10 +1,13 @@
-/// <summary>
-/// Info to enter gameplay scene
-/// </summary>
-public class GameplayEnterContext : SceneContext
+namespace Assets._Build.Scripts.Architecture.Entry.Context
 {
-    
-    public GameplayEnterContext(string sceneName) : base(sceneName)
+    /// <summary>
+    /// Info to enter gameplay scene
+    /// </summary>
+    public class GameplayEnterContext : SceneContext
     {
+        
+        public GameplayEnterContext(string sceneName) : base(sceneName)
+        {
+        }
     }
 }

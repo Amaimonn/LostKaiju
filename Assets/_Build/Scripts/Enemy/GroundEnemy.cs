@@ -1,25 +1,33 @@
 using UnityEngine;
 
-public class GroundEnemy : MonoBehaviour
+using Assets._Build.Scripts.Agents;
+using Assets._Build.Scripts.Architecture.FSM;
+using Assets._Build.Scripts.Enemy.StateParameters;
+using Assets._Build.Scripts.Enemy.EnemyStates;
+
+namespace Assets._Build.Scripts.Enemy
 {
-    [SerializeField] private GroundAgent _groundAgent;
-    [SerializeField] private Transform[] _patrolPoints;
-
-    private FiniteStateMachine _finiteStateMachine;
-
-    private void Awake()
+    public class GroundEnemy : MonoBehaviour
     {
-        var patrolState = new PatrolState(_groundAgent, _patrolPoints);
-        patrolState.Init(new PatrolParameters());
+        [SerializeField] private GroundAgent _groundAgent;
+        [SerializeField] private Transform[] _patrolPoints;
 
-        _finiteStateMachine = new BaseFiniteStateMachine(typeof(PatrolState));
-        //_finiteStateMachine.SetTransitionsWithStates(null, new FiniteState[1]{patrolState});
-        _finiteStateMachine.AddState(patrolState);
-        _finiteStateMachine.Init();
-    }
+        private FiniteStateMachine _finiteStateMachine;
 
-    private void Update()
-    {
-        _finiteStateMachine.CurrentState.UpdateLogic();
+        private void Awake()
+        {
+            var patrolState = new PatrolState(_groundAgent, _patrolPoints);
+            patrolState.Init(new PatrolParameters());
+
+            _finiteStateMachine = new BaseFiniteStateMachine(typeof(PatrolState));
+            //_finiteStateMachine.SetTransitionsWithStates(null, new FiniteState[1]{patrolState});
+            _finiteStateMachine.AddState(patrolState);
+            _finiteStateMachine.Init();
+        }
+
+        private void Update()
+        {
+            _finiteStateMachine.CurrentState.UpdateLogic();
+        }
     }
 }

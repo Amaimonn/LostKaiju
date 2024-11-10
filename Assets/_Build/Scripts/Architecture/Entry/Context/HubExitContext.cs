@@ -1,9 +1,12 @@
-public class HubExitContext
+namespace Assets._Build.Scripts.Architecture.Entry.Context
 {
-    public SceneContext ToSceneContext { get; }
-
-    public HubExitContext(SceneContext toSceneContext)
+    public class HubExitContext
     {
-        ToSceneContext = toSceneContext;
+        public SceneContext ToSceneContext { get; }
+
+        public HubExitContext(SceneContext toSceneContext)
+        {
+            ToSceneContext = toSceneContext;
+        }
     }
 }

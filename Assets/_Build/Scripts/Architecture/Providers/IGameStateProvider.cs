@@ -1,4 +1,9 @@
-public interface IGameStateProvider
+using Assets._Build.Scripts.GameData;
+
+namespace Assets._Build.Scripts.Architecture.Providers
 {
-    public SettingsModel Settings { get; }
+    public interface IGameStateProvider
+    {
+        public SettingsModel Settings { get; }
+    }
 }

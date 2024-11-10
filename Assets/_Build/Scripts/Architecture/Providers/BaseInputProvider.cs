@@ -1,34 +1,39 @@
 using UnityEngine;
 using R3;
 
-public class BaseInputProvider : IInputProvider
+namespace Assets._Build.Scripts.Architecture.Providers
 {
-    public float GetHorizontal {
-        get
+    public class BaseInputProvider : IInputProvider
+    {
+        public float GetHorizontal
         {
-            var horizontal = Input.GetAxisRaw("Horizontal");
-            _horizontalCanceled.Value = horizontal == 0;
-            return Input.GetAxisRaw("Horizontal");
-        }
-    } 
+            get
+            {
+                var horizontal = Input.GetAxisRaw("Horizontal");
+                _horizontalCanceled.Value = horizontal == 0;
+                return Input.GetAxisRaw("Horizontal");
+            }
+        } 
 
-    public Observable<bool> OnHorizontalCanceled => _horizontalCanceled.Skip(1);
+        public Observable<bool> OnHorizontalCanceled => _horizontalCanceled.Skip(1);
 
-    public float GetVertical {
-        get
+        public float GetVertical
         {
-            var vertical = Input.GetAxisRaw("Vertical");
-            _verticalCanceled.Value = vertical == 0;
-            return Input.GetAxisRaw("Vertical");
-        }
-    } 
+            get
+            {
+                var vertical = Input.GetAxisRaw("Vertical");
+                _verticalCanceled.Value = vertical == 0;
+                return Input.GetAxisRaw("Vertical");
+            }
+        } 
 
-    public Observable<bool> OnVerticalCanceled => _verticalCanceled.Skip(1);
+        public Observable<bool> OnVerticalCanceled => _verticalCanceled.Skip(1);
 
-    public bool GetJump => Input.GetAxisRaw("Jump") > 0;
+        public bool GetJump => Input.GetAxisRaw("Jump") > 0;
 
-    public bool GetShift => Input.GetKeyDown(KeyCode.LeftShift);
+        public bool GetShift => Input.GetKeyDown(KeyCode.LeftShift);
 
-    private ReactiveProperty<bool> _horizontalCanceled = new(true);
-    private ReactiveProperty<bool> _verticalCanceled = new(true);
+        private ReactiveProperty<bool> _horizontalCanceled = new(true);
+        private ReactiveProperty<bool> _verticalCanceled = new(true);
+    }
 }

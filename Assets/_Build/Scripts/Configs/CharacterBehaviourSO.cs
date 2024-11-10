@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public abstract class CharacterBehaviourSO : ScriptableObject
+using Assets._Build.Scripts.Player.Behaviour;
+
+namespace Assets._Build.Scripts.Configs
 {
-    public abstract CharacterBehaviour GetModel();
+    public abstract class CharacterBehaviourSO : ScriptableObject
+    {
+        public abstract CharacterBehaviour GetModel();
+    }
 }

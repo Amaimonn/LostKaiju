@@ -1,21 +1,19 @@
 using System;
 
-public class FiniteTransition<TFrom, TTo> : IFiniteTransition
-    where TFrom : FiniteState
-    where TTo : FiniteState
+namespace Assets._Build.Scripts.Architecture.FSM.FiniteTransitions
 {
-    // public FiniteState FromState {get;}
-    // public FiniteState ToState {get;}
-
-    public Type FromStateType => typeof(TFrom);
-    public Type ToStateType => typeof(TTo);
-    
-    public Func<bool> Condition {get;}
-
-    public FiniteTransition(Func<bool> condition) // TFrom fromState, TTo toState, 
+    public class FiniteTransition<TFrom, TTo> : IFiniteTransition
+        where TFrom : FiniteState
+        where TTo : FiniteState
     {
-        // FromState = fromState;
-        // ToState = toState;
-        Condition = condition;
+        public Type FromStateType => typeof(TFrom);
+        public Type ToStateType => typeof(TTo);
+        
+        public Func<bool> Condition {get;}
+
+        public FiniteTransition(Func<bool> condition)
+        {
+            Condition = condition;
+        }
     }
 }

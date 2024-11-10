@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class GroundCheck : MonoBehaviour, IEntityFeature
+namespace Assets._Build.Scripts.EntityFeatures
 {
-    public abstract bool IsGrounded { get; }
+    public abstract class GroundCheck : MonoBehaviour, IEntityFeature
+    {
+        public abstract bool IsGrounded { get; }
+    }
 }

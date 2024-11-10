@@ -1,9 +1,15 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerBehaviourSO", menuName = "Scriptable Objects/PlayerBehaviourSO")]
-public class PlayerBehaviourSO : CharacterBehaviourSO
-{
-    public override CharacterBehaviour GetModel() => new PlayerBehaviour(_BaseCharacterInputData);
+using Assets._Build.Scripts.Player.Data;
+using Assets._Build.Scripts.Player.Behaviour;
 
-    [SerializeField] private PlayerControlsData _BaseCharacterInputData;
+namespace Assets._Build.Scripts.Configs
+{
+    [CreateAssetMenu(fileName = "PlayerBehaviourSO", menuName = "Scriptable Objects/PlayerBehaviourSO")]
+    public class PlayerBehaviourSO : CharacterBehaviourSO
+    {
+        public override CharacterBehaviour GetModel() => new PlayerBehaviour(_BaseCharacterInputData);
+
+        [SerializeField] private PlayerControlsData _BaseCharacterInputData;
+    }
 }

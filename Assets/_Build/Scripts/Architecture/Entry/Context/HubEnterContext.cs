@@ -1,9 +1,12 @@
-public class HubEnterContext
+namespace Assets._Build.Scripts.Architecture.Entry.Context
 {
-    public SceneContext FromSceneContext { get; }
-
-    public HubEnterContext(SceneContext fromSceneContext)
+    public class HubEnterContext
     {
-        FromSceneContext = fromSceneContext;
+        public SceneContext FromSceneContext { get; }
+
+        public HubEnterContext(SceneContext fromSceneContext)
+        {
+            FromSceneContext = fromSceneContext;
+        }
     }
 }

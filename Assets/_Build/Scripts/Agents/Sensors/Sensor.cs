@@ -1,25 +1,28 @@
 using UnityEngine;
 using R3;
 
-public abstract class Sensor<T> : MonoBehaviour
+namespace Assets._Build.Scripts.Agents.Sensors
 {
-    public Observable<T> Detected => _detected;
-    protected ReactiveProperty<T> _detected = new();
-
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    public abstract class Sensor<T> : MonoBehaviour
     {
-        if (collision.TryGetComponent<T>(out var target))
+        public Observable<T> Detected => _detected;
+        protected ReactiveProperty<T> _detected = new();
+
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            _detected.Value = target;
+            if (collision.TryGetComponent<T>(out var target))
+            {
+                _detected.Value = target;
+            }
         }
-    }
 
-    protected virtual void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<T>(out var target))
+        protected virtual void OnTriggerExit2D(Collider2D collision)
         {
-            if (target.Equals(_detected.Value))
-                _detected.Value = default;
+            if (collision.TryGetComponent<T>(out var target))
+            {
+                if (target.Equals(_detected.Value))
+                    _detected.Value = default;
+            }
         }
     }
 }

@@ -1,24 +1,27 @@
 using UnityEngine;
 
-public class ScaleFlipper : Flipper
+namespace Assets._Build.Scripts.EntityFeatures
 {
-    public override bool IsLooksToTheRight => _isInitialLooksToTheRight == transform.localScale.x > 0;
-
-    [SerializeField] private bool _isInitialLooksToTheRight;
-
-    public override void LookRight(bool isTrue)
+    public class ScaleFlipper : Flipper
     {
-        if (IsLooksToTheRight == isTrue)
-            return;
-            
-        var sign = _isInitialLooksToTheRight ? 1 : -1;
-        if (isTrue)
+        public override bool IsLooksToTheRight => _isInitialLooksToTheRight == transform.localScale.x > 0;
+
+        [SerializeField] private bool _isInitialLooksToTheRight;
+
+        public override void LookRight(bool isTrue)
         {
-            transform.localScale = new Vector3(sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else
-        {
-            transform.localScale = new Vector3(-sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            if (IsLooksToTheRight == isTrue)
+                return;
+                
+            var sign = _isInitialLooksToTheRight ? 1 : -1;
+            if (isTrue)
+            {
+                transform.localScale = new Vector3(sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
         }
     }
 }

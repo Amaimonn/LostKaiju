@@ -1,3 +1,6 @@
-public interface IEntityFeature
-{
+ namespace Assets._Build.Scripts.EntityFeatures
+ {
+    public interface IEntityFeature
+    {
+    }
 }

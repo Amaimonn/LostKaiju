@@ -1,6 +1,9 @@
-public class Health : ClampedValue<int>
+namespace Assets._Build.Scripts.Player.LiveSystem
 {
-    public Health(int bottomLimit, int topLimit, int initialValue) : base(bottomLimit, topLimit, initialValue)
+    public class Health : ClampedValue<int>
     {
+        public Health(int bottomLimit, int topLimit, int initialValue) : base(bottomLimit, topLimit, initialValue)
+        {
+        }
     }
 }
