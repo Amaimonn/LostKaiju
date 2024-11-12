@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Architecture.Entry.Context
+namespace LostKaiju.Architecture.Entry.Context
 {
     /// <summary>
     /// Info to enter gameplay scene

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.EntityFeatures;
+using LostKaiju.Entities.EntityFeatures;
 
-namespace Assets._Build.Scripts.Agents
+namespace LostKaiju.Agents
 {
     public class GroundAgent : Agent
     {

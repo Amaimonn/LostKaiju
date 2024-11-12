@@ -1,6 +1,6 @@
 using R3;
 
-namespace Assets._Build.Scripts.Player.LiveSystem
+namespace LostKaiju.Player.LiveSystem
 {
     public class CheckpointRespawnable : IRespawnable
     {

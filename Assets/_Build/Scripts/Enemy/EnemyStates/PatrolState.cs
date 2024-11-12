@@ -2,11 +2,11 @@ using UnityEngine;
 using R3;
 using System;
 
-using Assets._Build.Scripts.Architecture.FSM;
-using Assets._Build.Scripts.Agents;
-using Assets._Build.Scripts.Enemy.StateParameters;
+using LostKaiju.Architecture.FSM;
+using LostKaiju.Agents;
+using LostKaiju.Enemy.StateParameters;
 
-namespace Assets._Build.Scripts.Enemy.EnemyStates
+namespace LostKaiju.Enemy.EnemyStates
 {
     public class PatrolState: FiniteState
     {

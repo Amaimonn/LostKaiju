@@ -1,6 +1,6 @@
-using Assets._Build.Scripts.GameData;
+using LostKaiju.GameData;
 
-namespace Assets._Build.Scripts.Architecture.Providers
+namespace LostKaiju.Architecture.Providers
 {
     public interface IGameStateProvider
     {

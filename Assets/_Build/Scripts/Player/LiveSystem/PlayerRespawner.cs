@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Player.LiveSystem
+namespace LostKaiju.Player.LiveSystem
 {
     public class PlayerRespawner : IRespawner
     {

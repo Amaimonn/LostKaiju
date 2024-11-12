@@ -1,11 +1,11 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.Agents;
-using Assets._Build.Scripts.Architecture.FSM;
-using Assets._Build.Scripts.Enemy.StateParameters;
-using Assets._Build.Scripts.Enemy.EnemyStates;
+using LostKaiju.Agents;
+using LostKaiju.Architecture.FSM;
+using LostKaiju.Enemy.StateParameters;
+using LostKaiju.Enemy.EnemyStates;
 
-namespace Assets._Build.Scripts.Enemy
+namespace LostKaiju.Enemy
 {
     public class GroundEnemy : MonoBehaviour
     {

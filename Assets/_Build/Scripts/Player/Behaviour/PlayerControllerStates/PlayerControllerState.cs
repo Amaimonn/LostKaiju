@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 
-using Assets._Build.Scripts.Architecture.FSM;
-using Assets._Build.Scripts.Architecture.Providers;
-using Assets._Build.Scripts.Architecture.Services;
-using Assets._Build.Scripts.EntityFeatures;
+using LostKaiju.Architecture.FSM;
+using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.Services;
+using LostKaiju.Entities.EntityFeatures;
 
-namespace Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Player.Behaviour.PlayerControllerStates
 {
     public abstract class PlayerControllerState : FiniteState
     {

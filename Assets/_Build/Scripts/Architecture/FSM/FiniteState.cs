@@ -4,9 +4,9 @@ using System.Linq;
 using ObservableCollections;
 using R3;
 
-using Assets._Build.Scripts.Architecture.FSM.FiniteTransitions;
+using LostKaiju.Architecture.FSM.FiniteTransitions;
 
-namespace Assets._Build.Scripts.Architecture.FSM
+namespace LostKaiju.Architecture.FSM
 {
     public abstract class FiniteState: IDisposable
     {

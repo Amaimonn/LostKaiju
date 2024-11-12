@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets._Build.Scripts.Architecture.Utils
+namespace LostKaiju.Architecture.Utils
 {
     public class Timer
     {

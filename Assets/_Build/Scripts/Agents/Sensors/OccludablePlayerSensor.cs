@@ -1,6 +1,6 @@
-using Assets._Build.Scripts.Player.View;
+using LostKaiju.Player.View;
 
-namespace Assets._Build.Scripts.Agents.Sensors
+namespace LostKaiju.Agents.Sensors
 {
     public class OccludablePlayerSensor : OccludableSensor<PlayerBinder>
     {

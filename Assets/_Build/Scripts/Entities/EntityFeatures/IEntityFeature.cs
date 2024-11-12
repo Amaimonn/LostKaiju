@@ -1,4 +1,4 @@
- namespace Assets._Build.Scripts.EntityFeatures
+ namespace LostKaiju.Entities.EntityFeatures
  {
     public interface IEntityFeature
     {

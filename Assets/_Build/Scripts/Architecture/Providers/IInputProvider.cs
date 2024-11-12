@@ -1,8 +1,8 @@
 using R3;
 
-using Assets._Build.Scripts.Architecture.Services;
+using LostKaiju.Architecture.Services;
 
-namespace Assets._Build.Scripts.Architecture.Providers
+namespace LostKaiju.Architecture.Providers
 {
     public interface IInputProvider : IService
     {

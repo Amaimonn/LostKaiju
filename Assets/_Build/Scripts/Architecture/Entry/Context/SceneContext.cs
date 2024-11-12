@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Architecture.Entry
+namespace LostKaiju.Architecture.Entry
 {
     public abstract class SceneContext
     {

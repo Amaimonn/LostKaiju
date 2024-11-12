@@ -1,6 +1,6 @@
-using Assets._Build.Scripts.Player.Behaviour;
+using LostKaiju.Player.Behaviour;
 
-namespace Assets._Build.Scripts.Player.View
+namespace LostKaiju.Player.View
 {
     public interface IBehaviourBinder
     {

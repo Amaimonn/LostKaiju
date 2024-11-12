@@ -1,9 +1,9 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.Player.Data;
-using Assets._Build.Scripts.Player.Behaviour;
+using LostKaiju.Player.Data;
+using LostKaiju.Player.Behaviour;
 
-namespace Assets._Build.Scripts.Configs
+namespace LostKaiju.Configs
 {
     [CreateAssetMenu(fileName = "PlayerBehaviourSO", menuName = "Scriptable Objects/PlayerBehaviourSO")]
     public class PlayerBehaviourSO : CharacterBehaviourSO

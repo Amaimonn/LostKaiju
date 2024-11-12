@@ -1,7 +1,7 @@
 using UnityEngine;
 using R3;
 
-namespace Assets._Build.Scripts.Architecture.Providers
+namespace LostKaiju.Architecture.Providers
 {
     public class BaseInputProvider : IInputProvider
     {

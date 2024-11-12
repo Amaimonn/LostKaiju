@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Architecture.Services
+namespace LostKaiju.Architecture.Services
 {
     public interface IService
     {

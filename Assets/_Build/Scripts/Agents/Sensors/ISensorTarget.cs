@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Agents.Sensors
+namespace LostKaiju.Agents.Sensors
 {
     public interface ISensorTarget
     {

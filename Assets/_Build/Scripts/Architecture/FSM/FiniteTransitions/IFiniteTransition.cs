@@ -1,6 +1,6 @@
 using System;
 
-namespace Assets._Build.Scripts.Architecture.FSM.FiniteTransitions
+namespace LostKaiju.Architecture.FSM.FiniteTransitions
 {
     public interface IFiniteTransition
     {

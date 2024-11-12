@@ -1,5 +1,5 @@
 
-namespace Assets._Build.Scripts.GameData
+namespace LostKaiju.GameData
 {
     public class SettingsModel
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using R3;
 
-namespace Assets._Build.Scripts.Agents.Sensors
+namespace LostKaiju.Agents.Sensors
 {
     public abstract class Sensor<T> : MonoBehaviour
     {

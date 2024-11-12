@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets._Build.Scripts.Player.Data.StateParameters
+namespace LostKaiju.Player.Data.StateParameters
 {
     [Serializable]
     public class WalkParameters

@@ -1,9 +1,9 @@
 using UnityEngine;
 using R3;
 
-using Assets._Build.Scripts.Architecture.Entry.Context;
+using LostKaiju.Architecture.Entry.Context;
 
-namespace Assets._Build.Scripts.Architecture.Entry
+namespace LostKaiju.Architecture.Entry
 {
     public class HubBootstrap : MonoBehaviour
     {

@@ -1,11 +1,11 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.Architecture.Utils;
-using Assets._Build.Scripts.EntityFeatures;
-using Assets._Build.Scripts.Configs;
-using Assets._Build.Scripts.Player.Behaviour;
+using LostKaiju.Architecture.Utils;
+using LostKaiju.Entities.EntityFeatures;
+using LostKaiju.Configs;
+using LostKaiju.Player.Behaviour;
 
-namespace Assets._Build.Scripts.Player.View
+namespace LostKaiju.Player.View
 {
     public class PlayerCharacter : PlayerBinder
     {    

@@ -1,6 +1,6 @@
-using Assets._Build.Scripts.Architecture.FSM;
+using LostKaiju.Architecture.FSM;
 
-namespace Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Player.Behaviour.PlayerControllerStates
 {
     public class IdleState: FiniteState
     {

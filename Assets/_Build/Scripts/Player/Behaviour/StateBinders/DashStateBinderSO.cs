@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using R3;
 
-using Assets._Build.Scripts.Architecture.Services;
-using Assets._Build.Scripts.Architecture.Utils;
-using Assets._Build.Scripts.Architecture.Providers;
-using Assets._Build.Scripts.Architecture.FSM;
-using Assets._Build.Scripts.Architecture.FSM.FiniteTransitions;
-using Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates;
-using Assets._Build.Scripts.Player.Data.StateParameters;
-using Assets._Build.Scripts.EntityFeatures;
+using LostKaiju.Architecture.Services;
+using LostKaiju.Architecture.Utils;
+using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.FSM;
+using LostKaiju.Architecture.FSM.FiniteTransitions;
+using LostKaiju.Player.Behaviour.PlayerControllerStates;
+using LostKaiju.Player.Data.StateParameters;
+using LostKaiju.Entities.EntityFeatures;
 
-namespace Assets._Build.Scripts.Player.Behaviour.StateBinders
+namespace LostKaiju.Player.Behaviour.StateBinders
 {
     [CreateAssetMenu(fileName = " DashStateBinderSO", menuName = "Scriptable Objects/ DashStateBinderSO")]
     [Serializable]

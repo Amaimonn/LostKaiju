@@ -2,17 +2,17 @@ using UnityEngine;
 using ObservableCollections;
 using R3;
 
-using Assets._Build.Scripts.Architecture.Utils;
-using Assets._Build.Scripts.Architecture.Providers;
-using Assets._Build.Scripts.Architecture.Services;
-using Assets._Build.Scripts.Architecture.FSM;
-using Assets._Build.Scripts.Architecture.FSM.FiniteTransitions;
-using Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates;
-using Assets._Build.Scripts.EntityFeatures;
-using Assets._Build.Scripts.Player.Data;
-using Assets._Build.Scripts.Player.Data.StateParameters;
+using LostKaiju.Architecture.Utils;
+using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.Services;
+using LostKaiju.Architecture.FSM;
+using LostKaiju.Architecture.FSM.FiniteTransitions;
+using LostKaiju.Player.Behaviour.PlayerControllerStates;
+using LostKaiju.Entities.EntityFeatures;
+using LostKaiju.Player.Data;
+using LostKaiju.Player.Data.StateParameters;
 
-namespace Assets._Build.Scripts.Player.Behaviour
+namespace LostKaiju.Player.Behaviour
 {
     public class PlayerBehaviour : CharacterBehaviour
     {

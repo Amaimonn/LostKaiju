@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets._Build.Scripts.Player.View
+namespace LostKaiju.Player.View
 {
     public abstract class PlayerBinder : MonoBehaviour
     {

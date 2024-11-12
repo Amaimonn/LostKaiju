@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets._Build.Scripts.EntityFeatures
+namespace LostKaiju.Entities.EntityFeatures
 {
     public class ScaleFlipper : Flipper
     {

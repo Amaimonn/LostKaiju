@@ -1,9 +1,9 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.Architecture.Providers;
-using Assets._Build.Scripts.Architecture.Services;
+using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.Services;
 
-namespace Assets._Build.Scripts.Architecture.Entry
+namespace LostKaiju.Architecture.Entry
 {
     public class GameEntryPoint
     {

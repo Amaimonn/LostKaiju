@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Architecture.Entry.Context
+namespace LostKaiju.Architecture.Entry.Context
 {
     /// <summary>
     /// Info to enter the Hub scene from the Main menu. Exiting the Main menu leads to the Hub.

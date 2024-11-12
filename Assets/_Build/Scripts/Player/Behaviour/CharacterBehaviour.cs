@@ -1,9 +1,9 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.Architecture.Utils;
-using Assets._Build.Scripts.EntityFeatures;
+using LostKaiju.Architecture.Utils;
+using LostKaiju.Entities.EntityFeatures;
 
-namespace Assets._Build.Scripts.Player.Behaviour
+namespace LostKaiju.Player.Behaviour
 {
     public abstract class CharacterBehaviour
     {

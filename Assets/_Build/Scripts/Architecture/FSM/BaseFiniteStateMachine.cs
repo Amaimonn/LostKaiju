@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets._Build.Scripts.Architecture.FSM
+namespace LostKaiju.Architecture.FSM
 {
     public class BaseFiniteStateMachine : FiniteStateMachine
     {

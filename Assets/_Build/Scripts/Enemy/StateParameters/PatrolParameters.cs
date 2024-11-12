@@ -1,4 +1,4 @@
-namespace Assets._Build.Scripts.Enemy.StateParameters
+namespace LostKaiju.Enemy.StateParameters
 {
     public class PatrolParameters
     {

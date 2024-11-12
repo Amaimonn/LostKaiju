@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets._Build.Scripts.Player.LiveSystem
+namespace LostKaiju.Player.LiveSystem
 {
     public interface ICheckpoint
     {

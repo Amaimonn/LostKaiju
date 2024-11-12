@@ -1,9 +1,9 @@
-using R3;
 using UnityEngine;
+using R3;
 
-using Assets._Build.Scripts.Player.Data.StateParameters;
+using LostKaiju.Player.Data.StateParameters;
 
-namespace Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Player.Behaviour.PlayerControllerStates
 {
     public class DashState : PlayerControllerState
     {
@@ -15,7 +15,7 @@ namespace Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates
         protected ReactiveProperty<bool> _isCompleted = new(false);
         protected ReadOnlyReactiveProperty<bool> _isRight;
         protected float _startGravity;
-        // flipper
+
         public void Init(DashParameters parameters, Observable<bool> isRight)
         {
             _parameters = parameters;
@@ -34,6 +34,7 @@ namespace Assets._Build.Scripts.Player.Behaviour.PlayerControllerStates
             _currentDuration = 0;
             _startPosition = _parameters.rigidBody.position;
             _startGravity = _parameters.rigidBody.gravityScale;
+            _parameters.rigidBody.gravityScale = 0;
         }
 
         public override void Exit()

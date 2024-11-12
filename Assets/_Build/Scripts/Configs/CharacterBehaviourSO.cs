@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using Assets._Build.Scripts.Player.Behaviour;
+using LostKaiju.Player.Behaviour;
 
-namespace Assets._Build.Scripts.Configs
+namespace LostKaiju.Configs
 {
     public abstract class CharacterBehaviourSO : ScriptableObject
     {
