@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bed60146a580d445a1691250533c12d, type: 3}
+  m_Name: PlayerBinderSO
+  m_EditorClassIdentifier: 
+  _playerBinder: {fileID: 9184520498801554822, guid: 523269f558eaa7f47b1e7825a5364a7c, type: 3}

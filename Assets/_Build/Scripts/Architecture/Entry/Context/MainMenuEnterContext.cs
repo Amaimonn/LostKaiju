@@ -3,7 +3,10 @@ namespace LostKaiju.Architecture.Entry.Context
     /// <summary>
     /// Info to enter main menu scene
     /// </summary>
-    public class MainMenuEnterContext
+    public class MainMenuEnterContext : SceneContext
     {
+        public MainMenuEnterContext() : base(Scenes.MAIN_MENU)
+        {
+        }
     }
 }

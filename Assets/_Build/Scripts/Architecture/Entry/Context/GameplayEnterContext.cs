@@ -1,3 +1,6 @@
+using LostKaiju.Configs;
+using LostKaiju.Player.View;
+
 namespace LostKaiju.Architecture.Entry.Context
 {
     /// <summary>
@@ -5,7 +8,8 @@ namespace LostKaiju.Architecture.Entry.Context
     /// </summary>
     public class GameplayEnterContext : SceneContext
     {
-        
+        public PlayerBinderSO PlayerBinderSO;
+
         public GameplayEnterContext(string sceneName) : base(sceneName)
         {
         }

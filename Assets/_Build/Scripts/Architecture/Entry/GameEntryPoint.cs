@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using LostKaiju.Architecture.Providers;
 using LostKaiju.Architecture.Services;
+using System.Threading.Tasks;
 
 namespace LostKaiju.Architecture.Entry
 {
@@ -15,15 +17,17 @@ namespace LostKaiju.Architecture.Entry
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void EnterTheGame()
+        public static async void EnterTheGame()
         {
             _instance = new();
-            _instance.Run();
+            await _instance.Run();
         }
 
-        public void Run()
+        public async Task Run()
         {
-            
+            await SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
+            Debug.Log("Entry point scene loaded");
+            Object.FindFirstObjectByType<EntryBootstrap>().Boot();
         }
     }
 }

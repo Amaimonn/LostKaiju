@@ -2,11 +2,8 @@ namespace LostKaiju.Architecture.Entry.Context
 {
     public class HubEnterContext
     {
-        public SceneContext FromSceneContext { get; }
-
-        public HubEnterContext(SceneContext fromSceneContext)
+        public HubEnterContext()
         {
-            FromSceneContext = fromSceneContext;
         }
     }
 }
