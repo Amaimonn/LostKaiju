@@ -8,7 +8,7 @@ namespace LostKaiju.Architecture.Entry.Context
     /// </summary>
     public class GameplayEnterContext : SceneContext
     {
-        public PlayerBinderSO PlayerBinderSO;
+        public PlayerBinder PlayerBinder;
 
         public GameplayEnterContext(string sceneName) : base(sceneName)
         {
