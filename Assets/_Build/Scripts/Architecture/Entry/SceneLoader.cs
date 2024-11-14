@@ -7,21 +7,18 @@ using LostKaiju.Architecture.Entry.Context;
 
 namespace LostKaiju.Architecture.Entry
 {
-    /// <summary>
-    /// Scene bootstrap to initialize the game. Runs only once at the beginning.
-    /// </summary>
-    public class EntryBootstrap : MonoBehaviour
+    public class SceneLoader
     {
-        private MonoBehaviourHook _monoHook;
-        
-        public void Boot()
-        {
-            _monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
-            DontDestroyOnLoad(_monoHook);
+        private MonoBehaviour _monoHook;
 
-            //_monoHook.StartCoroutine(LoadMainMenu());
-            var sceneLoader = new SceneLoader(_monoHook);
-            _monoHook.StartCoroutine(sceneLoader.LoadStartScene());
+        public SceneLoader(MonoBehaviour hook)
+        {
+            _monoHook = hook;
+        }
+
+        public IEnumerator LoadStartScene()
+        {
+            yield return LoadMainMenu();
         }
 
         private IEnumerator LoadMainMenu(MainMenuEnterContext mainMenuEnterContext = null)
@@ -31,8 +28,9 @@ namespace LostKaiju.Architecture.Entry
 
             Debug.Log("Main menu scene loaded");
 
-            var mainMenuBootstrap = FindFirstObjectByType<MainMenuBootstrap>();
+            var mainMenuBootstrap = Object.FindFirstObjectByType<MainMenuBootstrap>();
             var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
+
             exitMainMenuSignal.Subscribe(mainMenuExitContext =>
             {
                 _monoHook.StartCoroutine(LoadHub(mainMenuExitContext.HubEnterContext));
@@ -46,7 +44,7 @@ namespace LostKaiju.Architecture.Entry
 
             Debug.Log("Hub scene loaded");
 
-            var hubExitSignal = FindFirstObjectByType<HubBootstrap>().Boot(hubEnterContext);
+            var hubExitSignal = Object.FindFirstObjectByType<HubBootstrap>().Boot(hubEnterContext);
             hubExitSignal.Subscribe(hubExitContext =>
             {
                 var toScene = hubExitContext.ToSceneContext.SceneName;
@@ -69,14 +67,22 @@ namespace LostKaiju.Architecture.Entry
 
             Debug.Log("Gameplay scene loaded");
         
-            var gameplayBootstrap = FindFirstObjectByType<GameplayBootstrap>();
+            var gameplayBootstrap = Object.FindFirstObjectByType<GameplayBootstrap>();
             var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
+
             gameplayExitSignal.Subscribe(gameplayExitContext =>
             {
-                StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
+                _monoHook.StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
             });
 
-            yield return SceneManager.LoadSceneAsync(gameplayEnterContext.LevelSceneName, LoadSceneMode.Additive);
+            var levelSceneName = gameplayEnterContext.LevelSceneName;
+
+            yield return SceneManager.LoadSceneAsync(levelSceneName, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelSceneName));
+
+            var levelBootstrap = Object.FindFirstObjectByType<LevelBootstrap>();
+
+            levelBootstrap.Boot(gameplayEnterContext);
         }
 
         private IEnumerator LoadSceneAsync(string sceneName)

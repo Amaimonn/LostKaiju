@@ -10,6 +10,7 @@ namespace LostKaiju.Architecture.Entry
     {
         
         [SerializeField] private PlayerBinderSO _playerBinderSO; // choose your player character
+
         private Subject<HubExitContext> _hubExitSignal;
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
@@ -22,7 +23,8 @@ namespace LostKaiju.Architecture.Entry
         {
             var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)
             {
-                PlayerBinder = _playerBinderSO.Prefab
+                LevelSceneName = "Level_1_1", // level loading example
+                PlayerConfig = _playerBinderSO
             };
             _hubExitSignal.OnNext(new HubExitContext(gameplayEnterContext));
         }

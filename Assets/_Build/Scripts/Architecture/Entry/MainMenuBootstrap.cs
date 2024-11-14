@@ -8,6 +8,7 @@ namespace LostKaiju.Architecture.Entry
     public class MainMenuBootstrap : MonoBehaviour
     {
         [SerializeField] private GameObject _mainMenuUI;
+        
         private Subject<MainMenuExitContext> _mainMenuExitSignal;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
