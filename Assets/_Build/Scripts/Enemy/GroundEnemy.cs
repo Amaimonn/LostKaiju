@@ -20,7 +20,6 @@ namespace LostKaiju.Enemy
             patrolState.Init(new PatrolParameters());
 
             _finiteStateMachine = new BaseFiniteStateMachine(typeof(PatrolState));
-            //_finiteStateMachine.SetTransitionsWithStates(null, new FiniteState[1]{patrolState});
             _finiteStateMachine.AddState(patrolState);
             _finiteStateMachine.Init();
         }
