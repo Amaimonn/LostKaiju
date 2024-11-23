@@ -2,25 +2,32 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Architecture.Entry.Context;
+using LostKaiju.UI.MVVM.MainMenu;
 
 namespace LostKaiju.Architecture.Entry
 {
     public class MainMenuBootstrap : MonoBehaviour
     {
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private GameObject _mainMenuUI;
-        
-        private Subject<MainMenuExitContext> _mainMenuExitSignal;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
         {
-            _mainMenuExitSignal = new Subject<MainMenuExitContext>();
-            return _mainMenuExitSignal;
-        }
+            var exitSignal = new Subject<Unit>();
 
-        public void EnterTheHub()
-        {
+            var mainMenuModel = new MainMenuModel();
+            var mainMenuViewModel = new MainMenuViewModel(exitSignal);
+            var mainMenuView = Instantiate(_mainMenuUI, _canvas.transform).GetComponent<MainMenuView>();
+
+            mainMenuViewModel.Bind(mainMenuModel);
+            mainMenuView.Bind(mainMenuViewModel);
+
+            // define context in UI
             var hubEnterContext = new HubEnterContext();
-            _mainMenuExitSignal.OnNext(new MainMenuExitContext(hubEnterContext));
+            var mainMenuExitContext = new MainMenuExitContext(hubEnterContext);
+            var mainMenuExitSignal = exitSignal.Select(_ => mainMenuExitContext);
+
+            return mainMenuExitSignal;
         }
     }
 }
