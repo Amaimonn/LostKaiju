@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using LostKaiju.Architecture.FSM;
-using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.Providers.Inputs;
 using LostKaiju.Architecture.Services;
 using LostKaiju.Entities.EntityFeatures;
 

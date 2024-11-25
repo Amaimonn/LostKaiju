@@ -2,7 +2,7 @@ using R3;
 
 using LostKaiju.Architecture.Services;
 
-namespace LostKaiju.Architecture.Providers
+namespace LostKaiju.Architecture.Providers.Inputs
 {
     public interface IInputProvider : IService
     {

@@ -5,7 +5,7 @@ using R3;
 
 using LostKaiju.Architecture.Services;
 using LostKaiju.Architecture.Utils;
-using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.Providers.Inputs;
 using LostKaiju.Architecture.FSM;
 using LostKaiju.Architecture.FSM.FiniteTransitions;
 using LostKaiju.Player.Behaviour.PlayerControllerStates;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using LostKaiju.Architecture.Providers;
+using LostKaiju.Architecture.Providers.Inputs;
 using LostKaiju.Architecture.Services;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace LostKaiju.Architecture.Entry
 
         public GameEntryPoint()
         {
-            ServiceLocator.Current.Register<IInputProvider>(new BaseInputProvider());
+            ServiceLocator.Current.Register<IInputProvider>(new InputSystemProvider());
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
