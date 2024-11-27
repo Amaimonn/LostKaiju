@@ -3,12 +3,14 @@ using R3;
 
 using LostKaiju.Architecture.Entry.Context;
 using LostKaiju.UI.MVVM.MainMenu;
+using UnityEngine.UIElements;
 
 namespace LostKaiju.Architecture.Entry
 {
     public class MainMenuBootstrap : MonoBehaviour
     {
-        [SerializeField] private Canvas _canvas;
+        // [SerializeField] private Canvas _canvas;
+        [SerializeField] private UIDocument _document;
         [SerializeField] private GameObject _mainMenuUI;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
@@ -17,7 +19,8 @@ namespace LostKaiju.Architecture.Entry
 
             var mainMenuModel = new MainMenuModel();
             var mainMenuViewModel = new MainMenuViewModel(exitSignal);
-            var mainMenuView = Instantiate(_mainMenuUI, _canvas.transform).GetComponent<MainMenuView>();
+            var mainMenuView = Instantiate(_mainMenuUI).GetComponent<MainMenuView>();
+            mainMenuView.Initialize(_document);
 
             mainMenuViewModel.Bind(mainMenuModel);
             mainMenuView.Bind(mainMenuViewModel);
