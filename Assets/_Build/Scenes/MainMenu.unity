@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 472460025}
   - component: {fileID: 472460024}
-  - component: {fileID: 472460026}
   m_Layer: 0
   m_Name: MainMenuBootstrap
   m_TagString: Untagged
@@ -149,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd58596b80ad7ac44abbcd007d9f0a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _document: {fileID: 472460026}
   _mainMenuUI: {fileID: 511629072934447911, guid: d98b7fda68c5e7340a4299b821425c43, type: 3}
 --- !u!4 &472460025
 Transform:
@@ -166,25 +164,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &472460026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 472460023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: a2232e848b272ca4ba9f0fb660eb6975, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 56b068d159e67ba40a82bd5dd9b3ded4, type: 3}
-  m_SortingOrder: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
 --- !u!1 &1759496337
 GameObject:
   m_ObjectHideFlags: 0

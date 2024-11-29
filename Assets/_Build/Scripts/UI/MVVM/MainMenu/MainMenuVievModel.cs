@@ -3,7 +3,7 @@ using R3;
 
 namespace LostKaiju.UI.MVVM.MainMenu
 {
-    public class MainMenuViewModel
+    public class MainMenuViewModel : IViewModel
     {
         private readonly Subject<Unit> _exitSubject;
         private MainMenuModel _model;

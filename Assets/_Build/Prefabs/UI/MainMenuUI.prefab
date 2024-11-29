@@ -48,5 +48,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b980a987425034098a734bc01ebd90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visualTree: {fileID: 9197481963319205126, guid: 73edf59fc9cd8e14d9b10f26a4cafcbe, type: 3}
+  _visualTreeAsset: {fileID: 9197481963319205126, guid: 73edf59fc9cd8e14d9b10f26a4cafcbe, type: 3}
   _playButtonName: PlayButton

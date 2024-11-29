@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using R3;
 
 using LostKaiju.Architecture.Entry.Context;
+using LostKaiju.UI.MVVM;
+using LostKaiju.Architecture.Services;
 
 namespace LostKaiju.Architecture.Entry
 {
@@ -12,12 +14,18 @@ namespace LostKaiju.Architecture.Entry
     /// </summary>
     public class EntryBootstrap : MonoBehaviour
     {
+        [SerializeField] private UIRootBinder _uiRootBinderPrefab;
         private MonoBehaviourHook _monoHook;
         
         public void Boot()
         {
             _monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
             DontDestroyOnLoad(_monoHook);
+
+            var uiRootBinder = Instantiate(_uiRootBinderPrefab);
+            ServiceLocator.Current.Register(uiRootBinder);
+            DontDestroyOnLoad(uiRootBinder);
+
 
             //_monoHook.StartCoroutine(LoadMainMenu());
             var sceneLoader = new SceneLoader(_monoHook);
