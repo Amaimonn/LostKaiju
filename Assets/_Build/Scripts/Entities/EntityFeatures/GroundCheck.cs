@@ -6,4 +6,4 @@ namespace LostKaiju.Entities.EntityFeatures
     {
         public abstract bool IsGrounded { get; }
     }
-}
+} 

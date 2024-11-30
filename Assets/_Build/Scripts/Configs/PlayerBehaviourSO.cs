@@ -3,7 +3,7 @@ using UnityEngine;
 using LostKaiju.Player.Data;
 using LostKaiju.Player.Behaviour;
 
-namespace LostKaiju.Configs
+namespace LostKaiju.Configs 
 {
     [CreateAssetMenu(fileName = "PlayerBehaviourSO", menuName = "Scriptable Objects/PlayerBehaviourSO")]
     public class PlayerBehaviourSO : CharacterBehaviourSO

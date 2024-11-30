@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4884114573771679061}
   - component: {fileID: 1162958442967765034}
-  - component: {fileID: 4039892922003256134}
+  - component: {fileID: 6183724006927231869}
   m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
@@ -79,7 +79,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.65, y: 0.15}
   m_EdgeRadius: 0
---- !u!114 &4039892922003256134
+--- !u!114 &6183724006927231869
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4914689617381586326}
   - component: {fileID: 965660318376974116}
   - component: {fileID: 2143187253820395415}
-  - component: {fileID: 9184520498801554822}
+  - component: {fileID: 652682650157282383}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -204,7 +204,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &9184520498801554822
+--- !u!114 &652682650157282383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,8 +218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2143187253820395415}
   _animator: {fileID: 6690856542506860452}
-  _flipper: {fileID: 631335597214750238}
-  _groundCheck: {fileID: 4039892922003256134}
+  _flipper: {fileID: 246798485738682584}
+  _groundCheck: {fileID: 6183724006927231869}
   _behaviourConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
 --- !u!1001 &9143937978568036235
 PrefabInstance:
@@ -626,7 +626,7 @@ PrefabInstance:
       addedObject: {fileID: 6690856542506860452}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 631335597214750238}
+      addedObject: {fileID: 246798485738682584}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
 --- !u!4 &7622937402865464917 stripped
 Transform:
@@ -660,7 +660,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &631335597214750238
+--- !u!114 &246798485738682584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

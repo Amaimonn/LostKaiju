@@ -2,7 +2,7 @@ using UnityEngine;
 
 using LostKaiju.Player.Behaviour;
 
-namespace LostKaiju.Configs
+namespace LostKaiju.Configs 
 {
     public abstract class CharacterBehaviourSO : ScriptableObject
     {

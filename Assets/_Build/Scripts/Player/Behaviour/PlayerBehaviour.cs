@@ -98,6 +98,12 @@ namespace LostKaiju.Player.Behaviour
         
         public override void UpdateLogic()
         {
+            //test
+            if(_inputProvider.GetHorizontal != 0)
+            {
+                Debug.Log("input system is working");
+            }
+            //test
             _finiteStateMachine.CurrentState.UpdateLogic();
             var eclapsedFrameTime = Time.deltaTime;
             if (_jumpInputBufferedTime > 0)

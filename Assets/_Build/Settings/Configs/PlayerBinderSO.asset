@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bed60146a580d445a1691250533c12d, type: 3}
   m_Name: PlayerBinderSO
   m_EditorClassIdentifier: 
-  _playerBinder: {fileID: 9184520498801554822, guid: 523269f558eaa7f47b1e7825a5364a7c, type: 3}
+  _playerBinder: {fileID: 652682650157282383, guid: 523269f558eaa7f47b1e7825a5364a7c, type: 3}

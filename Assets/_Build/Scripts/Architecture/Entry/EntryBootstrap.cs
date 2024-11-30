@@ -26,8 +26,6 @@ namespace LostKaiju.Architecture.Entry
             ServiceLocator.Current.Register(uiRootBinder);
             DontDestroyOnLoad(uiRootBinder);
 
-
-            //_monoHook.StartCoroutine(LoadMainMenu());
             var sceneLoader = new SceneLoader(_monoHook);
             _monoHook.StartCoroutine(sceneLoader.LoadStartScene());
         }
@@ -81,7 +79,7 @@ namespace LostKaiju.Architecture.Entry
             var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
             gameplayExitSignal.Subscribe(gameplayExitContext =>
             {
-                StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
+                _monoHook.StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
             });
 
             yield return SceneManager.LoadSceneAsync(gameplayEnterContext.LevelSceneName, LoadSceneMode.Additive);

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5145988036753366875}
   - component: {fileID: 3917595997164669085}
   - component: {fileID: 1821030922764011315}
-  - component: {fileID: 6730859861602199670}
+  - component: {fileID: 7452560550349761538}
   m_Layer: 7
   m_Name: GuardianEnemy
   m_TagString: Untagged
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1875524967820815672}
-  _flipper: {fileID: 6730859861602199670}
+  _flipper: {fileID: 7452560550349761538}
   _speed: 2
   _stopDistance: 0.5
 --- !u!114 &1821030922764011315
@@ -198,7 +198,7 @@ MonoBehaviour:
   _patrolPoints:
   - {fileID: 4415762369266893390}
   - {fileID: 9204384836057334838}
---- !u!114 &6730859861602199670
+--- !u!114 &7452560550349761538
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

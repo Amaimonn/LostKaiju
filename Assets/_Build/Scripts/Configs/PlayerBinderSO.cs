@@ -2,7 +2,7 @@ using UnityEngine;
 
 using LostKaiju.Player.View;
 
-namespace LostKaiju.Configs
+namespace LostKaiju.Configs 
 {
     [CreateAssetMenu(fileName = "PlayerBinderSO", menuName = "Scriptable Objects/PlayerBinderSO")]
     public class PlayerBinderSO : ScriptableObject, IPlayerConfig

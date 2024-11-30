@@ -1046,7 +1046,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1736941828}
   - component: {fileID: 1736941827}
-  - component: {fileID: 1736941829}
   m_Layer: 0
   m_Name: HubBootstrap
   m_TagString: Untagged
@@ -1067,6 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerBinderSO: {fileID: 11400000, guid: 8f5f3e58fb3660f44acd75da3b044b85, type: 2}
+  _hubViewPrefab: {fileID: 8545207686241835542, guid: 2db9ee2821cde734db75700cda5916d2, type: 3}
 --- !u!4 &1736941828
 Transform:
   m_ObjectHideFlags: 0
@@ -1082,25 +1082,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1736941829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1736941826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: a2232e848b272ca4ba9f0fb660eb6975, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: b967835a0576c984b8c45ab29be468ba, type: 3}
-  m_SortingOrder: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
 --- !u!1001 &1871714621
 PrefabInstance:
   m_ObjectHideFlags: 0
