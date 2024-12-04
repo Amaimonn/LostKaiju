@@ -2,6 +2,7 @@ using UnityEngine;
 using R3;
 
 using UnityEngine.InputSystem;
+using System;
 
 namespace LostKaiju.Architecture.Providers.Inputs
 {
@@ -27,12 +28,15 @@ namespace LostKaiju.Architecture.Providers.Inputs
 
         public bool GetShift => _readDash; //_playerInput.Player.Sprint.ReadValue<bool>();
 
+        public bool GetAttack => _onReadAttack();
+
         public InputSystemProvider()
         {
             // _playerInput = new();
             var moveAction = InputSystem.actions.FindAction("Move");//_playerInput.Player.Move
             var jumpAction = InputSystem.actions.FindAction("Jump");//_playerInput.Player.Jump
             var dashAction = InputSystem.actions.FindAction("Dash");
+            var attackAction = InputSystem.actions.FindAction("Attack");
 
             moveAction.performed += ctx =>
             {
@@ -49,7 +53,7 @@ namespace LostKaiju.Architecture.Providers.Inputs
             };
             moveAction.canceled += ctx => _readMovement = Vector2.zero;
 
-            if (SystemInfo.deviceType == DeviceType.Handheld || true)
+            if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 moveAction.performed += ctx =>  _readJump = ctx.ReadValue<Vector2>().y > 0.5f;
                 moveAction.canceled += ctx => _readJump = false; 
@@ -61,20 +65,15 @@ namespace LostKaiju.Architecture.Providers.Inputs
             }
 
             dashAction.started += cts => _readDash = true;
-
             dashAction.canceled += cts => _readDash = false;
-            // #if UNITY_EDITOR
-            //             moveAction.performed += ctx => {
-            //                 _readJump = ctx.ReadValue<Vector2>().y > 0.5f;
-            //             };
-            //             moveAction.canceled += ctx => {_readJump = false; };
-            // #endif 
+
+            _onReadAttack = attackAction.WasPressedThisFrame;
         }
 
-        // private PlayerInputActions _playerInput;
         private Vector2 _readMovement;
         private bool _readJump;
         private bool _readDash;
+        private Func<bool> _onReadAttack;
         private ReactiveProperty<bool> _horizontalCanceled = new(true);
         private ReactiveProperty<bool> _verticalCanceled = new(true);
 

@@ -31,7 +31,9 @@ namespace LostKaiju.Architecture.Providers.Inputs
 
         public bool GetJump => Input.GetAxisRaw("Jump") > 0;
 
-        public bool GetShift => Input.GetKeyDown(KeyCode.LeftShift);
+        public bool GetShift => Input.GetKey(KeyCode.LeftShift);
+
+        public bool GetAttack => Input.GetKeyDown(KeyCode.Mouse0);
 
         private ReactiveProperty<bool> _horizontalCanceled = new(true);
         private ReactiveProperty<bool> _verticalCanceled = new(true);

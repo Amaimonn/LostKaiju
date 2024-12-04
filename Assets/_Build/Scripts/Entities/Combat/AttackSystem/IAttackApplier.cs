@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LostKaiju.Entities.DamageSystem
+namespace LostKaiju.Entities.Combat.AttackSystem
 {
     public interface IAttackApplier
     {
