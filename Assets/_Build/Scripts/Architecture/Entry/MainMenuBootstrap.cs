@@ -26,7 +26,7 @@ namespace LostKaiju.Architecture.Entry
             var rootBinder = ServiceLocator.Current.Get<UIRootBinder>();
             var mainMenuView = Instantiate(_mainMenuUI).GetComponent<MainMenuView>();
 
-            rootBinder.AddView(mainMenuView);
+            rootBinder.SetView(mainMenuView);
             mainMenuView.Bind(mainMenuViewModel);
             // define context in UI
             var hubEnterContext = new HubEnterContext();

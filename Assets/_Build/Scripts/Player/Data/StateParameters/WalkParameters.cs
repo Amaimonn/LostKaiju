@@ -7,17 +7,11 @@ namespace LostKaiju.Player.Data.StateParameters
     public class WalkParameters
     {
 
-        public float WalkSpeed => _walkSpeed;
-        public float FrictionKoefficient => _frictionKoefficient;
-        public float Acceleration => _acceleration;
-        public float Deceleration => _deceleration;
-        public float AirMultiplier => _airMultiplier;
+        [field: SerializeField, Min(0)] public float WalkSpeed { get; private set; } = 10;
+        [field: SerializeField, Range(0.0f, 1.0f)] public float FrictionForce { get; private set; } = 0.4f;
+        [field: SerializeField, Min(0)] public float Acceleration { get; private set; } = 7;
+        [field: SerializeField, Min(0)] public float Deceleration { get; private set; } = 7;
+        [field: SerializeField, Min(0)] public float AirMultiplier { get; private set; } = 0.5f;
         [HideInInspector] public Rigidbody2D WalkRigidbody;
-
-        [SerializeField] private float _walkSpeed = 10;
-        [SerializeField] private float _frictionKoefficient = 0.4f;
-        [SerializeField] private float _acceleration = 7;
-        [SerializeField] private float _deceleration = 7;
-        [SerializeField] private float _airMultiplier = 0.5f;
     }
 }

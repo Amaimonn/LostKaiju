@@ -7,10 +7,12 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
     public class JumpState : PlayerControllerState
     {
         protected JumpParameters _parameters;
+        protected Rigidbody2D _rigidbody;
         
-        public void Init(JumpParameters parameters)
+        public void Init(JumpParameters parameters, Rigidbody2D rigidbody)
         {
             _parameters = parameters;
+            _rigidbody = rigidbody;
         }
 
         public override void UpdateLogic()
@@ -26,8 +28,8 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
 
         private void Jump()
         {
-            _parameters.JumpRigidbody.linearVelocityY = 0;
-            _parameters.JumpRigidbody.AddForceY(_parameters.JumpForce, ForceMode2D.Impulse);
+            _rigidbody.linearVelocityY = 0;
+            _rigidbody.AddForceY(_parameters.Force, ForceMode2D.Impulse);
         }    
     }
 }

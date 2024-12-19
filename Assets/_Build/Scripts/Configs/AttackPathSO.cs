@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-using LostKaiju.Entities.Combat.AttackSystem;
+using LostKaiju.Creatures.Combat.AttackSystem;
 
 namespace LostKaiju.Configs 
 {

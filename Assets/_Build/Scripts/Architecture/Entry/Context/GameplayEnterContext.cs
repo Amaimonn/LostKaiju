@@ -8,7 +8,7 @@ namespace LostKaiju.Architecture.Entry.Context
     public class GameplayEnterContext : SceneContext
     {
         public string LevelSceneName;
-        public IPlayerConfig PlayerConfig;
+        public ICreatureConfig PlayerConfig;
 
         public GameplayEnterContext(string sceneName) : base(sceneName)
         {

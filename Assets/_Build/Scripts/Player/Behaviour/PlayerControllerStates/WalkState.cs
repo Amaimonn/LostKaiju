@@ -1,6 +1,5 @@
 using UnityEngine;
 using R3;
-using System;
 
 using LostKaiju.Player.Data.StateParameters;
 
@@ -12,13 +11,15 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
 
         protected ReactiveProperty<bool> _isPositiveDirectionX = new();
         protected WalkParameters _parameters;
-        protected Func<bool> _checkIsGrounded;
+        protected Rigidbody2D _rigidbody;
+        // protected Func<bool> _checkIsGrounded;
         private Vector2 _readWalk;
 
-        public void Init(WalkParameters parameters, Func<bool> checkIsGrounded)
+        public void Init(WalkParameters parameters, Rigidbody2D rigidbody) //, Func<bool> checkIsGrounded
         {
             _parameters = parameters;
-            _checkIsGrounded = checkIsGrounded;
+            _rigidbody = rigidbody;
+            // _checkIsGrounded = checkIsGrounded;
         }
 
         public override void UpdateLogic()
@@ -44,7 +45,8 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
             var clearSpeed = direction.x * _parameters.WalkSpeed;// * airResistanceMultiplier;
             var speedDifference = clearSpeed - _parameters.WalkRigidbody.linearVelocityX;
             var definedAcceleration = Mathf.Abs(clearSpeed) > 0.01f ? _parameters.Acceleration : _parameters.Deceleration;
-            _parameters.WalkRigidbody.AddForceX(definedAcceleration * speedDifference);
+            
+            _rigidbody.AddForceX(definedAcceleration * speedDifference);
         }
     }
 }

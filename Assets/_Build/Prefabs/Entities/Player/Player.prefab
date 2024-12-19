@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5145336030537866132}
-  m_Father: {fileID: 7622937402865464917}
+  m_Father: {fileID: 4914689617381586326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7044714958022081357
 MonoBehaviour:
@@ -258,6 +258,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7622937402865464917}
+  - {fileID: 1096859403744559564}
   - {fileID: 4884114573771679061}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -350,7 +351,7 @@ MonoBehaviour:
   _animator: {fileID: 6690856542506860452}
   _flipper: {fileID: 246798485738682584}
   _groundCheck: {fileID: 6183724006927231869}
-  _behaviourConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
+  _presenterConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
 --- !u!1001 &9143937978568036235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -749,10 +750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -7552582706839291426, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 1096859403744559564}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       insertIndex: -1

@@ -1,4 +1,4 @@
-using LostKaiju.Player.View;
+using LostKaiju.Player.Views;
 
 namespace LostKaiju.Agents.Sensors
 {

@@ -14,7 +14,7 @@ public abstract class ToolkitView<T> : View<T> where T : IViewModel
         
         _root.style.width = lenght;
         _root.style.height = lenght;
-        _root.style.position = Position.Absolute;
+        // _root.style.position = Position.Absolute;
         
         rootUI.Attach(_root);
     }

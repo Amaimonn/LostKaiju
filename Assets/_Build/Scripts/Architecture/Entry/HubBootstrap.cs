@@ -11,7 +11,7 @@ namespace LostKaiju.Architecture.Entry
 {
     public class HubBootstrap : MonoBehaviour
     {
-        [SerializeField] private PlayerBinderSO _playerBinderSO; // choose your player character
+        [SerializeField] private CreatureBinderSO _playerBinderSO; // choose your player character
         [SerializeField] private HubView _hubViewPrefab;
         
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
@@ -19,7 +19,7 @@ namespace LostKaiju.Architecture.Entry
             var hubView = Instantiate(_hubViewPrefab);
             var uiRootBinder = ServiceLocator.Current.Get<UIRootBinder>();
 
-            uiRootBinder.AddView(hubView);
+            uiRootBinder.SetView(hubView);
 
             var exitSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)

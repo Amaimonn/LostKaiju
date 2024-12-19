@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using LostKaiju.Architecture.FSM;
 using LostKaiju.Architecture.Providers.Inputs;
 using LostKaiju.Architecture.Services;
-using LostKaiju.Entities.EntityFeatures;
+using LostKaiju.Creatures.CreatureFeatures;
 
 namespace LostKaiju.Player.Behaviour.PlayerControllerStates
 {
@@ -17,7 +17,7 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
             InputProvider = ServiceLocator.Current.Get<IInputProvider>();
         }
 
-        public virtual void Init(Dictionary<Type, IEntityFeature> features)
+        public virtual void Init(Dictionary<Type, ICreatureFeature> features)
         {
             
         } 

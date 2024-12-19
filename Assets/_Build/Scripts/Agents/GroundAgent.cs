@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using LostKaiju.Entities.EntityFeatures;
+using LostKaiju.Creatures.CreatureFeatures;
 
 namespace LostKaiju.Agents
 {

@@ -6,17 +6,11 @@ namespace LostKaiju.Player.Data.StateParameters
     [Serializable]
     public class DashParameters
     {
-        public float Distance => _distance;
-        public float Duration => _duration;
-        public float Cooldown => _cooldown;
-        public float CollisionLayerMask => _collisionLayerMask;
+        [field: SerializeField, Min(0)] public float Distance { get; private set; } = 7f;
+        [field: SerializeField, Min(0)] public float Duration { get; private set; } = 0.4f;
+        [field: SerializeField, Min(0)] public float Cooldown { get; private set; } = 2f;
+        [field: SerializeField] public float CollisionLayerMask { get; private set; }
 
-        [SerializeField] private float _distance = 7f;
-        [SerializeField] private float _duration = 0.4f;
-        [SerializeField] private float _cooldown = 2f;
-        [SerializeField] private LayerMask _collisionLayerMask;
-
-        
         [HideInInspector]
         public Rigidbody2D rigidBody;
     }
