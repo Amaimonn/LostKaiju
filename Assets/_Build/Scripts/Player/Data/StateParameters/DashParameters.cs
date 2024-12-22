@@ -10,8 +10,5 @@ namespace LostKaiju.Player.Data.StateParameters
         [field: SerializeField, Min(0)] public float Duration { get; private set; } = 0.4f;
         [field: SerializeField, Min(0)] public float Cooldown { get; private set; } = 2f;
         [field: SerializeField] public float CollisionLayerMask { get; private set; }
-
-        [HideInInspector]
-        public Rigidbody2D rigidBody;
     }
 }

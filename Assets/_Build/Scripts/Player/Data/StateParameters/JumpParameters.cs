@@ -10,6 +10,5 @@ namespace LostKaiju.Player.Data.StateParameters
         [field: SerializeField, Min(0)] public float CoyotteTime { get; private set; }
         [field: SerializeField, Min(0)] public float Cooldown  { get; private set; }
         [field: SerializeField, Min(0)] public float InputTimeBufferSize  { get; private set; }
-        [HideInInspector] public Rigidbody2D JumpRigidbody;
     }
 }

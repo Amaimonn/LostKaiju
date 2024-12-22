@@ -25,7 +25,7 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
         public override void UpdateLogic()
         {
             var horizontalInput = InputProvider.GetHorizontal;
-            _readWalk = new Vector2 (horizontalInput, 0);
+            _readWalk = new Vector2(horizontalInput, 0);
 
             if (horizontalInput != 0)
                 _isPositiveDirectionX.Value = horizontalInput > 0;
@@ -43,7 +43,7 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
         {
             // var airResistanceMultiplier = 1;//_checkIsGrounded() ? 1f : _parameters.AirMultiplier;
             var clearSpeed = direction.x * _parameters.WalkSpeed;// * airResistanceMultiplier;
-            var speedDifference = clearSpeed - _parameters.WalkRigidbody.linearVelocityX;
+            var speedDifference = clearSpeed - _rigidbody.linearVelocityX;
             var definedAcceleration = Mathf.Abs(clearSpeed) > 0.01f ? _parameters.Acceleration : _parameters.Deceleration;
             
             _rigidbody.AddForceX(definedAcceleration * speedDifference);

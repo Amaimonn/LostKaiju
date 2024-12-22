@@ -54,18 +54,18 @@ namespace LostKaiju.Architecture.FSM
             _transitions = observableTransitions.Where(x => x.FromStateType == selfType).ToList();
 
             observableTransitions
-            .ObserveAdd()
-            .Select(e => e.Value)
-            .Where(x => x.FromStateType == selfType)
-            .Subscribe(x => _transitions.Add(x))
-            .AddTo(_disposables);
+                .ObserveAdd()
+                .Select(e => e.Value)
+                .Where(x => x.FromStateType == selfType)
+                .Subscribe(x => _transitions.Add(x))
+                .AddTo(_disposables);
 
             observableTransitions
-            .ObserveRemove()
-            .Select(e => e.Value)
-            .Where(x => x.FromStateType == selfType)
-            .Subscribe(x => _transitions.Remove(x))
-            .AddTo(_disposables);
+                .ObserveRemove()
+                .Select(e => e.Value)
+                .Where(x => x.FromStateType == selfType)
+                .Subscribe(x => _transitions.Remove(x))
+                .AddTo(_disposables);
         }
 
         public virtual void HandleTransitions()

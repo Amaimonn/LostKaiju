@@ -58,14 +58,16 @@ namespace LostKaiju.Player.Behaviour.PlayerControllerStates
         {
             var eclapsedTime = Time.fixedDeltaTime;
             var direction = _isRight.CurrentValue ? 1 : -1;
+            
             _rigidbody.linearVelocityY = 0;
             _rigidbody.linearVelocityX = direction * _parameters.Distance / _parameters.Duration;
-            _currentDuration += eclapsedTime;
 
             if (_currentDuration >= _parameters.Duration)
             {
                 _isCompleted.Value = true;
             }
+
+            _currentDuration += eclapsedTime;
         }
 
     }
