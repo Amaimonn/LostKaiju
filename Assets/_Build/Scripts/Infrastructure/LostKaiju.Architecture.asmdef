@@ -1,0 +1,21 @@
+{
+    "name": "LostKaiju.Infrastructure",
+    "rootNamespace": "",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:9785602eaf19c154a850438765fe330d",
+        "GUID:f3523fd642e5bec48a8bcc1a5ce1a758",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:ef39ec4fe7041c74a9f1b02f1789a869",
+        "GUID:20b90c69f5c37ec47b498856b34527a8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
