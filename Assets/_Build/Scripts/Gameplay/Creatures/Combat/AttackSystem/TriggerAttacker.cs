@@ -3,7 +3,7 @@ using R3;
 using R3.Triggers;
 
 using LostKaiju.Gameplay.Creatures.DamageSystem;
-using LostKaiju.Gameplay.Creatures.CreatureFeatures;
+using LostKaiju.Gameplay.Creatures.Features;
 
 namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
 {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Creatures.CreatureFeatures
+namespace LostKaiju.Gameplay.Creatures.Features
 {
     public abstract class GroundCheck : MonoBehaviour, ICreatureFeature
     {

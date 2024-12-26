@@ -1,7 +1,5 @@
-using UnityEngine;
-
 using LostKaiju.Utils;
-using LostKaiju.Gameplay.Creatures.CreatureFeatures;
+using LostKaiju.Gameplay.Creatures.Features;
 using LostKaiju.Gameplay.Creatures.Views;
 
 namespace LostKaiju.Gameplay.Creatures.Presenters

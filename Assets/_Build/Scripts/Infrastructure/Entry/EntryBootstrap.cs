@@ -6,6 +6,7 @@ using R3;
 using LostKaiju.Infrastructure.Entry.Context;
 using LostKaiju.Models.UI.MVVM;
 using LostKaiju.Models.Locator;
+using LostKaiju.Utils;
 
 namespace LostKaiju.Infrastructure.Entry
 {

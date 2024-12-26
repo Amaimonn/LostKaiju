@@ -1,5 +1,5 @@
 {
-    "name": "LostKaiju.Creatures",
+    "name": "LostKaiju.Gameplay.Creatures",
     "rootNamespace": "",
     "references": [
         "GUID:f3523fd642e5bec48a8bcc1a5ce1a758",

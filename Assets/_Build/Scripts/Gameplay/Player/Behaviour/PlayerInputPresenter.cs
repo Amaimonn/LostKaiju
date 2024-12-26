@@ -7,26 +7,26 @@ using LostKaiju.Infrastructure.Providers.Inputs;
 using LostKaiju.Models.Locator;
 using LostKaiju.Models.FSM;
 using LostKaiju.Models.FSM.FiniteTransitions;
-using LostKaiju.Gameplay.Creatures.CreatureFeatures;
+using LostKaiju.Gameplay.Creatures.Features;
 using LostKaiju.Gameplay.Creatures.Presenters;
 using LostKaiju.Gameplay.Player.Data;
 using LostKaiju.Gameplay.Player.Data.StateParameters;
 using LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Gameplay.Creatures.Views;
+using System.Collections.Generic;
 
 namespace LostKaiju.Gameplay.Player.Behaviour
 {
-    public class PlayerPresenter : CreaturePresenter
+    public class PlayerInputPresenter : CreaturePresenter
     {
         private readonly PlayerControlsData _controlsData;
         private FiniteStateMachine _finiteStateMachine;
-        private float _jumpInputBufferedTime;
-        private float _waitToJump;
-        private float _waitToDash;
-        private bool _readJump;
         private IInputProvider _inputProvider;
+        private readonly List<Timer> _cooldownTimers = new(2);
+        private Timer _jumpInputBufferTimer;
+        private bool _readJump;
 
-        public PlayerPresenter(PlayerControlsData controlsData)
+        public PlayerInputPresenter(PlayerControlsData controlsData)
         {
             _controlsData = controlsData;
         }
@@ -38,38 +38,50 @@ namespace LostKaiju.Gameplay.Player.Behaviour
 
             var groundCheck = features.Resolve<GroundCheck>();
             var flipper = features.Resolve<Flipper>();
+            
             _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
 
+            // idle state
             var idleState = new IdleState();
 
+            // walk state
             var walkState = new WalkState();
             var walkParameters = _controlsData.Walk;
             walkState.Init(walkParameters, Creature.Rigidbody);
             walkState.IsPositiveDirectionX.Subscribe(flipper.LookRight);
 
+            // jump state
             var jumpState = new JumpState();
             var jumpParameters = _controlsData.Jump;
             jumpState.Init(jumpParameters, Creature.Rigidbody);
-            jumpState.OnEnter.Subscribe( _ => _waitToJump = _controlsData.Jump.Cooldown);
+            var jumpCooldownTimer = new Timer(_controlsData.Jump.Cooldown, true);
+            _cooldownTimers.Add(jumpCooldownTimer);
+            jumpState.OnEnter.Subscribe( _ => jumpCooldownTimer.Refresh());
+            _jumpInputBufferTimer = new Timer(_controlsData.Jump.InputTimeBufferSize, true);
 
+            // dash state (optional)
             var dashState = new DashState();
             var dashParameters = new DashParameters();
             dashState.Init(dashParameters, Creature.Rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLooksToTheRight));
-            dashState.OnEnter.Subscribe(_ => _waitToDash = dashParameters.Cooldown);
+            var dashCooldownTimer = new Timer(dashParameters.Cooldown, true);
+            _cooldownTimers.Add(dashCooldownTimer);
+            dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
 
             BindAnimations(idleState, walkState, jumpState);
 
             var transitions = new IFiniteTransition[]
             {
-                new FiniteTransition<WalkState, JumpState>(() => _jumpInputBufferedTime > 0 && groundCheck.IsGrounded && _waitToJump <= 0),
+                new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && groundCheck.IsGrounded 
+                    && jumpCooldownTimer.IsCompleted),
                 new FiniteTransition<JumpState, WalkState>(() => _inputProvider.GetHorizontal != 0),
                 new FiniteTransition<JumpState, IdleState>(() => _inputProvider.GetHorizontal == 0),
                 new FiniteTransition<IdleState, WalkState>(() => _inputProvider.GetHorizontal != 0),
-                new FiniteTransition<IdleState, JumpState>(() => _jumpInputBufferedTime > 0 && groundCheck.IsGrounded && _waitToJump <= 0),
-                new FiniteTransition<WalkState, DashState>(() => _inputProvider.GetShift && _waitToDash <= 0),
+                new FiniteTransition<IdleState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && groundCheck.IsGrounded
+                    && jumpCooldownTimer.IsCompleted),
+                new FiniteTransition<WalkState, DashState>(() => _inputProvider.GetShift && dashCooldownTimer.IsCompleted),
                 new FiniteTransition<DashState, IdleState>(() => dashState.IsCompleted.CurrentValue),
-                new FiniteTransition<IdleState, DashState>(() => _inputProvider.GetShift && _waitToDash <= 0),
-                new FiniteTransition<JumpState, DashState>(() => _inputProvider.GetShift && _waitToDash <= 0),
+                new FiniteTransition<IdleState, DashState>(() => _inputProvider.GetShift && dashCooldownTimer.IsCompleted),
+                new FiniteTransition<JumpState, DashState>(() => _inputProvider.GetShift && dashCooldownTimer.IsCompleted),
                 new FiniteTransition<WalkState, IdleState>(() => _inputProvider.GetHorizontal == 0) // low priority
             };
 
@@ -85,26 +97,17 @@ namespace LostKaiju.Gameplay.Player.Behaviour
         public override void UpdateLogic()
         {
             _finiteStateMachine.CurrentState.UpdateLogic();
-            var eclapsedFrameTime = Time.deltaTime;
-            if (_jumpInputBufferedTime > 0)
-            {
-                _jumpInputBufferedTime -= eclapsedFrameTime;
-            }
 
-            if (_waitToJump > 0)
+            foreach (Timer timer in _cooldownTimers)
             {
-                _waitToJump -= eclapsedFrameTime;
+                timer.Tick();
             }
-
-            if (_waitToDash > 0)
-            {
-                _waitToDash -= eclapsedFrameTime;
-            }
+            _jumpInputBufferTimer.Tick();
 
             _readJump = _inputProvider.GetJump;
-            if (_readJump)
+            if (_readJump && _jumpInputBufferTimer.IsCompleted)
             {
-                _jumpInputBufferedTime = _controlsData.Jump.InputTimeBufferSize;
+                _jumpInputBufferTimer.Refresh();
             }
         }
 

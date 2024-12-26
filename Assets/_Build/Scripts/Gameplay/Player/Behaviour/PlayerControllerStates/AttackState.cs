@@ -1,6 +1,6 @@
 using R3;
 
-using LostKaiju.Gameplay.Creatures.CreatureFeatures;
+using LostKaiju.Gameplay.Creatures.Features;
 
 namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
 {

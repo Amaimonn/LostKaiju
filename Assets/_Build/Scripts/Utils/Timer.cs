@@ -10,12 +10,23 @@ namespace LostKaiju.Utils
         private float _currentTime;
         private float _waitTime;
 
-        public Timer(float waitTime)
+        public Timer(float waitTime, bool isCompleted = false)
         {
             if (waitTime < 0)
             {
                 Debug.LogWarning("Timer's wait time < 0. This is strange");
             }
+            
+            if (isCompleted)
+            {
+                IsCompleted = true;
+            }
+            else
+            {
+                _currentTime = Time.time;
+                _startTime = Time.time;
+            }
+
             _waitTime = waitTime;
         }
 
@@ -32,7 +43,8 @@ namespace LostKaiju.Utils
 
         public void Refresh()
         {
-            _currentTime = _startTime = Time.time;
+            _currentTime = Time.time;
+            _startTime = Time.time;
             IsCompleted = CheckTimeIsOver();
         }
 

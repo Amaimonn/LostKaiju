@@ -1,6 +1,6 @@
 using R3;
 
-namespace LostKaiju.Gameplay.Creatures.CreatureFeatures
+namespace LostKaiju.Gameplay.Creatures.Features
 {
     public interface IAttacker : ICreatureFeature
     {

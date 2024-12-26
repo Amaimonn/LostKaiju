@@ -9,7 +9,7 @@ using LostKaiju.Infrastructure.Providers.Inputs;
 using LostKaiju.Models.FSM;
 using LostKaiju.Models.FSM.FiniteTransitions;
 using LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates;
-using LostKaiju.Gameplay.Creatures.CreatureFeatures;
+using LostKaiju.Gameplay.Creatures.Features;
 using LostKaiju.Gameplay.Player.Data.StateParameters;
 
 namespace LostKaiju.Gameplay.Player.Behaviour.StateBinders

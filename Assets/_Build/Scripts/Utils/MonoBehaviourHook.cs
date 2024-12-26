@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class MonoBehaviourHook : MonoBehaviour
+namespace LostKaiju.Utils
 {
+    public class MonoBehaviourHook : MonoBehaviour
+    {
+    }
 }

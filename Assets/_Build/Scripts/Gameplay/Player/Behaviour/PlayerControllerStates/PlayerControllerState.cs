@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using LostKaiju.Models.FSM;
 using LostKaiju.Infrastructure.Providers.Inputs;
 using LostKaiju.Models.Locator;
-using LostKaiju.Gameplay.Creatures.CreatureFeatures;
+using LostKaiju.Gameplay.Creatures.Features;
 
 namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
 {
