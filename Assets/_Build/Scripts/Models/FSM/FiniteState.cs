@@ -5,10 +5,11 @@ using ObservableCollections;
 using R3;
 
 using LostKaiju.Models.FSM.FiniteTransitions;
+using UnityEngine;
 
 namespace LostKaiju.Models.FSM
 {
-    public abstract class FiniteState: IDisposable
+    public abstract class FiniteState: IFiniteState
     {
         public Observable<Type> OnTransition => _onTransition;
         public Observable<Unit> OnEnter => _onEnter;
@@ -36,10 +37,9 @@ namespace LostKaiju.Models.FSM
 
         public virtual void SetTransitions(IObservableCollection<IFiniteTransition> observableTransitions)
         {
-            _transitions?.Clear();
-            _transitions = new();
+            _transitions.Clear();
 
-            _disposables?.Dispose();
+            _disposables.Dispose();
             _disposables = new();
             
             AddTransitions(observableTransitions);
@@ -48,7 +48,10 @@ namespace LostKaiju.Models.FSM
         public virtual void AddTransitions(IObservableCollection<IFiniteTransition> observableTransitions)
         {
             if (observableTransitions == null)
+            {
+                Debug.LogWarning("Observable transitions are null");
                 return;
+            }
 
             var selfType = GetType();
             _transitions = observableTransitions.Where(x => x.FromStateType == selfType).ToList();

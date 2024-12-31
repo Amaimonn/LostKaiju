@@ -9,11 +9,13 @@ namespace LostKaiju.Gameplay.Player
 {
     public class PlayerRootPresenter : CreaturePresenter
     {
-        private readonly PlayerInputPresenter _inputController;
+        private readonly PlayerInputPresenter _inputPresenter;
+        private readonly PlayerDefencePresenter _defencePresenter;
 
         public PlayerRootPresenter(PlayerControlsData controlsData)
         {
-            _inputController = new PlayerInputPresenter(controlsData);
+            _inputPresenter = new PlayerInputPresenter(controlsData);
+            _defencePresenter = new PlayerDefencePresenter(100); // test
         }
 
 #region CreaturePresenter
@@ -21,17 +23,18 @@ namespace LostKaiju.Gameplay.Player
         {
             base.Bind(creature, features);
 
-            _inputController.Bind(creature, features);
+            _inputPresenter.Bind(creature, features);
+            _defencePresenter.Bind(creature, features);
         }
         
         public override void UpdateLogic()
         {
-            _inputController.UpdateLogic();
+            _inputPresenter.UpdateLogic();
         }
 
         public override void FixedUpdateLogic()
         {
-            _inputController.FixedUpdateLogic();
+            _inputPresenter.FixedUpdateLogic();
         }
 #endregion
     }

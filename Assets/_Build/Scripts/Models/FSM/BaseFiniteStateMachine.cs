@@ -5,10 +5,6 @@ namespace LostKaiju.Models.FSM
 {
     public class BaseFiniteStateMachine : FiniteStateMachine
     {
-        public BaseFiniteStateMachine(Type startStateType) : base(startStateType)
-        {
-        }
-
         public override void ChangeState(Type stateType)
         {
             if (_currentStateType == stateType)
@@ -16,15 +12,15 @@ namespace LostKaiju.Models.FSM
 
             if (_states.TryGetValue(stateType, out var newState))
             {
-                Debug.Log($"{_currentStateType.Name} --> {stateType.Name}");
                 CurrentState?.Exit();
                 CurrentState = newState;
                 _currentStateType = stateType;
                 CurrentState.Enter();
+                Debug.Log($"FSM: {_currentStateType.Name} --> {stateType.Name}");
             }
             else
             {
-                Debug.Log($"There is no {stateType.Name} in FSM");
+                Debug.LogWarning($"FSM warnig: Can`t find '{stateType.Name}' state for transition");
             }
         }
     }

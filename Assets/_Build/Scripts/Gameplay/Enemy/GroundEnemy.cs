@@ -19,9 +19,9 @@ namespace LostKaiju.Gameplay.Enemy
             var patrolState = new PatrolState(_groundAgent, _patrolPoints);
             patrolState.Init(new PatrolParameters());
 
-            _finiteStateMachine = new BaseFiniteStateMachine(typeof(PatrolState));
+            _finiteStateMachine = new BaseFiniteStateMachine();
             _finiteStateMachine.AddState(patrolState);
-            _finiteStateMachine.Init();
+            _finiteStateMachine.Init(typeof(PatrolState));
         }
 
         private void Update()

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace LostKaiju.Utils
 {
-    public class Holder<TElement> where TElement : class
+    public class Holder<TElement>
     {
         protected Dictionary<Type, TElement> _items = new();
 
-        public virtual TKeyType Resolve<TKeyType>() where TKeyType : class, TElement
+        public virtual TKeyType Resolve<TKeyType>() where TKeyType : TElement
         {
             var resolveType = typeof(TKeyType);
             if (_items.TryGetValue(resolveType, out var item))
@@ -18,7 +18,7 @@ namespace LostKaiju.Utils
             else
             {
                 Debug.LogWarning($"Can't resolve {resolveType.Name}");
-                return null;
+                return default;
             }
         }
 
@@ -32,7 +32,7 @@ namespace LostKaiju.Utils
             _items[registeredType] = item;
         }
 
-        public void UnRegister<TKeyType>()
+        public void Remove<TKeyType>()
         {
             var unregisteredType = typeof(TKeyType);
 

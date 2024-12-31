@@ -1,7 +1,7 @@
 using UnityEngine;
+using R3;
 
 using LostKaiju.Gameplay.Creatures.DamageSystem;
-using R3;
 
 namespace LostKaiju.Gameplay.Creatures.Features
 {

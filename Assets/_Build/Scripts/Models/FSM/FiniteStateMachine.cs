@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using ObservableCollections;
 using R3;
 
@@ -8,47 +9,50 @@ using LostKaiju.Models.FSM.FiniteTransitions;
 
 namespace LostKaiju.Models.FSM
 {
-    public abstract class FiniteStateMachine : IDisposable
+    public abstract class FiniteStateMachine : IFiniteStateMachine
     {
-        public FiniteState CurrentState { get; protected set; }
+        public IFiniteState CurrentState { get; protected set; }
 
         protected Type _currentStateType;
-        protected Dictionary<Type, FiniteState> _states = new();
+        protected Dictionary<Type, IFiniteState> _states = new();
         protected ObservableList<IFiniteTransition> _transitions = new();
         protected CompositeDisposable _disposables = new();
 
-        public FiniteStateMachine(Type startStateType)
+        public virtual void Init(Type startStateType)
         {
-            _currentStateType = startStateType;
-        }
-
-        public void Init()
-        {
-            if (_currentStateType != null)
+            if (startStateType != null)
             {
+                _currentStateType = startStateType;
                 if (_states.TryGetValue(_currentStateType, out var state))
                 {
                     CurrentState = state;
                     CurrentState.Enter();
                 }
+                else
+                {
+                    Debug.LogWarning($"FSM warning: Can`t find '{_currentStateType.Name}' state for initialization");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("FSM warning: Start state type is null");
             }
         }
 
         public abstract void ChangeState(Type stateType);
 
         public virtual void SetTransitionsWithStates(IObservableCollection<IFiniteTransition> observableTransitions, 
-            IEnumerable<FiniteState> states)
+            IEnumerable<IFiniteState> states)
         {
-            _states = new();
-            _transitions?.Clear();
+            _states.Clear();
+            _transitions.Clear();
             if (observableTransitions != null)
             {
                 _transitions = new ObservableList<IFiniteTransition>(observableTransitions);
             }
 
-            _disposables?.Dispose();
+            _disposables.Dispose();
             _disposables = new CompositeDisposable();
-            
 
             foreach (var state in states)
             {
@@ -65,9 +69,9 @@ namespace LostKaiju.Models.FSM
                 state.Dispose();
             }
             
-            _states = new();
-            _transitions?.Clear();
-            _disposables?.Dispose();
+            _states.Clear();
+            _transitions.Clear();
+            _disposables.Dispose();
             _disposables = new CompositeDisposable();
         }
 
@@ -82,7 +86,7 @@ namespace LostKaiju.Models.FSM
         /// </summary>
         /// <typeparam name="T">The key type for the state registration</typeparam>
         /// <param name="state"></param>
-        public virtual void AddState<T>(T state) where T : FiniteState
+        public virtual void AddState<T>(T state) where T : IFiniteState
         {
             AddStateWithType(state, typeof(T));
         }
@@ -92,7 +96,7 @@ namespace LostKaiju.Models.FSM
         /// In case of adding any state with it`s parent type use AddState to add this state instead.
         /// </summary>
         /// <param name="states"></param>
-        public virtual void AddStates(params FiniteState[] states)
+        public virtual void AddStates(params IFiniteState[] states)
         {
             foreach (var state in states)
             {
@@ -106,7 +110,7 @@ namespace LostKaiju.Models.FSM
             RemoveStateByType(removeType);
         }
 
-        protected virtual void AddStateWithType(FiniteState state, Type type)
+        protected virtual void AddStateWithType(IFiniteState state, Type type)
         {
             RemoveStateByType(type);
             state.SetTransitions(_transitions);
@@ -133,7 +137,7 @@ namespace LostKaiju.Models.FSM
 #region IDisposable
         public virtual void Dispose()
         {
-            _disposables?.Dispose();
+            _disposables.Dispose();
         }
 #endregion
     }

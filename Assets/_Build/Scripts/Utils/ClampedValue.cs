@@ -8,38 +8,44 @@ namespace LostKaiju.Utils
     public class ClampedValue<T> where T : IComparable
     {
         public T CurrentValue => _currentValue;
-        public Observable<T> OnChanged => _onChanged;
-        public bool IsFull => _currentValue.Equals(_topLimit);
-        public bool IsEmpty() => _currentValue.Equals(_bottomLimit);
+        public Observable<T> OnValueSet => _onValueSet;
+        public bool IsFull => _currentValue.Equals(_maxValue);
+        public bool IsEmpty => _currentValue.Equals(_minValue);
 
         [SerializeField] protected T _currentValue;
-        [SerializeField] protected T _bottomLimit;
-        [SerializeField] protected T _topLimit;
+        [SerializeField] protected T _minValue;
+        [SerializeField] protected T _maxValue;
 
-        protected Subject<T> _onChanged = new();
+        protected Subject<T> _onValueSet = new();
 
-        public ClampedValue(T bottomLimit, T topLimit, T initialValue)
+        public ClampedValue(T minValue, T maxValue, T initialValue)
         {
-            _bottomLimit = bottomLimit;
-            _topLimit = topLimit;
+            _minValue = minValue;
+            _maxValue = maxValue;
             SetValue(initialValue);
         }
 
-        public void SetValue(T value)
+        public virtual void SetValue(T value)
         {
-            if (_topLimit.CompareTo(value) < 0)
-                _currentValue = _topLimit;
-            else if (_bottomLimit.CompareTo(value) > 0)
-                _currentValue = _bottomLimit;
+            if (_maxValue.CompareTo(value) < 0)
+                _currentValue = _maxValue;
+            else if (_minValue.CompareTo(value) > 0)
+                _currentValue = _minValue;
             else
                 _currentValue = value;
 
-            _onChanged.OnNext(_currentValue);
+            _onValueSet.OnNext(_currentValue);
         }
 
-        public void Refresh()
+        public void SetValueToMax()
         {
-            SetValue(_topLimit);
+            SetValue(_maxValue);
         }
+
+        public void SetValueToMin()
+        {
+            SetValue(_minValue);
+        }
+
     }
 }

@@ -87,11 +87,11 @@ namespace LostKaiju.Gameplay.Player.Behaviour
 
             var observableTransitions = new ObservableList<IFiniteTransition>(transitions);
 
-            _finiteStateMachine = new BaseFiniteStateMachine(typeof(IdleState));
+            _finiteStateMachine = new BaseFiniteStateMachine();
             _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState);
             _finiteStateMachine.AddTransitions(observableTransitions);
             
-            _finiteStateMachine.Init();
+            _finiteStateMachine.Init(typeof(IdleState));
         }
         
         public override void UpdateLogic()

@@ -13,10 +13,16 @@ namespace LostKaiju.Gameplay.Player.Views
         public override Rigidbody2D Rigidbody => _rigidbody;
         public override Animator Animator => _animator;
 
+        [Header("Creature base")]
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private Animator _animator;
+
+        [Header("Creature features")]
         [SerializeField] private Flipper _flipper;
         [SerializeField] private GroundCheck _groundCheck;
+        [SerializeField] private DamageReceiver _damageReceiver;
+
+        [Header("Behaviour")]
         [SerializeField] private CreaturePresenterSO _presenterConfig;
 
         protected CreaturePresenter CurrentBehaviour => _currentPresenterConfig == _presenterConfig ? _currentPresenter : SetPresenter(_presenterConfig);
@@ -29,6 +35,7 @@ namespace LostKaiju.Gameplay.Player.Views
         {
             _features.Register<Flipper>(_flipper);
             _features.Register<GroundCheck>(_groundCheck);
+            _features.Register<DamageReceiver>(_damageReceiver);
         }
 
         private void Update()
