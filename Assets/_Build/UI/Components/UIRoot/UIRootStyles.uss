@@ -1,0 +1,8 @@
+.ui-root {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    min-width: 100%;
+    min-height: 100%;
+}
