@@ -15,7 +15,6 @@ using LostKaiju.Gameplay.Player.Data.StateParameters;
 namespace LostKaiju.Gameplay.Player.Behaviour.StateBinders
 {
     [CreateAssetMenu(fileName = " DashStateBinderSO", menuName = "Scriptable Objects/ DashStateBinderSO")]
-    [Serializable]
     public class DashStateBinderSO : FiniteStateBinderSO
     {
         [SerializeField] private DashParameters _parameters;
@@ -27,7 +26,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour.StateBinders
             var flipper = features.Resolve<Flipper>();
 
             var dashState = new DashState();
-            dashState.Init(_parameters, rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLooksToTheRight));
+            dashState.Init(_parameters, rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight));
 
             float _waitToDash = 0;
             dashState.OnEnter.Subscribe(_ => {

@@ -62,7 +62,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             // dash state (optional)
             var dashState = new DashState();
             var dashParameters = new DashParameters();
-            dashState.Init(dashParameters, Creature.Rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLooksToTheRight));
+            dashState.Init(dashParameters, Creature.Rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight));
             var dashCooldownTimer = new Timer(dashParameters.Cooldown, true);
             _cooldownTimers.Add(dashCooldownTimer);
             dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());

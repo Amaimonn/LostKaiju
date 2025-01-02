@@ -8,10 +8,7 @@ namespace LostKaiju.Gameplay.Player.Data
     [Serializable]
     public class PlayerControlsData
     {
-        public WalkParameters Walk => _walk;
-        public JumpParameters Jump => _jump;
-
-        [SerializeField] private WalkParameters _walk;
-        [SerializeField] private JumpParameters _jump;
+        [field: SerializeField] public WalkParameters Walk { get; private set; }
+        [field: SerializeField] public JumpParameters Jump { get; private set; }
     }
 }

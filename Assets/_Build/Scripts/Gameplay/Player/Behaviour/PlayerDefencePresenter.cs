@@ -1,3 +1,4 @@
+using UnityEngine;
 using R3;
 
 using LostKaiju.Gameplay.Creatures.DamageSystem;
@@ -5,6 +6,7 @@ using LostKaiju.Gameplay.Creatures.Features;
 using LostKaiju.Gameplay.Creatures.Presenters;
 using LostKaiju.Gameplay.Creatures.Views;
 using LostKaiju.Utils;
+using LostKaiju.Gameplay.Player.Data;
 
 namespace LostKaiju.Gameplay.Player.Behaviour
 {
@@ -13,9 +15,9 @@ namespace LostKaiju.Gameplay.Player.Behaviour
         private Health _health;
         private DamageReceiver _damageReceiver;
 
-        public PlayerDefencePresenter(int maxHealth)
+        public PlayerDefencePresenter(PlayerDefenceData playerDefenceData)
         {
-            _health = new Health(maxHealth);
+            _health = new Health(playerDefenceData.MaxHealth);
         }
 
         public override void Bind(CreatureBinder creature, Holder<ICreatureFeature> features)
@@ -23,13 +25,13 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             base.Bind(creature, features);
 
             _damageReceiver = features.Resolve<DamageReceiver>();
-
             _damageReceiver.OnDamageTaken.Subscribe(DecreaseHealth);
         }
 
         private void DecreaseHealth(int amount)
         {
             _health.Decrease(amount);
+            Debug.Log(_health.CurrentValue);
         }
     }
 }

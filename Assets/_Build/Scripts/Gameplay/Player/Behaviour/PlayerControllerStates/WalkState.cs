@@ -13,7 +13,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
         protected WalkParameters _parameters;
         protected Rigidbody2D _rigidbody;
         // protected Func<bool> _checkIsGrounded;
-        private Vector2 _readWalk;
+        private float _readHorizontal;
 
         public void Init(WalkParameters parameters, Rigidbody2D rigidbody) //, Func<bool> checkIsGrounded
         {
@@ -24,25 +24,24 @@ namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
 
         public override void UpdateLogic()
         {
-            var horizontalInput = InputProvider.GetHorizontal;
-            _readWalk = new Vector2(horizontalInput, 0);
+            _readHorizontal = InputProvider.GetHorizontal;
 
-            if (horizontalInput != 0)
-                _isPositiveDirectionX.Value = horizontalInput > 0;
+            if (_readHorizontal != 0)
+                _isPositiveDirectionX.Value = _readHorizontal > 0;
 
             HandleTransitions();
         }
 
         public override void FixedUpdateLogic()
         {
-            if (_readWalk.magnitude > 0)
-                Walk(_readWalk);
+            if (_readHorizontal != 0)
+                Walk(_readHorizontal);
         }
 
-        private void Walk(Vector2 direction)
+        private void Walk(float xMagnitude)
         {
             // var airResistanceMultiplier = 1;//_checkIsGrounded() ? 1f : _parameters.AirMultiplier;
-            var clearSpeed = direction.x * _parameters.WalkSpeed;// * airResistanceMultiplier;
+            var clearSpeed = xMagnitude * _parameters.WalkSpeed;// * airResistanceMultiplier;
             var speedDifference = clearSpeed - _rigidbody.linearVelocityX;
             var definedAcceleration = Mathf.Abs(clearSpeed) > 0.01f ? _parameters.Acceleration : _parameters.Deceleration;
             

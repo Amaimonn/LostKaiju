@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aeee1d4bb3afcb4daeb8c223adc05cc, type: 3}
   m_Name: CommonPlayerPresenterSO
   m_EditorClassIdentifier: 
-  _BaseCharacterInputData:
-    _walk:
+  _playerControlsData:
+    <Walk>k__BackingField:
       <WalkSpeed>k__BackingField: 15
       <FrictionForce>k__BackingField: 0.7
       <Acceleration>k__BackingField: 7
       <Deceleration>k__BackingField: 7
       <AirMultiplier>k__BackingField: 0.5
-      WalkRigidbody: {fileID: 0}
-    _jump:
+    <Jump>k__BackingField:
       <Force>k__BackingField: 10
       <CoyotteTime>k__BackingField: 0.1
-      <Cooldown>k__BackingField: 0.1
+      <Cooldown>k__BackingField: 0.2
       <InputTimeBufferSize>k__BackingField: 0.1
-      JumpRigidbody: {fileID: 0}
+  _playerDefenceData:
+    <MaxHealth>k__BackingField: 100
+    <Defence>k__BackingField: 0

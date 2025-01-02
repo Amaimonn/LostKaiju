@@ -28,7 +28,7 @@ namespace LostKaiju.Infrastructure.Entry
 
             Debug.Log("Main menu scene loaded");
 
-            var mainMenuBootstrap = Object.FindFirstObjectByType<MainMenuBootstrap>();
+            var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
             var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
 
             exitMainMenuSignal.Subscribe(mainMenuExitContext =>
@@ -44,16 +44,16 @@ namespace LostKaiju.Infrastructure.Entry
 
             Debug.Log("Hub scene loaded");
 
-            var hubExitSignal = Object.FindFirstObjectByType<HubBootstrap>().Boot(hubEnterContext);
+            var hubExitSignal = Object.FindAnyObjectByType<HubBootstrap>().Boot(hubEnterContext);
             hubExitSignal.Subscribe(hubExitContext =>
             {
-                var toScene = hubExitContext.ToSceneContext.SceneName;
+                var toSceneName = hubExitContext.ToSceneContext.SceneName;
 
-                if (toScene == Scenes.MAIN_MENU)
+                if (toSceneName == Scenes.MAIN_MENU)
                 {
                     _monoHook.StartCoroutine(LoadMainMenu(hubExitContext.ToSceneContext as MainMenuEnterContext));
                 }
-                else if (toScene == Scenes.GAMEPLAY)
+                else if (toSceneName == Scenes.GAMEPLAY)
                 {
                     _monoHook.StartCoroutine(LoadGameplay(hubExitContext.ToSceneContext as GameplayEnterContext));
                 }
@@ -67,7 +67,7 @@ namespace LostKaiju.Infrastructure.Entry
 
             Debug.Log("Gameplay scene loaded");
         
-            var gameplayBootstrap = Object.FindFirstObjectByType<GameplayBootstrap>();
+            var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
             var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
 
             gameplayExitSignal.Subscribe(gameplayExitContext =>
@@ -77,17 +77,19 @@ namespace LostKaiju.Infrastructure.Entry
 
             var levelSceneName = gameplayEnterContext.LevelSceneName;
 
-            yield return SceneManager.LoadSceneAsync(levelSceneName, LoadSceneMode.Additive);
+            yield return LoadSceneAsync(levelSceneName, LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelSceneName));
 
-            var levelBootstrap = Object.FindFirstObjectByType<LevelBootstrap>();
+            var levelBootstrap = Object.FindAnyObjectByType<LevelBootstrap>();
 
             levelBootstrap.Boot(gameplayEnterContext);
+
+            Debug.Log($"{gameplayEnterContext.LevelSceneName} scene loaded additively");
         }
 
-        private IEnumerator LoadSceneAsync(string sceneName)
+        private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode=LoadSceneMode.Single)
         {
-            yield return SceneManager.LoadSceneAsync(sceneName);
+            yield return SceneManager.LoadSceneAsync(sceneName, mode);
         }
     }
 }

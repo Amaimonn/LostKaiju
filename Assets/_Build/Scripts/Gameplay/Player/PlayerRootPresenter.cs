@@ -12,10 +12,10 @@ namespace LostKaiju.Gameplay.Player
         private readonly PlayerInputPresenter _inputPresenter;
         private readonly PlayerDefencePresenter _defencePresenter;
 
-        public PlayerRootPresenter(PlayerControlsData controlsData)
+        public PlayerRootPresenter(PlayerControlsData controlsData, PlayerDefenceData playerDefenceData)
         {
             _inputPresenter = new PlayerInputPresenter(controlsData);
-            _defencePresenter = new PlayerDefencePresenter(100); // test
+            _defencePresenter = new PlayerDefencePresenter(playerDefenceData);
         }
 
 #region CreaturePresenter
