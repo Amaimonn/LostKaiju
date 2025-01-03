@@ -1,5 +1,3 @@
-using LostKaiju.Gameplay.Configs;
-
 namespace LostKaiju.Infrastructure.Entry.Context
 {
     /// <summary>
@@ -8,7 +6,7 @@ namespace LostKaiju.Infrastructure.Entry.Context
     public class GameplayEnterContext : SceneContext
     {
         public string LevelSceneName;
-        public ICreatureConfig PlayerConfig;
+        public string PlayerConfigPath;
 
         public GameplayEnterContext(string sceneName) : base(sceneName)
         {

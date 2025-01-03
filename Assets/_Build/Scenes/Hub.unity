@@ -579,8 +579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2fa6e666fa76544a7a4072914c1ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerBinderSO: {fileID: 11400000, guid: 8f5f3e58fb3660f44acd75da3b044b85, type: 2}
   _hubViewPrefab: {fileID: 8545207686241835542, guid: 2db9ee2821cde734db75700cda5916d2, type: 3}
+  _playerConfigName: DinoKaiju
 --- !u!4 &1736941828
 Transform:
   m_ObjectHideFlags: 0

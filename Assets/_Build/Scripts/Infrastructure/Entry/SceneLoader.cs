@@ -79,7 +79,6 @@ namespace LostKaiju.Infrastructure.Entry
 
             yield return LoadSceneAsync(levelSceneName, LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelSceneName));
-
             var levelBootstrap = Object.FindAnyObjectByType<LevelBootstrap>();
 
             levelBootstrap.Boot(gameplayEnterContext);

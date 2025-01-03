@@ -1,7 +1,5 @@
-using LostKaiju.Utils;
 using LostKaiju.Gameplay.Creatures.Features;
 using LostKaiju.Gameplay.Creatures.Presenters;
-using LostKaiju.Gameplay.Player.Data;
 using LostKaiju.Gameplay.Creatures.Views;
 using LostKaiju.Gameplay.Player.Behaviour;
 
@@ -12,19 +10,23 @@ namespace LostKaiju.Gameplay.Player
         private readonly PlayerInputPresenter _inputPresenter;
         private readonly PlayerDefencePresenter _defencePresenter;
 
-        public PlayerRootPresenter(PlayerControlsData controlsData, PlayerDefenceData playerDefenceData)
+        public PlayerRootPresenter(PlayerInputPresenter playerInputPresenter, PlayerDefencePresenter playerDefencePresenter)
         {
-            _inputPresenter = new PlayerInputPresenter(controlsData);
-            _defencePresenter = new PlayerDefencePresenter(playerDefenceData);
+            _inputPresenter = playerInputPresenter;
+            _defencePresenter = playerDefencePresenter;
         }
 
 #region CreaturePresenter
-        public override void Bind(CreatureBinder creature, Holder<ICreatureFeature> features)
+        public override void Bind(CreatureBinder creature)
         {
-            base.Bind(creature, features);
+            base.Bind(creature);
 
-            _inputPresenter.Bind(creature, features);
-            _defencePresenter.Bind(creature, features);
+            _inputPresenter.Bind(Creature);
+            _defencePresenter.Bind(Creature);
+
+            var features = Creature.Features;
+            var creatureUpdater = features.Resolve<ICreatureUpdater>();
+            creatureUpdater.SetCreaturePresenter(this);
         }
         
         public override void UpdateLogic()

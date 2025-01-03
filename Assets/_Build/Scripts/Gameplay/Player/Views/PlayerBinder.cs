@@ -8,10 +8,13 @@ using LostKaiju.Gameplay.Creatures.Presenters;
 
 namespace LostKaiju.Gameplay.Player.Views
 {
-    public class PlayerBinder : CreatureBinder
+    public class PlayerBinder : CreatureBinder, ICreatureUpdater
     {    
+#region CreatureBinder
         public override Rigidbody2D Rigidbody => _rigidbody;
         public override Animator Animator => _animator;
+        public override Holder<ICreatureFeature> Features => _features;
+#endregion
 
         [Header("Creature base")]
         [SerializeField] private Rigidbody2D _rigidbody;
@@ -22,39 +25,48 @@ namespace LostKaiju.Gameplay.Player.Views
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private DamageReceiver _damageReceiver;
 
-        [Header("Behaviour")]
-        [SerializeField] private CreaturePresenterSO _presenterConfig;
+        // [Header("Behaviour")]
+        // [SerializeField] private CreaturePresenterSO _presenterConfig;
 
-        protected CreaturePresenter CurrentBehaviour => _currentPresenterConfig == _presenterConfig ? _currentPresenter : SetPresenter(_presenterConfig);
+        // protected CreaturePresenter CurrentBehaviour => _currentPresenterConfig == _presenterConfig ? _currentPresenter : SetPresenter(_presenterConfig);
         
-        protected CreaturePresenterSO _currentPresenterConfig;
+        // protected CreaturePresenterSO _currentPresenterConfig;
         protected CreaturePresenter _currentPresenter;
         protected Holder<ICreatureFeature> _features = new();
+
+#region ICreatureUpdater
+        public void SetCreaturePresenter(CreaturePresenter creaturePresenter)
+        {
+            _currentPresenter = creaturePresenter;
+        }
+#endregion
 
         private void Awake()
         {
             _features.Register<Flipper>(_flipper);
             _features.Register<GroundCheck>(_groundCheck);
             _features.Register<DamageReceiver>(_damageReceiver);
+            _features.Register<ICreatureUpdater>(this);
+            Debug.Log("Player features registered");
         }
 
         private void Update()
         {
-            CurrentBehaviour.UpdateLogic();
+            _currentPresenter?.UpdateLogic();
         }
 
         private void FixedUpdate()
         {
-            CurrentBehaviour.FixedUpdateLogic();
+            _currentPresenter?.FixedUpdateLogic();
         }
 
-        private CreaturePresenter SetPresenter(CreaturePresenterSO config)
-        {
-            Debug.Log("New Presenter set up");
-            _currentPresenterConfig = config;
-            _currentPresenter = config.GetPresenter();
-            _currentPresenter.Bind(this, _features);
-            return _currentPresenter;
-        }
+        // private CreaturePresenter SetPresenter(CreaturePresenterSO config)
+        // {
+        //     Debug.Log("New Presenter set up");
+        //     _currentPresenterConfig = config;
+        //     _currentPresenter = config.GetPresenter();
+        //     _currentPresenter.Bind(this);
+        //     return _currentPresenter;
+        // }
     }
 }

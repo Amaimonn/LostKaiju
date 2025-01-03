@@ -32,10 +32,10 @@ namespace LostKaiju.Gameplay.Player.Behaviour
         }
 
 #region CreaturePresenter
-        public override void Bind(CreatureBinder creature, Holder<ICreatureFeature> features)
+        public override void Bind(CreatureBinder creature)
         {
-            base.Bind(creature, features);
-
+            base.Bind(creature);
+            var features = creature.Features;
             var groundCheck = features.Resolve<GroundCheck>();
             var flipper = features.Resolve<Flipper>();
             
@@ -54,10 +54,10 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             var jumpState = new JumpState();
             var jumpParameters = _controlsData.Jump;
             jumpState.Init(jumpParameters, Creature.Rigidbody);
-            var jumpCooldownTimer = new Timer(_controlsData.Jump.Cooldown, true);
+            var jumpCooldownTimer = new Timer(jumpParameters.Cooldown, true);
             _cooldownTimers.Add(jumpCooldownTimer);
             jumpState.OnEnter.Subscribe( _ => jumpCooldownTimer.Refresh());
-            _jumpInputBufferTimer = new Timer(_controlsData.Jump.InputTimeBufferSize, true);
+            _jumpInputBufferTimer = new Timer(jumpParameters.InputTimeBufferSize, true);
 
             // dash state (optional)
             var dashState = new DashState();

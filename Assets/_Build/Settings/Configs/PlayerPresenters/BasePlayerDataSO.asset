@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4aeee1d4bb3afcb4daeb8c223adc05cc, type: 3}
-  m_Name: CommonPlayerPresenterSO
+  m_Name: BasePlayerDataSO
   m_EditorClassIdentifier: 
-  _playerControlsData:
+  <PlayerControlsData>k__BackingField:
     <Walk>k__BackingField:
       <WalkSpeed>k__BackingField: 15
-      <FrictionForce>k__BackingField: 0.7
+      <FrictionForce>k__BackingField: 0.4
       <Acceleration>k__BackingField: 7
       <Deceleration>k__BackingField: 7
       <AirMultiplier>k__BackingField: 0.5
     <Jump>k__BackingField:
-      <Force>k__BackingField: 10
+      <Force>k__BackingField: 11
       <CoyotteTime>k__BackingField: 0.1
       <Cooldown>k__BackingField: 0.2
       <InputTimeBufferSize>k__BackingField: 0.1
-  _playerDefenceData:
+  <PlayerDefenceData>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <Defence>k__BackingField: 0

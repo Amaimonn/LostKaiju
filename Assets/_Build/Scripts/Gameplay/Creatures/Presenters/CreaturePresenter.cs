@@ -1,5 +1,3 @@
-using LostKaiju.Utils;
-using LostKaiju.Gameplay.Creatures.Features;
 using LostKaiju.Gameplay.Creatures.Views;
 
 namespace LostKaiju.Gameplay.Creatures.Presenters
@@ -7,12 +5,10 @@ namespace LostKaiju.Gameplay.Creatures.Presenters
     public abstract class CreaturePresenter
     {
         public CreatureBinder Creature { get; protected set; }
-        public Holder<ICreatureFeature> Features { get; protected set; }
 
-        public virtual void Bind(CreatureBinder creature, Holder<ICreatureFeature> features)
+        public virtual void Bind(CreatureBinder creature)
         {
             Creature = creature;
-            Features = features;
         }
 
         public virtual void UpdateLogic()
