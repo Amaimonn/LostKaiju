@@ -3,17 +3,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using R3;
 
-using LostKaiju.Infrastructure.Entry.Context;
+using LostKaiju.Infrastructure.SceneBootstrap;
+using LostKaiju.Infrastructure.SceneBootstrap.Context;
 
-namespace LostKaiju.Infrastructure.Entry
+namespace LostKaiju.Infrastructure.Loading
 {
     public class SceneLoader
     {
-        private MonoBehaviour _monoHook;
+        private readonly MonoBehaviour _monoHook;
+        private readonly LoadingScreen _loadingScreen;
 
-        public SceneLoader(MonoBehaviour hook)
+        public SceneLoader(MonoBehaviour hook, LoadingScreen loadingScreen)
         {
             _monoHook = hook;
+            _loadingScreen = loadingScreen;
         }
 
         public IEnumerator LoadStartScene()
@@ -23,6 +26,8 @@ namespace LostKaiju.Infrastructure.Entry
 
         private IEnumerator LoadMainMenu(MainMenuEnterContext mainMenuEnterContext = null)
         {
+            _loadingScreen.Activate();
+            yield return new WaitForSeconds(1);
             yield return LoadSceneAsync(Scenes.GAP);
             yield return LoadSceneAsync(Scenes.MAIN_MENU);
 
@@ -35,10 +40,13 @@ namespace LostKaiju.Infrastructure.Entry
             {
                 _monoHook.StartCoroutine(LoadHub(mainMenuExitContext.HubEnterContext));
             });
+            _loadingScreen.Deactivate();
         }
 
         private IEnumerator LoadHub(HubEnterContext hubEnterContext)
         {
+            _loadingScreen.Activate();
+            yield return new WaitForSeconds(1);
             yield return LoadSceneAsync(Scenes.GAP);
             yield return LoadSceneAsync(Scenes.HUB);
 
@@ -58,10 +66,13 @@ namespace LostKaiju.Infrastructure.Entry
                     _monoHook.StartCoroutine(LoadGameplay(hubExitContext.ToSceneContext as GameplayEnterContext));
                 }
             });
+            _loadingScreen.Deactivate();
         }
 
         private IEnumerator LoadGameplay(GameplayEnterContext gameplayEnterContext)
         {
+            _loadingScreen.Activate();
+            yield return new WaitForSeconds(1);
             yield return LoadSceneAsync(Scenes.GAP);
             yield return LoadSceneAsync(Scenes.GAMEPLAY);
 
@@ -84,6 +95,7 @@ namespace LostKaiju.Infrastructure.Entry
             levelBootstrap.Boot(gameplayEnterContext);
 
             Debug.Log($"{gameplayEnterContext.LevelSceneName} scene loaded additively");
+            _loadingScreen.Deactivate();
         }
 
         private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode=LoadSceneMode.Single)

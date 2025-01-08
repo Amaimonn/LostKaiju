@@ -15,12 +15,12 @@ MonoBehaviour:
   <PlayerControlsData>k__BackingField:
     <Walk>k__BackingField:
       <WalkSpeed>k__BackingField: 15
-      <FrictionForce>k__BackingField: 0.4
+      <FrictionForce>k__BackingField: 0.7
       <Acceleration>k__BackingField: 7
       <Deceleration>k__BackingField: 7
       <AirMultiplier>k__BackingField: 0.5
     <Jump>k__BackingField:
-      <Force>k__BackingField: 11
+      <Force>k__BackingField: 10
       <CoyotteTime>k__BackingField: 0.1
       <Cooldown>k__BackingField: 0.2
       <InputTimeBufferSize>k__BackingField: 0.1

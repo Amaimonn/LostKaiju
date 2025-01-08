@@ -1,4 +1,4 @@
-namespace LostKaiju.Infrastructure.Entry.Context
+namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {
     public class HubExitContext
     {

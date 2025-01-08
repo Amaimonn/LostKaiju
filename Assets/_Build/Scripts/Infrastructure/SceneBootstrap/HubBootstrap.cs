@@ -1,12 +1,12 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Infrastructure.Entry.Context;
+using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Models.Locator;
 using LostKaiju.Models.UI.MVVM;
 using LostKaiju.Gameplay.UI.MVVM.Hub;
 
-namespace LostKaiju.Infrastructure.Entry
+namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class HubBootstrap : MonoBehaviour
     {
@@ -18,8 +18,6 @@ namespace LostKaiju.Infrastructure.Entry
             var hubView = Instantiate(_hubViewPrefab);
             var uiRootBinder = ServiceLocator.Current.Get<UIRootBinder>();
 
-            uiRootBinder.SetView(hubView);
-
             var exitSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)
             {
@@ -30,7 +28,8 @@ namespace LostKaiju.Infrastructure.Entry
             var hubViewModel = new HubViewModel(exitSignal);
 
             hubView.Bind(hubViewModel);
-
+            uiRootBinder.SetViews(hubView);
+            
             return hubExitSignal;
         }
     }

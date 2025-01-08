@@ -1,4 +1,4 @@
-namespace LostKaiju.Infrastructure.Entry
+namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public abstract class SceneContext
     {

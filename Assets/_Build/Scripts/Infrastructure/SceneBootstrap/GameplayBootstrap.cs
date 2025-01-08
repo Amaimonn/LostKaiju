@@ -1,13 +1,13 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Infrastructure.Entry.Context;
+using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Models.Locator;
 using LostKaiju.Models.UI.MVVM;
 using LostKaiju.Gameplay.UI.MVVM.Gameplay;
 using LostKaiju.Gameplay.Player.Data.Model;
 
-namespace LostKaiju.Infrastructure.Entry
+namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     /// <summary>
     /// General Bootstrap for gameplay levels set up
@@ -25,10 +25,10 @@ namespace LostKaiju.Infrastructure.Entry
             var uiRootBinder = ServiceLocator.Current.Get<UIRootBinder>();
             var playerLiveParameters = new PlayerLiveParametersModel();
             var gameplayViewModel = new GameplayViewModel(playerLiveParameters);
-            var gameplayView = Instantiate(_gameplayViewPrefab).GetComponent<GameplayView>();
+            var gameplayView = Instantiate(_gameplayViewPrefab);
 
             gameplayView.Bind(gameplayViewModel);
-            uiRootBinder.SetView(gameplayView);
+            uiRootBinder.SetViews(gameplayView);
 
 # if MOBILE_BUILD || UNITY_EDITOR
             var mobileControls = Instantiate(_mobileControlsPrefab);

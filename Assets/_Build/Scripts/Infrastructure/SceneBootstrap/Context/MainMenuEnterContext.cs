@@ -1,4 +1,4 @@
-namespace LostKaiju.Infrastructure.Entry.Context
+namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {
     /// <summary>
     /// Info to enter main menu scene

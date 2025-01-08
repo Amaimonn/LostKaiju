@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 using LostKaiju.Models.Locator;
 using LostKaiju.Infrastructure.Providers.Inputs;
+using LostKaiju.Infrastructure.SceneBootstrap;
 
 namespace LostKaiju.Infrastructure.Entry
 {

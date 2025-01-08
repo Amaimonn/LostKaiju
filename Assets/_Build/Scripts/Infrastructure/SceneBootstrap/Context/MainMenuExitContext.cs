@@ -1,4 +1,4 @@
-namespace LostKaiju.Infrastructure.Entry.Context
+namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {
     /// <summary>
     /// Info to enter the Hub scene from the Main menu. Exiting the Main menu leads to the Hub.

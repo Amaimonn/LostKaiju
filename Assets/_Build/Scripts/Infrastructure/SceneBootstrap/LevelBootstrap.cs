@@ -1,12 +1,12 @@
 using UnityEngine;
 using Unity.Cinemachine;
 
-using LostKaiju.Infrastructure.Entry.Context;
+using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Gameplay.Player;
 using LostKaiju.Gameplay.Configs;
 using LostKaiju.Gameplay.Player.Behaviour;
 
-namespace LostKaiju.Infrastructure.Entry
+namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class LevelBootstrap : MonoBehaviour
     {

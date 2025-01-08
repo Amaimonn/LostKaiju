@@ -13,24 +13,39 @@ namespace LostKaiju.Models.UI.MVVM
         [SerializeField] private VisualElement _visualElementRoot;
         [SerializeField] private string _visualElementRootName;
 
-        public void SetView(View view)
+        public void SetViews(View view)
         {
             ClearViews();
-            view.Attach(this);
+            AddViews(view);
         }
 
         public void SetViews(IEnumerable<View> views)
         {
             ClearViews();
+            AddViews(views);
+        }
+
+        public void SetViews(params View[] views)
+        {
+            ClearViews();
+            AddViews(views);
+        }
+
+        public void AddViews(View view)
+        {
+            view.Attach(this);
+        }
+
+        public void AddViews(params View[] views)
+        {
             foreach (var view in views)
             {
                 view.Attach(this);
             }
         }
 
-        public void SetViews(params View[] views)
+        public void AddViews(IEnumerable<View> views)
         {
-            ClearViews();
             foreach (var view in views)
             {
                 view.Attach(this);
@@ -47,7 +62,7 @@ namespace LostKaiju.Models.UI.MVVM
 #region IRootUI
 /// <summary>
 /// This is only used by UI Tookkit Views in terms of implementation Visiter pattern. 
-/// For the scene UI binding use SetView or SetViews method instead.
+/// For the scene UI binding use SetViews or AddViews method instead.
 /// </summary>
 /// <param name="visualElement"></param>
         public void Attach(VisualElement visualElement)
@@ -57,7 +72,7 @@ namespace LostKaiju.Models.UI.MVVM
 
 /// <summary>
 /// This is only used by Canvas Views in terms of implementation Visiter pattern. 
-/// For the scene UI binding use SetView or SetViews method instead.
+/// For the scene UI binding use SetViews or AddViews method instead.
 /// </summary>
 /// <param name="gameObjectUI"></param>
 
