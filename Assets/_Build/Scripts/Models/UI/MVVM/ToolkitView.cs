@@ -13,6 +13,13 @@ public abstract class ToolkitView<T> : View<T> where T : IViewModel
     {
         rootUI.Attach(_root);
     }
+
+    public sealed override void Detach(IRootUI rootUI)
+    {
+        rootUI.Detach(_root);
+        Dispose();
+        Destroy(gameObject);
+    }
 #endregion
 
 #region MonoBehaviour
@@ -21,8 +28,14 @@ public abstract class ToolkitView<T> : View<T> where T : IViewModel
         _root = _visualTreeAsset.CloneTree();
         var lenght = Length.Percent(100);
         
+        _root.style.position = Position.Absolute;
         _root.style.width = lenght;
         _root.style.height = lenght;
+        OnAwake();
     }
 #endregion
+
+    protected virtual void OnAwake()
+    {
+    }
 }

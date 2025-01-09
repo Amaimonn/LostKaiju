@@ -5,19 +5,19 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
 {
     public class HubView : ToolkitView<HubViewModel>
     {
-        [SerializeField] private string _startGameplayElementName;
+        [SerializeField] private string _openMissionsElementName;
 
-        private VisualElement _startGameplayElement;
+        private VisualElement _openMissionsElement;
 
         protected override void OnBind(HubViewModel viewModel)
         {
-            _startGameplayElement = _root.Q<VisualElement>(name: _startGameplayElementName);
-            _startGameplayElement.RegisterCallback<ClickEvent>(StartGameplay);
+            _openMissionsElement = _root.Q<VisualElement>(name: _openMissionsElementName);
+            _openMissionsElement.RegisterCallback<ClickEvent>(OpenMissions);
         }
 
-        private void StartGameplay(ClickEvent clickEvent)
+        private void OpenMissions(ClickEvent clickEvent)
         {
-            _viewModel.StartGameplay();
+            _viewModel.OpenMissions();
         }
     }
 }

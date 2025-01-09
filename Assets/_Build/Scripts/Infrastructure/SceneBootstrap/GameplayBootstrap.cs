@@ -22,18 +22,18 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
             var exitGameplaySignal = new Subject<GameplayExitContext>();
-            var uiRootBinder = ServiceLocator.Current.Get<UIRootBinder>();
+            var uiRootBinder = ServiceLocator.Current.Get<IRootUIBinder>();
             var playerLiveParameters = new PlayerLiveParametersModel();
             var gameplayViewModel = new GameplayViewModel(playerLiveParameters);
             var gameplayView = Instantiate(_gameplayViewPrefab);
 
             gameplayView.Bind(gameplayViewModel);
-            uiRootBinder.SetViews(gameplayView);
+            uiRootBinder.SetView(gameplayView);
 
-# if MOBILE_BUILD || UNITY_EDITOR
-            var mobileControls = Instantiate(_mobileControlsPrefab);
-            uiRootBinder.Attach(mobileControls); // TODO: add view for mobile controls and use SetViews method
-# endif
+// # if MOBILE_BUILD || UNITY_EDITOR
+//             var mobileControls = Instantiate(_mobileControlsPrefab);
+//             uiRootBinder.Attach(mobileControls); // TODO: add view for mobile controls and use SetViews method
+// # endif
             return exitGameplaySignal;
         }
     }

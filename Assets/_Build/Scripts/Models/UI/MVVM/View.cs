@@ -6,6 +6,7 @@ namespace LostKaiju.Models.UI.MVVM
     public abstract class View : MonoBehaviour, IDisposable
     {
         public abstract void Attach(IRootUI rootUI);
+        public abstract void Detach(IRootUI rootUI);
 
         public virtual void Dispose()
         {

@@ -6,5 +6,10 @@ namespace LostKaiju.Models.UI.MVVM
         {
             rootUI.Attach(gameObject);
         }
+
+        public sealed override void Detach(IRootUI rootUI)
+        {
+            rootUI.Detach(gameObject);
+        }
     }
 }

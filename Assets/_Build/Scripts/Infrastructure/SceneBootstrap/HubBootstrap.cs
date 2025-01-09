@@ -16,7 +16,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
             var hubView = Instantiate(_hubViewPrefab);
-            var uiRootBinder = ServiceLocator.Current.Get<UIRootBinder>();
+            var uiRootBinder = ServiceLocator.Current.Get<IRootUIBinder>();
 
             var exitSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)
@@ -28,7 +28,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubViewModel = new HubViewModel(exitSignal);
 
             hubView.Bind(hubViewModel);
-            uiRootBinder.SetViews(hubView);
+            uiRootBinder.SetView(hubView);
             
             return hubExitSignal;
         }

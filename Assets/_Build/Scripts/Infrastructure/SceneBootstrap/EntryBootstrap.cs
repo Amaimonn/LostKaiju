@@ -12,7 +12,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     /// </summary>
     public class EntryBootstrap : MonoBehaviour
     {
-        [SerializeField] private UIRootBinder _uiRootBinderPrefab;
+        [SerializeField] private RootUIBinder _uiRootBinderPrefab;
         private MonoBehaviourHook _monoHook;
         
         public void Boot()
@@ -20,8 +20,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             _monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
             DontDestroyOnLoad(_monoHook);
 
+            var serviceLocator = ServiceLocator.Current;
+            
             var uiRootBinder = Instantiate(_uiRootBinderPrefab);
-            ServiceLocator.Current.Register(uiRootBinder);
+            serviceLocator.Register<IRootUIBinder>(uiRootBinder);
             DontDestroyOnLoad(uiRootBinder);
             
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();

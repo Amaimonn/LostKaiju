@@ -20,11 +20,11 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             
             mainMenuViewModel.Bind(mainMenuModel);
 
-            var rootBinder = ServiceLocator.Current.Get<UIRootBinder>();
+            var rootBinder = ServiceLocator.Current.Get<IRootUIBinder>();
             var mainMenuView = Instantiate(_mainMenuUI).GetComponent<MainMenuView>();
 
             mainMenuView.Bind(mainMenuViewModel);
-            rootBinder.SetViews(mainMenuView);
+            rootBinder.SetView(mainMenuView);
             
             // define context in UI
             var hubEnterContext = new HubEnterContext();

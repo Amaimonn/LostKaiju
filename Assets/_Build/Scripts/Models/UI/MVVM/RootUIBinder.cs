@@ -2,21 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using LostKaiju.Models.Locator;
-
 namespace LostKaiju.Models.UI.MVVM
 {
-    public class UIRootBinder : MonoBehaviour, IRootUI, IService
+    public class RootUIBinder : MonoBehaviour, IRootUIBinder, IRootUI
     {
         [SerializeField] private UIDocument _document;
         [SerializeField] private Transform _canvasUiRoot;
         [SerializeField] private VisualElement _visualElementRoot;
         [SerializeField] private string _visualElementRootName;
 
-        public void SetViews(View view)
+#region IRootUIBinder
+        public void SetView(View view)
         {
             ClearViews();
-            AddViews(view);
+            AddView(view);
         }
 
         public void SetViews(IEnumerable<View> views)
@@ -31,7 +30,7 @@ namespace LostKaiju.Models.UI.MVVM
             AddViews(views);
         }
 
-        public void AddViews(View view)
+        public void AddView(View view)
         {
             view.Attach(this);
         }
@@ -50,6 +49,33 @@ namespace LostKaiju.Models.UI.MVVM
             {
                 view.Attach(this);
             }
+        }
+
+        public void ClearView(View view)
+        {
+            view.Detach(this);
+        }
+
+        public void ClearViews()
+        {
+            ClearToolkitViews();
+            ClearCanvasViews();
+        }
+#endregion
+
+        private void ClearCanvasViews()
+        {
+            int childrenAmount = _canvasUiRoot.childCount;
+
+            for (int i = childrenAmount-1; i >=0; i--)
+            {
+                Destroy(_canvasUiRoot.GetChild(i).gameObject);
+            }
+        }
+
+        private void ClearToolkitViews()
+        {
+            _visualElementRoot.Clear();
         }
 
 #region MonoBehaviour
@@ -80,27 +106,16 @@ namespace LostKaiju.Models.UI.MVVM
         {
             gameObjectUI.transform.SetParent(_canvasUiRoot, false);
         }
+
+        public void Detach(VisualElement visualElement)
+        {
+            _visualElementRoot.Remove(visualElement);
+        }
+
+        public void Detach(GameObject gameObjectUI)
+        {
+            Destroy(gameObjectUI);
+        }
 #endregion
-
-        public void ClearViews()
-        {
-            ClearToolkitViews();
-            ClearCanvasViews();
-        }
-
-        private void ClearCanvasViews()
-        {
-            int childrenAmount = _canvasUiRoot.childCount;
-
-            for (int i = childrenAmount-1; i >=0; i--)
-            {
-                Destroy(_canvasUiRoot.GetChild(i).gameObject);
-            }
-        }
-
-        private void ClearToolkitViews()
-        {
-            _visualElementRoot.Clear();
-        }
     }
 }

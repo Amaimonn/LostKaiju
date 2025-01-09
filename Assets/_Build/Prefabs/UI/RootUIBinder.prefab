@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 7586262454697505817}
   - component: {fileID: 3027197294014773955}
   m_Layer: 5
-  m_Name: UIRootBinder
+  m_Name: RootUIBinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
