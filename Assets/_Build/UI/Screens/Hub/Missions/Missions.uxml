@@ -5,12 +5,33 @@
         <engine:VisualElement name="Content" class="missions-content missions-content__transitions">
             <engine:VisualElement name="TopBar" class="content__top-bar">
                 <engine:Label text="Missions" name="Label" class="missions-content__label" />
-                <engine:Button text="X" name="CloseButton" class="close-button" />
+                <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
             </engine:VisualElement>
             <engine:VisualElement name="Panel" class="missions-panel">
-                <engine:VisualElement name="Grid" class="missions-panel__grid" />
+                <engine:VisualElement name="MissionInfoContainer" class="mission-info-container" style="align-items: center;">
+                    <engine:VisualElement name="MissionParagraph" style="flex-grow: 1; margin-top: 20px;">
+                        <engine:Label text="Some mission" name="MissionLabel" style="-unity-font-definition: resource(&apos;Fonts/Play-Regular&apos;); color: rgb(255, 255, 255); font-size: 32px;" />
+                        <engine:Label text="Some mission text, e.g. it`s location description, useful tips, gameplay mechanics, resources information and etc." name="MissionText" style="font-size: 24px; color: rgb(255, 255, 255); -unity-font-definition: resource(&apos;Fonts/Play-Regular&apos;); width: 600px; white-space: normal;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement name="Slider" class="missions-slider">
+                    <engine:Button text="&lt;" name="SliderLeftButton" class="missions-slider__button missions-slider-button--left button-transitions-base" />
+                    <engine:VisualElement name="Grid" class="missions-grid">
+                        <engine:Button text="1" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="2" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="3" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="4" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="5" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="6" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="7" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="8" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="9" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                        <engine:Button text="10" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                    </engine:VisualElement>
+                    <engine:Button text="&gt;" name="SliderRightButton" class="missions-slider__button missions-slider-button--right button-transitions-base" />
+                </engine:VisualElement>
                 <engine:VisualElement name="BottomBar" class="panel__bottom-bar">
-                    <engine:Button text="Start" name="StartButton" class="start-button" />
+                    <engine:Button text="Start" name="StartButton" class="start-button button-transitions-base" />
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>

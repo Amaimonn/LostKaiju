@@ -1,3 +1,16 @@
+.button-transitions-base {
+    transition-property: border-color, scale;
+    transition-duration: 0.1s, 0.1s;
+}
+
+.button-transitions-base:hover {
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    scale: 1.07 1.07;
+}
+
 .overlay-image {
     flex-grow: 1;
     width: 100%;
@@ -16,8 +29,9 @@
 .missions-content {
     flex-grow: 1;
     align-self: center;
-    width: 1400px;
+    width: 100%;
     justify-content: center;
+    max-width: 1400px;
 }
 
 .missions-panel {
@@ -28,10 +42,10 @@
     border-right-width: 8px;
     border-bottom-width: 8px;
     border-left-width: 8px;
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
+    border-left-color: rgb(220, 220, 220);
+    border-right-color: rgb(220, 220, 220);
     border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(200, 200, 200);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -42,6 +56,10 @@
     height: 100%;
     transition-property: opacity translate;
     transition-duration: 0.4s 0.4s;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
 }
 
 .missions-content__label {
@@ -58,10 +76,6 @@
     position: relative;
     flex-grow: 0;
     align-self: flex-start;
-}
-
-.missions-panel__grid {
-    flex-grow: 1;
 }
 
 .missions-panel--disabled {
@@ -104,24 +118,23 @@
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
     background-color: rgb(37, 37, 37);
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
-    border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
+    border-left-color: rgb(180, 180, 180);
+    border-right-color: rgb(180, 180, 180);
+    border-top-color: rgb(180, 180, 180);
+    border-bottom-color: rgb(180, 180, 180);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
 }
 
+.close-button:hover {
+}
+
 .panel__bottom-bar {
     flex-grow: 1;
     align-content: flex-end;
     max-height: 60px;
-    padding-top: 6px;
-    padding-right: 6px;
-    padding-bottom: 6px;
-    padding-left: 6px;
 }
 
 .start-button {
@@ -138,4 +151,101 @@
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
+    border-left-color: rgb(180, 180, 180);
+    border-right-color: rgb(180, 180, 180);
+    border-top-color: rgb(180, 180, 180);
+    border-bottom-color: rgb(180, 180, 180);
+}
+
+.start-button:hover {
+}
+
+.mission-info-container {
+    flex-grow: 1;
+}
+
+.missions-slider {
+    flex-direction: row;
+    align-items: stretch;
+    margin-bottom: 40px;
+    align-self: center;
+    height: 150px;
+    align-content: flex-start;
+    margin-right: 0;
+    margin-left: 0;
+    justify-content: center;
+    width: 70%;
+}
+
+.missions-slider__button {
+    background-color: rgb(37, 37, 37);
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    -unity-font-definition: resource('Fonts/Play-Regular');
+    font-size: 64px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-left-color: rgb(180, 180, 180);
+    border-right-color: rgb(180, 180, 180);
+    border-top-color: rgb(180, 180, 180);
+    border-bottom-color: rgb(180, 180, 180);
+    height: 150px;
+}
+
+.missions-slider__button:hover {
+}
+
+.missions-slider-button--left {
+    margin-right: 10px;
+}
+
+.missions-slider-button--right {
+    margin-left: 10px;
+}
+
+.missions-grid {
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    align-content: auto;
+    align-items: stretch;
+    align-self: auto;
+}
+
+.select-mission-button {
+    height: 70px;
+    background-color: rgb(37, 37, 37);
+    -unity-font-definition: resource('Fonts/Play-Regular');
+    font-size: 32px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 0;
+    width: 17%;
+    border-left-color: rgb(63, 63, 63);
+    border-right-color: rgb(63, 63, 63);
+    border-top-color: rgb(63, 63, 63);
+    border-bottom-color: rgb(63, 63, 63);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    flex-grow: 1;
+}
+
+.select-mission-button:hover {
+    scale: 1.05 1.05;
 }
