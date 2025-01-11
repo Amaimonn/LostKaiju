@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 
+using LostKaiju.Gameplay.GameData.Missions;
+
 namespace LostKaiju.Gameplay.UI.MVVM.Hub
 {
     public class MissionsView : ToolkitView<MissionsViewModel>
@@ -10,11 +12,19 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         [SerializeField] private string _contentElementName;
         [SerializeField] private string _startButtonName;
         [SerializeField] private string _closeButtonName;
+        [SerializeField] private string _selectedMissionLabelName;
+        [SerializeField] private string _selectedMissionTextName;
         [SerializeField] private string _contentStyleName;
+        [SerializeField] private string _missionsGridName;
+        [SerializeField] private string _baseButtonStyleName;
+        [SerializeField] private string _missionButtonStyleName;
 
         private Button _startButton;
         private Button _closeButton;
         private VisualElement _contentElement;
+        private Label _selectedMissionLabel;
+        private Label _selectedMissionText;
+        private VisualElement _missionsGrid;
         private bool _isGameplayStarted = false;
         private bool _isClosing = false;
 
@@ -23,9 +33,13 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
             _contentElement = _root.Q<VisualElement>(name: _contentElementName);
             _startButton = _root.Q<Button>(name: _startButtonName);
             _closeButton = _root.Q<Button>(name: _closeButtonName);
+            _selectedMissionLabel = _root.Q<Label>(name: _selectedMissionLabelName);
+            _selectedMissionText = _root.Q<Label>(name: _selectedMissionTextName);
+            _missionsGrid = _root.Q<VisualElement>(name: _missionsGridName);
 
             _contentElement.AddToClassList($"{_contentStyleName}--disabled");
-            _contentElement.RegisterCallback<TransitionEndEvent>(_ => {
+            _contentElement.RegisterCallback<TransitionEndEvent>(_ =>
+            {
                 if (_isClosing)
                     _viewModel.CompleteClose();
             });
@@ -34,9 +48,22 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         protected override void OnBind(MissionsViewModel viewModel)
         {
             _startButton.RegisterCallback<ClickEvent>(_ => StartGameplay());
-            _closeButton.RegisterCallback<ClickEvent>(_ =>  Close());
+            _closeButton.RegisterCallback<ClickEvent>(_ => Close());
+
+            foreach (var mission in _viewModel.DisplayedMissions)
+            {
+                var missionButton = new Button
+                {
+                    text = mission.DysplayedNumber,
+                };
+                missionButton.RegisterCallback<ClickEvent>(_ => _viewModel.SelectMission(mission));
+                missionButton.AddToClassList(_baseButtonStyleName);
+                missionButton.AddToClassList(_missionButtonStyleName);
+                _missionsGrid.Add(missionButton);
+            }
 
             _viewModel.OnOpenStateChanged.Skip(1).Subscribe(e => OnOpedStateChanged(e));
+            _viewModel.SelectedMission.Subscribe(OnMissionSelected);
         }
 
         private void StartGameplay()
@@ -80,6 +107,12 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
             _isClosing = true;
             _contentElement.AddToClassList($"{_contentStyleName}--disabled");
             Debug.Log("Missions: closed");
+        }
+
+        private void OnMissionSelected(MissionData missionModel)
+        {
+            _selectedMissionLabel.text = missionModel.Name;
+            _selectedMissionText.text = missionModel.Text;
         }
     }
 }

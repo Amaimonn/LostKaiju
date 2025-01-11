@@ -48,4 +48,9 @@ MonoBehaviour:
   _contentElementName: Content
   _startButtonName: StartButton
   _closeButtonName: CloseButton
+  _selectedMissionLabelName: MissionLabel
+  _selectedMissionTextName: MissionText
   _contentStyleName: missions-content
+  _missionsGridName: MissionsGrid
+  _baseButtonStyleName: button-transitions-base
+  _missionButtonStyleName: select-mission-button

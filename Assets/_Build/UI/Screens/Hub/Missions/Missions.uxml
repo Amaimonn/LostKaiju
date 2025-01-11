@@ -16,17 +16,8 @@
                 </engine:VisualElement>
                 <engine:VisualElement name="Slider" class="missions-slider">
                     <engine:Button text="&lt;" name="SliderLeftButton" class="missions-slider__button missions-slider-button--left button-transitions-base" />
-                    <engine:VisualElement name="Grid" class="missions-grid">
-                        <engine:Button text="1" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="2" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="3" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="4" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="5" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="6" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="7" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="8" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="9" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
-                        <engine:Button text="10" name="SelectMissionButton" class="select-mission-button button-transitions-base" />
+                    <engine:VisualElement name="MissionsGrid" class="missions-grid">
+                        <engine:Button text="1" name="SelectMissionButton" enabled="true" class="select-mission-button button-transitions-base" style="display: none;" />
                     </engine:VisualElement>
                     <engine:Button text="&gt;" name="SliderRightButton" class="missions-slider__button missions-slider-button--right button-transitions-base" />
                 </engine:VisualElement>
