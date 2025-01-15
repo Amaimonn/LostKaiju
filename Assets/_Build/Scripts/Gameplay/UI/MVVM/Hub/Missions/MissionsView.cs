@@ -9,6 +9,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
 {
     public class MissionsView : ToolkitView<MissionsViewModel>
     {
+        [Header("UI Elements")]
         [SerializeField] private string _contentElementName;
         [SerializeField] private string _startButtonName;
         [SerializeField] private string _closeButtonName;
@@ -19,6 +20,10 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         [SerializeField] private string _baseButtonStyleName;
         [SerializeField] private string _missionButtonStyleName;
 
+        [Header("SFX")]
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _buttonHoverSFX;
+        
         private Button _startButton;
         private Button _closeButton;
         private VisualElement _contentElement;
@@ -57,6 +62,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
                     text = mission.DysplayedNumber,
                 };
                 missionButton.RegisterCallback<ClickEvent>(_ => _viewModel.SelectMission(mission));
+                missionButton.RegisterCallback<PointerEnterEvent>(_ => PlayButtonHoverSFX());
                 missionButton.AddToClassList(_baseButtonStyleName);
                 missionButton.AddToClassList(_missionButtonStyleName);
                 _missionsGrid.Add(missionButton);
@@ -113,6 +119,12 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         {
             _selectedMissionLabel.text = missionModel.Name;
             _selectedMissionText.text = missionModel.Text;
+        }
+
+        private void PlayButtonHoverSFX()
+        {
+            _audioSource.pitch = Random.Range(0.9f, 1.1f);
+            _audioSource.PlayOneShot(_buttonHoverSFX);
         }
     }
 }

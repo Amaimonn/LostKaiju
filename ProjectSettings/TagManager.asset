@@ -41,6 +41,12 @@ TagManager:
   - name: Background
     uniqueID: 1383418553
     locked: 0
+  - name: WorldBackground
+    uniqueID: 393082647
+    locked: 0
+  - name: World
+    uniqueID: 3164980305
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -50,7 +56,7 @@ TagManager:
   - name: Player
     uniqueID: 1480751013
     locked: 0
-  - name: Foreground
+  - name: WorldForeground
     uniqueID: 679285627
     locked: 0
   m_RenderingLayers:

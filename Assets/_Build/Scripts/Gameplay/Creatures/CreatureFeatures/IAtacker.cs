@@ -4,7 +4,7 @@ namespace LostKaiju.Gameplay.Creatures.Features
 {
     public interface IAttacker : ICreatureFeature
     {
-        public Observable<Unit> OnFinish { get; }
+        public Observable<Unit> OnAttackCompleted { get; }
         
         public void Attack();
     }

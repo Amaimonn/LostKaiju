@@ -115,7 +115,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5145336030537866132}
-  m_Father: {fileID: 4914689617381586326}
+  m_Father: {fileID: 4669615186898659695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7044714958022081357
 MonoBehaviour:
@@ -241,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5145336030537866132}
   - component: {fileID: 5521913326813688630}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: AtackArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,10 +342,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7622937402865464917}
-  - {fileID: 1096859403744559564}
   - {fileID: 4884114573771679061}
   - {fileID: 3623745480091100908}
+  - {fileID: 4669615186898659695}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &965660318376974116
@@ -435,10 +434,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2143187253820395415}
   _animator: {fileID: 6690856542506860452}
-  _flipper: {fileID: 246798485738682584}
+  _flipper: {fileID: 722831791197029365}
   _groundCheck: {fileID: 6183724006927231869}
   _damageReceiver: {fileID: 224813660141403052}
-  _presenterConfig: {fileID: 11400000, guid: 51db8654bf7021048ab2decf7727106c, type: 2}
+  _attacker: {fileID: 7044714958022081357}
 --- !u!114 &224813660141403052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,13 +450,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b147d9cf10f93d4499915415192b01cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &9007484559777938258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4669615186898659695}
+  - component: {fileID: 722831791197029365}
+  m_Layer: 8
+  m_Name: Flipper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4669615186898659695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007484559777938258}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1096859403744559564}
+  - {fileID: 7622937402865464917}
+  m_Father: {fileID: 4914689617381586326}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &722831791197029365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007484559777938258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dbc28d214a88cf4ca2c97298f6cd218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isInitialLookingToTheRight: 1
 --- !u!1001 &9143937978568036235
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4914689617381586326}
+    m_TransformParent: {fileID: 4669615186898659695}
     m_Modifications:
     - target: {fileID: -9210781201902839133, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_Layer
@@ -854,9 +900,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6690856542506860452}
-    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 246798485738682584}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
 --- !u!4 &7622937402865464917 stripped
 Transform:
@@ -890,16 +933,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &246798485738682584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8719537304061799990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dbc28d214a88cf4ca2c97298f6cd218, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isInitialLookingToTheRight: 1

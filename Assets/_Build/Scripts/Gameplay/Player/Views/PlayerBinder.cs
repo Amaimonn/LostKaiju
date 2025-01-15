@@ -24,6 +24,7 @@ namespace LostKaiju.Gameplay.Player.Views
         [SerializeField] private Flipper _flipper;
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private DamageReceiver _damageReceiver;
+        [SerializeField] private Attacker _attacker;
 
         // [Header("Behaviour")]
         // [SerializeField] private CreaturePresenterSO _presenterConfig;
@@ -47,6 +48,7 @@ namespace LostKaiju.Gameplay.Player.Views
             _features.Register<GroundCheck>(_groundCheck);
             _features.Register<DamageReceiver>(_damageReceiver);
             _features.Register<ICreatureUpdater>(this);
+            _features.Register<IAttacker>(_attacker);
             Debug.Log("Player features registered");
         }
 

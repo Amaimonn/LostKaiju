@@ -14,6 +14,7 @@ using LostKaiju.Gameplay.Player.Data.StateParameters;
 using LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Gameplay.Creatures.Views;
 using System.Collections.Generic;
+using System;
 
 namespace LostKaiju.Gameplay.Player.Behaviour
 {
@@ -25,6 +26,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
         private readonly List<Timer> _cooldownTimers = new(2);
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
+        private bool _readAttack;
 
         public PlayerInputPresenter(PlayerControlsData controlsData)
         {
@@ -38,6 +40,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             var features = creature.Features;
             var groundCheck = features.Resolve<GroundCheck>();
             var flipper = features.Resolve<Flipper>();
+            var attacker = features.Resolve<IAttacker>();
             
             _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
 
@@ -67,10 +70,21 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             _cooldownTimers.Add(dashCooldownTimer);
             dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
 
+            // attack state
+            var attackState = new AttackState();
+            // var attackParameters = _controlsData.Attack;
+            attackState.Init(attacker);
+            
+
             BindAnimations(idleState, walkState, jumpState);
 
             var transitions = new IFiniteTransition[]
             {
+                new SameForMultipleTransition<AttackState>(
+                    () => _readAttack && attackState.IsAttackReady.CurrentValue, 
+                    new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
+                
+                new FiniteTransition<AttackState, IdleState>(() => attackState.IsAttackCompleted.CurrentValue),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && groundCheck.IsGrounded 
                     && jumpCooldownTimer.IsCompleted),
                 new FiniteTransition<JumpState, WalkState>(() => _inputProvider.GetHorizontal != 0),
@@ -88,7 +102,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             var observableTransitions = new ObservableList<IFiniteTransition>(transitions);
 
             _finiteStateMachine = new BaseFiniteStateMachine();
-            _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState);
+            _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState, attackState);
             _finiteStateMachine.AddTransitions(observableTransitions);
             
             _finiteStateMachine.Init(typeof(IdleState));
@@ -109,6 +123,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             {
                 _jumpInputBufferTimer.Refresh();
             }
+            _readAttack = _inputProvider.GetAttack;
         }
 
         public override void FixedUpdateLogic()

@@ -1,4 +1,4 @@
-.container {
+.wrapper {
     position: relative;
     align-content: auto;
     justify-content: flex-start;
@@ -10,14 +10,17 @@
 }
 
 .game-label {
-    -unity-text-align: upper-center;
+    -unity-text-align: middle-center;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&guid=74a5091d8707f334b9a5c31ef71a64ba&type=3#PerfectDOSVGA437");
+    -unity-font-definition: url("project://database/Assets/_Build/UI/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
     font-size: 200px;
     white-space: pre;
     align-self: center;
-    -unity-font-style: normal;
-    margin-top: 140px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    flex-grow: 0.4;
+    text-shadow: 0 18px 0 rgb(0, 0, 0);
 }
 
 .background-image {
@@ -33,7 +36,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: url("project://database/Assets/_Build/Art/Images/black_city_parallax_background1.png?fileID=2800000&guid=d794614260162a1429460426f6e7eb04&type=3#black_city_parallax_background1");
+    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/Environment/black_city_parallax_background1.png?fileID=2800000&guid=d794614260162a1429460426f6e7eb04&type=3#black_city_parallax_background1");
     flex-shrink: 0;
     background-repeat: repeat no-repeat;
     -unity-background-image-tint-color: rgba(0, 0, 0, 0.86);
@@ -41,22 +44,43 @@
     background-position-y: bottom 0;
 }
 
-.play-button {
-    width: 180px;
+.buttons-container {
+    flex-grow: 1;
+    align-self: auto;
+    justify-content: center;
+}
+
+.menu-button {
+    width: 200px;
     height: 64px;
     align-self: center;
-    bottom: 120px;
-    position: absolute;
+    position: relative;
     font-size: 32px;
     -unity-font-style: bold;
-    -unity-font-definition: url("project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&guid=74a5091d8707f334b9a5c31ef71a64ba&type=3#PerfectDOSVGA437");
-    transition-duration: 0.3s;
+    -unity-font-definition: url("project://database/Assets/_Build/UI/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
+    transition-duration: 0.1s, 0.1s;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
+    transition-property: scale, border-color;
+    margin-bottom: 16px;
+    border-left-color: rgb(180, 180, 180);
+    border-right-color: rgb(180, 180, 180);
+    border-top-color: rgb(180, 180, 180);
+    border-bottom-color: rgb(180, 180, 180);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    background-color: rgba(0, 0, 0, 0.16);
+    color: rgb(255, 255, 255);
 }
 
-.play-button:hover {
-    scale: 1.1 1.1;
+.menu-button:hover {
+    scale: 1.07 1.07;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
 }

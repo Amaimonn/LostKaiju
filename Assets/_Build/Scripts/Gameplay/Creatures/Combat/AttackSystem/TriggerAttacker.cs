@@ -4,46 +4,54 @@ using R3.Triggers;
 
 using LostKaiju.Gameplay.Creatures.DamageSystem;
 using LostKaiju.Gameplay.Creatures.Features;
+using System.Collections;
 
 namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
 {
     public class TriggerAttacker: Attacker
     {
         public Observable<Unit> OnTargetAttacked => _onTargetAttacked;
-        public override Observable<Unit> OnFinish => _onFinish;
+        public override Observable<Unit> OnAttackCompleted => _onFinish;
 
         [SerializeField] private Collider2D _collider;
         [SerializeField] private LayerMask _attackableMask;
         [SerializeField] private AttackProvider _attackProvider;
 
-        private IAttackPathProcessor _attackPathProcessor;
+        private IAttackPathProcessor _attackPathProcessor = new SingleAttackPathProcessor(); // test
         private IAttackApplier _attackApplier;
         private readonly Subject<Unit> _onTargetAttacked = new();
         private readonly Subject<Unit> _onFinish = new();
         private bool _isActive;
-        private Coroutine _attackCoroutine;
+        private bool _isAttacking = false;
 
-        public void Bind(IAttackApplier attackApplier, IAttackPathProcessor attackPathProcessor = null)
-        {
-            _attackApplier = attackApplier;
+        // public void Bind(IAttackApplier attackApplier, IAttackPathProcessor attackPathProcessor = null)
+        // {
+        //     _attackApplier = attackApplier;
 
-            if (_attackApplier != null)
-                _attackPathProcessor = attackPathProcessor;
-            else
-                _attackPathProcessor = new SingleAttackPathProcessor();
+        //     if (_attackApplier != null)
+        //         _attackPathProcessor = attackPathProcessor;
+        //     else
+        //         _attackPathProcessor = new SingleAttackPathProcessor();
             
-            _attackPathProcessor.OnFinished.Subscribe(_ => SetDamagingMode(false));
-        }
+        //     _attackPathProcessor.OnFinished.Subscribe(_ => SetDamagingMode(false));
+        // }
 
 #region Attacker
         public override void Attack()
         {
             SetDamagingMode(true);
-
-            var currentAttack = _attackProvider.GetPath();
-            _attackCoroutine ??= StartCoroutine(_attackPathProcessor.Process(_collider, currentAttack));
+            if (!_isAttacking)
+                StartCoroutine(ProcessAttack());
         }
 #endregion
+
+        private IEnumerator ProcessAttack()
+        {
+            _isAttacking = true;
+            var currentAttack = _attackProvider.GetPath();
+            yield return _attackPathProcessor.Process(_collider, currentAttack);
+            _isAttacking = false;
+        }
 
 #region MonoBehaviour
         private void Awake()
@@ -53,6 +61,11 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
                 .Subscribe(x => TryAttack(x.gameObject));
 
             SetDamagingMode(false);
+
+            _attackPathProcessor.OnFinished.Subscribe(_ => {
+                SetDamagingMode(false);
+                _onFinish.OnNext(Unit.Default);
+            });
         }
 #endregion
 

@@ -54,19 +54,19 @@ namespace LostKaiju.Models.FSM
             }
 
             var selfType = GetType();
-            _transitions = observableTransitions.Where(x => x.FromStateType == selfType).ToList();
+            _transitions = observableTransitions.Where(x => x.CheckFromStateType(selfType)).ToList();
 
             observableTransitions
                 .ObserveAdd()
                 .Select(e => e.Value)
-                .Where(x => x.FromStateType == selfType)
+                .Where(x => x.CheckFromStateType(selfType))
                 .Subscribe(x => _transitions.Add(x))
                 .AddTo(_disposables);
 
             observableTransitions
                 .ObserveRemove()
                 .Select(e => e.Value)
-                .Where(x => x.FromStateType == selfType)
+                .Where(x => x.CheckFromStateType(selfType))
                 .Subscribe(x => _transitions.Remove(x))
                 .AddTo(_disposables);
         }

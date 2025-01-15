@@ -5,7 +5,7 @@ namespace LostKaiju.Gameplay.Creatures.Features
 {
     public abstract class Attacker : MonoBehaviour, IAttacker
     {
-        public abstract Observable<Unit> OnFinish { get; }
+        public abstract Observable<Unit> OnAttackCompleted { get; }
 
         public abstract void Attack();
     }

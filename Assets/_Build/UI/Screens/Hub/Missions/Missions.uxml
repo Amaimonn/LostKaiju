@@ -8,10 +8,10 @@
                 <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
             </engine:VisualElement>
             <engine:VisualElement name="Panel" class="missions-panel">
-                <engine:VisualElement name="MissionInfoContainer" class="mission-info-container" style="align-items: center;">
-                    <engine:VisualElement name="MissionParagraph" style="flex-grow: 1; margin-top: 20px;">
-                        <engine:Label text="Some mission" name="MissionLabel" style="-unity-font-definition: resource(&apos;Fonts/Play-Regular&apos;); color: rgb(255, 255, 255); font-size: 32px;" />
-                        <engine:Label text="Some mission text, e.g. it`s location description, useful tips, gameplay mechanics, resources information and etc." name="MissionText" style="font-size: 24px; color: rgb(255, 255, 255); -unity-font-definition: resource(&apos;Fonts/Play-Regular&apos;); width: 600px; white-space: normal;" />
+                <engine:VisualElement name="MissionInfoContainer" class="mission-info-container">
+                    <engine:VisualElement name="MissionInfoSection" style="flex-grow: 1; margin-top: 20px;">
+                        <engine:Label text="Some mission" name="MissionInfoLabel" style="color: rgb(255, 255, 255); font-size: 32px;" />
+                        <engine:Label text="Some mission text, e.g. it&apos;s location description, useful tips, gameplay mechanics, resources information and etc." name="MissionInfoText" style="font-size: 24px; color: rgb(255, 255, 255); width: 600px; white-space: normal;" />
                     </engine:VisualElement>
                 </engine:VisualElement>
                 <engine:VisualElement name="Slider" class="missions-slider">

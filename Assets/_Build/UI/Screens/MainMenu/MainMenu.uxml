@@ -1,9 +1,15 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/_Build/UI/Components/MainMenu/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=91e324efc253ca944a57766bd4b6d8b5&amp;type=3#MainMenuStyle" />
-    <engine:VisualElement name="Container" class="container">
+    <Style src="project://database/Assets/_Build/UI/Screens/MainMenu/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=91e324efc253ca944a57766bd4b6d8b5&amp;type=3#MainMenuStyle" />
+    <engine:VisualElement name="Wrapper" class="wrapper">
         <engine:VisualElement name="BackgroundImage" class="background-image" />
         <engine:VisualElement name="BuildingsImage" class="buildings-image" />
-        <engine:Label text="LOST&#10;KAIJU" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" />
-        <engine:Button text="PLAY" name="PlayButton" enable-rich-text="false" emoji-fallback-support="false" class="play-button" />
+        <engine:VisualElement name="Menu" style="flex-grow: 1; align-self: center;">
+            <engine:Label text="LOST&#10;KAIJU" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" />
+            <engine:VisualElement name="ButtonsContainer" class="buttons-container">
+                <engine:Button text="PLAY" name="PlayButton" enable-rich-text="false" emoji-fallback-support="false" class="menu-button" />
+                <engine:Button text="SETTINGS" name="SettingsButton" enable-rich-text="false" emoji-fallback-support="false" class="menu-button" />
+                <engine:Button text="EXIT" name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" class="menu-button" />
+            </engine:VisualElement>
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

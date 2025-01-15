@@ -6,10 +6,10 @@ namespace LostKaiju.Models.FSM.FiniteTransitions
         where TFrom : FiniteState
         where TTo : FiniteState
     {
-        public Type FromStateType => typeof(TFrom);
         public Type ToStateType => typeof(TTo);
-        
-        public Func<bool> Condition {get;}
+        public Func<bool> Condition { get; }
+
+        public bool CheckFromStateType(Type type) => type == typeof(TFrom);
 
         public FiniteTransition(Func<bool> condition)
         {

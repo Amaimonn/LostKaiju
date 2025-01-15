@@ -389,10 +389,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."
+  m_text: Loading...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc8df4a5c25c52f4d96c3a79a3fc0ddb, type: 2}
-  m_sharedMaterial: {fileID: 7473410212707449388, guid: dc8df4a5c25c52f4d96c3a79a3fc0ddb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b95edb5394191743bd4991bac0a4128, type: 2}
+  m_sharedMaterial: {fileID: 3644150847756408814, guid: 4b95edb5394191743bd4991bac0a4128, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

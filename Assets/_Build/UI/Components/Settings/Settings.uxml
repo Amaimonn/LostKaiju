@@ -1,0 +1,34 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Build/UI/Components/Settings/SettingsStyles.uss?fileID=7433441132597879392&amp;guid=13fa4143d7a2a494c80da9463159de5a&amp;type=3#SettingsStyles" />
+    <engine:VisualElement name="OverlayImage" class="overlay-image" />
+    <engine:VisualElement name="Wrapper" class="wrapper">
+        <engine:VisualElement name="Content" class="settings-content">
+            <engine:VisualElement name="Settings" style="flex-grow: 1; width: 70%; align-self: center;">
+                <engine:VisualElement name="TopBar" class="content__top-bar">
+                    <engine:Label text="Settings" name="Label" class="settings-content__label" />
+                    <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
+                </engine:VisualElement>
+                <engine:VisualElement name="Panel" class="settings-panel">
+                    <engine:VisualElement name="SettingsContainer" class="settings-container">
+                        <engine:VisualElement name="AudioSection" class="settings-section">
+                            <engine:Label text="Audio Settings" class="settings-section__label" />
+                            <engine:VisualElement name="VolumeControl" class="settings-slider-container" style="align-items: stretch;">
+                                <engine:Label text="Volume" class="slider-label" />
+                                <engine:Slider name="VolumeSlider" low-value="0" high-value="100" value="50" class="settings-slider" />
+                                <engine:Label text="50%" name="VolumeValue" class="slider-value-label" />
+                            </engine:VisualElement>
+                        </engine:VisualElement>
+                        <engine:VisualElement name="GraphicsSection" class="settings-section">
+                            <engine:Label text="Graphics Settings" class="settings-section__label" />
+                            <engine:DropdownField name="GraphicsDropdown" choices="Low,Medium,High,Ultra" class="settings-dropdown" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                    <engine:VisualElement name="BottomBar" class="panel__bottom-bar">
+                        <engine:Button text="Apply" name="ApplyButton" class="apply-button button-transitions-base" />
+                        <engine:Button text="Cancel" name="CancelButton" class="cancel-button button-transitions-base" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
