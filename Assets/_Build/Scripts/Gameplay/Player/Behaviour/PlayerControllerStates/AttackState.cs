@@ -32,11 +32,6 @@ namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
             Attack();
         }
 
-        public override void Exit()
-        {
-            base.Exit();
-        }
-
         private void Attack()
         {
             _isAttackReady.Value = false;

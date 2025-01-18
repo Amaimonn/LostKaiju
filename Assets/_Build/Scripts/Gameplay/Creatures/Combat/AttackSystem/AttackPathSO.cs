@@ -7,28 +7,34 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
     public class AttackPathSO : ScriptableObject, IAttackPath
     {
         [SerializeField] private float _duration;
-        [SerializeField] private AnimationCurve _xAreaSize;
-        [SerializeField] private AnimationCurve _yAreaSize;
+        [SerializeField] private AnimationCurve _xScaleCurve;
+        [SerializeField] private AnimationCurve _yScaleCurve;
         [SerializeField] private AnimationCurve _xPath;
         [SerializeField] private AnimationCurve _yPath;
         [SerializeField] private float _xStartPosition;
         [SerializeField] private float _yStartPosition;
         
-        public IEnumerator Process(Collider2D collider)
+        public IEnumerator Process(Transform attackTransform)
         {
-            var attackTransform = collider.gameObject.transform;
-
             attackTransform.localPosition = new Vector2(_xStartPosition, _yStartPosition);
             
             float progress = 0;
 
             while (progress < 1)
             {
-                attackTransform.localScale = new Vector2(_xAreaSize.Evaluate(progress), _yAreaSize.Evaluate(progress));
-                attackTransform.localPosition = new Vector2(_xPath.Evaluate(progress), _yPath.Evaluate(progress));
+                EvaluatePathValues(attackTransform, progress);
                 progress += Time.deltaTime / _duration;
                 yield return null;
             }
+            
+            EvaluatePathValues(attackTransform, 1);
+            yield return null;
+        }
+
+        private void EvaluatePathValues(Transform attackTransform, float progress)
+        {
+            attackTransform.localScale = new Vector2(_xScaleCurve.Evaluate(progress), _yScaleCurve.Evaluate(progress));
+            attackTransform.localPosition = new Vector2(_xPath.Evaluate(progress), _yPath.Evaluate(progress));
         }
     }
 }

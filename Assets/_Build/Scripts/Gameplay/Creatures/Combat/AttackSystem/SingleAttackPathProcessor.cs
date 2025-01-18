@@ -10,9 +10,9 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
 
         private Subject<Unit> _onFinished = new();
 
-        public IEnumerator Process(Collider2D attackCollider, IAttackPath attackPath)
+        public IEnumerator Process(Transform attackTransform, IAttackPath attackPath)
         {
-            yield return attackPath.Process(attackCollider);
+            yield return attackPath.Process(attackTransform);
             _onFinished.OnNext(Unit.Default);
         }
     }

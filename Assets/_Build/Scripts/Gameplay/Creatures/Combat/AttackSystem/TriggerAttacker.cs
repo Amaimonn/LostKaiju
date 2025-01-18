@@ -1,10 +1,10 @@
+using System.Collections;
 using UnityEngine;
 using R3;
 using R3.Triggers;
 
 using LostKaiju.Gameplay.Creatures.DamageSystem;
 using LostKaiju.Gameplay.Creatures.Features;
-using System.Collections;
 
 namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
 {
@@ -13,7 +13,8 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
         public Observable<Unit> OnTargetAttacked => _onTargetAttacked;
         public override Observable<Unit> OnAttackCompleted => _onFinish;
 
-        [SerializeField] private Collider2D _collider;
+        [SerializeField] private Collider2D _attackCollider;
+        [SerializeField] private GameObject _attackGameObject;
         [SerializeField] private LayerMask _attackableMask;
         [SerializeField] private AttackProvider _attackProvider;
 
@@ -21,8 +22,7 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
         private IAttackApplier _attackApplier;
         private readonly Subject<Unit> _onTargetAttacked = new();
         private readonly Subject<Unit> _onFinish = new();
-        private bool _isActive;
-        private bool _isAttacking = false;
+        private bool _isDamagingModeActive;
 
         // public void Bind(IAttackApplier attackApplier, IAttackPathProcessor attackPathProcessor = null)
         // {
@@ -39,40 +39,41 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
 #region Attacker
         public override void Attack()
         {
-            SetDamagingMode(true);
-            if (!_isAttacking)
+            if (!_isDamagingModeActive)
+            {
+                SetDamagingModeActive(true);
                 StartCoroutine(ProcessAttack());
+            }
         }
 #endregion
 
         private IEnumerator ProcessAttack()
         {
-            _isAttacking = true;
             var currentAttack = _attackProvider.GetPath();
-            yield return _attackPathProcessor.Process(_collider, currentAttack);
-            _isAttacking = false;
+            yield return _attackPathProcessor.Process(_attackGameObject.transform, currentAttack);
         }
 
 #region MonoBehaviour
         private void Awake()
         {
-            _collider.OnTriggerEnter2DAsObservable()
-                .Where(collision => _isActive == true && (collision.gameObject.layer & _attackableMask) != 0)
+            _attackCollider.OnTriggerEnter2DAsObservable()
+                .Where(collision => _isDamagingModeActive == true && (collision.gameObject.layer & _attackableMask) != 0)
                 .Subscribe(x => TryAttack(x.gameObject));
 
-            SetDamagingMode(false);
+            SetDamagingModeActive(false);
 
             _attackPathProcessor.OnFinished.Subscribe(_ => {
-                SetDamagingMode(false);
+                SetDamagingModeActive(false);
                 _onFinish.OnNext(Unit.Default);
             });
         }
 #endregion
 
-        private void SetDamagingMode(bool isActive)
+        private void SetDamagingModeActive(bool isActive)
         {
-            _isActive = isActive;
-            _collider.enabled = isActive;
+            _isDamagingModeActive = isActive;
+            _attackCollider.enabled = isActive;
+            _attackGameObject.SetActive(isActive);
         }
 
         private void TryAttack(GameObject target)

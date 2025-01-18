@@ -8,6 +8,6 @@ namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
     {
         public Observable<Unit> OnFinished { get; }
 
-        public IEnumerator Process(Collider2D attackCollider, IAttackPath attackPath);
+        public IEnumerator Process(Transform attackTransform, IAttackPath attackPath);
     }
 }

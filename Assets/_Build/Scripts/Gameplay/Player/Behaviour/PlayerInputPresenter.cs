@@ -76,7 +76,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
             attackState.Init(attacker);
             
 
-            BindAnimations(idleState, walkState, jumpState);
+            BindAnimations(idleState, walkState, jumpState, attackState);
 
             var transitions = new IFiniteTransition[]
             {
@@ -135,7 +135,8 @@ namespace LostKaiju.Gameplay.Player.Behaviour
         }
 #endregion
 
-        private void BindAnimations(IdleState idleState, WalkState walkState, JumpState jumpState)
+        private void BindAnimations(IdleState idleState, WalkState walkState, 
+            JumpState jumpState, AttackState attackState)
         {
             int noFadeLayerIndex = Creature.Animator.GetLayerIndex(AnimationLayers.NO_FADE);
 
@@ -146,6 +147,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour
                 Creature.Animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
             });
             idleState.OnExit.Subscribe(_ => Creature.Animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
+            attackState.OnEnter.Subscribe(_ => Creature.Animator.Play(AnimationClips.ATTACK_FORWARD));
         }
 
         private void ApplyFriction()
