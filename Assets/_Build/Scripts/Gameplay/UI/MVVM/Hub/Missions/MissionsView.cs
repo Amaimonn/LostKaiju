@@ -19,6 +19,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         [SerializeField] private string _missionsGridName;
         [SerializeField] private string _baseButtonStyleName;
         [SerializeField] private string _missionButtonStyleName;
+        [SerializeField] private string _panelWhiteBackgroundStyleName;
 
         [Header("SFX")]
         [SerializeField] private AudioSource _audioSource;
@@ -30,6 +31,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         private Label _selectedMissionLabel;
         private Label _selectedMissionText;
         private VisualElement _missionsGrid;
+        private VisualElement _panelWhiteBackground;
         private bool _isGameplayStarted = false;
         private bool _isClosing = false;
 
@@ -41,7 +43,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
             _selectedMissionLabel = _root.Q<Label>(name: _selectedMissionLabelName);
             _selectedMissionText = _root.Q<Label>(name: _selectedMissionTextName);
             _missionsGrid = _root.Q<VisualElement>(name: _missionsGridName);
-
+            _panelWhiteBackground = _root.Q<VisualElement>(className: _panelWhiteBackgroundStyleName);
             _contentElement.AddToClassList($"{_contentStyleName}--disabled");
             _contentElement.RegisterCallback<TransitionEndEvent>(_ =>
             {
@@ -105,6 +107,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         {
             yield return null;
             _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
+            _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
             Debug.Log("Missions: opened");
         }
 
@@ -112,6 +115,7 @@ namespace LostKaiju.Gameplay.UI.MVVM.Hub
         {
             _isClosing = true;
             _contentElement.AddToClassList($"{_contentStyleName}--disabled");
+            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
             Debug.Log("Missions: closed");
         }
 

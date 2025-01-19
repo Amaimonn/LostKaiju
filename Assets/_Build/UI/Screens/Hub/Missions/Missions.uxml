@@ -8,6 +8,8 @@
                 <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
             </engine:VisualElement>
             <engine:VisualElement name="Panel" class="missions-panel">
+                <engine:VisualElement name="PanelWhiteBackground" class="panel__white-background" />
+                <engine:VisualElement name="PanelBlackBackground" class="panel__black-background" />
                 <engine:VisualElement name="MissionInfoContainer" class="mission-info-container">
                     <engine:VisualElement name="MissionInfoSection" style="flex-grow: 1; margin-top: 20px;">
                         <engine:Label text="Some mission" name="MissionInfoLabel" style="color: rgb(255, 255, 255); font-size: 32px;" />
@@ -15,11 +17,11 @@
                     </engine:VisualElement>
                 </engine:VisualElement>
                 <engine:VisualElement name="Slider" class="missions-slider">
-                    <engine:Button text="&lt;" name="SliderLeftButton" class="missions-slider__button missions-slider-button--left button-transitions-base" />
+                    <engine:Button text="&lt;" name="SliderLeftButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--left" />
                     <engine:VisualElement name="MissionsGrid" class="missions-grid">
                         <engine:Button text="1" name="SelectMissionButton" enabled="true" class="select-mission-button button-transitions-base" style="display: none;" />
                     </engine:VisualElement>
-                    <engine:Button text="&gt;" name="SliderRightButton" class="missions-slider__button missions-slider-button--right button-transitions-base" />
+                    <engine:Button text="&gt;" name="SliderRightButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--right" />
                 </engine:VisualElement>
                 <engine:VisualElement name="BottomBar" class="panel__bottom-bar">
                     <engine:Button text="Start" name="StartButton" class="start-button button-transitions-base" />

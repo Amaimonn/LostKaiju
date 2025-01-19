@@ -55,6 +55,7 @@ MonoBehaviour:
   _missionsGridName: MissionsGrid
   _baseButtonStyleName: button-transitions-base
   _missionButtonStyleName: select-mission-button
+  _panelWhiteBackgroundStyleName: panel__white-background
   _audioSource: {fileID: -3571223380058938639}
   _buttonHoverSFX: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}
 --- !u!82 &-3571223380058938639
