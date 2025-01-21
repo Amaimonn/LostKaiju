@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.StateBinders
+namespace LostKaiju.Game.Player.Behaviour.StateBinders
 {
     public abstract class FiniteStateBinderSO : ScriptableObject
     {

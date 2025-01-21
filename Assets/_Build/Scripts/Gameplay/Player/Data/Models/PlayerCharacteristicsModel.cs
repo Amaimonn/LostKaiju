@@ -1,4 +1,4 @@
-namespace LostKaiju.Gameplay.Player.Data.Model
+namespace LostKaiju.Game.Player.Data.Models
 {
     public class PlayerCharacteristicsModel
     {

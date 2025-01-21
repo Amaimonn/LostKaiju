@@ -1,4 +1,4 @@
-using LostKaiju.Gameplay.GameData;
+using LostKaiju.Game.GameData;
 
 namespace LostKaiju.Infrastructure.Providers.Inputs
 {

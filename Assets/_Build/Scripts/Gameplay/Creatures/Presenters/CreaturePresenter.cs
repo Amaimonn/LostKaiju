@@ -1,6 +1,6 @@
-using LostKaiju.Gameplay.Creatures.Views;
+using LostKaiju.Game.Creatures.Views;
 
-namespace LostKaiju.Gameplay.Creatures.Presenters
+namespace LostKaiju.Game.Creatures.Presenters
 {
     public abstract class CreaturePresenter
     {

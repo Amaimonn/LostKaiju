@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using LostKaiju.Gameplay.Player.Data.StateParameters;
+using LostKaiju.Game.Player.Data.StateParameters;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
 {
     public class JumpState : PlayerControllerState
     {

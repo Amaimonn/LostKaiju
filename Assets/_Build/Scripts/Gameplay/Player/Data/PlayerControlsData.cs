@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-using LostKaiju.Gameplay.Player.Data.StateParameters;
+using LostKaiju.Game.Player.Data.StateParameters;
 
-namespace LostKaiju.Gameplay.Player.Data
+namespace LostKaiju.Game.Player.Data
 {
     [Serializable]
     public class PlayerControlsData

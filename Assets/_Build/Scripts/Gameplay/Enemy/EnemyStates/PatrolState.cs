@@ -2,11 +2,11 @@ using UnityEngine;
 using R3;
 using System;
 
-using LostKaiju.Models.FSM;
-using LostKaiju.Gameplay.Agents;
-using LostKaiju.Gameplay.Enemy.StateParameters;
+using LostKaiju.Boilerplates.FSM;
+using LostKaiju.Game.Agents;
+using LostKaiju.Game.Enemy.StateParameters;
 
-namespace LostKaiju.Gameplay.Enemy.EnemyStates
+namespace LostKaiju.Game.Enemy.EnemyStates
 {
     public class PatrolState: FiniteState
     {

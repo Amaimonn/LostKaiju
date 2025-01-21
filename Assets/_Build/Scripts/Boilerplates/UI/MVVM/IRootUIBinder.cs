@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using LostKaiju.Models.Locator;
+using LostKaiju.Boilerplates.Locator;
 
-namespace LostKaiju.Models.UI.MVVM
+namespace LostKaiju.Boilerplates.UI.MVVM
 {
     public interface IRootUIBinder : IService
     {

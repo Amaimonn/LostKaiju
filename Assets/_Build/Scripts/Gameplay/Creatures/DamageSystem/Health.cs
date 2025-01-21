@@ -1,6 +1,6 @@
 using LostKaiju.Utils;
 
-namespace LostKaiju.Gameplay.Creatures.DamageSystem
+namespace LostKaiju.Game.Creatures.DamageSystem
 {
     public class Health : ClampedValue<int>
     {

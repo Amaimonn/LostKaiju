@@ -3,10 +3,10 @@ using UnityEngine;
 using R3;
 using ObservableCollections;
 
-using LostKaiju.Models.UI.MVVM;
-using LostKaiju.Gameplay.GameData.Missions;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.GameData.Missions;
 
-namespace LostKaiju.Gameplay.UI.MVVM.Hub
+namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class MissionsViewModel : IViewModel//, IDisposable
     {

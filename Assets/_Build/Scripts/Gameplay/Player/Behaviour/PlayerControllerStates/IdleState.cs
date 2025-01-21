@@ -1,6 +1,6 @@
-using LostKaiju.Models.FSM;
+using LostKaiju.Boilerplates.FSM;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
 {
     public class IdleState: FiniteState
     {

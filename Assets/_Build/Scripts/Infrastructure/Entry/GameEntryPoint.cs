@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using LostKaiju.Models.Locator;
+using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Infrastructure.Providers.Inputs;
 using LostKaiju.Infrastructure.SceneBootstrap;
 

@@ -1,7 +1,7 @@
-using LostKaiju.Gameplay.Player.Data.Model;
-using LostKaiju.Models.UI.MVVM;
+using LostKaiju.Game.Player.Data.Models;
+using LostKaiju.Boilerplates.UI.MVVM;
 
-namespace LostKaiju.Gameplay.UI.MVVM.Gameplay
+namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
     public class GameplayViewModel : IViewModel
     {

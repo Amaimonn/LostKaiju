@@ -1,7 +1,7 @@
 using R3;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Agents
+namespace LostKaiju.Game.Agents
 {
     public abstract class Agent : MonoBehaviour
     {

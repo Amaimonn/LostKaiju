@@ -1,7 +1,7 @@
-using LostKaiju.Gameplay.Creatures.DamageSystem;
+using LostKaiju.Game.Creatures.DamageSystem;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
+namespace LostKaiju.Game.Creatures.Combat.AttackSystem
 {
     public class ForceAttackApplier : IAttackApplier
     {

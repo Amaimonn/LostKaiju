@@ -2,7 +2,7 @@ using UnityEngine;
 using R3;
 using R3.Triggers;
 
-namespace LostKaiju.Gameplay.Creatures.Features
+namespace LostKaiju.Game.Creatures.Features
 {
     [RequireComponent(typeof(Collider2D))]
     public class GroundCheckTrigger : GroundCheck

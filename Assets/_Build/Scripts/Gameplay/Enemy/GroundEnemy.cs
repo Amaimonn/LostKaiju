@@ -1,11 +1,11 @@
 using UnityEngine;
 
-using LostKaiju.Gameplay.Agents;
-using LostKaiju.Models.FSM;
-using LostKaiju.Gameplay.Enemy.StateParameters;
-using LostKaiju.Gameplay.Enemy.EnemyStates;
+using LostKaiju.Game.Agents;
+using LostKaiju.Boilerplates.FSM;
+using LostKaiju.Game.Enemy.StateParameters;
+using LostKaiju.Game.Enemy.EnemyStates;
 
-namespace LostKaiju.Gameplay.Enemy
+namespace LostKaiju.Game.Enemy
 {
     public class GroundEnemy : MonoBehaviour
     {

@@ -4,10 +4,10 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using LostKaiju.Models.Locator;
-using LostKaiju.Models.UI.MVVM;
-using LostKaiju.Gameplay.UI.MVVM.Hub;
-using LostKaiju.Gameplay.GameData.Missions;
+using LostKaiju.Boilerplates.Locator;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.UI.MVVM.Hub;
+using LostKaiju.Game.GameData.Missions;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -25,7 +25,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var exitSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)
             {
-                LevelSceneName = "Level_1_1", // level loading example
+                LevelSceneName = "Mission_1_1", // mission loading example
                 PlayerConfigPath = $"Gameplay/PlayerConfigs/{_playerConfigName}",
             };
             var hubExitContext = new HubExitContext(gameplayEnterContext);

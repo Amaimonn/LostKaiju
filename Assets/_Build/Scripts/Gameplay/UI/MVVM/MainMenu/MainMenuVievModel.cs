@@ -1,9 +1,9 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Models.UI.MVVM;
+using LostKaiju.Boilerplates.UI.MVVM;
 
-namespace LostKaiju.Gameplay.UI.MVVM.MainMenu
+namespace LostKaiju.Game.UI.MVVM.MainMenu
 {
     public class MainMenuViewModel : IViewModel
     {

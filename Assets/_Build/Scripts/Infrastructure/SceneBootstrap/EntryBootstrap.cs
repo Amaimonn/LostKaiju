@@ -1,7 +1,7 @@
 using UnityEngine;
 
-using LostKaiju.Models.UI.MVVM;
-using LostKaiju.Models.Locator;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Utils;
 using LostKaiju.Infrastructure.Loading;
 

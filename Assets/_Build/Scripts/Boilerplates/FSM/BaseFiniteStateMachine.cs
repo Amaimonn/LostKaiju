@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LostKaiju.Models.FSM
+namespace LostKaiju.Boilerplates.FSM
 {
     public class BaseFiniteStateMachine : FiniteStateMachine
     {

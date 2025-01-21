@@ -1,4 +1,4 @@
-namespace LostKaiju.Gameplay.UI.MVVM.MainMenu
+namespace LostKaiju.Game.UI.MVVM.MainMenu
 {
     public class MainMenuModel
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LostKaiju.Gameplay.UI.MVVM.Hub
+namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HubView : ToolkitView<HubViewModel>
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LostKaiju.Models.Locator
+namespace LostKaiju.Boilerplates.Locator
 {
     public class ServiceLocator
     {

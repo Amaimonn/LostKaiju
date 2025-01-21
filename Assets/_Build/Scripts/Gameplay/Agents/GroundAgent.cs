@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using LostKaiju.Gameplay.Creatures.Features;
+using LostKaiju.Game.Creatures.Features;
 
-namespace LostKaiju.Gameplay.Agents
+namespace LostKaiju.Game.Agents
 {
     public class GroundAgent : Agent
     {

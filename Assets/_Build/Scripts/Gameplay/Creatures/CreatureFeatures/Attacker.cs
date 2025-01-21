@@ -1,7 +1,7 @@
 using R3;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Creatures.Features
+namespace LostKaiju.Game.Creatures.Features
 {
     public abstract class Attacker : MonoBehaviour, IAttacker
     {

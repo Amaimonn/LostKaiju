@@ -1,4 +1,4 @@
-namespace LostKaiju.Models.Locator
+namespace LostKaiju.Boilerplates.Locator
 {
     public interface IService
     {

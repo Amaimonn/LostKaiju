@@ -1,6 +1,6 @@
-using LostKaiju.Gameplay.Player.Views;
+using LostKaiju.Game.Player.Views;
 
-namespace LostKaiju.Gameplay.Agents.Sensors
+namespace LostKaiju.Game.Agents.Sensors
 {
     public class OccludablePlayerSensor : OccludableSensor<PlayerBinder>
     {

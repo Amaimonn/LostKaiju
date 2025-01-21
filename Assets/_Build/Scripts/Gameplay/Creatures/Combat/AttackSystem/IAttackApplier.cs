@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
+namespace LostKaiju.Game.Creatures.Combat.AttackSystem
 {
     public interface IAttackApplier
     {

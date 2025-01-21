@@ -1,9 +1,9 @@
-using LostKaiju.Gameplay.Creatures.Features;
-using LostKaiju.Gameplay.Creatures.Presenters;
-using LostKaiju.Gameplay.Creatures.Views;
-using LostKaiju.Gameplay.Player.Behaviour;
+using LostKaiju.Game.Creatures.Features;
+using LostKaiju.Game.Creatures.Presenters;
+using LostKaiju.Game.Creatures.Views;
+using LostKaiju.Game.Player.Behaviour;
 
-namespace LostKaiju.Gameplay.Player
+namespace LostKaiju.Game.Player
 {
     public class PlayerRootPresenter : CreaturePresenter
     {

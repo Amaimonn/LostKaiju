@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using R3;
 
-namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem 
+namespace LostKaiju.Game.Creatures.Combat.AttackSystem 
 {
     public interface IAttackPathProcessor
     {

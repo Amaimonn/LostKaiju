@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LostKaiju.Models.UI.MVVM
+namespace LostKaiju.Boilerplates.UI.MVVM
 {
     public abstract class View : MonoBehaviour, IDisposable
     {

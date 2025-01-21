@@ -1,25 +1,16 @@
-using System;
-using System.Collections.Generic;
-
-using LostKaiju.Models.FSM;
+using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Infrastructure.Providers.Inputs;
-using LostKaiju.Models.Locator;
-using LostKaiju.Gameplay.Creatures.Features;
+using LostKaiju.Boilerplates.Locator;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
 {
     public abstract class PlayerControllerState : FiniteState
     {
-        protected IInputProvider InputProvider { get; }
+        protected readonly IInputProvider _inputProvider;
         
         public PlayerControllerState() : base()
         {
-            InputProvider = ServiceLocator.Current.Get<IInputProvider>();
+            _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
         }
-
-        public virtual void Init(Dictionary<Type, ICreatureFeature> features)
-        {
-            
-        } 
     }
 }

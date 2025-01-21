@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using R3;
 
-using LostKaiju.Models.UI.MVVM;
-using LostKaiju.Models.Locator;
-using LostKaiju.Gameplay.GameData.Missions;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Boilerplates.Locator;
+using LostKaiju.Game.GameData.Missions;
 
-namespace LostKaiju.Gameplay.UI.MVVM.Hub
+namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HubViewModel : IViewModel
     {

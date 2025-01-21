@@ -1,12 +1,11 @@
 using UnityEngine;
 
 using LostKaiju.Utils;
-using LostKaiju.Gameplay.Creatures.Features;
-using LostKaiju.Gameplay.Configs;
-using LostKaiju.Gameplay.Creatures.Views;
-using LostKaiju.Gameplay.Creatures.Presenters;
+using LostKaiju.Game.Creatures.Features;
+using LostKaiju.Game.Creatures.Views;
+using LostKaiju.Game.Creatures.Presenters;
 
-namespace LostKaiju.Gameplay.Player.Views
+namespace LostKaiju.Game.Player.Views
 {
     public class PlayerBinder : CreatureBinder, ICreatureUpdater
     {    
@@ -26,12 +25,6 @@ namespace LostKaiju.Gameplay.Player.Views
         [SerializeField] private DamageReceiver _damageReceiver;
         [SerializeField] private Attacker _attacker;
 
-        // [Header("Behaviour")]
-        // [SerializeField] private CreaturePresenterSO _presenterConfig;
-
-        // protected CreaturePresenter CurrentBehaviour => _currentPresenterConfig == _presenterConfig ? _currentPresenter : SetPresenter(_presenterConfig);
-        
-        // protected CreaturePresenterSO _currentPresenterConfig;
         protected CreaturePresenter _currentPresenter;
         protected Holder<ICreatureFeature> _features = new();
 
@@ -61,14 +54,5 @@ namespace LostKaiju.Gameplay.Player.Views
         {
             _currentPresenter?.FixedUpdateLogic();
         }
-
-        // private CreaturePresenter SetPresenter(CreaturePresenterSO config)
-        // {
-        //     Debug.Log("New Presenter set up");
-        //     _currentPresenterConfig = config;
-        //     _currentPresenter = config.GetPresenter();
-        //     _currentPresenter.Bind(this);
-        //     return _currentPresenter;
-        // }
     }
 }

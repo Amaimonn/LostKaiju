@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LostKaiju.Models.UI.MVVM
+namespace LostKaiju.Boilerplates.UI.MVVM
 {
     public class RootUIBinder : MonoBehaviour, IRootUIBinder, IRootUI
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Player.Data
+namespace LostKaiju.Game.Player.Data
 {
     [Serializable]
     public class PlayerDefenceData

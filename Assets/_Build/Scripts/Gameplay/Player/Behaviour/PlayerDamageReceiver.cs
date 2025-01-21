@@ -1,8 +1,8 @@
 using R3;
 
-using LostKaiju.Gameplay.Creatures.Features;
+using LostKaiju.Game.Creatures.Features;
 
-namespace LostKaiju.Gameplay.Player.Behaviour
+namespace LostKaiju.Game.Player.Behaviour
 {
     public class PlayerDamageReceiver : DamageReceiver
     {

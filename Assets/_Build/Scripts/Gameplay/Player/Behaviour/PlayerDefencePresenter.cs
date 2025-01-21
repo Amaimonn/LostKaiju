@@ -1,13 +1,13 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Gameplay.Creatures.DamageSystem;
-using LostKaiju.Gameplay.Creatures.Features;
-using LostKaiju.Gameplay.Creatures.Presenters;
-using LostKaiju.Gameplay.Creatures.Views;
-using LostKaiju.Gameplay.Player.Data;
+using LostKaiju.Game.Creatures.DamageSystem;
+using LostKaiju.Game.Creatures.Features;
+using LostKaiju.Game.Creatures.Presenters;
+using LostKaiju.Game.Creatures.Views;
+using LostKaiju.Game.Player.Data;
 
-namespace LostKaiju.Gameplay.Player.Behaviour
+namespace LostKaiju.Game.Player.Behaviour
 {
     public class PlayerDefencePresenter : CreaturePresenter
     {

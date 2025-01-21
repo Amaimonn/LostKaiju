@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
+namespace LostKaiju.Game.Creatures.Combat.AttackSystem
 {
     [CreateAssetMenu(fileName = "AttackPathSO", menuName = "Scriptable Objects/AttackPathSO")]
     public class AttackPathSO : ScriptableObject, IAttackPath

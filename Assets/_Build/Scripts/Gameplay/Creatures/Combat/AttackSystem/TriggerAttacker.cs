@@ -3,10 +3,10 @@ using UnityEngine;
 using R3;
 using R3.Triggers;
 
-using LostKaiju.Gameplay.Creatures.DamageSystem;
-using LostKaiju.Gameplay.Creatures.Features;
+using LostKaiju.Game.Creatures.DamageSystem;
+using LostKaiju.Game.Creatures.Features;
 
-namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
+namespace LostKaiju.Game.Creatures.Combat.AttackSystem
 {
     public class TriggerAttacker: Attacker
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Agents.Sensors
+namespace LostKaiju.Game.Agents.Sensors
 {
     public class OccludableSensor<T> : Sensor<T> where T : Component
     {

@@ -1,4 +1,4 @@
-namespace LostKaiju.Models.UI.MVVM
+namespace LostKaiju.Boilerplates.UI.MVVM
 {
     public interface IViewModel
     {

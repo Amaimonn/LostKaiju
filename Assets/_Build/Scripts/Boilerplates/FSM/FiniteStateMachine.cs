@@ -5,9 +5,9 @@ using UnityEngine;
 using ObservableCollections;
 using R3;
 
-using LostKaiju.Models.FSM.FiniteTransitions;
+using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 
-namespace LostKaiju.Models.FSM
+namespace LostKaiju.Boilerplates.FSM
 {
     public abstract class FiniteStateMachine : IFiniteStateMachine
     {

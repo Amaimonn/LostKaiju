@@ -1,4 +1,4 @@
-namespace LostKaiju.Gameplay.Creatures.DamageSystem
+namespace LostKaiju.Game.Creatures.DamageSystem
 {
     public interface IDamageable
     {

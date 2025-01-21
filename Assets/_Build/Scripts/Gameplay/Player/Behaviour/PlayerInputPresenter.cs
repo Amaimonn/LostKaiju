@@ -4,19 +4,19 @@ using R3;
 
 using LostKaiju.Utils;
 using LostKaiju.Infrastructure.Providers.Inputs;
-using LostKaiju.Models.Locator;
-using LostKaiju.Models.FSM;
-using LostKaiju.Models.FSM.FiniteTransitions;
-using LostKaiju.Gameplay.Creatures.Features;
-using LostKaiju.Gameplay.Creatures.Presenters;
-using LostKaiju.Gameplay.Player.Data;
-using LostKaiju.Gameplay.Player.Data.StateParameters;
-using LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates;
-using LostKaiju.Gameplay.Creatures.Views;
+using LostKaiju.Boilerplates.Locator;
+using LostKaiju.Boilerplates.FSM;
+using LostKaiju.Boilerplates.FSM.FiniteTransitions;
+using LostKaiju.Game.Creatures.Features;
+using LostKaiju.Game.Creatures.Presenters;
+using LostKaiju.Game.Player.Data;
+using LostKaiju.Game.Player.Data.StateParameters;
+using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
+using LostKaiju.Game.Creatures.Views;
 using System.Collections.Generic;
 using System;
 
-namespace LostKaiju.Gameplay.Player.Behaviour
+namespace LostKaiju.Game.Player.Behaviour
 {
     public class PlayerInputPresenter : CreaturePresenter
     {

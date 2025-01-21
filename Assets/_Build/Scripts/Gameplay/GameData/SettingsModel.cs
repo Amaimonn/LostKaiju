@@ -1,4 +1,4 @@
-namespace LostKaiju.Gameplay.GameData
+namespace LostKaiju.Game.GameData
 {
     public class SettingsModel
     {

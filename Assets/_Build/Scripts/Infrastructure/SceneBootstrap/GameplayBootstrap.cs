@@ -2,10 +2,10 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using LostKaiju.Models.Locator;
-using LostKaiju.Models.UI.MVVM;
-using LostKaiju.Gameplay.UI.MVVM.Gameplay;
-using LostKaiju.Gameplay.Player.Data.Model;
+using LostKaiju.Boilerplates.Locator;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.UI.MVVM.Gameplay;
+using LostKaiju.Game.Player.Data.Models;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {

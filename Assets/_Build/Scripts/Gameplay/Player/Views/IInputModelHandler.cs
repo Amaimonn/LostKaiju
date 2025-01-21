@@ -1,6 +1,6 @@
-using LostKaiju.Gameplay.Creatures.Presenters;
+using LostKaiju.Game.Creatures.Presenters;
 
-namespace LostKaiju.Gameplay.Player.Views
+namespace LostKaiju.Game.Player.Views
 {
     public interface IBehaviourBinder
     {

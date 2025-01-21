@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LostKaiju.Models.FSM.FiniteTransitions
+namespace LostKaiju.Boilerplates.FSM.FiniteTransitions
 {
     public class SameForMultipleTransition<TTo> : IFiniteTransition where TTo : FiniteState
     {

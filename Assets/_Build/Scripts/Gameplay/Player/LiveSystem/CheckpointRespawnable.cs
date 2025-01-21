@@ -1,6 +1,6 @@
 using R3;
 
-namespace LostKaiju.Gameplay.Player.LiveSystem
+namespace LostKaiju.Game.Player.LiveSystem
 {
     public class CheckpointRespawnable : IRespawnable
     {

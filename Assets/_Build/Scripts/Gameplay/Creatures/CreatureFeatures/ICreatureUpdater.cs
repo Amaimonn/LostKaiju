@@ -1,6 +1,6 @@
-using LostKaiju.Gameplay.Creatures.Presenters;
+using LostKaiju.Game.Creatures.Presenters;
 
-namespace LostKaiju.Gameplay.Creatures.Features
+namespace LostKaiju.Game.Creatures.Features
  {
     public interface ICreatureUpdater : ICreatureFeature
     {

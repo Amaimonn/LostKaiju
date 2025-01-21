@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Player.Data.Configs
+namespace LostKaiju.Game.Player.Data.Configs
 {
     [CreateAssetMenu(fileName = "PlayerDataSO", menuName = "Scriptable Objects/Player Data SO")]
     public class PlayerDataSO : ScriptableObject, IPlayerData

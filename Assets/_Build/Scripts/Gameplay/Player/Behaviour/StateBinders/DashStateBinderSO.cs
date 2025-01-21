@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using R3;
 
-using LostKaiju.Models.Locator;
+using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Utils;
 using LostKaiju.Infrastructure.Providers.Inputs;
-using LostKaiju.Models.FSM;
-using LostKaiju.Models.FSM.FiniteTransitions;
-using LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates;
-using LostKaiju.Gameplay.Creatures.Features;
-using LostKaiju.Gameplay.Player.Data.StateParameters;
+using LostKaiju.Boilerplates.FSM;
+using LostKaiju.Boilerplates.FSM.FiniteTransitions;
+using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
+using LostKaiju.Game.Creatures.Features;
+using LostKaiju.Game.Player.Data.StateParameters;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.StateBinders
+namespace LostKaiju.Game.Player.Behaviour.StateBinders
 {
     [CreateAssetMenu(fileName = " DashStateBinderSO", menuName = "Scriptable Objects/ DashStateBinderSO")]
     public class DashStateBinderSO : FiniteStateBinderSO

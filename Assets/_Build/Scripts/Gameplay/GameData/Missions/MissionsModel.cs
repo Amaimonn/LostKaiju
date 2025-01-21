@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using R3;
 
-namespace LostKaiju.Gameplay.GameData.Missions
+namespace LostKaiju.Game.GameData.Missions
 {
     public class MissionsModel
     {

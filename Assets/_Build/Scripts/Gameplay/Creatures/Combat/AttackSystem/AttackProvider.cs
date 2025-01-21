@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Creatures.Combat.AttackSystem
+namespace LostKaiju.Game.Creatures.Combat.AttackSystem
 {
     [Serializable]
     public class AttackProvider

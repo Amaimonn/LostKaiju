@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LostKaiju.Gameplay.Player.Data.StateParameters
+namespace LostKaiju.Game.Player.Data.StateParameters
 {
     [Serializable]
     public class JumpParameters

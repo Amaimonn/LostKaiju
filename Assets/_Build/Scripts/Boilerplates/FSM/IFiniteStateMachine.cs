@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using ObservableCollections;
 
-using LostKaiju.Models.FSM.FiniteTransitions;
+using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 
-namespace LostKaiju.Models.FSM
+namespace LostKaiju.Boilerplates.FSM
 {
     public interface IFiniteStateMachine : IDisposable
     {

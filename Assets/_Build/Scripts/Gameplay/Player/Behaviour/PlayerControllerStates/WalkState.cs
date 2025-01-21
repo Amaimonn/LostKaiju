@@ -1,9 +1,9 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Gameplay.Player.Data.StateParameters;
+using LostKaiju.Game.Player.Data.StateParameters;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
 {
     public class WalkState : PlayerControllerState
     {
@@ -24,7 +24,7 @@ namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
 
         public override void UpdateLogic()
         {
-            _readHorizontal = InputProvider.GetHorizontal;
+            _readHorizontal = _inputProvider.GetHorizontal;
 
             if (_readHorizontal != 0)
                 _isPositiveDirectionX.Value = _readHorizontal > 0;

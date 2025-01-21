@@ -1,6 +1,6 @@
 using R3;
 
-using LostKaiju.Models.Locator;
+using LostKaiju.Boilerplates.Locator;
 
 namespace LostKaiju.Infrastructure.Providers.Inputs
 {

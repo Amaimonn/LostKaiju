@@ -1,4 +1,4 @@
-namespace LostKaiju.Gameplay.Player.Data.Configs
+namespace LostKaiju.Game.Player.Data.Configs
 {
     public interface IPlayerData
     {

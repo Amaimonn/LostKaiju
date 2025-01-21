@@ -1,6 +1,6 @@
-using LostKaiju.Models.UI.MVVM;
+using LostKaiju.Boilerplates.UI.MVVM;
 
-namespace LostKaiju.Gameplay.UI.MVVM.Gameplay
+namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
     public class GameplayView : CanvasView<GameplayViewModel>
     {

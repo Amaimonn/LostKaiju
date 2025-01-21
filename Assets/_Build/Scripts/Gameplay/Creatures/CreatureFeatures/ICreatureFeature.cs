@@ -1,4 +1,4 @@
- namespace LostKaiju.Gameplay.Creatures.Features
+ namespace LostKaiju.Game.Creatures.Features
  {
     public interface ICreatureFeature
     {

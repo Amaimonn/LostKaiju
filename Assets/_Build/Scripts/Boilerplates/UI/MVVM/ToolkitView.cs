@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using LostKaiju.Models.UI.MVVM;
+using LostKaiju.Boilerplates.UI.MVVM;
 
 public abstract class ToolkitView<T> : View<T> where T : IViewModel
 {

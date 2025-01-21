@@ -4,10 +4,10 @@ using System.Linq;
 using ObservableCollections;
 using R3;
 
-using LostKaiju.Models.FSM.FiniteTransitions;
+using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 using UnityEngine;
 
-namespace LostKaiju.Models.FSM
+namespace LostKaiju.Boilerplates.FSM
 {
     public interface IFiniteState: IDisposable
     {

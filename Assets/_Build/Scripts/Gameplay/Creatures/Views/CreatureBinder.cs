@@ -1,9 +1,9 @@
 using UnityEngine;
 
-using LostKaiju.Gameplay.Creatures.Features;
+using LostKaiju.Game.Creatures.Features;
 using LostKaiju.Utils;
 
-namespace LostKaiju.Gameplay.Creatures.Views
+namespace LostKaiju.Game.Creatures.Views
 {
     public abstract class CreatureBinder : MonoBehaviour
     {

@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 
-using LostKaiju.Gameplay.GameData.Missions;
+using LostKaiju.Game.GameData.Missions;
 
-namespace LostKaiju.Gameplay.UI.MVVM.Hub
+namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class MissionsView : ToolkitView<MissionsViewModel>
     {

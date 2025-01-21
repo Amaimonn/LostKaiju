@@ -1,9 +1,9 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Gameplay.Creatures.DamageSystem;
+using LostKaiju.Game.Creatures.DamageSystem;
 
-namespace LostKaiju.Gameplay.Creatures.Features
+namespace LostKaiju.Game.Creatures.Features
 {
     public abstract class DamageReceiver : MonoBehaviour, IDamageable, ICreatureFeature
     {

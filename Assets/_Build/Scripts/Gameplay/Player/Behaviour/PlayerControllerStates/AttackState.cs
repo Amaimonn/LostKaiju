@@ -1,8 +1,8 @@
 using R3;
 
-using LostKaiju.Gameplay.Creatures.Features;
+using LostKaiju.Game.Creatures.Features;
 
-namespace LostKaiju.Gameplay.Player.Behaviour.PlayerControllerStates
+namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
 {
     public class AttackState : PlayerControllerState
     {
