@@ -1,25 +1,23 @@
+using System;
 using UnityEngine;
 using R3;
-using System;
 
-using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Game.Agents;
-using LostKaiju.Game.Enemy.StateParameters;
+using LostKaiju.Game.Enemy.EnemyStates;
+using LostKaiju.Game.Enemy.Variants.GroundEnemy.StateParameters;
 
-namespace LostKaiju.Game.Enemy.EnemyStates
+namespace LostKaiju.Game.Enemy.Variants.GroundEnemy.States
 {
-    public class PatrolState: FiniteState
+    public class PatrolState: EnemyState
     {
-        private Agent _agent;
-        private Transform[] _patrolPoints;
+        private readonly Transform[] _patrolPoints;
         private PatrolParameters _patrolParameters;
         private float _finishTime;
         private int _currentPatrolPointIndex;
         private IDisposable _disposable;
         
-        public PatrolState(Agent agent, Transform[] patrolPoints)
+        public PatrolState(Agent agent, Transform[] patrolPoints) : base(agent)
         {
-            _agent = agent;
             _patrolPoints = patrolPoints;
         }
 
@@ -31,7 +29,7 @@ namespace LostKaiju.Game.Enemy.EnemyStates
         public override void Enter()
         {
             _disposable = _agent.IsStopped.Subscribe(e => {
-                if(e)
+                if (e)
                 {
                     SetFinishPatrolTime();
                 }
@@ -71,7 +69,7 @@ namespace LostKaiju.Game.Enemy.EnemyStates
 
         private void Patrol()
         {
-            if((_finishTime + _patrolParameters.WaitTime < Time.time) && _agent.IsStopped.CurrentValue)   
+            if ((_finishTime + _patrolParameters.WaitTime < Time.time) && _agent.IsStopped.CurrentValue)   
             {
                 var nextPatrolPoint = GetNextPatrolPointIndex();
                 _agent.SetDestination(_patrolPoints[nextPatrolPoint].position);

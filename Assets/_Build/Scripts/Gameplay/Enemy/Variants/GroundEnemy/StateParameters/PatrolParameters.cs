@@ -1,4 +1,4 @@
-namespace LostKaiju.Game.Enemy.StateParameters
+namespace LostKaiju.Game.Enemy.Variants.GroundEnemy.StateParameters
 {
     public class PatrolParameters
     {

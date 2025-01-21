@@ -553,8 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7372749da1920e64f89562c67a3a8e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 2143187253820395415}
-  _animator: {fileID: 6690856542506860452}
+  <Rigidbody>k__BackingField: {fileID: 2143187253820395415}
+  <Animator>k__BackingField: {fileID: 6690856542506860452}
   _flipper: {fileID: 722831791197029365}
   _groundCheck: {fileID: 6183724006927231869}
   _damageReceiver: {fileID: 224813660141403052}

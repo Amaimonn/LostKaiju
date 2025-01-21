@@ -1,14 +1,19 @@
 using UnityEngine;
 
-using LostKaiju.Game.Creatures.Features;
 using LostKaiju.Utils;
+using LostKaiju.Game.Creatures.Features;
 
 namespace LostKaiju.Game.Creatures.Views
 {
-    public abstract class CreatureBinder : MonoBehaviour
+    public abstract class CreatureBinder : MonoBehaviour, ICreatureBinder
     {
-        public abstract Rigidbody2D Rigidbody { get; }
-        public abstract Animator Animator { get; }
-        public abstract Holder<ICreatureFeature> Features { get; }
+#region ICreatureBinder
+        [field: SerializeField] public Rigidbody2D Rigidbody { get; protected set; }
+        [field: SerializeField] public Animator Animator { get; protected set; }
+        
+        public Holder<ICreatureFeature> Features => _features;
+#endregion
+
+        protected Holder<ICreatureFeature> _features = new();
     }
 }

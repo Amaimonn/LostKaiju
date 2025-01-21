@@ -2,12 +2,12 @@ using UnityEngine;
 
 using LostKaiju.Game.Agents;
 using LostKaiju.Boilerplates.FSM;
-using LostKaiju.Game.Enemy.StateParameters;
-using LostKaiju.Game.Enemy.EnemyStates;
+using LostKaiju.Game.Enemy.Variants.GroundEnemy.StateParameters;
+using LostKaiju.Game.Enemy.Variants.GroundEnemy.States;
 
 namespace LostKaiju.Game.Enemy
 {
-    public class GroundEnemy : MonoBehaviour
+    public class GroundGuardianEnemy : MonoBehaviour
     {
         [SerializeField] private GroundAgent _groundAgent;
         [SerializeField] private Transform[] _patrolPoints;

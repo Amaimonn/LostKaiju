@@ -1,7 +1,6 @@
 using LostKaiju.Game.Creatures.Views;
-using LostKaiju.Game.Player.Data.Configs;
 
-namespace LostKaiju.Game.Configs
+namespace LostKaiju.Game.Player.Data.Configs
 {
     public interface IPlayerConfig
     {

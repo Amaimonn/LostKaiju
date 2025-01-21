@@ -3,8 +3,8 @@ using Unity.Cinemachine;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.Player;
-using LostKaiju.Game.Configs;
 using LostKaiju.Game.Player.Behaviour;
+using LostKaiju.Game.Player.Data.Configs;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {

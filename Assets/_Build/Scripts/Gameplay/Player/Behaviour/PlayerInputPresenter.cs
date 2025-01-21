@@ -34,7 +34,7 @@ namespace LostKaiju.Game.Player.Behaviour
         }
 
 #region CreaturePresenter
-        public override void Bind(CreatureBinder creature)
+        public override void Bind(ICreatureBinder creature)
         {
             base.Bind(creature);
             var features = creature.Features;

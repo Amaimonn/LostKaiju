@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using LostKaiju.Game.Creatures.Presenters;
-
-namespace LostKaiju.Game.Configs 
+namespace LostKaiju.Game.Creatures.Presenters 
 {
     public abstract class CreaturePresenterSO : ScriptableObject
     {

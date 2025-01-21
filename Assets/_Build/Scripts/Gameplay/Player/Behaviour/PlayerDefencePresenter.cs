@@ -19,7 +19,7 @@ namespace LostKaiju.Game.Player.Behaviour
             _health = new Health(playerDefenceData.MaxHealth);
         }
 
-        public override void Bind(CreatureBinder creature)
+        public override void Bind(ICreatureBinder creature)
         {
             base.Bind(creature);
 

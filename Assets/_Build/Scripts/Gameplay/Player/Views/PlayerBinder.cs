@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using LostKaiju.Utils;
 using LostKaiju.Game.Creatures.Features;
 using LostKaiju.Game.Creatures.Views;
 using LostKaiju.Game.Creatures.Presenters;
@@ -9,16 +8,6 @@ namespace LostKaiju.Game.Player.Views
 {
     public class PlayerBinder : CreatureBinder, ICreatureUpdater
     {    
-#region CreatureBinder
-        public override Rigidbody2D Rigidbody => _rigidbody;
-        public override Animator Animator => _animator;
-        public override Holder<ICreatureFeature> Features => _features;
-#endregion
-
-        [Header("Creature base")]
-        [SerializeField] private Rigidbody2D _rigidbody;
-        [SerializeField] private Animator _animator;
-
         [Header("Creature features")]
         [SerializeField] private Flipper _flipper;
         [SerializeField] private GroundCheck _groundCheck;
@@ -26,7 +15,6 @@ namespace LostKaiju.Game.Player.Views
         [SerializeField] private Attacker _attacker;
 
         protected CreaturePresenter _currentPresenter;
-        protected Holder<ICreatureFeature> _features = new();
 
 #region ICreatureUpdater
         public void SetCreaturePresenter(CreaturePresenter creaturePresenter)

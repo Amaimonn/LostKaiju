@@ -4,9 +4,9 @@ namespace LostKaiju.Game.Creatures.Presenters
 {
     public abstract class CreaturePresenter
     {
-        public CreatureBinder Creature { get; protected set; }
+        public ICreatureBinder Creature { get; protected set; }
 
-        public virtual void Bind(CreatureBinder creature)
+        public virtual void Bind(ICreatureBinder creature)
         {
             Creature = creature;
         }
