@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using R3;
@@ -14,7 +13,7 @@ using LostKaiju.Game.Player.Data.StateParameters;
 
 namespace LostKaiju.Game.Player.Behaviour.StateBinders
 {
-    [CreateAssetMenu(fileName = " DashStateBinderSO", menuName = "Scriptable Objects/ DashStateBinderSO")]
+    [CreateAssetMenu(fileName = "DashStateBinderSO", menuName = "Scriptable Objects/DashStateBinderSO")]
     public class DashStateBinderSO : FiniteStateBinderSO
     {
         [SerializeField] private DashParameters _parameters;

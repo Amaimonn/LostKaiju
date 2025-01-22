@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 using ObservableCollections;
 using R3;
@@ -8,18 +10,16 @@ using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 using LostKaiju.Game.Creatures.Features;
-using LostKaiju.Game.Creatures.Presenters;
 using LostKaiju.Game.Player.Data;
 using LostKaiju.Game.Player.Data.StateParameters;
 using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.Creatures.Views;
-using System.Collections.Generic;
-using System;
 
 namespace LostKaiju.Game.Player.Behaviour
 {
-    public class PlayerInputPresenter : CreaturePresenter
+    public class PlayerInputPresenter : IPlayerInputPresenter
     {
+        protected ICreatureBinder _creature;
         private readonly PlayerControlsData _controlsData;
         private FiniteStateMachine _finiteStateMachine;
         private IInputProvider _inputProvider;
@@ -34,9 +34,9 @@ namespace LostKaiju.Game.Player.Behaviour
         }
 
 #region CreaturePresenter
-        public override void Bind(ICreatureBinder creature)
+        public void Bind(ICreatureBinder creature)
         {
-            base.Bind(creature);
+            _creature = creature;
             var features = creature.Features;
             var groundCheck = features.Resolve<GroundCheck>();
             var flipper = features.Resolve<Flipper>();
@@ -50,13 +50,13 @@ namespace LostKaiju.Game.Player.Behaviour
             // walk state
             var walkState = new WalkState();
             var walkParameters = _controlsData.Walk;
-            walkState.Init(walkParameters, Creature.Rigidbody);
+            walkState.Init(walkParameters, _creature.Rigidbody);
             walkState.IsPositiveDirectionX.Subscribe(flipper.LookRight);
 
             // jump state
             var jumpState = new JumpState();
             var jumpParameters = _controlsData.Jump;
-            jumpState.Init(jumpParameters, Creature.Rigidbody);
+            jumpState.Init(jumpParameters, _creature.Rigidbody);
             var jumpCooldownTimer = new Timer(jumpParameters.Cooldown, true);
             _cooldownTimers.Add(jumpCooldownTimer);
             jumpState.OnEnter.Subscribe( _ => jumpCooldownTimer.Refresh());
@@ -65,7 +65,7 @@ namespace LostKaiju.Game.Player.Behaviour
             // dash state (optional)
             var dashState = new DashState();
             var dashParameters = new DashParameters();
-            dashState.Init(dashParameters, Creature.Rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight));
+            dashState.Init(dashParameters, _creature.Rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight));
             var dashCooldownTimer = new Timer(dashParameters.Cooldown, true);
             _cooldownTimers.Add(dashCooldownTimer);
             dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
@@ -108,7 +108,7 @@ namespace LostKaiju.Game.Player.Behaviour
             _finiteStateMachine.Init(typeof(IdleState));
         }
         
-        public override void UpdateLogic()
+        public void UpdateLogic()
         {
             _finiteStateMachine.CurrentState.UpdateLogic();
 
@@ -126,7 +126,7 @@ namespace LostKaiju.Game.Player.Behaviour
             _readAttack = _inputProvider.GetAttack;
         }
 
-        public override void FixedUpdateLogic()
+        public void FixedUpdateLogic()
         {
             _finiteStateMachine.CurrentState.FixedUpdateLogic();
 
@@ -138,25 +138,25 @@ namespace LostKaiju.Game.Player.Behaviour
         private void BindAnimations(IdleState idleState, WalkState walkState, 
             JumpState jumpState, AttackState attackState)
         {
-            int noFadeLayerIndex = Creature.Animator.GetLayerIndex(AnimationLayers.NO_FADE);
+            int noFadeLayerIndex = _creature.Animator.GetLayerIndex(AnimationLayers.NO_FADE);
 
-            walkState.OnEnter.Subscribe(_ => Creature.Animator.CrossFade(AnimationClips.WALK, 0.02f));
-            jumpState.OnEnter.Subscribe(_ => Creature.Animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
+            walkState.OnEnter.Subscribe(_ => _creature.Animator.CrossFade(AnimationClips.WALK, 0.02f));
+            jumpState.OnEnter.Subscribe(_ => _creature.Animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
             idleState.OnEnter.Subscribe(_ => {
-                Creature.Animator.CrossFade(AnimationClips.IDLE, 0.2f);
-                Creature.Animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
+                _creature.Animator.CrossFade(AnimationClips.IDLE, 0.2f);
+                _creature.Animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
             });
-            idleState.OnExit.Subscribe(_ => Creature.Animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
-            attackState.OnEnter.Subscribe(_ => Creature.Animator.Play(AnimationClips.ATTACK_FORWARD));
+            idleState.OnExit.Subscribe(_ => _creature.Animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
+            attackState.OnEnter.Subscribe(_ => _creature.Animator.Play(AnimationClips.ATTACK_FORWARD));
         }
 
         private void ApplyFriction()
         {
-            if (Mathf.Abs(Creature.Rigidbody.linearVelocityX) > 0.01f)
+            if (Mathf.Abs(_creature.Rigidbody.linearVelocityX) > 0.01f)
             {
-                float frictionForce = Mathf.Min(Mathf.Abs(Creature.Rigidbody.linearVelocityX), _controlsData.Walk.FrictionForce);
+                float frictionForce = Mathf.Min(Mathf.Abs(_creature.Rigidbody.linearVelocityX), _controlsData.Walk.FrictionForce);
 
-                Creature.Rigidbody.AddForceX(frictionForce * -Mathf.Sign(Creature.Rigidbody.linearVelocityX), 
+                _creature.Rigidbody.AddForceX(frictionForce * -Mathf.Sign(_creature.Rigidbody.linearVelocityX), 
                     ForceMode2D.Impulse);
             }
         }

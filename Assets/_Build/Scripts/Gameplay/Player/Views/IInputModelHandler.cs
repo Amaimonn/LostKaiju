@@ -4,6 +4,6 @@ namespace LostKaiju.Game.Player.Views
 {
     public interface IBehaviourBinder
     {
-        public void Bind(CreaturePresenter model);
+        public void Bind(ICreaturePresenter model);
     }
 }

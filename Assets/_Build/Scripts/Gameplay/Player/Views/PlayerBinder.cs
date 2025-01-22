@@ -14,12 +14,12 @@ namespace LostKaiju.Game.Player.Views
         [SerializeField] private DamageReceiver _damageReceiver;
         [SerializeField] private Attacker _attacker;
 
-        protected CreaturePresenter _currentPresenter;
+        protected IUpdatablePresenter _updatablePresenter;
 
 #region ICreatureUpdater
-        public void SetCreaturePresenter(CreaturePresenter creaturePresenter)
+        public void SetUpdatablePresenter(IUpdatablePresenter updatablePresenter)
         {
-            _currentPresenter = creaturePresenter;
+            _updatablePresenter = updatablePresenter;
         }
 #endregion
 
@@ -35,12 +35,12 @@ namespace LostKaiju.Game.Player.Views
 
         private void Update()
         {
-            _currentPresenter?.UpdateLogic();
+            _updatablePresenter?.UpdateLogic();
         }
 
         private void FixedUpdate()
         {
-            _currentPresenter?.FixedUpdateLogic();
+            _updatablePresenter?.FixedUpdateLogic();
         }
     }
 }

@@ -4,6 +4,6 @@ namespace LostKaiju.Game.Creatures.Features
  {
     public interface ICreatureUpdater : ICreatureFeature
     {
-        public void SetCreaturePresenter(CreaturePresenter creaturePresenter);
+        public void SetUpdatablePresenter(IUpdatablePresenter updatablePresenter);
     }
 }

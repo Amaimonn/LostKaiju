@@ -5,12 +5,12 @@ using LostKaiju.Game.Player.Behaviour;
 
 namespace LostKaiju.Game.Player
 {
-    public class PlayerRootPresenter : CreaturePresenter
+    public class PlayerRootPresenter : CreaturePresenter, IUpdatablePresenter
     {
-        private readonly PlayerInputPresenter _inputPresenter;
-        private readonly PlayerDefencePresenter _defencePresenter;
+        private readonly IPlayerInputPresenter _inputPresenter;
+        private readonly IPlayerDefencePresenter _defencePresenter;
 
-        public PlayerRootPresenter(PlayerInputPresenter playerInputPresenter, PlayerDefencePresenter playerDefencePresenter)
+        public PlayerRootPresenter(IPlayerInputPresenter playerInputPresenter, IPlayerDefencePresenter playerDefencePresenter)
         {
             _inputPresenter = playerInputPresenter;
             _defencePresenter = playerDefencePresenter;
@@ -21,20 +21,20 @@ namespace LostKaiju.Game.Player
         {
             base.Bind(creature);
 
-            _inputPresenter.Bind(Creature);
-            _defencePresenter.Bind(Creature);
+            _inputPresenter.Bind(_creature);
+            _defencePresenter.Bind(_creature);
 
-            var features = Creature.Features;
+            var features = _creature.Features;
             var creatureUpdater = features.Resolve<ICreatureUpdater>();
-            creatureUpdater.SetCreaturePresenter(this);
+            creatureUpdater.SetUpdatablePresenter(this);
         }
         
-        public override void UpdateLogic()
+        public void UpdateLogic()
         {
             _inputPresenter.UpdateLogic();
         }
 
-        public override void FixedUpdateLogic()
+        public void FixedUpdateLogic()
         {
             _inputPresenter.FixedUpdateLogic();
         }
