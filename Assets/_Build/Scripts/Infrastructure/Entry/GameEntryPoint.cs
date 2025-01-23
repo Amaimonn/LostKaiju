@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using LostKaiju.Boilerplates.Locator;
-using LostKaiju.Infrastructure.Providers.Inputs;
+using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.SceneBootstrap;
 
 namespace LostKaiju.Infrastructure.Entry

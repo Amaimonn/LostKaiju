@@ -2,7 +2,7 @@ using R3;
 
 using LostKaiju.Boilerplates.Locator;
 
-namespace LostKaiju.Infrastructure.Providers.Inputs
+namespace LostKaiju.Services.Inputs
 {
     public interface IInputProvider : IService
     {
@@ -13,6 +13,5 @@ namespace LostKaiju.Infrastructure.Providers.Inputs
         public bool GetJump { get; }
         public bool GetShift { get; }
         public bool GetAttack { get; }
-        
     }
 }

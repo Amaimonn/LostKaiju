@@ -4,7 +4,7 @@ using R3;
 
 using UnityEngine.InputSystem;
 
-namespace LostKaiju.Infrastructure.Providers.Inputs
+namespace LostKaiju.Services.Inputs
 {
     public class InputSystemProvider : IInputProvider
     {

@@ -1,5 +1,5 @@
 using LostKaiju.Boilerplates.FSM;
-using LostKaiju.Infrastructure.Providers.Inputs;
+using LostKaiju.Services.Inputs;
 using LostKaiju.Boilerplates.Locator;
 
 namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates

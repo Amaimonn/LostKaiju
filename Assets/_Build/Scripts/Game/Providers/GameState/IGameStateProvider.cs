@@ -1,6 +1,6 @@
 using LostKaiju.Game.GameData;
 
-namespace LostKaiju.Infrastructure.Providers.Inputs
+namespace LostKaiju.Game.Providers.GameState
 {
     public interface IGameStateProvider
     {

@@ -4,7 +4,7 @@ using R3;
 
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Utils;
-using LostKaiju.Infrastructure.Providers.Inputs;
+using LostKaiju.Services.Inputs;
 using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;

@@ -5,7 +5,7 @@ using ObservableCollections;
 using R3;
 
 using LostKaiju.Utils;
-using LostKaiju.Infrastructure.Providers.Inputs;
+using LostKaiju.Services.Inputs;
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
