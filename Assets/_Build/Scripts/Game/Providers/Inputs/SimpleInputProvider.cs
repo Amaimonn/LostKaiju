@@ -3,7 +3,7 @@ using R3;
 
 namespace LostKaiju.Infrastructure.Providers.Inputs
 {
-    public class BaseInputProvider : IInputProvider
+    public class SimpleInputProvider : IInputProvider
     {
         public float GetHorizontal
         {
@@ -11,7 +11,7 @@ namespace LostKaiju.Infrastructure.Providers.Inputs
             {
                 var horizontal = Input.GetAxisRaw("Horizontal");
                 _horizontalCanceled.Value = horizontal == 0;
-                return Input.GetAxisRaw("Horizontal");
+                return horizontal;
             }
         } 
 
@@ -23,7 +23,7 @@ namespace LostKaiju.Infrastructure.Providers.Inputs
             {
                 var vertical = Input.GetAxisRaw("Vertical");
                 _verticalCanceled.Value = vertical == 0;
-                return Input.GetAxisRaw("Vertical");
+                return vertical;
             }
         } 
 
@@ -35,7 +35,7 @@ namespace LostKaiju.Infrastructure.Providers.Inputs
 
         public bool GetAttack => Input.GetKeyDown(KeyCode.Mouse0);
 
-        private ReactiveProperty<bool> _horizontalCanceled = new(true);
-        private ReactiveProperty<bool> _verticalCanceled = new(true);
+        private readonly ReactiveProperty<bool> _horizontalCanceled = new(true);
+        private readonly ReactiveProperty<bool> _verticalCanceled = new(true);
     }
 }
