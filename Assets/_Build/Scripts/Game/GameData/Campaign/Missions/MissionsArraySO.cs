@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LostKaiju.Game.GameData.Missions
+namespace LostKaiju.Game.GameData.Campaign.Missions
 {
     [CreateAssetMenu(fileName = "MissionsArraySO", menuName = "Scriptable Objects/MissionsArraySO")]
     public class MissionsArraySO : ScriptableObject

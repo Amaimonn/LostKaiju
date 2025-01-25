@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LostKaiju.Game.GameData.Missions
+namespace LostKaiju.Game.GameData.Campaign.Missions
 {
     [Serializable]
     public class MissionData

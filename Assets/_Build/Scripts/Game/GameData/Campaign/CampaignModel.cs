@@ -1,15 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using R3;
+using ObservableCollections;
 
-namespace LostKaiju.Game.GameData.Missions
+using LostKaiju.Game.GameData.Campaign.Locations;
+using LostKaiju.Game.GameData.Campaign.Missions;
+
+namespace LostKaiju.Game.GameData.Campaign
 {
-    public class MissionsModel
+    public class CampaignModel
     {
         public readonly ReactiveProperty<MissionData> SelectedMission;
         public readonly IReadOnlyList<MissionData> MissionDataList;
+        public readonly ObservableList<LocationModel> Locations;
 
-        public MissionsModel(IEnumerable<MissionData> missionDatas, MissionData selectedMission = null)
+        public CampaignModel(IEnumerable<MissionData> missionDatas, MissionData selectedMission = null)
         {
             MissionDataList = new List<MissionData>(missionDatas);
 

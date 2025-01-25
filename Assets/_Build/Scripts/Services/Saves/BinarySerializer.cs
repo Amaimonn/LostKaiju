@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace LostKaiju.Services.Saves
 {
-    public class BinaryAsyncSerializer : IAsyncSerializer
+    public class BinarySerializer : ISerializer
     {
         private readonly BinaryFormatter _formatter = new();
         

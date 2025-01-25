@@ -4,19 +4,19 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Boilerplates.Locator;
-using LostKaiju.Game.GameData.Missions;
+using LostKaiju.Game.GameData.Campaign;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HubViewModel : IViewModel
     {
-        private Subject<Unit> _exitSubject;
-        private Func<MissionsModel> _missionsModelFactory;
+        private readonly Subject<Unit> _exitSubject;
+        private readonly Func<CampaignModel> _missionsModelFactory;
         private readonly IRootUIBinder _rootUIBinder;
         private bool _isMissionsOpened = false;
-        private const string MISSIONS_VIEW_PATH = "UI/Hub/MissionsView";
+        private const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<MissionsModel> missionsModelFactory)
+        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> missionsModelFactory)
         {
             _exitSubject = exitSubject;
             _missionsModelFactory = missionsModelFactory;
@@ -30,10 +30,10 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 return;
             }
 
-            var missionsViewPrefab = Resources.Load<MissionsView>(MISSIONS_VIEW_PATH);
+            var missionsViewPrefab = Resources.Load<CampaignNavigationView>(CAMPAIGN_NAVIGATION_VIEW_PATH);
             var missionsView = UnityEngine.Object.Instantiate(missionsViewPrefab);
             var missionsModel = _missionsModelFactory();
-            var missionsViewModel = new MissionsViewModel(_exitSubject, missionsModel);
+            var missionsViewModel = new CampaignNavigationViewModel(_exitSubject, missionsModel);
             missionsViewModel.OnCloseCompleted.Subscribe(_ =>  {
                 _rootUIBinder.ClearView(missionsView);
                 _isMissionsOpened = false;

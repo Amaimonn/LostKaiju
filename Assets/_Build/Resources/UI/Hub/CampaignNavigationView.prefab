@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4586825294487815769}
   - component: {fileID: -3571223380058938639}
   m_Layer: 0
-  m_Name: MissionsView
+  m_Name: CampaignNavigationView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

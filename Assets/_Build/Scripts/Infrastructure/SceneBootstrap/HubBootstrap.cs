@@ -7,7 +7,8 @@ using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Hub;
-using LostKaiju.Game.GameData.Missions;
+using LostKaiju.Game.GameData.Campaign.Missions;
+using LostKaiju.Game.GameData.Campaign;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -30,7 +31,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             };
             var hubExitContext = new HubExitContext(gameplayEnterContext);
             var hubExitSignal = exitSignal.Select(_ => hubExitContext); // send to UI
-            var missionsModelFactory = new Func<MissionsModel>(() => MissionsModelFactory(gameplayEnterContext));
+            var missionsModelFactory = new Func<CampaignModel>(() => MissionsModelFactory(gameplayEnterContext));
             var hubViewModel = new HubViewModel(exitSignal, missionsModelFactory);
 
             hubView.Bind(hubViewModel);
@@ -39,12 +40,12 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             return hubExitSignal;
         }
 
-        private MissionsModel MissionsModelFactory(GameplayEnterContext gameplayEnterContext)
+        private CampaignModel MissionsModelFactory(GameplayEnterContext gameplayEnterContext)
         {
             var missionsArraySO = Resources.Load<MissionsArraySO>(_missionsConfigPath);
             var missions = missionsArraySO.Missions.Select(x => x.Mission);
             var selectedMission = missions.First();
-            var missionsModel = new MissionsModel(missions, selectedMission);
+            var missionsModel = new CampaignModel(missions, selectedMission);
 
             missionsModel.SelectedMission.Subscribe(x => {
                 gameplayEnterContext.LevelSceneName = x.SceneName;

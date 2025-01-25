@@ -4,18 +4,19 @@ using R3;
 using ObservableCollections;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.GameData.Missions;
+using LostKaiju.Game.GameData.Campaign.Missions;
+using LostKaiju.Game.GameData.Campaign;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class MissionsViewModel : IViewModel//, IDisposable
+    public class CampaignNavigationViewModel : IViewModel//, IDisposable
     {
         public Observable<bool> OnOpenStateChanged => _isOpened;
         public Observable<Unit> OnCloseCompleted => _closeCompleted;
         public ReadOnlyReactiveProperty<MissionData> SelectedMission => _selectedMission;
         public IObservableCollection<MissionData> DisplayedMissions => _dysplayedMissions;
 
-        private readonly MissionsModel _missionsModel;
+        private readonly CampaignModel _missionsModel;
         private readonly Subject<Unit> _startMissionSubject;
         private readonly ReactiveProperty<bool> _isOpened = new(false);
         private readonly Subject<Unit> _closeCompleted = new();
@@ -23,7 +24,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly ObservableList<MissionData> _dysplayedMissions;
         // private CompositeDisposable _disposables;
         
-        public MissionsViewModel(Subject<Unit> startMissionSubject, MissionsModel missionsModel)
+        public CampaignNavigationViewModel(Subject<Unit> startMissionSubject, CampaignModel missionsModel)
         {
             _startMissionSubject = startMissionSubject;
 

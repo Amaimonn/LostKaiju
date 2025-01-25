@@ -4,10 +4,10 @@ namespace LostKaiju.Services.Saves
 {
     public class SimpleSaveSystem : ISaveSystem
     {
-        private readonly IAsyncSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IDataStorage _storage;
 
-        public SimpleSaveSystem(IAsyncSerializer serializer, IDataStorage storage)
+        public SimpleSaveSystem(ISerializer serializer, IDataStorage storage)
         {
             _serializer = serializer;
             _storage = storage;

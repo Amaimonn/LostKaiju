@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LostKaiju.Services.Saves
 {
-    public class JsonUtilityAsyncSerializer : IAsyncSerializer
+    public class JsonUtilitySerializer : ISerializer
     {
         public Task<string> SerializeAsync<T>(T rawData)
         {

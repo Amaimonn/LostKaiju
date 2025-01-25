@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 
-using LostKaiju.Game.GameData.Missions;
+using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class MissionsView : ToolkitView<MissionsViewModel>
+    public class CampaignNavigationView : ToolkitView<CampaignNavigationViewModel>
     {
         [Header("UI Elements")]
         [SerializeField] private string _contentElementName;
@@ -52,7 +52,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             });
         }
 
-        protected override void OnBind(MissionsViewModel viewModel)
+        protected override void OnBind(CampaignNavigationViewModel viewModel)
         {
             _startButton.RegisterCallback<ClickEvent>(_ => StartGameplay());
             _closeButton.RegisterCallback<ClickEvent>(_ => Close());
