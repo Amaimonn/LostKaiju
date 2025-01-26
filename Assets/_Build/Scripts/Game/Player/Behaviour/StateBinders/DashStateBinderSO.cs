@@ -20,7 +20,7 @@ namespace LostKaiju.Game.Player.Behaviour.StateBinders
 
         public (FiniteState, IEnumerable<IFiniteTransition>) Bind(Holder<ICreatureFeature> features, Rigidbody2D rigidbody)
         {
-            var inputProvider = ServiceLocator.Current.Get<IInputProvider>();
+            var inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
 
             var flipper = features.Resolve<Flipper>();
 

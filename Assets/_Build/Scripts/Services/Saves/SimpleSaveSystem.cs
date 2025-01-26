@@ -17,6 +17,7 @@ namespace LostKaiju.Services.Saves
         {
             var serializedData = _serializer.SerializeAsync(data).Result;
             _storage.WriteAsync(key, serializedData);
+
             return Task.CompletedTask;
         }
 
@@ -24,6 +25,7 @@ namespace LostKaiju.Services.Saves
         {
             var serializedData = _storage.ReadAsync(key).Result;
             var data = _serializer.DeserializeAsync<T>(serializedData);
+
             return data;
         }
 

@@ -6,7 +6,7 @@ namespace LostKaiju.Boilerplates.Locator
 {
     public class ServiceLocator
     {
-        public static ServiceLocator Current => _instance ??= new ServiceLocator();
+        public static ServiceLocator Instance => _instance ??= new ServiceLocator();
         private static ServiceLocator _instance;
         private readonly Dictionary<string, IService> _services = new();
 

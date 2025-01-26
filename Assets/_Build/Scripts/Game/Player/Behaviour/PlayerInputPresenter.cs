@@ -42,7 +42,7 @@ namespace LostKaiju.Game.Player.Behaviour
             var flipper = features.Resolve<Flipper>();
             var attacker = features.Resolve<IAttacker>();
             
-            _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
+            _inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
 
             // idle state
             var idleState = new IdleState();

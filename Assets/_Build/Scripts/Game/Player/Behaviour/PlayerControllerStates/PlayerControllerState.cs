@@ -10,7 +10,7 @@ namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
         
         public PlayerControllerState() : base()
         {
-            _inputProvider = ServiceLocator.Current.Get<IInputProvider>();
+            _inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
         }
     }
 }

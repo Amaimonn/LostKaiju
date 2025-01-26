@@ -17,8 +17,8 @@ namespace LostKaiju.Utils
             }
             else
             {
-                Debug.LogWarning($"Can't resolve {resolveType.Name}");
-                return default;
+                Debug.LogError($"Can't resolve {resolveType.Name}");
+                throw new InvalidOperationException();
             }
         }
 
@@ -27,7 +27,7 @@ namespace LostKaiju.Utils
             var registeredType = typeof(TKeyType);
 
             if (_items.ContainsKey(registeredType))
-                Debug.Log($"Override key {registeredType.Name}");
+                Debug.Log($"Overriding key {registeredType.Name}");
 
             _items[registeredType] = item;
         }

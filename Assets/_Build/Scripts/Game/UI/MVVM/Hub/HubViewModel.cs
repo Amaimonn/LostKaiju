@@ -20,7 +20,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         {
             _exitSubject = exitSubject;
             _missionsModelFactory = missionsModelFactory;
-            _rootUIBinder = ServiceLocator.Current.Get<IRootUIBinder>();
+            _rootUIBinder = ServiceLocator.Instance.Get<IRootUIBinder>();
         }
 
         public void OpenMissions()

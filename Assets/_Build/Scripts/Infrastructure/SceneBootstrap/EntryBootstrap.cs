@@ -20,7 +20,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             _monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
             DontDestroyOnLoad(_monoHook);
 
-            var serviceLocator = ServiceLocator.Current;
+            var serviceLocator = ServiceLocator.Instance;
             
             var uiRootBinder = Instantiate(_uiRootBinderPrefab);
             serviceLocator.Register<IRootUIBinder>(uiRootBinder);

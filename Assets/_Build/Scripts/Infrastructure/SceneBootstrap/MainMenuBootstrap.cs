@@ -20,7 +20,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             
             mainMenuViewModel.Bind(mainMenuModel);
 
-            var rootBinder = ServiceLocator.Current.Get<IRootUIBinder>();
+            var rootBinder = ServiceLocator.Instance.Get<IRootUIBinder>();
             var mainMenuView = Instantiate(_mainMenuUI).GetComponent<MainMenuView>();
 
             mainMenuView.Bind(mainMenuViewModel);

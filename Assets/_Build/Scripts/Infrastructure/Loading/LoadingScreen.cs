@@ -7,18 +7,17 @@ public class LoadingScreen: MonoBehaviour
 #region MonoBehaviour
     private void Awake()
     {
-        Deactivate();
+        Hide();
     }
 #endregion 
 
-    public void Activate()
+    public void Show()
     {
         _loadingGameObject.SetActive(true);
     }
 
-    public void Deactivate()
+    public void Hide()
     {
         _loadingGameObject.SetActive(false);
     }
-
 }
