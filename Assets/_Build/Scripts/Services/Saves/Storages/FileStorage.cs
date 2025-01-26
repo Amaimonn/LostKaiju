@@ -12,7 +12,7 @@ namespace LostKaiju.Services.Saves
 
         public FileStorage(string fileExtension)
         {
-            _basePath = Application.persistentDataPath;
+            _basePath = Application.isEditor ? Path.Combine(Application.dataPath, "SaveData") : Application.persistentDataPath;
             _fileExtension = fileExtension;
         }
 
