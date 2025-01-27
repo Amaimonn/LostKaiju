@@ -6,6 +6,7 @@ using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Services.Saves;
+using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Infrastructure.Entry
 {
@@ -15,13 +16,6 @@ namespace LostKaiju.Infrastructure.Entry
 
         private GameEntryPoint()
         {
-            var serviceLocator = ServiceLocator.Instance;
-            
-            serviceLocator.Register<IInputProvider>(new InputSystemProvider());
-            
-            var serizlizer = new JsonUtilitySerializer();
-            var storage = new FileStorage(fileExtension: "json");
-            serviceLocator.Register<ISaveSystem>(new SimpleSaveSystem(serizlizer, storage));
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -33,6 +27,19 @@ namespace LostKaiju.Infrastructure.Entry
 
         private async Task Run()
         {
+            var serviceLocator = ServiceLocator.Instance;
+            
+            serviceLocator.Register<IInputProvider>(new InputSystemProvider());
+            
+            var serizlizer = new JsonUtilitySerializer();
+            var storage = new FileStorage(fileExtension: "json");
+            var saveSystem = new SimpleSaveSystem(serizlizer, storage);
+            serviceLocator.Register<ISaveSystem>(saveSystem);
+
+            var gameStateProvider = new GameStateProvider(saveSystem);
+            await gameStateProvider.LoadCampaignStateAsync();
+            serviceLocator.Register<IGameStateProvider>(gameStateProvider);
+
             await SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
             Debug.Log("Entry point scene loaded");
             

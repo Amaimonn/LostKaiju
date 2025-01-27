@@ -7,16 +7,13 @@ using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Game.GameData.Campaign.Locations
 {
-    public class LocationModel
+    public class LocationModel : Model<LocationState>
     {
-        public ReactiveProperty<bool> IsOpened { get; }
-        public ObservableList<MissionModel> Missions { get; } // all existing missions in this location
-        public LocationState State { get; }
+        public readonly ReactiveProperty<bool> IsOpened;
+        public readonly ObservableList<MissionModel> Missions;// all existing missions in this location
 
-        public LocationModel(LocationState locationState, IEnumerable<MissionModel> missions)
+        public LocationModel(LocationState locationState, IEnumerable<MissionModel> missions) : base(locationState)
         {
-            State = locationState;
-
             IsOpened = new ReactiveProperty<bool>(locationState.IsOpened);
             IsOpened.Skip(1).Subscribe(x => State.IsOpened = true);
 

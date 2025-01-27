@@ -8,13 +8,14 @@ using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
-    public class CampaignModel
+    public class CampaignModel : Model<CampaignState>
     {
         public readonly ReactiveProperty<MissionData> SelectedMission;
         public readonly IReadOnlyList<MissionData> MissionDataList;
         public readonly ObservableList<LocationModel> Locations;
 
-        public CampaignModel(IEnumerable<MissionData> missionDatas, MissionData selectedMission = null)
+        public CampaignModel(CampaignState campaignState, IEnumerable<MissionData> missionDatas, 
+            MissionData selectedMission = null) : base(campaignState)
         {
             MissionDataList = new List<MissionData>(missionDatas);
 

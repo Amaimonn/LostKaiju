@@ -1,6 +1,6 @@
 namespace LostKaiju.Game.GameData
 {
-    public class SettingsModel
+    public class SettingsState
     {
         public float SoundVolume;
         public float SFXVolume;
