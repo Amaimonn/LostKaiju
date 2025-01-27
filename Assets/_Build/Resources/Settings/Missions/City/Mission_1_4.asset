@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mission_1_4
   m_EditorClassIdentifier: 
   <Mission>k__BackingField:
-    <Id>k__BackingField: Mission_1_4
+    <Id>k__BackingField: 1_4
     <DysplayedNumber>k__BackingField: 4
     <Name>k__BackingField: Situation
     <Text>k__BackingField: What if...

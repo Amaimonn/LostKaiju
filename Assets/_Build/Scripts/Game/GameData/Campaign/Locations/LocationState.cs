@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Game.GameData.Campaign.Locations
 {
+    [Serializable]
     public class LocationState
     {
         public string Id;

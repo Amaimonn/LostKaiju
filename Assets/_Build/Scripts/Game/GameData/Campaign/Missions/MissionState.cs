@@ -1,5 +1,8 @@
+using System;
+
 namespace LostKaiju.Game.GameData.Campaign.Missions
 {
+    [Serializable]
     public class MissionState
     {
         public string Id;

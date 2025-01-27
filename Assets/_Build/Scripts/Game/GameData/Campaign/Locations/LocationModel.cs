@@ -10,7 +10,7 @@ namespace LostKaiju.Game.GameData.Campaign.Locations
     public class LocationModel : Model<LocationState>
     {
         public readonly ReactiveProperty<bool> IsOpened;
-        public readonly ObservableList<MissionModel> Missions;// all existing missions in this location
+        public readonly ObservableList<MissionModel> Missions; // all existing missions in this location
 
         public LocationModel(LocationState locationState, IEnumerable<MissionModel> missions) : base(locationState)
         {
