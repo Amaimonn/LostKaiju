@@ -6,6 +6,7 @@ using ObservableCollections;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign;
+using System.Collections.Generic;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -14,7 +15,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         public Observable<bool> OnOpenStateChanged => _isOpened;
         public Observable<Unit> OnCloseCompleted => _closeCompleted;
         public ReadOnlyReactiveProperty<MissionData> SelectedMission => _selectedMission;
-        public IObservableCollection<MissionData> DisplayedMissions => _dysplayedMissions;
+        public IReadOnlyObservableList<MissionData> DisplayedMissions => _dysplayedMissions;
+        public IReadOnlyObservableDictionary<string, MissionModel> AvailableMissionsMap => _availableMissions;
 
         private readonly CampaignModel _missionsModel;
         private readonly Subject<Unit> _startMissionSubject;
@@ -22,14 +24,20 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly Subject<Unit> _closeCompleted = new();
         private readonly ReactiveProperty<MissionData> _selectedMission;
         private readonly ObservableList<MissionData> _dysplayedMissions;
+        private readonly ObservableDictionary<string, MissionModel> _availableMissions;
         // private CompositeDisposable _disposables;
         
         public CampaignNavigationViewModel(Subject<Unit> startMissionSubject, CampaignModel missionsModel)
         {
             _startMissionSubject = startMissionSubject;
-
             _missionsModel = missionsModel;
-            var missionDataList = missionsModel.MissionDataList;
+            
+            var missionDataList = missionsModel.MissionDataList; 
+            
+            // test with 0-index location
+            var availableMissionsMap = missionsModel.Locations[0].AvailableMissions
+                    .Select(x => new KeyValuePair<string, MissionModel>(x.State.Id, x));
+            _availableMissions = new ObservableDictionary<string, MissionModel>(availableMissionsMap);
             _dysplayedMissions = new ObservableList<MissionData>(missionDataList);
             _selectedMission = new ReactiveProperty<MissionData>(_missionsModel.SelectedMission.Value);
             Debug.Log($"init in vm: {_selectedMission.Value}");

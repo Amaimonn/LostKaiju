@@ -44,6 +44,7 @@ namespace LostKaiju.Game.Providers.GameState
                 { 
                     Locations = new List<LocationState>{ location }
                 };
+                await _saveSystem.SaveAsync(CAMPAIGN_STATE_KEY, Campaign);
             }
         }
     }

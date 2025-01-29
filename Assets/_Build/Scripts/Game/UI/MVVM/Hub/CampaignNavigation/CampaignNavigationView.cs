@@ -24,7 +24,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [Header("SFX")]
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _buttonHoverSFX;
-        
+
         private Button _startButton;
         private Button _closeButton;
         private VisualElement _contentElement;
@@ -34,6 +34,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _panelWhiteBackground;
         private bool _isGameplayStarted = false;
         private bool _isClosing = false;
+        private bool _isAvailableMissionSelected = false;
 
         protected override void OnAwake()
         {
@@ -63,6 +64,19 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 {
                     text = mission.DysplayedNumber,
                 };
+                
+                if (_viewModel.AvailableMissionsMap.TryGetValue(mission.Id, out MissionModel missionModel))
+                {
+                    if (missionModel.IsCompleted.Value)
+                    {
+                        // mark mission as completed
+                    }
+                }
+                else
+                {
+                    missionButton.style.color = Color.gray;
+                    // mark mission as locked
+                }
                 missionButton.RegisterCallback<ClickEvent>(_ => _viewModel.SelectMission(mission));
                 missionButton.RegisterCallback<PointerEnterEvent>(_ => PlayButtonHoverSFX());
                 missionButton.AddToClassList(_baseButtonStyleName);
@@ -121,6 +135,17 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private void OnMissionSelected(MissionData missionModel)
         {
+            if (_viewModel.AvailableMissionsMap.ContainsKey(missionModel.Id))
+            {
+                _isAvailableMissionSelected = true;
+                _startButton.enabledSelf = true;
+            }
+            else
+            {
+                _isAvailableMissionSelected = false;
+                _startButton.enabledSelf = false;
+            }
+
             _selectedMissionLabel.text = missionModel.Name;
             _selectedMissionText.text = missionModel.Text;
         }

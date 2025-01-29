@@ -10,15 +10,18 @@ namespace LostKaiju.Game.GameData.Campaign.Locations
     public class LocationModel : Model<LocationState>
     {
         public readonly ReactiveProperty<bool> IsOpened;
-        public readonly ObservableList<MissionModel> Missions; // all existing missions in this location
+        public readonly ObservableList<MissionModel> AvailableMissions;
 
-        public LocationModel(LocationState locationState, IEnumerable<MissionModel> missions) : base(locationState)
+        public LocationModel(LocationState locationState, IEnumerable<MissionModel> availableMissions) : 
+            base(locationState)
         {
+            AvailableMissions = new ObservableList<MissionModel>(availableMissions);
+
             IsOpened = new ReactiveProperty<bool>(locationState.IsOpened);
             IsOpened.Skip(1).Subscribe(x => State.IsOpened = true);
 
-            Missions = new ObservableList<MissionModel>(missions);
-            Missions.ForEach(mission => 
+            AvailableMissions = new ObservableList<MissionModel>(availableMissions);
+            AvailableMissions.ForEach(mission => 
             {
                 if (!mission.IsOpened.Value)
                     mission.IsOpened.Skip(1).Subscribe(x => {
