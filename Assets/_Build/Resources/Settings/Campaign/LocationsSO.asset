@@ -10,10 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b03db6001afc680458650967828ba875, type: 3}
-  m_Name: MissionsArraySO
+  m_Name: LocationsSO
   m_EditorClassIdentifier: 
-  <Missions>k__BackingField:
-  - {fileID: 11400000, guid: 3afaf6dde8b4cd147b1d292689e4152c, type: 2}
-  - {fileID: 11400000, guid: 023260b38431de44e97299b7e71e5ae5, type: 2}
-  - {fileID: 11400000, guid: 11a70e876e7c25146acb2548efdd14d5, type: 2}
-  - {fileID: 11400000, guid: 019441b97d446a64f84527755f2800ed, type: 2}
+  <Locations>k__BackingField:
+  - {fileID: 11400000, guid: 910e4bfdc8b1b654391b5f67778400cb, type: 2}

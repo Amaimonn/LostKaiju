@@ -6,46 +6,41 @@ using ObservableCollections;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign;
-using System.Collections.Generic;
+using LostKaiju.Game.GameData.Campaign.Locations;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class CampaignNavigationViewModel : IViewModel//, IDisposable
     {
         public Observable<bool> OnOpenStateChanged => _isOpened;
-        public Observable<Unit> OnCloseCompleted => _closeCompleted;
-        public ReadOnlyReactiveProperty<MissionData> SelectedMission => _selectedMission;
-        public IReadOnlyObservableList<MissionData> DisplayedMissions => _dysplayedMissions;
-        public IReadOnlyObservableDictionary<string, MissionModel> AvailableMissionsMap => _availableMissions;
+        public Observable<Unit> OnClosingCompleted => _isClosingCompleted;
+        public ReadOnlyReactiveProperty<ILocationData> SelectedLocation => _selectedLocation;
+        public ReadOnlyReactiveProperty<IMissionData> SelectedMission => _selectedMission;
+        public IReadOnlyObservableList<IMissionData> DisplayedMissionsData => _displayedMissionsData;
+        public IReadOnlyObservableDictionary<string, MissionModel> AvailableMissionsMap => _availableMissionsMap;
 
-        private readonly CampaignModel _missionsModel;
+        private readonly CampaignModel _campaignModel;
         private readonly Subject<Unit> _startMissionSubject;
         private readonly ReactiveProperty<bool> _isOpened = new(false);
-        private readonly Subject<Unit> _closeCompleted = new();
-        private readonly ReactiveProperty<MissionData> _selectedMission;
-        private readonly ObservableList<MissionData> _dysplayedMissions;
-        private readonly ObservableDictionary<string, MissionModel> _availableMissions;
-        // private CompositeDisposable _disposables;
+        private readonly Subject<Unit> _isClosingCompleted = new();
+        private readonly ReactiveProperty<ILocationData> _selectedLocation;
+        private readonly ReactiveProperty<IMissionData> _selectedMission;
+        private readonly ObservableList<IMissionData> _displayedMissionsData;
+        private readonly ObservableDictionary<string, MissionModel> _availableMissionsMap;
         
-        public CampaignNavigationViewModel(Subject<Unit> startMissionSubject, CampaignModel missionsModel)
+        public CampaignNavigationViewModel(Subject<Unit> startMissionSubject, CampaignModel campaignModel)
         {
             _startMissionSubject = startMissionSubject;
-            _missionsModel = missionsModel;
-            
-            var missionDataList = missionsModel.MissionDataList; 
-            
-            // test with 0-index location
-            var availableMissionsMap = missionsModel.Locations[0].AvailableMissions
-                    .Select(x => new KeyValuePair<string, MissionModel>(x.State.Id, x));
-            _availableMissions = new ObservableDictionary<string, MissionModel>(availableMissionsMap);
-            _dysplayedMissions = new ObservableList<MissionData>(missionDataList);
-            _selectedMission = new ReactiveProperty<MissionData>(_missionsModel.SelectedMission.Value);
+            _campaignModel = campaignModel;
+
+            // test with first location
+            var displayedLocationModel = campaignModel.Locations[0];
+            _displayedMissionsData = new ObservableList<IMissionData>(displayedLocationModel.Data.AllMissionsData); 
+            _availableMissionsMap = new ObservableDictionary<string, MissionModel>(displayedLocationModel.AvailableMissionsMap);
+            _selectedMission = new ReactiveProperty<IMissionData>(_campaignModel.SelectedMission.Value);
             Debug.Log($"init in vm: {_selectedMission.Value}");
-            _missionsModel.SelectedMission.Skip(1).Subscribe(OnMissionSelected);
-            // _disposables = new()
-            // {
-            //     _missionsModel.SelectedMission.Subscribe(OnMissionSelected)
-            // };
+
+            _campaignModel.SelectedMission.Skip(1).Subscribe(OnMissionSelected);
         }
 
         public void StartGameplay()
@@ -56,7 +51,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         public void CompleteClose()
         {
-            _closeCompleted.OnNext(Unit.Default);
+            _isClosingCompleted.OnNext(Unit.Default);
         }
 
         public void Open()
@@ -69,19 +64,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _isOpened.Value = false;
         }
 
-        public void SelectMission(MissionData missionData)
+        public void SelectMission(IMissionData missionData)
         {
-            _missionsModel.SelectedMission.Value = missionData;
+            _campaignModel.SelectedMission.Value = missionData;
         }
 
-        private void OnMissionSelected(MissionData selectedMissionData)
+        private void OnMissionSelected(IMissionData selectedMissionData)
         {
             _selectedMission.Value = selectedMissionData;
         }
-
-        // public void Dispose()
-        // {
-        //     _disposables.Dispose();
-        // }
     }
 }

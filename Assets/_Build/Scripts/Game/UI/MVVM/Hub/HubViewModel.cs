@@ -34,7 +34,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             var missionsView = UnityEngine.Object.Instantiate(missionsViewPrefab);
             var missionsModel = _campaignModelFactory();
             var missionsViewModel = new CampaignNavigationViewModel(_exitSubject, missionsModel);
-            missionsViewModel.OnCloseCompleted.Subscribe(_ =>  {
+            missionsViewModel.OnClosingCompleted.Subscribe(_ =>  {
                 _rootUIBinder.ClearView(missionsView);
                 _isMissionsOpened = false;
             });

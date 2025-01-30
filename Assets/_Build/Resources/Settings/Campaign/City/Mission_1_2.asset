@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 219588c04fe961a4881a263a45c254d4, type: 3}
-  m_Name: Mission_1_3
+  m_Name: Mission_1_2
   m_EditorClassIdentifier: 
-  <Mission>k__BackingField:
-    <Id>k__BackingField: 1_3
-    <DysplayedNumber>k__BackingField: 3
-    <Name>k__BackingField: Thoughts
-    <Text>k__BackingField: What does it mean?
-    <SceneName>k__BackingField: Mission_1_3
+  <Id>k__BackingField: 1_2
+  <DysplayedNumber>k__BackingField: 2
+  <Name>k__BackingField: Continuation
+  <Text>k__BackingField: What should I do? How should I manage with it?
+  <SceneName>k__BackingField: Mission_1_2

@@ -5,7 +5,6 @@ using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using System.Threading.Tasks;
 
 namespace LostKaiju.Infrastructure.Loading
 {

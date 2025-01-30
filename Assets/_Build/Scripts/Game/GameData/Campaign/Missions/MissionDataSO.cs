@@ -1,16 +1,11 @@
-using System;
 using UnityEngine;
 
 namespace LostKaiju.Game.GameData.Campaign.Missions
 {
-    [Serializable]
-    public class MissionData : IMissionData
+    [CreateAssetMenu(fileName = "MissionDataSO", menuName = "Scriptable Objects/MissionDataSO")]
+    public class MissionDataSO : ScriptableObject, IMissionData
     {
         [field: SerializeField] public string Id { get; private set; }
-
-        /// <summary>
-        /// The number of the mission that is displayed on the screen.
-        /// </summary>
         [field: SerializeField] public string DysplayedNumber { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public string Text { get; private set; }

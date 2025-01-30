@@ -5,42 +5,48 @@ using ObservableCollections;
 
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
+using UnityEngine;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
     public class CampaignModel : Model<CampaignState>
     {
-        public readonly ReactiveProperty<MissionData> SelectedMission;
-        public readonly IReadOnlyList<MissionData> MissionDataList; // all missions in campaign (divided by locations later)
+        public readonly ReactiveProperty<ILocationData> SelectedLocation;
+        public readonly ReactiveProperty<IMissionData> SelectedMission;
+        public readonly IMissionData LastLaunchedMission;
+        /// <summary>
+        /// all Locations const data in campaign
+        /// </summary>
+        public readonly IReadOnlyDictionary<string, ILocationData> LocationsDataMap;
         public readonly ObservableList<LocationModel> Locations;
 
-        public CampaignModel(CampaignState campaignState, IEnumerable<MissionData> missionDatas,
-            MissionData selectedMission = null) : base(campaignState)
+        public CampaignModel(CampaignState campaignState, Dictionary<string, ILocationData> locationsData,
+            IMissionData selectedMission = null) : base(campaignState)
         {
-            MissionDataList = new List<MissionData>(missionDatas);
+            LocationsDataMap = locationsData;
             Locations = new ObservableList<LocationModel>();
-
             foreach (var location in campaignState.Locations)
             {
-                var availableMissions = location.OpenedMissions.Select(availableMission =>
+                if (locationsData.TryGetValue(location.Id, out var locationData))
                 {
-                    // TODO: optimize the search
-                    var missionData = missionDatas.Where(m => m.Id == availableMission.Id).FirstOrDefault();
-                    return new MissionModel(availableMission, missionData);
-                });
-
-                var locationModel = new LocationModel(location, availableMissions);
-                Locations.Add(locationModel);
+                    var locationModel = new LocationModel(location, locationData);
+                    Locations.Add(locationModel);
+                }
+                else
+                {
+                    Debug.LogWarning($"Location {location.Id} from state not found in locationData map");
+                }
             }
-
+            
+            var missionDatas = locationsData.First().Value.AllMissionsData; // test with first location
             if (selectedMission == null && missionDatas.Count() > 0)
             {
                 var baseSelectedMission = missionDatas.First();
-                SelectedMission = new ReactiveProperty<MissionData>(baseSelectedMission);
+                SelectedMission = new ReactiveProperty<IMissionData>(baseSelectedMission);
             }
             else
             {
-                SelectedMission = new ReactiveProperty<MissionData>(selectedMission);
+                SelectedMission = new ReactiveProperty<IMissionData>(selectedMission);
             }
         }
     }

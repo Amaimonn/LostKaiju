@@ -6,9 +6,9 @@ namespace LostKaiju.Game.GameData.Campaign.Missions
     {
         public ReactiveProperty<bool> IsOpened { get; }
         public ReactiveProperty<bool> IsCompleted { get; }
-        public MissionData Data { get; } // additional unchangeable data for Views
+        public IMissionData Data { get; } // additional unchangeable data for Views
 
-        public MissionModel(MissionState missionState, MissionData data) : base(missionState)
+        public MissionModel(MissionState missionState, IMissionData data) : base(missionState)
         {
             Data = data;
 

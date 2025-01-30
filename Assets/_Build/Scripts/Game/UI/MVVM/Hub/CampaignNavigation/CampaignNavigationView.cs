@@ -34,7 +34,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _panelWhiteBackground;
         private bool _isGameplayStarted = false;
         private bool _isClosing = false;
-        private bool _isAvailableMissionSelected = false;
 
         protected override void OnAwake()
         {
@@ -58,7 +57,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _startButton.RegisterCallback<ClickEvent>(_ => StartGameplay());
             _closeButton.RegisterCallback<ClickEvent>(_ => Close());
 
-            foreach (var mission in _viewModel.DisplayedMissions)
+            foreach (var mission in _viewModel.DisplayedMissionsData)
             {
                 var missionButton = new Button
                 {
@@ -133,16 +132,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             Debug.Log("Missions: closed");
         }
 
-        private void OnMissionSelected(MissionData missionModel)
+        private void OnMissionSelected(IMissionData missionModel)
         {
             if (_viewModel.AvailableMissionsMap.ContainsKey(missionModel.Id))
             {
-                _isAvailableMissionSelected = true;
                 _startButton.enabledSelf = true;
             }
             else
             {
-                _isAvailableMissionSelected = false;
                 _startButton.enabledSelf = false;
             }
 

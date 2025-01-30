@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 219588c04fe961a4881a263a45c254d4, type: 3}
-  m_Name: Mission_1_2
+  m_Name: Mission_1_1
   m_EditorClassIdentifier: 
-  <Mission>k__BackingField:
-    <Id>k__BackingField: 1_2
-    <DysplayedNumber>k__BackingField: 2
-    <Name>k__BackingField: Shock
-    <Text>k__BackingField: Huh?!?
-    <SceneName>k__BackingField: Mission_1_2
+  <Id>k__BackingField: 1_1
+  <DysplayedNumber>k__BackingField: 1
+  <Name>k__BackingField: Beginning
+  <Text>k__BackingField: Who am I? Where am I? What`s all about it?
+  <SceneName>k__BackingField: Mission_1_1

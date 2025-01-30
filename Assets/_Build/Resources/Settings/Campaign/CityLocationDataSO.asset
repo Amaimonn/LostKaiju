@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d6b96c6d3b46f2468b42899cd1e3942, type: 3}
+  m_Name: CityLocationDataSO
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: 1
+  <AllMissionsDataSO>k__BackingField:
+  - {fileID: 11400000, guid: 3afaf6dde8b4cd147b1d292689e4152c, type: 2}
+  - {fileID: 11400000, guid: 023260b38431de44e97299b7e71e5ae5, type: 2}
+  - {fileID: 11400000, guid: 11a70e876e7c25146acb2548efdd14d5, type: 2}
+  - {fileID: 11400000, guid: 019441b97d446a64f84527755f2800ed, type: 2}

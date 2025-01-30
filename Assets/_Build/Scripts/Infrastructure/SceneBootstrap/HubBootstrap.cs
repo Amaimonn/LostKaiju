@@ -7,9 +7,10 @@ using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Hub;
-using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.Providers.GameState;
+using LostKaiju.Game.GameData.Campaign.Locations;
+using System.Collections.Generic;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -17,7 +18,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     {
         [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private string _playerConfigName; // choose your player character
-        [SerializeField] private string _missionsConfigPath;
+        [SerializeField] private string _locationsConfigPath;
         private IGameStateProvider _gameStateProvider;
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
@@ -49,11 +50,14 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         private CampaignModel CampaignModelFactory(GameplayEnterContext gameplayEnterContext)
         {
-            var missionsArraySO = Resources.Load<MissionsArraySO>(_missionsConfigPath);
-            var missions = missionsArraySO.Missions.Select(x => x.Mission);
-            var selectedMission = missions.First();
+            var locationsDataSO = Resources.Load<LocationsDataSO>(_locationsConfigPath);
+            var locationsPairs = locationsDataSO.Locations
+                .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
+            var locationsMap = new Dictionary<string, ILocationData>(locationsPairs);
+            var selectedLocation = locationsMap.First().Value; // test location selection
+            var selectedMission = selectedLocation.AllMissionsData.FirstOrDefault(); // test mission selection
             var campaignState = _gameStateProvider.Campaign;
-            var campaignModel = new CampaignModel(campaignState, missions, selectedMission);
+            var campaignModel = new CampaignModel(campaignState, locationsMap, selectedMission);
 
             campaignModel.SelectedMission.Subscribe(x => {
                 gameplayEnterContext.LevelSceneName = x.SceneName;
