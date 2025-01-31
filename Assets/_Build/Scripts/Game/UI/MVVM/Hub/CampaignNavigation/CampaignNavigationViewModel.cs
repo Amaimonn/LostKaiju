@@ -4,13 +4,13 @@ using R3;
 using ObservableCollections;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class CampaignNavigationViewModel : IViewModel//, IDisposable
+    public class CampaignNavigationViewModel : IViewModel
     {
         public Observable<bool> OnOpenStateChanged => _isOpened;
         public Observable<Unit> OnClosingCompleted => _isClosingCompleted;
@@ -34,12 +34,16 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _campaignModel = campaignModel;
 
             // test with first location
-            var displayedLocationModel = campaignModel.Locations[0];
+            var displayedLocationModel = campaignModel.AvailableLocations[0];
             _displayedMissionsData = new ObservableList<IMissionData>(displayedLocationModel.Data.AllMissionsData); 
             _availableMissionsMap = new ObservableDictionary<string, MissionModel>(displayedLocationModel.AvailableMissionsMap);
+            
+            _selectedLocation = new ReactiveProperty<ILocationData>(_campaignModel.SelectedLocation.Value);
             _selectedMission = new ReactiveProperty<IMissionData>(_campaignModel.SelectedMission.Value);
+            
             Debug.Log($"init in vm: {_selectedMission.Value}");
 
+            _campaignModel.SelectedLocation.Skip(1).Subscribe(OnLocationSelected);
             _campaignModel.SelectedMission.Skip(1).Subscribe(OnMissionSelected);
         }
 
@@ -64,9 +68,19 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _isOpened.Value = false;
         }
 
+        public void SelectLocation(ILocationData locationData)
+        {
+            _campaignModel.SelectedLocation.Value = locationData;
+        }
+
         public void SelectMission(IMissionData missionData)
         {
             _campaignModel.SelectedMission.Value = missionData;
+        }
+
+        private void OnLocationSelected(ILocationData selectedLocationData)
+        {
+            _selectedLocation.Value = selectedLocationData;
         }
 
         private void OnMissionSelected(IMissionData selectedMissionData)

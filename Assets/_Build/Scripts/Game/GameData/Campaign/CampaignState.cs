@@ -9,6 +9,9 @@ namespace LostKaiju.Game.GameData.Campaign
     public class CampaignState
     {
         public List<LocationState> Locations;
+        public string SelectedLocationId;
         public string SelectedMissionId;
+        public string LastLaunchedLocationId;
+        public string LastLaunchedMissionId;
     }
 }

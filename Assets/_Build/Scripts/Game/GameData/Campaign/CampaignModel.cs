@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using R3;
 using ObservableCollections;
 
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
-using UnityEngine;
+
 
 namespace LostKaiju.Game.GameData.Campaign
 {
@@ -13,40 +15,78 @@ namespace LostKaiju.Game.GameData.Campaign
     {
         public readonly ReactiveProperty<ILocationData> SelectedLocation;
         public readonly ReactiveProperty<IMissionData> SelectedMission;
+        public readonly ILocationData LastLaunchedLocation;
         public readonly IMissionData LastLaunchedMission;
         /// <summary>
         /// all Locations const data in campaign
         /// </summary>
         public readonly IReadOnlyDictionary<string, ILocationData> LocationsDataMap;
-        public readonly ObservableList<LocationModel> Locations;
+        public readonly ObservableList<LocationModel> AvailableLocations;
 
-        public CampaignModel(CampaignState campaignState, Dictionary<string, ILocationData> locationsData,
-            IMissionData selectedMission = null) : base(campaignState)
+        public CampaignModel(CampaignState campaignState, Dictionary<string, ILocationData> locationsData, 
+            ILocationData selectedLocationData = null, IMissionData selectedMissionData = null)
+            : base(campaignState)
         {
             LocationsDataMap = locationsData;
-            Locations = new ObservableList<LocationModel>();
+            AvailableLocations = new ObservableList<LocationModel>();
             foreach (var location in campaignState.Locations)
             {
                 if (locationsData.TryGetValue(location.Id, out var locationData))
                 {
                     var locationModel = new LocationModel(location, locationData);
-                    Locations.Add(locationModel);
+                    AvailableLocations.Add(locationModel);
                 }
                 else
                 {
                     Debug.LogWarning($"Location {location.Id} from state not found in locationData map");
                 }
             }
-            
-            var missionDatas = locationsData.First().Value.AllMissionsData; // test with first location
-            if (selectedMission == null && missionDatas.Count() > 0)
+
+            if (!String.IsNullOrEmpty(campaignState.LastLaunchedLocationId))
             {
-                var baseSelectedMission = missionDatas.First();
-                SelectedMission = new ReactiveProperty<IMissionData>(baseSelectedMission);
+                // last launched data
+                locationsData.TryGetValue(campaignState.LastLaunchedLocationId, out LastLaunchedLocation);
+                if (LastLaunchedLocation != null)
+                {
+                    LastLaunchedMission = LastLaunchedLocation.AllMissionsData
+                        .FirstOrDefault(x => x.Id == campaignState.LastLaunchedMissionId);
+                }
+            }
+
+            if (selectedLocationData != null)
+            {
+                // from constructor
+                SelectedLocation = new ReactiveProperty<ILocationData>(selectedLocationData);
+                SelectedMission = new ReactiveProperty<IMissionData>(selectedMissionData);
             }
             else
             {
-                SelectedMission = new ReactiveProperty<IMissionData>(selectedMission);
+                var locationIdToSelect = campaignState.SelectedLocationId;
+                if (!String.IsNullOrEmpty(locationIdToSelect) && 
+                    LocationsDataMap.TryGetValue(locationIdToSelect, out var locationDataToSelect))
+                {
+                    // from state
+                    SelectedLocation = new ReactiveProperty<ILocationData>(locationDataToSelect);
+                    var missionIdToSelect = campaignState.SelectedMissionId;
+                    if (String.IsNullOrEmpty(missionIdToSelect))
+                    {
+                        SelectedMission = new ReactiveProperty<IMissionData>(null);
+                    }
+                    else
+                    {
+                        var missionDataToSelect = locationDataToSelect.AllMissionsData
+                            .FirstOrDefault(x => x.Id == missionIdToSelect);
+                        SelectedMission = new ReactiveProperty<IMissionData>(missionDataToSelect);
+                    }
+                }
+                else
+                {
+                    // default
+                    var firstLocationData = LocationsDataMap.First().Value;
+                    SelectedLocation = new ReactiveProperty<ILocationData>(firstLocationData);
+                    SelectedMission = new ReactiveProperty<IMissionData>(null);
+                }
+                
             }
         }
     }

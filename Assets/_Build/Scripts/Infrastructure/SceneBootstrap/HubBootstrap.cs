@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using R3;
 
@@ -10,7 +11,6 @@ using LostKaiju.Game.UI.MVVM.Hub;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign.Locations;
-using System.Collections.Generic;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -54,14 +54,15 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var locationsPairs = locationsDataSO.Locations
                 .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
             var locationsMap = new Dictionary<string, ILocationData>(locationsPairs);
-            var selectedLocation = locationsMap.First().Value; // test location selection
-            var selectedMission = selectedLocation.AllMissionsData.FirstOrDefault(); // test mission selection
             var campaignState = _gameStateProvider.Campaign;
-            var campaignModel = new CampaignModel(campaignState, locationsMap, selectedMission);
+            var campaignModel = new CampaignModel(campaignState, locationsMap);
 
             campaignModel.SelectedMission.Subscribe(x => {
-                gameplayEnterContext.LevelSceneName = x.SceneName;
-                Debug.Log($"r3: Scene in signal: {x.SceneName}");
+                if (x != null)
+                {
+                    gameplayEnterContext.LevelSceneName = x.SceneName;
+                    Debug.Log($"r3: Scene in signal: {x.SceneName}");
+                }
             });
 
             return campaignModel;

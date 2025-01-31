@@ -581,7 +581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hubViewPrefab: {fileID: 8545207686241835542, guid: 2db9ee2821cde734db75700cda5916d2, type: 3}
   _playerConfigName: DinoKaiju
-  _missionsConfigPath: Settings/Missions/MissionsArraySO
+  _locationsConfigPath: Settings/Campaign/LocationsSO
 --- !u!4 &1736941828
 Transform:
   m_ObjectHideFlags: 0

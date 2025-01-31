@@ -17,11 +17,11 @@ namespace LostKaiju.Game.Creatures.Features
         {
             _groundCheckArea.OnTriggerEnter2DAsObservable()
                 .Where(_ => _groundCheckArea.IsTouchingLayers(_groundMask))
-                .Subscribe(e => _isGrounded = true);
+                .Subscribe(_ => _isGrounded = true);
 
             _groundCheckArea.OnTriggerExit2DAsObservable()
                 .Where(_ => !_groundCheckArea.IsTouchingLayers(_groundMask))
-                .Subscribe(e => _isGrounded = false);
+                .Subscribe(_ => _isGrounded = false);
         }
     }
 }

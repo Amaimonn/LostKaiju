@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using R3;
 
 using LostKaiju.Game.GameData.Campaign.Missions;
+using LostKaiju.Game.GameData.Campaign.Locations;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -84,6 +85,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             }
 
             _viewModel.OnOpenStateChanged.Skip(1).Subscribe(e => OnOpedStateChanged(e));
+            _viewModel.SelectedLocation.Subscribe(OnLocationSelected);
             _viewModel.SelectedMission.Subscribe(OnMissionSelected);
         }
 
@@ -132,19 +134,32 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             Debug.Log("Missions: closed");
         }
 
+        private void OnLocationSelected(ILocationData locationData)
+        {
+            
+        }
+
         private void OnMissionSelected(IMissionData missionModel)
         {
-            if (_viewModel.AvailableMissionsMap.ContainsKey(missionModel.Id))
+            if (missionModel != null)
             {
-                _startButton.enabledSelf = true;
+                if (_viewModel.AvailableMissionsMap.ContainsKey(missionModel.Id))
+                {
+                    _startButton.enabledSelf = true;
+                }
+                else
+                {
+                    _startButton.enabledSelf = false;
+                }
+                _selectedMissionLabel.text = missionModel.Name;
+                _selectedMissionText.text = missionModel.Text;
             }
             else
             {
                 _startButton.enabledSelf = false;
+                _selectedMissionLabel.text = string.Empty;
+                _selectedMissionText.text = string.Empty;
             }
-
-            _selectedMissionLabel.text = missionModel.Name;
-            _selectedMissionText.text = missionModel.Text;
         }
 
         private void PlayButtonHoverSFX()
