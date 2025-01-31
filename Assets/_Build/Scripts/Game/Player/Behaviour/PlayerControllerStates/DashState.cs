@@ -8,20 +8,27 @@ namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
     public class DashState : PlayerControllerState
     {
         public ReadOnlyReactiveProperty<bool> IsCompleted => _isCompleted;
-
+        public ReadOnlyReactiveProperty<bool> IsRefreshed => _isRefreshed;
         protected DashParameters _parameters;
         protected Rigidbody2D _rigidbody;
         protected float _currentDuration;
         protected Vector2 _startPosition;
-        protected ReactiveProperty<bool> _isCompleted = new(false);
+        protected ReactiveProperty<bool> _isCompleted = new(true);
         protected ReadOnlyReactiveProperty<bool> _isRight;
+        protected ReactiveProperty<bool> _isRefreshed = new(true);
         protected float _startGravity;
 
-        public void Init(DashParameters parameters, Rigidbody2D rigidbody, Observable<bool> isRight)
+        public void Init(DashParameters parameters, Rigidbody2D rigidbody, 
+            Observable<bool> isRight, Observable<bool> isRefreshed)
         {
             _parameters = parameters;
             _rigidbody = rigidbody;
             _isRight = isRight.ToReadOnlyReactiveProperty();
+            isRefreshed.Where(x => x == true)
+                .Subscribe(_ => {
+                    _isRefreshed.Value = true;
+                    Debug.Log("dash refreshed");
+                });
         }
 
         public override void UpdateLogic()
@@ -32,6 +39,7 @@ namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
         public override void Enter()
         {
             base.Enter();
+            _isRefreshed.Value = false;
             _isCompleted.Value = false;
             _currentDuration = 0;
             _startPosition = _rigidbody.position;

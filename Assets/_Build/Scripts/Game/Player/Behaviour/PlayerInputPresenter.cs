@@ -65,7 +65,17 @@ namespace LostKaiju.Game.Player.Behaviour
             // dash state (optional)
             var dashState = new DashState();
             var dashParameters = new DashParameters();
-            dashState.Init(dashParameters, _creature.Rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight));
+            var dashRefreshed = Observable.Merge(
+                Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)
+                    .Skip(1)
+                    .Where(x => x == true && groundCheck.IsGrounded == true)
+                    .Select(_ => true), // finished on the ground
+                Observable.EveryValueChanged(groundCheck, x => x.IsGrounded)
+                    .Skip(1)
+                    .Where(x => x == true));  // on grounded signal
+            dashState.Init(dashParameters, _creature.Rigidbody, 
+                Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight),
+                isRefreshed: dashRefreshed);
             var dashCooldownTimer = new Timer(dashParameters.Cooldown, true);
             _cooldownTimers.Add(dashCooldownTimer);
             dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
@@ -74,7 +84,7 @@ namespace LostKaiju.Game.Player.Behaviour
             var attackState = new AttackState();
             // var attackParameters = _controlsData.Attack;
             attackState.Init(attacker);
-            
+
 
             BindAnimations(idleState, walkState, jumpState, attackState);
 
@@ -83,19 +93,18 @@ namespace LostKaiju.Game.Player.Behaviour
                 new SameForMultipleTransition<AttackState>(
                     () => _readAttack && attackState.IsAttackReady.CurrentValue, 
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
-                
                 new FiniteTransition<AttackState, IdleState>(() => attackState.IsAttackCompleted.CurrentValue),
-                new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && groundCheck.IsGrounded 
-                    && jumpCooldownTimer.IsCompleted),
+                new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
+                    groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
                 new FiniteTransition<JumpState, WalkState>(() => _inputProvider.GetHorizontal != 0),
                 new FiniteTransition<JumpState, IdleState>(() => _inputProvider.GetHorizontal == 0),
                 new FiniteTransition<IdleState, WalkState>(() => _inputProvider.GetHorizontal != 0),
-                new FiniteTransition<IdleState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && groundCheck.IsGrounded
-                    && jumpCooldownTimer.IsCompleted),
-                new FiniteTransition<WalkState, DashState>(() => _inputProvider.GetShift && dashCooldownTimer.IsCompleted),
+                new FiniteTransition<IdleState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted 
+                    && groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
+                new SameForMultipleTransition<DashState>(() => _inputProvider.GetShift && 
+                    dashCooldownTimer.IsCompleted && dashState.IsRefreshed.CurrentValue,
+                    new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState) }),
                 new FiniteTransition<DashState, IdleState>(() => dashState.IsCompleted.CurrentValue),
-                new FiniteTransition<IdleState, DashState>(() => _inputProvider.GetShift && dashCooldownTimer.IsCompleted),
-                new FiniteTransition<JumpState, DashState>(() => _inputProvider.GetShift && dashCooldownTimer.IsCompleted),
                 new FiniteTransition<WalkState, IdleState>(() => _inputProvider.GetHorizontal == 0) // low priority
             };
 

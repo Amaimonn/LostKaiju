@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using R3;
 
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Utils;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Boilerplates.FSM;
+using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
-using LostKaiju.Game.Creatures.Features;
 using LostKaiju.Game.Player.Data.StateParameters;
+using LostKaiju.Game.Creatures.Features;
 
 namespace LostKaiju.Game.Player.Behaviour.StateBinders
 {
@@ -23,9 +23,18 @@ namespace LostKaiju.Game.Player.Behaviour.StateBinders
             var inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
 
             var flipper = features.Resolve<Flipper>();
-
+            var groundCheck =features.Resolve<GroundCheck>();
             var dashState = new DashState();
-            dashState.Init(_parameters, rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight));
+            var dashRefreshed = Observable.Merge(
+                Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)
+                    .Skip(1)
+                    .Where(x => x == true && groundCheck.IsGrounded == true)
+                    .Select(_ => true), // finished on the ground
+                Observable.EveryValueChanged(groundCheck, x => x.IsGrounded)
+                    .Skip(1)
+                    .Where(x => x == true));  // on grounded signal
+            dashState.Init(_parameters, rigidbody, Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight),
+                dashRefreshed);
 
             float _waitToDash = 0;
             dashState.OnEnter.Subscribe(_ => {
