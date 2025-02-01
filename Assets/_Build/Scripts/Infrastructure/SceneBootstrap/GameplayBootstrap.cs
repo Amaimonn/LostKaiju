@@ -1,11 +1,12 @@
 using UnityEngine;
 using R3;
 
-using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Player.Data.Models;
+using LostKaiju.Game.UI.MVVM.Gameplay.MobileControls;
+using LostKaiju.Infrastructure.SceneBootstrap.Context;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -16,7 +17,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     {
         [SerializeField] private GameplayView _gameplayViewPrefab;
 # if MOBILE_BUILD || UNITY_EDITOR
-        [SerializeField] private GameObject _mobileControlsPrefab;
+        [SerializeField] private MobileControlsView _mobileControlsViewPrefab;
 # endif
 
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
@@ -30,10 +31,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             gameplayView.Bind(gameplayViewModel);
             uiRootBinder.SetView(gameplayView);
 
-// # if MOBILE_BUILD || UNITY_EDITOR
-//             var mobileControls = Instantiate(_mobileControlsPrefab);
-//             uiRootBinder.Attach(mobileControls); // TODO: add view for mobile controls and use SetViews method
-// # endif
+# if MOBILE_BUILD || UNITY_EDITOR
+            var mobileControls = Instantiate(_mobileControlsViewPrefab);
+            uiRootBinder.AddView(mobileControls);
+# endif
             return exitGameplaySignal;
         }
     }

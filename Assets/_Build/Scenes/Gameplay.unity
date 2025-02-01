@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameplayViewPrefab: {fileID: 2852262315609189070, guid: 1eb8a80199f48f34e88fb76c387503ac, type: 3}
-  _mobileControlsPrefab: {fileID: 8674112285203216512, guid: 723a0266f67a48747b0d32f82f15a732, type: 3}
+  _mobileControlsViewPrefab: {fileID: 3687898500589295836, guid: 723a0266f67a48747b0d32f82f15a732, type: 3}
 --- !u!4 &1083579659
 Transform:
   m_ObjectHideFlags: 0

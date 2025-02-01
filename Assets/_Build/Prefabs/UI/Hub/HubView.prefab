@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 946973766928085569}
   - component: {fileID: 8545207686241835542}
   m_Layer: 0
-  m_Name: HubUI
+  m_Name: HubView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
