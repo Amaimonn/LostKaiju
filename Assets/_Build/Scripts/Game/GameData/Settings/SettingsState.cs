@@ -1,4 +1,4 @@
-namespace LostKaiju.Game.GameData
+namespace LostKaiju.Game.GameData.Settings
 {
     public class SettingsState
     {

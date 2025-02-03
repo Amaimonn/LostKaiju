@@ -1,6 +1,6 @@
 using LostKaiju.Boilerplates.Locator;
-using LostKaiju.Game.GameData;
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.GameData.Settings;
 
 namespace LostKaiju.Game.Providers.GameState
 {

@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 843688258}
   - component: {fileID: 843688257}
   m_Layer: 0
-  m_Name: LevelBootstrap
+  m_Name: MissionBootstrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,6 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInitPosition: {fileID: 1895556568}
   _cinemachineCamera: {fileID: 729280167}
+  _playerIndicatorsViewPrefabPath: UI/Gameplay/PlayerIndicatorsView
 --- !u!4 &843688258
 Transform:
   m_ObjectHideFlags: 0

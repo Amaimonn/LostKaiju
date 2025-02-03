@@ -15,6 +15,10 @@ namespace LostKaiju.Game.Creatures.DamageSystem
         {
         }
 
+        public Health(int maxHealth, int initialValue) : base(minValue: 0, maxValue: maxHealth, initialValue: initialValue)
+        {
+        }
+
         public void Increase(int amount)
         {
             SetValue(CurrentValue + amount);

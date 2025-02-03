@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using LostKaiju.Game.GameData;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
+using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Services.Saves;
 
 

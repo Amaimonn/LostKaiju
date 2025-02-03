@@ -87,7 +87,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 
 #region IRootUI
 /// <summary>
-/// This is only used by UI Tookkit Views in terms of implementation Visiter pattern. 
+/// This is only used by UI Toolkit Views in terms of implementation Visitor pattern. 
 /// For the scene UI binding use SetViews or AddViews method instead.
 /// </summary>
 /// <param name="visualElement"></param>
@@ -97,7 +97,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         }
 
 /// <summary>
-/// This is only used by Canvas Views in terms of implementation Visiter pattern. 
+/// This is only used by Canvas Views in terms of implementation Visitor pattern. 
 /// For the scene UI binding use SetViews or AddViews method instead.
 /// </summary>
 /// <param name="gameObjectUI"></param>
