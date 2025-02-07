@@ -1,16 +1,30 @@
 using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Services.Inputs;
-using LostKaiju.Boilerplates.Locator;
 
 namespace LostKaiju.Game.Player.Behaviour.PlayerControllerStates
 {
     public abstract class PlayerControllerState : FiniteState
     {
-        protected readonly IInputProvider _inputProvider;
-        
-        public PlayerControllerState() : base()
+        protected IInputProvider _inputProvider;
+
+        public class Factory
         {
-            _inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
+            private readonly IInputProvider _inputProviderInjection;
+
+            public Factory(IInputProvider inputProvider)
+            {
+                _inputProviderInjection = inputProvider;
+            }
+
+            public T Create<T>() where T : PlayerControllerState, new()
+            {
+                var state = new T
+                {
+                    _inputProvider = _inputProviderInjection
+                };
+                
+                return state;
+            }
         }
     }
 }

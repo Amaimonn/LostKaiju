@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
@@ -12,9 +14,10 @@ using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign.Locations;
 
+
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
-    public class HubBootstrap : MonoBehaviour
+    public class HubBootstrap : LifetimeScope
     {
         [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private string _playerConfigName; // choose your player character
@@ -24,8 +27,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
             var hubView = Instantiate(_hubViewPrefab);
-            var serviceLocator = ServiceLocator.Instance;
-            var uiRootBinder = serviceLocator.Get<IRootUIBinder>();
+            var uiRootBinder = Container.Resolve<IRootUIBinder>();
 
             var exitSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)
@@ -36,11 +38,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitContext = new HubExitContext(gameplayEnterContext);
             var hubExitSignal = exitSignal.Select(_ => hubExitContext); // send to UI
 
-            _gameStateProvider = serviceLocator.Get<IGameStateProvider>();
-
+            _gameStateProvider = Container.Resolve<IGameStateProvider>();
 
             var campaignModelFactory = new Func<CampaignModel>(() => CampaignModelFactory(gameplayEnterContext));
-            var hubViewModel = new HubViewModel(exitSignal, campaignModelFactory);
+            var hubViewModel = new HubViewModel(exitSignal, campaignModelFactory, uiRootBinder);
 
             hubView.Bind(hubViewModel);
             uiRootBinder.SetView(hubView);

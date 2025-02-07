@@ -327,6 +327,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "jp.hadashikick.vcontainer": {
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ee940efab8d92008716c568cdcfb1a388e2d4802"
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

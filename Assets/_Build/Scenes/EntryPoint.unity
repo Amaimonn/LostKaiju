@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1578760551
+--- !u!1 &2024037039
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,38 +127,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1578760553}
-  - component: {fileID: 1578760552}
+  - component: {fileID: 2024037041}
+  - component: {fileID: 2024037040}
   m_Layer: 0
-  m_Name: EntryBootstrap
+  m_Name: RootScope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1578760552
+--- !u!114 &2024037040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578760551}
+  m_GameObject: {fileID: 2024037039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4aa5369d5234624cafbdcb5b418f35c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d6d151c60d475b46ac4d4d9c5340238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
   _uiRootBinderPrefab: {fileID: 3027197294014773955, guid: 9558fc9b5f3b4ea4c90701e51ea202c4, type: 3}
---- !u!4 &1578760553
+--- !u!4 &2024037041
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578760551}
+  m_GameObject: {fileID: 2024037039}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.881624, y: -1.6582485, z: -5.208466}
+  m_LocalPosition: {x: 0.3617302, y: -0.18028481, z: -5.2560673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -168,4 +172,4 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1578760553}
+  - {fileID: 2024037041}

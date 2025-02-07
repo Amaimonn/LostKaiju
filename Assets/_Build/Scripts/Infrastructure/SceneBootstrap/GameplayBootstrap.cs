@@ -7,13 +7,15 @@ using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Player.Data.Models;
 using LostKaiju.Game.UI.MVVM.Gameplay.MobileControls;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
+using VContainer;
+using VContainer.Unity;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     /// <summary>
     /// General Bootstrap for gameplay levels set up
     /// </summary>
-    public class GameplayBootstrap : MonoBehaviour
+    public class GameplayBootstrap : LifetimeScope
     {
         [SerializeField] private GameplayView _gameplayViewPrefab;
 # if MOBILE_BUILD || UNITY_EDITOR
@@ -23,7 +25,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
             var exitGameplaySignal = new Subject<GameplayExitContext>();
-            var uiRootBinder = ServiceLocator.Instance.Get<IRootUIBinder>();
+            var uiRootBinder = Container.Resolve<IRootUIBinder>();
             var playerLiveParameters = new PlayerLiveParametersModel();
             var gameplayViewModel = new GameplayViewModel(playerLiveParameters);
             var gameplayView = Instantiate(_gameplayViewPrefab);

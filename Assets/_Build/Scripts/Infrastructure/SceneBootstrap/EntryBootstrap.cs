@@ -1,9 +1,7 @@
 using UnityEngine;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Utils;
-using LostKaiju.Infrastructure.Loading;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -17,18 +15,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         
         public void Boot()
         {
-            _monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
-            DontDestroyOnLoad(_monoHook);
-
-            var serviceLocator = ServiceLocator.Instance;
-            
-            var uiRootBinder = Instantiate(_uiRootBinderPrefab);
-            serviceLocator.Register<IRootUIBinder>(uiRootBinder);
-            DontDestroyOnLoad(uiRootBinder);
-            
-            var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
-            var sceneLoader = new SceneLoader(_monoHook, loadingScreen);
-            _monoHook.StartCoroutine(sceneLoader.LoadStartScene());
         }
     }
 }

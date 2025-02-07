@@ -1,4 +1,6 @@
 using UnityEngine;
+using VContainer.Unity;
+using VContainer;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
@@ -6,9 +8,10 @@ using LostKaiju.Game.UI.MVVM.MainMenu;
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
 
+
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
-    public class MainMenuBootstrap : MonoBehaviour
+    public class MainMenuBootstrap : LifetimeScope
     {
         [SerializeField] private GameObject _mainMenuUI;
 
@@ -20,7 +23,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             
             mainMenuViewModel.Bind(mainMenuModel);
 
-            var rootBinder = ServiceLocator.Instance.Get<IRootUIBinder>();
+            var rootBinder = Container.Resolve<IRootUIBinder>();
             var mainMenuView = Instantiate(_mainMenuUI).GetComponent<MainMenuView>();
 
             mainMenuView.Bind(mainMenuViewModel);

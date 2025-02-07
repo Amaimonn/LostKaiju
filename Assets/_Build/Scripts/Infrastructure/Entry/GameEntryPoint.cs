@@ -27,23 +27,10 @@ namespace LostKaiju.Infrastructure.Entry
 
         private async Task Run()
         {
-            var serviceLocator = ServiceLocator.Instance;
-            
-            serviceLocator.Register<IInputProvider>(new InputSystemProvider());
-            
-            var serizlizer = new JsonUtilitySerializer();
-            var storage = new FileStorage(fileExtension: "json");
-            var saveSystem = new SimpleSaveSystem(serizlizer, storage);
-            serviceLocator.Register<ISaveSystem>(saveSystem);
-
-            var gameStateProvider = new GameStateProvider(saveSystem);
-            await gameStateProvider.LoadCampaignStateAsync();
-            serviceLocator.Register<IGameStateProvider>(gameStateProvider);
-
             await SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
             Debug.Log("Entry point scene loaded");
             
-            Object.FindAnyObjectByType<EntryBootstrap>().Boot();
+            // Object.FindAnyObjectByType<EntryBootstrap>().Boot();
         }
     }
 }

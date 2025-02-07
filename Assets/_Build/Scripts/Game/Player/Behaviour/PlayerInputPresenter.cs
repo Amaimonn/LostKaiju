@@ -6,7 +6,6 @@ using R3;
 
 using LostKaiju.Utils;
 using LostKaiju.Services.Inputs;
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 using LostKaiju.Game.Creatures.Features;
@@ -22,15 +21,19 @@ namespace LostKaiju.Game.Player.Behaviour
         protected ICreatureBinder _creature;
         private readonly PlayerControlsData _controlsData;
         private FiniteStateMachine _finiteStateMachine;
-        private IInputProvider _inputProvider;
+        private readonly IInputProvider _inputProvider;
+        private readonly PlayerControllerState.Factory _stateFactory;
         private readonly List<Timer> _cooldownTimers = new(2);
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
         private bool _readAttack;
 
-        public PlayerInputPresenter(PlayerControlsData controlsData)
+        public PlayerInputPresenter(PlayerControlsData controlsData, IInputProvider inputProvider, 
+            PlayerControllerState.Factory stateFactory)
         {
             _controlsData = controlsData;
+            _inputProvider = inputProvider;
+            _stateFactory = stateFactory;
         }
 
 #region CreaturePresenter
@@ -41,20 +44,18 @@ namespace LostKaiju.Game.Player.Behaviour
             var groundCheck = features.Resolve<GroundCheck>();
             var flipper = features.Resolve<Flipper>();
             var attacker = features.Resolve<IAttacker>();
-            
-            _inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
 
             // idle state
             var idleState = new IdleState();
 
             // walk state
-            var walkState = new WalkState();
+            var walkState = _stateFactory.Create<WalkState>();
             var walkParameters = _controlsData.Walk;
             walkState.Init(walkParameters, _creature.Rigidbody);
             walkState.IsPositiveDirectionX.Subscribe(flipper.LookRight);
 
             // jump state
-            var jumpState = new JumpState();
+            var jumpState = _stateFactory.Create<JumpState>();
             var jumpParameters = _controlsData.Jump;
             jumpState.Init(jumpParameters, _creature.Rigidbody);
             var jumpCooldownTimer = new Timer(jumpParameters.Cooldown, true);
@@ -63,7 +64,7 @@ namespace LostKaiju.Game.Player.Behaviour
             _jumpInputBufferTimer = new Timer(jumpParameters.InputTimeBufferSize, true);
 
             // dash state (optional)
-            var dashState = new DashState();
+            var dashState = _stateFactory.Create<DashState>();
             var dashParameters = new DashParameters();
             var dashRefreshed = Observable.Merge(
                 Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)
@@ -81,7 +82,7 @@ namespace LostKaiju.Game.Player.Behaviour
             dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
 
             // attack state
-            var attackState = new AttackState();
+            var attackState = _stateFactory.Create<AttackState>();
             // var attackParameters = _controlsData.Attack;
             attackState.Init(attacker);
 

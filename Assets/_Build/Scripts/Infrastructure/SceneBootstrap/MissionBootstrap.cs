@@ -1,22 +1,31 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using VContainer.Unity;
+using VContainer;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
 using LostKaiju.Game.Player;
 using LostKaiju.Game.Player.Behaviour;
 using LostKaiju.Game.Player.Data.Configs;
-using LostKaiju.Boilerplates.Locator;
-using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.Player.Data.Indicators;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Services.Inputs;
+using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
+
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
-    public class MissionBootstrap : MonoBehaviour
+    public class MissionBootstrap : LifetimeScope
     {
         [SerializeField] private Transform _playerInitPosition;
         [SerializeField] private CinemachineCamera _cinemachineCamera;
         [SerializeField] private string _playerIndicatorsViewPrefabPath = "UI/Gameplay/PlayerIndicatorsView";
+
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<PlayerControllerState.Factory>(Lifetime.Singleton);
+        }
 
         public void Boot(GameplayEnterContext gameplayEnterContext)
         {
@@ -30,19 +39,19 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var healthState = new HealthState(playerData.PlayerDefenceData.MaxHealth);
             var healthModel = new HealthModel(healthState);
             var playerIndicatorsViewModel = new PlayerIndicatorsViewModel(healthModel);
-            var serviceLocator = ServiceLocator.Instance;
-            var rootUIBinder = serviceLocator.Get<IRootUIBinder>();
+            var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var playerIndicatorsViewPrefab = Resources.Load<PlayerIndicatorsView>(_playerIndicatorsViewPrefabPath);
             var playerIndicatorsView = Instantiate(playerIndicatorsViewPrefab);
             playerIndicatorsView.Bind(playerIndicatorsViewModel);
             rootUIBinder.AddView(playerIndicatorsView); // TODO: UI cleaning logic
 
-            var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData);
+            var inputProvider = Container.Resolve<IInputProvider>();
+            var playerStateFactory = Container.Resolve<PlayerControllerState.Factory>();
+            var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider, playerStateFactory);
             var playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
             var playerRootPresenter = new PlayerRootPresenter(playerInputPresenter, playerDefencePresenter);
             playerRootPresenter.Bind(player);
             Debug.Log("player root presenter binded");
-            // rootUIBinder.AddView()
 
             _cinemachineCamera.Follow = player.transform;
         }

@@ -3,7 +3,6 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Game.GameData.Campaign;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
@@ -16,11 +15,11 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private bool _isMissionsOpened = false;
         private const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> missionsModelFactory)
+        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> missionsModelFactory, IRootUIBinder rootUIBinder)
         {
             _exitSubject = exitSubject;
             _campaignModelFactory = missionsModelFactory;
-            _rootUIBinder = ServiceLocator.Instance.Get<IRootUIBinder>();
+            _rootUIBinder = rootUIBinder;
         }
 
         public void OpenMissions()

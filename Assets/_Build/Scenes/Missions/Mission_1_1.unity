@@ -431,6 +431,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f0892e94d47e6439205e5aa39d01e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
   _playerInitPosition: {fileID: 1895556568}
   _cinemachineCamera: {fileID: 729280167}
   _playerIndicatorsViewPrefabPath: UI/Gameplay/PlayerIndicatorsView
