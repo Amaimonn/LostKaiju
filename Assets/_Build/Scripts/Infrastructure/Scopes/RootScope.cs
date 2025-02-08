@@ -2,14 +2,12 @@ using UnityEngine;
 using VContainer.Unity;
 using VContainer;
 
-using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Utils;
 using LostKaiju.Infrastructure.Loading;
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Services.Saves;
 using LostKaiju.Game.Providers.GameState;
-
+using LostKaiju.Boilerplates.UI.MVVM;
 
 namespace LostKaiju.Infrastructure.Scopes
 {

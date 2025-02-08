@@ -31,7 +31,8 @@ namespace LostKaiju.Infrastructure.Loading
         private IEnumerator LoadMainMenu(MainMenuEnterContext mainMenuEnterContext = null)
         {
             _loadingScreen.Show();
-            yield return new WaitForSeconds(FAKE_LOAD_TIME);
+            var startTime = Time.time;
+
             yield return LoadSceneAsync(Scenes.GAP);
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
@@ -47,13 +48,17 @@ namespace LostKaiju.Infrastructure.Loading
             {
                 _monoHook.StartCoroutine(LoadHub(mainMenuExitContext.HubEnterContext));
             });
+
+            yield return GetRemainFakeLoadTime(startTime);
             _loadingScreen.Hide();
         }
 
         private IEnumerator LoadHub(HubEnterContext hubEnterContext)
         {
             _loadingScreen.Show();
-            yield return new WaitForSeconds(FAKE_LOAD_TIME);
+            var startTime = Time.time;
+
+            var wait = new WaitForSeconds(FAKE_LOAD_TIME);
             yield return LoadSceneAsync(Scenes.GAP);
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
@@ -61,7 +66,9 @@ namespace LostKaiju.Infrastructure.Loading
             }
             Debug.Log("Hub scene loaded");
 
-            var hubExitSignal = Object.FindAnyObjectByType<HubBootstrap>().Boot(hubEnterContext);
+            var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
+            var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
+
             hubExitSignal.Subscribe(hubExitContext =>
             {
                 var toSceneName = hubExitContext.ToSceneContext.SceneName;
@@ -75,13 +82,16 @@ namespace LostKaiju.Infrastructure.Loading
                     _monoHook.StartCoroutine(LoadGameplay(hubExitContext.ToSceneContext as GameplayEnterContext));
                 }
             });
+
+            yield return GetRemainFakeLoadTime(startTime);
             _loadingScreen.Hide();
         }
 
         private IEnumerator LoadGameplay(GameplayEnterContext gameplayEnterContext)
         {
             _loadingScreen.Show();
-            yield return new WaitForSeconds(FAKE_LOAD_TIME);
+            var startTime = Time.time;
+
             yield return LoadSceneAsync(Scenes.GAP);
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
@@ -98,22 +108,66 @@ namespace LostKaiju.Infrastructure.Loading
             });
 
             var levelSceneName = gameplayEnterContext.LevelSceneName;
-            using (LifetimeScope.EnqueueParent(_rootScope))
-            {
-                yield return LoadSceneAsync(levelSceneName, LoadSceneMode.Additive);
-            }
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelSceneName));
-            var levelBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
-
-            levelBootstrap.Boot(gameplayEnterContext);
-
-            Debug.Log($"{gameplayEnterContext.LevelSceneName} scene loaded additively");
+            var missionEnterContextStub = new MissionEnterContext(gameplayEnterContext);
+            yield return LoadMissionAdditive(gameplayBootstrap, missionEnterContextStub, 
+                toMissionSceneName: levelSceneName);
+                
+            yield return GetRemainFakeLoadTime(startTime);
             _loadingScreen.Hide();
         }
+
+        private IEnumerator LoadMissionAdditive(LifetimeScope parentScope, MissionEnterContext missionEnterContext, 
+            string toMissionSceneName, string fromMissionSceneName=null)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(Scenes.GAMEPLAY));
+            if (fromMissionSceneName != null)
+            {
+                yield return UnloadSceneAsync(fromMissionSceneName);
+            }
+
+            using (LifetimeScope.EnqueueParent(parentScope))
+            {
+                yield return LoadSceneAsync(toMissionSceneName, LoadSceneMode.Additive);
+            }
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(toMissionSceneName));
+
+            var missionBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
+            var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
+            missionExitSignal.Subscribe(missionExitContext =>
+            {
+                _loadingScreen.Show();
+
+                var toSceneName = missionExitContext.MissionEnterSceneName;
+                var toSceneContext = missionExitContext.MissionEnterContext;
+                _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName : toSceneName, 
+                    fromMissionSceneName: toMissionSceneName));
+
+                _loadingScreen.Hide();
+            });
+        }   
 
         private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode=LoadSceneMode.Single)
         {
             yield return SceneManager.LoadSceneAsync(sceneName, mode);
+        }
+
+        private IEnumerator UnloadSceneAsync(string sceneName)
+        {
+            yield return SceneManager.UnloadSceneAsync(sceneName);
+        }
+
+        private YieldInstruction GetRemainFakeLoadTime(float startTime)
+        {
+            var currentTime = Time.time;
+            var remainTime = FAKE_LOAD_TIME - (currentTime - startTime);
+            if (remainTime > 0)
+            {
+                return new WaitForSeconds(remainTime);
+            }
+            else
+            {   
+                return new WaitForSeconds(0);
+            }
         }
     }
 }

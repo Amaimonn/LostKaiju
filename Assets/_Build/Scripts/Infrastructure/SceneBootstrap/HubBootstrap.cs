@@ -30,7 +30,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var uiRootBinder = Container.Resolve<IRootUIBinder>();
 
             var exitSignal = new Subject<Unit>();
-            var gameplayEnterContext = new GameplayEnterContext(Scenes.GAMEPLAY)
+            var gameplayEnterContext = new GameplayEnterContext()
             {
                 LevelSceneName = "Mission_1_1", // mission loading example
                 PlayerConfigPath = $"Gameplay/PlayerConfigs/{_playerConfigName}",

@@ -8,7 +8,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap.Context
         public string LevelSceneName;
         public string PlayerConfigPath;
 
-        public GameplayEnterContext(string sceneName) : base(sceneName)
+        public GameplayEnterContext() : base(Scenes.GAMEPLAY)
         {
         }
     }

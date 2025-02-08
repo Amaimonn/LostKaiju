@@ -1,19 +1,18 @@
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 using R3;
 
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Player.Data.Models;
 using LostKaiju.Game.UI.MVVM.Gameplay.MobileControls;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using VContainer;
-using VContainer.Unity;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     /// <summary>
-    /// General Bootstrap for gameplay levels set up
+    /// Common dependencies for the Misisons (gameplay scenes).
     /// </summary>
     public class GameplayBootstrap : LifetimeScope
     {

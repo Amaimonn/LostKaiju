@@ -2,11 +2,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using LostKaiju.Boilerplates.Locator;
-using LostKaiju.Services.Inputs;
-using LostKaiju.Infrastructure.SceneBootstrap;
-using LostKaiju.Services.Saves;
-using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Infrastructure.Entry
 {
@@ -29,8 +24,6 @@ namespace LostKaiju.Infrastructure.Entry
         {
             await SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
             Debug.Log("Entry point scene loaded");
-            
-            // Object.FindAnyObjectByType<EntryBootstrap>().Boot();
         }
     }
 }

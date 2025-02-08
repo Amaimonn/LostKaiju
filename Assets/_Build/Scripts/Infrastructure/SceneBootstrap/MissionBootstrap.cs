@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using VContainer.Unity;
 using VContainer;
+using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
@@ -12,7 +13,6 @@ using LostKaiju.Game.Player.Data.Indicators;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
-
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -27,8 +27,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             builder.Register<PlayerControllerState.Factory>(Lifetime.Singleton);
         }
 
-        public void Boot(GameplayEnterContext gameplayEnterContext)
+        public Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
+            var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
             var playerConfigPath = gameplayEnterContext.PlayerConfigPath;
             var playerConfigSO = Resources.Load<PlayerConfigSO>(playerConfigPath);
             var playerPrefab = playerConfigSO.CreatureBinder;
@@ -54,6 +55,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             Debug.Log("player root presenter binded");
 
             _cinemachineCamera.Follow = player.transform;
+
+            var exitSignal = new Subject<Unit>();
+            var toNissionEnterContext = new MissionEnterContext(gameplayEnterContext); // add toMissionSceneName
+            var missionExitContext = new MissionExitContext(missionEnterContext);
+            var missionExitSignal = exitSignal.Select(_ => missionExitContext);
+
+            return missionExitSignal;
         }
     }
 }
