@@ -44,18 +44,18 @@ namespace LostKaiju.Infrastructure.Loading
             var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
             var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
 
-            exitMainMenuSignal.Subscribe(mainMenuExitContext =>
+            exitMainMenuSignal.Take(1).Subscribe(mainMenuExitContext =>
             {
                 _monoHook.StartCoroutine(LoadHub(mainMenuExitContext.HubEnterContext));
             });
 
             yield return GetRemainFakeLoadTime(startTime);
-            _loadingScreen.Hide();
+            yield return _loadingScreen.HideCoroutine();
         }
 
         private IEnumerator LoadHub(HubEnterContext hubEnterContext)
         {
-            _loadingScreen.Show();
+            yield return _loadingScreen.ShowCoroutine();
             var startTime = Time.time;
 
             var wait = new WaitForSeconds(FAKE_LOAD_TIME);
@@ -69,7 +69,7 @@ namespace LostKaiju.Infrastructure.Loading
             var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
             var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
 
-            hubExitSignal.Subscribe(hubExitContext =>
+            hubExitSignal.Take(1).Subscribe(hubExitContext =>
             {
                 var toSceneName = hubExitContext.ToSceneContext.SceneName;
 
@@ -84,12 +84,12 @@ namespace LostKaiju.Infrastructure.Loading
             });
 
             yield return GetRemainFakeLoadTime(startTime);
-            _loadingScreen.Hide();
+            yield return _loadingScreen.HideCoroutine();
         }
 
         private IEnumerator LoadGameplay(GameplayEnterContext gameplayEnterContext)
         {
-            _loadingScreen.Show();
+            yield return _loadingScreen.ShowCoroutine();
             var startTime = Time.time;
 
             yield return LoadSceneAsync(Scenes.GAP);
@@ -102,7 +102,7 @@ namespace LostKaiju.Infrastructure.Loading
             var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
             var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
 
-            gameplayExitSignal.Subscribe(gameplayExitContext =>
+            gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
             {
                 _monoHook.StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
             });
@@ -113,7 +113,7 @@ namespace LostKaiju.Infrastructure.Loading
                 toMissionSceneName: levelSceneName);
                 
             yield return GetRemainFakeLoadTime(startTime);
-            _loadingScreen.Hide();
+            yield return _loadingScreen.HideCoroutine();
         }
 
         private IEnumerator LoadMissionAdditive(LifetimeScope parentScope, MissionEnterContext missionEnterContext, 
@@ -133,7 +133,7 @@ namespace LostKaiju.Infrastructure.Loading
 
             var missionBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
             var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
-            missionExitSignal.Subscribe(missionExitContext =>
+            missionExitSignal.Take(1).Subscribe(missionExitContext =>
             {
                 _loadingScreen.Show();
 
