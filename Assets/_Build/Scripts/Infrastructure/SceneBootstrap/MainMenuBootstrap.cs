@@ -4,27 +4,31 @@ using VContainer;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using LostKaiju.Game.UI.MVVM.MainMenu;
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.UI.MVVM.MainMenu;
+using LostKaiju.Game.Providers.GameState;
+using LostKaiju.Game.GameData.Settings;
+using System;
 
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class MainMenuBootstrap : LifetimeScope
     {
-        [SerializeField] private GameObject _mainMenuUI;
+        [SerializeField] private MainMenuView _mainMenuViewPrefab;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
         {
             var exitSignal = new Subject<Unit>();
-            var mainMenuModel = new MainMenuModel();
-            var mainMenuViewModel = new MainMenuViewModel(exitSignal);
-            
-            mainMenuViewModel.Bind(mainMenuModel);
 
+            var rootUIBinder = Container.Resolve<IRootUIBinder>();
+            var gameStateProvider = Container.Resolve<IGameStateProvider>();
+            var settingsModelFactory = new Func<SettingsModel>(() => SettingsModelFactory(gameStateProvider));
+            var mainMenuViewModel = new MainMenuViewModel(exitSignal, settingsModelFactory, 
+                rootUIBinder);
+            
             var rootBinder = Container.Resolve<IRootUIBinder>();
-            var mainMenuView = Instantiate(_mainMenuUI).GetComponent<MainMenuView>();
+            var mainMenuView = Instantiate(_mainMenuViewPrefab);
 
             mainMenuView.Bind(mainMenuViewModel);
             rootBinder.SetView(mainMenuView);
@@ -35,6 +39,12 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var mainMenuExitSignal = exitSignal.Select(_ => mainMenuExitContext);
 
             return mainMenuExitSignal;
+        }
+
+        public SettingsModel SettingsModelFactory(IGameStateProvider gameStateProvider)
+        {
+            var settingsModel = new SettingsModel(gameStateProvider.Settings);
+            return settingsModel;
         }
     }
 }

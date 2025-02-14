@@ -148,7 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd58596b80ad7ac44abbcd007d9f0a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMenuUI: {fileID: 511629072934447911, guid: d98b7fda68c5e7340a4299b821425c43, type: 3}
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
+  _mainMenuViewPrefab: {fileID: 1926783122083912866, guid: d98b7fda68c5e7340a4299b821425c43, type: 3}
 --- !u!4 &472460025
 Transform:
   m_ObjectHideFlags: 0

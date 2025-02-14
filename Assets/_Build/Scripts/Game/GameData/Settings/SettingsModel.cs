@@ -4,8 +4,8 @@ namespace LostKaiju.Game.GameData.Settings
 {
     public class SettingsModel : Model<SettingsState>
     {
-        public ReactiveProperty<float> SoundVolume;
-        public ReactiveProperty<float> SFXVolume;
+        public readonly ReactiveProperty<float> SoundVolume;
+        public readonly ReactiveProperty<float> SFXVolume;
 
         public SettingsModel(SettingsState state) : base(state)
         {

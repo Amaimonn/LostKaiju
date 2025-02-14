@@ -5,6 +5,7 @@ using R3;
 
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
+using LostKaiju.Boilerplates.UI.MVVM;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -38,25 +39,26 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         protected override void OnAwake()
         {
-            _contentElement = _root.Q<VisualElement>(name: _contentElementName);
-            _startButton = _root.Q<Button>(name: _startButtonName);
-            _closeButton = _root.Q<Button>(name: _closeButtonName);
-            _selectedMissionLabel = _root.Q<Label>(name: _selectedMissionLabelName);
-            _selectedMissionText = _root.Q<Label>(name: _selectedMissionTextName);
-            _missionsGrid = _root.Q<VisualElement>(name: _missionsGridName);
-            _panelWhiteBackground = _root.Q<VisualElement>(className: _panelWhiteBackgroundStyleName);
+            _contentElement = Root.Q<VisualElement>(name: _contentElementName);
+            _startButton = Root.Q<Button>(name: _startButtonName);
+            _closeButton = Root.Q<Button>(name: _closeButtonName);
+            _selectedMissionLabel = Root.Q<Label>(name: _selectedMissionLabelName);
+            _selectedMissionText = Root.Q<Label>(name: _selectedMissionTextName);
+            _missionsGrid = Root.Q<VisualElement>(name: _missionsGridName);
+            _panelWhiteBackground = Root.Q<VisualElement>(className: _panelWhiteBackgroundStyleName);
+
             _contentElement.AddToClassList($"{_contentStyleName}--disabled");
             _contentElement.RegisterCallback<TransitionEndEvent>(_ =>
             {
                 if (_isClosing)
-                    _viewModel.CompleteClose();
+                    _viewModel.CompleteClosing();
             });
         }
 
         protected override void OnBind(CampaignNavigationViewModel viewModel)
         {
-            _startButton.RegisterCallback<ClickEvent>(_ => StartGameplay());
-            _closeButton.RegisterCallback<ClickEvent>(_ => Close());
+            _startButton.RegisterCallback<ClickEvent>(StartGameplay);
+            _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
 
             foreach (var mission in _viewModel.DisplayedMissionsData)
             {
@@ -78,18 +80,18 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     // mark mission as locked
                 }
                 missionButton.RegisterCallback<ClickEvent>(_ => _viewModel.SelectMission(mission));
-                missionButton.RegisterCallback<PointerEnterEvent>(_ => PlayButtonHoverSFX());
+                missionButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
                 missionButton.AddToClassList(_baseButtonStyleName);
                 missionButton.AddToClassList(_missionButtonStyleName);
                 _missionsGrid.Add(missionButton);
             }
 
-            _viewModel.OnOpenStateChanged.Skip(1).Subscribe(e => OnOpedStateChanged(e));
+            _viewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
             _viewModel.SelectedLocation.Subscribe(OnLocationSelected);
             _viewModel.SelectedMission.Subscribe(OnMissionSelected);
         }
 
-        private void StartGameplay()
+        private void StartGameplay(ClickEvent clickEvent)
         {
             if (_isGameplayStarted)
             {
@@ -99,39 +101,39 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _isGameplayStarted = true;
         }
 
-        private void Close()
+        private void Close(ClickEvent clickEvent)
         {
             Debug.Log("Missions: close button clicked");
-            _viewModel.Close();
+            _viewModel.StartClosing();
         }
 
-        private void OnOpedStateChanged(bool isOpened)
+        private void OnOpenStateChanged(bool isOpened)
         {
             if (isOpened)
                 OnOpened();
             else
                 OnClosed();
-        }
 
-        private void OnOpened()
-        {
-            StartCoroutine(OpenAnimation());
-        }
+            void OnOpened()
+            {
+                StartCoroutine(OpenAnimation());
 
-        private IEnumerator OpenAnimation()
-        {
-            yield return null;
-            _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
-            _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-            Debug.Log("Missions: opened");
-        }
+                IEnumerator OpenAnimation()
+                {
+                    yield return null;
+                    _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
+                    _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                    Debug.Log("Missions: opened");
+                }
+            }
 
-        private void OnClosed()
-        {
-            _isClosing = true;
-            _contentElement.AddToClassList($"{_contentStyleName}--disabled");
-            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-            Debug.Log("Missions: closed");
+            void OnClosed()
+            {
+                _isClosing = true;
+                _contentElement.AddToClassList($"{_contentStyleName}--disabled");
+                _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                Debug.Log("Missions: closed");
+            }
         }
 
         private void OnLocationSelected(ILocationData locationData)
@@ -162,7 +164,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             }
         }
 
-        private void PlayButtonHoverSFX()
+        private void PlayButtonHoverSFX(PointerEnterEvent pointerEnterEvent)
         {
             _audioSource.pitch = Random.Range(0.9f, 1.1f);
             _audioSource.PlayOneShot(_buttonHoverSFX);

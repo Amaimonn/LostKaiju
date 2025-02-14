@@ -15,7 +15,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private bool _isMissionsOpened = false;
         private const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> missionsModelFactory, IRootUIBinder rootUIBinder)
+        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> missionsModelFactory, 
+            IRootUIBinder rootUIBinder)
         {
             _exitSubject = exitSubject;
             _campaignModelFactory = missionsModelFactory;
@@ -25,9 +26,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         public void OpenMissions()
         {
             if (_isMissionsOpened)
-            {
                 return;
-            }
 
             var missionsViewPrefab = Resources.Load<CampaignNavigationView>(CAMPAIGN_NAVIGATION_VIEW_PATH);
             var missionsView = UnityEngine.Object.Instantiate(missionsViewPrefab);

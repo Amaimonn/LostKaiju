@@ -1,35 +1,40 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using LostKaiju.Boilerplates.UI.MVVM;
+
 namespace LostKaiju.Game.UI.MVVM.MainMenu
 {
     public class MainMenuView : ToolkitView<MainMenuViewModel>
     {
         [SerializeField] private string _playButtonName = "PlayButton";
+        [SerializeField] private string _settingsButtonName = "SettingsButton";
+
         private Button _playButton;
+        private Button _settingsButton;
 
         protected override void OnBind(MainMenuViewModel viewModel)
         {
-            _playButton = _root.Q<Button>(name: _playButtonName);
-            _playButton.RegisterCallback<ClickEvent>(OnPlayButtonClicked);
+            _playButton = Root.Q<Button>(name: _playButtonName);
+            _settingsButton = Root.Q<Button>(name: _settingsButtonName);
+
+            _playButton.RegisterCallback<ClickEvent>(StartGameplay);
+            _settingsButton.RegisterCallback<ClickEvent>(OpenSettings);
         }
 
-        public void OnPlayButtonClicked(ClickEvent clickEvent)
+        public void StartGameplay(ClickEvent clickEvent)
         {
             _viewModel.StartGameplay();
         }
 
-        #region MonoBehaviour
-        private void OnDestroy()
+        public void OpenSettings(ClickEvent clickEvent)
         {
-            Dispose();
-            _root?.RemoveFromHierarchy();
+            _viewModel.OpenSettings();
         }
-        #endregion
 
         public override void Dispose()
         {
-            _playButton.UnregisterCallback<ClickEvent>(OnPlayButtonClicked);
+            _playButton.UnregisterCallback<ClickEvent>(StartGameplay);
         }
     }
 }

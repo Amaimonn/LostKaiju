@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using VContainer.Unity;
 using VContainer;
@@ -35,7 +36,10 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.RegisterInstance<ISaveSystem>(saveSystem);
 
             var gameStateProvider = new GameStateProvider(saveSystem);
-            await gameStateProvider.LoadCampaignStateAsync();
+            var campaignTask =  gameStateProvider.LoadCampaignStateAsync();
+            var settingsTask = gameStateProvider.LoadSettingsStateAsync();
+            await Task.WhenAll(campaignTask, settingsTask);
+
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();

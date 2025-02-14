@@ -1,0 +1,44 @@
+.setting-bar {
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(104, 104, 104);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgb(180, 180, 180);
+    border-top-width: 1px;
+    border-right-width: 0.5px;
+    border-bottom-width: 0.8px;
+    border-left-width: 6px;
+    padding-top: 0;
+    padding-right: 4px;
+    padding-bottom: 0;
+    padding-left: 4px;
+    margin-bottom: 6px;
+}
+
+.setting-bar__label {
+    font-size: 24px;
+    color: white;
+    -unity-text-align: middle-left;
+}
+
+.setting-controls-container {
+    flex-direction: row;
+    align-self: center;
+    align-items: stretch;
+    align-content: flex-start;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.setting-bar__slider {
+    flex-grow: 1;
+}
+
+.slider-value-label {
+    font-size: 18px;
+    color: white;
+    margin-left: 10px;
+}

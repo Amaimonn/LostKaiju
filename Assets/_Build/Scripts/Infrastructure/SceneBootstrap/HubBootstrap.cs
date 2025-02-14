@@ -7,7 +7,6 @@ using VContainer.Unity;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Hub;
 using LostKaiju.Game.GameData.Campaign;
@@ -22,7 +21,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private string _playerConfigName; // choose your player character
         [SerializeField] private string _locationsConfigPath;
-        private IGameStateProvider _gameStateProvider;
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
@@ -38,9 +36,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitContext = new HubExitContext(gameplayEnterContext);
             var hubExitSignal = exitSignal.Select(_ => hubExitContext); // send to UI
 
-            _gameStateProvider = Container.Resolve<IGameStateProvider>();
+            var gameStateProvider = Container.Resolve<IGameStateProvider>();
 
-            var campaignModelFactory = new Func<CampaignModel>(() => CampaignModelFactory(gameplayEnterContext));
+            var campaignModelFactory = new Func<CampaignModel>(() => CampaignModelFactory(gameplayEnterContext, 
+                gameStateProvider));
             var hubViewModel = new HubViewModel(exitSignal, campaignModelFactory, uiRootBinder);
 
             hubView.Bind(hubViewModel);
@@ -49,13 +48,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             return hubExitSignal;
         }
 
-        private CampaignModel CampaignModelFactory(GameplayEnterContext gameplayEnterContext)
+        private CampaignModel CampaignModelFactory(GameplayEnterContext gameplayEnterContext, IGameStateProvider gameStateProvider)
         {
             var locationsDataSO = Resources.Load<LocationsDataSO>(_locationsConfigPath);
             var locationsPairs = locationsDataSO.Locations
                 .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
             var locationsMap = new Dictionary<string, ILocationData>(locationsPairs);
-            var campaignState = _gameStateProvider.Campaign;
+            var campaignState = gameStateProvider.Campaign;
             var campaignModel = new CampaignModel(campaignState, locationsMap);
 
             campaignModel.SelectedMission.Subscribe(x => {

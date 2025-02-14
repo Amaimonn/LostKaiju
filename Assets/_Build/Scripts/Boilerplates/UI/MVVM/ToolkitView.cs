@@ -1,41 +1,43 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using LostKaiju.Boilerplates.UI.MVVM;
-
-public abstract class ToolkitView<T> : View<T> where T : IViewModel
+namespace LostKaiju.Boilerplates.UI.MVVM
 {
-    [SerializeField] protected VisualTreeAsset _visualTreeAsset;
-    protected VisualElement _root;
-    
-#region View<T>
-    public sealed override void Attach(IRootUI rootUI)
+    public abstract class ToolkitView<T> : View<T> where T : IViewModel
     {
-        rootUI.Attach(_root);
-    }
+        [SerializeField] protected VisualTreeAsset _visualTreeAsset;
 
-    public sealed override void Detach(IRootUI rootUI)
-    {
-        rootUI.Detach(_root);
-        Dispose();
-        Destroy(gameObject);
-    }
+        protected VisualElement Root { get; private set; }
+
+#region View<T>
+        public sealed override void Attach(IRootUI rootUI)
+        {
+            rootUI.Attach(Root);
+        }
+
+        public sealed override void Detach(IRootUI rootUI)
+        {
+            rootUI.Detach(Root);
+            Dispose();
+            Destroy(gameObject);
+        }
 #endregion
 
 #region MonoBehaviour
-    private void Awake()
-    {
-        _root = _visualTreeAsset.CloneTree();
-        var lenght = Length.Percent(100);
-        
-        _root.style.position = Position.Absolute;
-        _root.style.width = lenght;
-        _root.style.height = lenght;
-        OnAwake();
-    }
+        private void Awake()
+        {
+            Root = _visualTreeAsset.CloneTree();
+            var lenght = Length.Percent(100);
+
+            Root.style.position = Position.Absolute;
+            Root.style.width = lenght;
+            Root.style.height = lenght;
+            OnAwake();
+        }
 #endregion
 
-    protected virtual void OnAwake()
-    {
+        protected virtual void OnAwake()
+        {
+        }
     }
 }

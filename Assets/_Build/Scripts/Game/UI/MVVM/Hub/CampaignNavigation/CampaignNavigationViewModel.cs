@@ -13,7 +13,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
     public class CampaignNavigationViewModel : IViewModel
     {
         public Observable<bool> OnOpenStateChanged => _isOpened;
-        public Observable<Unit> OnClosingCompleted => _isClosingCompleted;
+        public Observable<Unit> OnClosingCompleted => _closingCompletedSignal;
         public ReadOnlyReactiveProperty<ILocationData> SelectedLocation => _selectedLocation;
         public ReadOnlyReactiveProperty<IMissionData> SelectedMission => _selectedMission;
         public IReadOnlyObservableList<IMissionData> DisplayedMissionsData => _displayedMissionsData;
@@ -22,7 +22,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly CampaignModel _campaignModel;
         private readonly Subject<Unit> _startMissionSubject;
         private readonly ReactiveProperty<bool> _isOpened = new(false);
-        private readonly Subject<Unit> _isClosingCompleted = new();
+        private readonly Subject<Unit> _closingCompletedSignal = new();
         private readonly ReactiveProperty<ILocationData> _selectedLocation;
         private readonly ReactiveProperty<IMissionData> _selectedMission;
         private readonly ObservableList<IMissionData> _displayedMissionsData;
@@ -53,9 +53,12 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _startMissionSubject.OnNext(Unit.Default);
         }
 
-        public void CompleteClose()
+        /// <summary>
+        /// Complete closing when animation is finished. Used by View.
+        /// </summary>
+        public void CompleteClosing()
         {
-            _isClosingCompleted.OnNext(Unit.Default);
+            _closingCompletedSignal.OnNext(Unit.Default);
         }
 
         public void Open()
@@ -63,7 +66,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _isOpened.Value = true;
         }
 
-        public void Close()
+        public void StartClosing()
         {
             _isOpened.Value = false;
         }

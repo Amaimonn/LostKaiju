@@ -17,6 +17,7 @@ namespace LostKaiju.Game.Providers.GameState
 
         private readonly ISaveSystem _saveSystem;
         private const string CAMPAIGN_STATE_KEY = "CampaignState";
+        private const string SETTINGS_STATE_KEY = "SettingsState";
 
         public GameStateProvider(ISaveSystem saveSystem)
         {
@@ -45,6 +46,25 @@ namespace LostKaiju.Game.Providers.GameState
                     Locations = new List<LocationState>{ location }
                 };
                 await _saveSystem.SaveAsync(CAMPAIGN_STATE_KEY, Campaign);
+            }
+        }
+
+        public async Task LoadSettingsStateAsync()
+        {
+            bool exists = await _saveSystem.ExistsAsync(SETTINGS_STATE_KEY);
+            if (exists)
+            {
+                Settings = await _saveSystem.LoadAsync<SettingsState>(SETTINGS_STATE_KEY);
+            }
+            else
+            {
+                Settings = new SettingsState()
+                {
+                    SoundVolume = 60,
+                    SFXVolume = 60,
+                };
+
+                await _saveSystem.SaveAsync(CAMPAIGN_STATE_KEY, Settings);
             }
         }
     }

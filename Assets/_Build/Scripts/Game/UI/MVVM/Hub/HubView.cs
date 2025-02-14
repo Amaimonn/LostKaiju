@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using LostKaiju.Boilerplates.UI.MVVM;
+
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HubView : ToolkitView<HubViewModel>
@@ -11,7 +13,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         protected override void OnBind(HubViewModel viewModel)
         {
-            _openMissionsElement = _root.Q<VisualElement>(name: _openMissionsElementName);
+            _openMissionsElement = Root.Q<VisualElement>(name: _openMissionsElementName);
             _openMissionsElement.RegisterCallback<ClickEvent>(OpenMissions);
         }
 
