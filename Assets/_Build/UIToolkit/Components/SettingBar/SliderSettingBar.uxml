@@ -1,10 +1,9 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/_Build/UIToolkit/Components/SettingBar/SettingBarStyles.uss?fileID=7433441132597879392&amp;guid=0f05ee1376a35c245ac590c8d298c2d1&amp;type=3#SettingBarStyles" />
-    <Style src="project://database/Assets/_Build/UIToolkit/Screens/Shared/Settings/SettingsStyles.uss?fileID=7433441132597879392&amp;guid=13fa4143d7a2a494c80da9463159de5a&amp;type=3#SettingsStyles" />
     <engine:VisualElement name="SettingBar" class="setting-bar">
         <engine:Label text="SettingLabel" name="SettingLabel" class="setting-bar__label" />
-        <engine:VisualElement name="SettingControlsContainer" class="setting-controls-container">
-            <engine:Label text="Label" name="SettingValue" class="setting-value-label" />
+        <engine:VisualElement name="SettingControlsContainer" class="setting-bar__controls-container">
+            <engine:Label text="Label" name="SettingValue" class="setting-bar__value-label" />
             <engine:Slider high-value="100" value="0" class="setting-bar__slider" />
         </engine:VisualElement>
     </engine:VisualElement>

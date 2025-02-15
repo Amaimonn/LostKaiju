@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <engine:Template name="SliderSettingBar" src="project://database/Assets/_Build/UIToolkit/Components/SettingBar/SliderSettingBar.uxml?fileID=9197481963319205126&amp;guid=180218f9a08027441a350635e4c7e265&amp;type=3#SliderSettingBar" />
-    <engine:Template name="SwitcherSettingBar" src="project://database/Assets/_Build/UIToolkit/Components/SettingBar/SwitcherSettingBar.uxml?fileID=9197481963319205126&amp;guid=07df10da215826f4c85f17e70ac58070&amp;type=3#SwitcherSettingBar" />
+    <engine:Template name="ToggleSettingBar" src="project://database/Assets/_Build/UIToolkit/Components/SettingBar/ToggleSettingBar.uxml?fileID=9197481963319205126&amp;guid=07df10da215826f4c85f17e70ac58070&amp;type=3#ToggleSettingBar" />
     <Style src="project://database/Assets/_Build/UIToolkit/Screens/Shared/Settings/SettingsStyles.uss?fileID=7433441132597879392&amp;guid=13fa4143d7a2a494c80da9463159de5a&amp;type=3#SettingsStyles" />
     <engine:VisualElement name="OverlayImage" class="overlay-image" />
     <engine:VisualElement name="Wrapper" class="wrapper">
@@ -15,16 +15,19 @@
                         <engine:VisualElement name="TabContentContainer" class="settings-tab__content-container">
                             <engine:ScrollView horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview">
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SwitcherSettingBar" name="SwitcherSettingBar" />
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SwitcherSettingBar" name="SwitcherSettingBar" />
-                                <engine:Instance template="SwitcherSettingBar" name="SwitcherSettingBar" />
-                                <engine:Instance template="SwitcherSettingBar" name="SwitcherSettingBar" />
-                                <engine:Instance template="SwitcherSettingBar" name="SwitcherSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
                             </engine:ScrollView>
                         </engine:VisualElement>
                     </engine:Tab>
@@ -33,10 +36,10 @@
                             <engine:ScrollView horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview">
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
                                 <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
                             </engine:ScrollView>
-                            <engine:VisualElement name="SettingsContainer" class="settings-container" />
                         </engine:VisualElement>
                     </engine:Tab>
                     <engine:Tab label="Input" name="InputTab" />
