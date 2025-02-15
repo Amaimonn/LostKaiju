@@ -48,7 +48,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             return hubExitSignal;
         }
 
-        private CampaignModel CampaignModelFactory(GameplayEnterContext gameplayEnterContext, IGameStateProvider gameStateProvider)
+        private CampaignModel CampaignModelFactory(GameplayEnterContext gameplayEnterContext, 
+            IGameStateProvider gameStateProvider)
         {
             var locationsDataSO = Resources.Load<LocationsDataSO>(_locationsConfigPath);
             var locationsPairs = locationsDataSO.Locations
