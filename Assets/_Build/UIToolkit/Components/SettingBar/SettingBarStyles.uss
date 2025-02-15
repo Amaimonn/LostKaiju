@@ -31,13 +31,14 @@
     align-content: flex-start;
     flex-grow: 1;
     max-width: 400px;
+    justify-content: flex-end;
 }
 
 .setting-bar__slider {
     flex-grow: 1;
 }
 
-.slider-value-label {
+.setting-value-label {
     font-size: 18px;
     color: white;
     margin-left: 10px;
