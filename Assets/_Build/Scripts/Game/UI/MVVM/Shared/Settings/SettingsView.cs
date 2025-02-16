@@ -10,19 +10,28 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
     public class SettingsView : ToolkitView<SettingsViewModel>
     {
         [SerializeField] private string _closeButtonName;
+        [SerializeField] private string _applyButtonName;
+        [SerializeField] private string _resetButtonName;
+        [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
+        [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
 
         private Button _closeButton;
+        private Button _applyButton;
+        private Button _resetButton;
         private bool _isClosing = false;
 
         protected override void OnAwake()
         {
             _closeButton = Root.Q<Button>(name: _closeButtonName);
+            _applyButton = Root.Q<Button>(name: _applyButtonName);
+            _resetButton = Root.Q<Button>(name: _resetButtonName);
         }
 
         protected override void OnBind(SettingsViewModel viewModel)
         {
             _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
-
+            _applyButton.RegisterCallbackOnce<ClickEvent>(ApplyChanges);
+            _resetButton.RegisterCallbackOnce<ClickEvent>(ResetSettings);
             _viewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
         }
 
@@ -60,6 +69,16 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         private void Close(ClickEvent clickEvent)
         {
             _viewModel.Close();
+        }
+
+        private void ApplyChanges(ClickEvent clickEvent)
+        {
+            _viewModel.ApplyChanges();
+        }
+
+        private void ResetSettings(ClickEvent clickEvent)
+        {
+            _viewModel.ResetSettings();
         }
     }
 }

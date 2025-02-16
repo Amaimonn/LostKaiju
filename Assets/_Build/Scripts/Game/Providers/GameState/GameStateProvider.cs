@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Services.Saves;
-using UnityEngine;
 
 
 namespace LostKaiju.Game.Providers.GameState
@@ -25,25 +25,35 @@ namespace LostKaiju.Game.Providers.GameState
             _saveSystem = saveSystem;
         }
 
-        public async Task LoadCampaignStateAsync()
+        public async Task LoadCampaignAsync()
         {
             bool exists = await _saveSystem.ExistsAsync(CAMPAIGN_STATE_KEY);
             if (exists)
                 Campaign = await _saveSystem.LoadAsync<CampaignState>(CAMPAIGN_STATE_KEY);
             else
-                await InitializeAndSaveCampaignAsync();
+                InitializeAndSaveCampaign();
         }
 
-        public async Task LoadSettingsStateAsync()
+        public async Task SaveCampaignAsync()
+        {
+            await _saveSystem.SaveAsync(CAMPAIGN_STATE_KEY, Campaign);
+        }
+
+        public async Task LoadSettingsAsync()
         {
             bool exists = await _saveSystem.ExistsAsync(SETTINGS_STATE_KEY);
             if (exists)
                 Settings = await _saveSystem.LoadAsync<SettingsState>(SETTINGS_STATE_KEY);
             else
-                await InitializeAndSaveSettingsAsync();
+                InitializeAndSaveSettings();
         }
 
-        private async Task InitializeAndSaveCampaignAsync()
+        public async Task SaveSettingsAsync()
+        {
+            await _saveSystem.SaveAsync(SETTINGS_STATE_KEY, Settings);
+        }
+
+        private void InitializeAndSaveCampaign()
         {
             // simple initial state from settings
             var missions = new List<MissionState>()
@@ -58,20 +68,23 @@ namespace LostKaiju.Game.Providers.GameState
                 Locations = new List<LocationState> { location }
             };
 
-            await _saveSystem.SaveAsync(CAMPAIGN_STATE_KEY, Campaign);
             Debug.Log("Campaign load: init");
+            _saveSystem.SaveAsync(CAMPAIGN_STATE_KEY, Campaign);
         }
 
-        private async Task InitializeAndSaveSettingsAsync()
+        private void InitializeAndSaveSettings()
         {
             Settings = new SettingsState()
             {
                 SoundVolume = 60,
-                SFXVolume = 60,
+                IsSoundEnabled = true,
+                SfxVolume = 60,
+                IsSfxEnabled = true,
+                Brightness = 80
             };
 
-            await _saveSystem.SaveAsync(SETTINGS_STATE_KEY, Settings);
             Debug.Log("Settings load: init");
+            _saveSystem.SaveAsync(SETTINGS_STATE_KEY, Settings);
         }
     }
 }

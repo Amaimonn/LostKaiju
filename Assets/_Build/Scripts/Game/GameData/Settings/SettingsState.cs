@@ -3,6 +3,9 @@ namespace LostKaiju.Game.GameData.Settings
     public class SettingsState
     {
         public float SoundVolume;
-        public float SFXVolume;
+        public bool IsSoundEnabled;
+        public float SfxVolume;
+        public bool IsSfxEnabled;
+        public float Brightness;
     }
 }

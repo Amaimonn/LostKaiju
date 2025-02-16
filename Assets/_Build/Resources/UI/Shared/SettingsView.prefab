@@ -46,3 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualTreeAsset: {fileID: 9197481963319205126, guid: 197466a349430b44bafec38582a390d0, type: 3}
   _closeButtonName: CloseButton
+  _applyButtonName: ApplyButton
+  _resetButtonName: ResetButton
+  _sliderSettingBarAsset: {fileID: 9197481963319205126, guid: 180218f9a08027441a350635e4c7e265, type: 3}
+  _toggleSettingBarAsset: {fileID: 9197481963319205126, guid: 07df10da215826f4c85f17e70ac58070, type: 3}

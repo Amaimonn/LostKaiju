@@ -36,8 +36,8 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.RegisterInstance<ISaveSystem>(saveSystem);
 
             var gameStateProvider = new GameStateProvider(saveSystem);
-            var campaignTask =  gameStateProvider.LoadCampaignStateAsync();
-            var settingsTask = gameStateProvider.LoadSettingsStateAsync();
+            var campaignTask =  gameStateProvider.LoadCampaignAsync();
+            var settingsTask = gameStateProvider.LoadSettingsAsync();
             await Task.WhenAll(campaignTask, settingsTask);
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
