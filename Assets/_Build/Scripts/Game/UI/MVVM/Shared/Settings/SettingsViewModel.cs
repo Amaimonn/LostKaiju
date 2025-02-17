@@ -9,24 +9,21 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
     {
         public Observable<bool> OnOpenStateChanged => _isOpened;
         public Observable<Unit> OnClosingCompleted => _closingCompletedSignal;
+        public SettingsSectionViewModel CurrentSection => _currentSection;
 
         private readonly SettingsModel _model;
+        private readonly SoundSettingsViewModel _soundSettingsViewModel;
+        private readonly VideoSettingsViewModel _videoSettingsViewModel;
         private readonly ReactiveProperty<bool> _isOpened = new(false);
         private readonly Subject<Unit> _closingCompletedSignal = new();
-        private readonly ReactiveProperty<float> _soundVolume;
-        private readonly ReactiveProperty<bool> _isSoundEnabled;
-        private readonly ReactiveProperty<float> _sfxVolume;
-        private readonly ReactiveProperty<bool> _isSfxEnabled;
-        private readonly ReactiveProperty<float> _brightness;
+        private SettingsSectionViewModel _currentSection;
 
         public SettingsViewModel(SettingsModel model)
         {
             _model = model;
-            _soundVolume = new ReactiveProperty<float>(model.SoundVolume.Value);
-            _isSoundEnabled = new ReactiveProperty<bool>(model.IsSoundEnabled.Value);
-            _sfxVolume = new ReactiveProperty<float>(model.SfxVolume.Value);
-            _isSfxEnabled = new ReactiveProperty<bool>(model.IsSfxEnabled.Value);
-            _brightness = new ReactiveProperty<float>(model.Brightness.Value);
+            _soundSettingsViewModel = new SoundSettingsViewModel(model);
+            _videoSettingsViewModel = new VideoSettingsViewModel(model);
+            _currentSection = _soundSettingsViewModel;
         }
 
         public void Open()
@@ -47,58 +44,25 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _closingCompletedSignal.OnNext(Unit.Default);
         }
 
+        public void SetSoundSection()
+        {
+            _currentSection = _soundSettingsViewModel;
+        }
+
+        public void SetVideoSection()
+        {
+            _currentSection = _videoSettingsViewModel;
+        }
 
         public void ApplyChanges()
         {
-            _model.SoundVolume.Value = _soundVolume.Value;
-            _model.IsSoundEnabled.Value = _isSoundEnabled.Value;
-            _model.SfxVolume.Value = _sfxVolume.Value;
-            _model.IsSfxEnabled.Value = _isSfxEnabled.Value;
-            _model.Brightness.Value = _brightness.Value;
+            _soundSettingsViewModel.ApplyChanges();
+            _videoSettingsViewModel.ApplyChanges();
         }
 
-        public void ResetSettings()
+        public void ResetCurrentSectionSettings()
         {
-            _soundVolume.Value = _model.SoundVolume.Value;
-            _isSoundEnabled.Value = _model.IsSoundEnabled.Value;
-            _sfxVolume.Value = _model.SfxVolume.Value;
-            _isSfxEnabled.Value = _model.IsSfxEnabled.Value;
-        }
-
-        public void ApplySoundChanges()
-        {
-            _model.SoundVolume.Value = _soundVolume.Value;
-            _model.IsSoundEnabled.Value = _isSoundEnabled.Value;
-            _model.SfxVolume.Value = _sfxVolume.Value;
-            _model.IsSfxEnabled.Value = _isSfxEnabled.Value;
-        }
-
-        public void ApplyGraphicsChanges()
-        {
-            _model.Brightness.Value = _brightness.Value;
-        }
-
-        public void ApplyInputChanges()
-        {
-
-        }
-
-        public void ResetSoundChanges()
-        {
-            _soundVolume.Value = _model.SoundVolume.Value;
-            _isSoundEnabled.Value = _model.IsSoundEnabled.Value;
-            _sfxVolume.Value = _model.SfxVolume.Value;
-            _isSfxEnabled.Value = _model.IsSfxEnabled.Value;
-        }
-
-        public void ResetGraphicsChanges()
-        {
-            _brightness.Value = _model.Brightness.Value;
-        }
-
-        public void ResetInputChanges()
-        {
-
+            _currentSection.ResetSettings();
         }
     }
 }

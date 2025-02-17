@@ -78,7 +78,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private void ResetSettings(ClickEvent clickEvent)
         {
-            _viewModel.ResetSettings();
+            _viewModel.ResetCurrentSectionSettings();
         }
     }
 }
