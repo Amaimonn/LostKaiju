@@ -1,7 +1,14 @@
+using System;
+using UnityEngine;
+
 namespace LostKaiju.Game.GameData.Settings
 {
-    public class SettingsState
+    [Serializable]
+    public class SettingsState : IVersioned
     {
+        public int Version => _version;
+        [SerializeField] private int _version = 1;
+
         public float SoundVolume;
         public bool IsSoundEnabled;
         public float SfxVolume;

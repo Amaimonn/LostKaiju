@@ -43,7 +43,7 @@ namespace LostKaiju.Game.Providers.GameState
         {
             bool exists = await _saveSystem.ExistsAsync(SETTINGS_STATE_KEY);
             if (exists)
-                Settings = await _saveSystem.LoadAsync<SettingsState>(SETTINGS_STATE_KEY);
+                Settings = MigrateSettings(await _saveSystem.LoadAsync<SettingsState>(SETTINGS_STATE_KEY));
             else
                 InitializeAndSaveSettings();
         }
@@ -80,11 +80,26 @@ namespace LostKaiju.Game.Providers.GameState
                 IsSoundEnabled = true,
                 SfxVolume = 60,
                 IsSfxEnabled = true,
-                Brightness = 80
+                Brightness = 80,
+                IsHighBloomQuality = false,
+                IsAntiAliasingEnabled = false
             };
 
             Debug.Log("Settings load: init");
             _saveSystem.SaveAsync(SETTINGS_STATE_KEY, Settings);
         }
+        
+        private SettingsState MigrateSettings(SettingsState settingsState)
+        {
+            if (settingsState.Version != 1)
+            {
+                settingsState.Brightness = 80;
+                settingsState.IsHighBloomQuality = false;
+                settingsState.IsAntiAliasingEnabled = false;
+                _saveSystem.SaveAsync(SETTINGS_STATE_KEY, Settings); 
+            }
+            
+            return settingsState;
+        }   
     }
 }
