@@ -41,7 +41,7 @@ public class LoadingScreen: MonoBehaviour
             SetOverlayFillProgress(_overlayFillProgress + Time.deltaTime / _overlayFillSeconds);
             yield return null;
         }
-        _overlayFillProgress = 1;
+        SetOverlayFillProgress(1);
         _loadingLabel.SetActive(true);
     }
 
@@ -53,7 +53,7 @@ public class LoadingScreen: MonoBehaviour
             SetOverlayFillProgress(_overlayFillProgress - Time.deltaTime / _overlayFillSeconds);
             yield return null;
         }
-        _overlayFillProgress = 0;
+        SetOverlayFillProgress(0);
         _loadingGameObject.SetActive(false);
     }
 
