@@ -16,14 +16,13 @@
     padding-bottom: 0;
     padding-left: 4px;
     margin-bottom: 6px;
-    transition-property: height, border-left-width;
-    transition-duration: 0.1s, 0.13s;
+    transition-property: border-left-width;
+    transition-duration: 0.13s;
     height: 50px;
 }
 
 .setting-bar:hover {
     border-left-width: 14px;
-    height: 54px;
 }
 
 .setting-bar__label {
@@ -44,6 +43,35 @@
 
 .setting-bar__slider {
     flex-grow: 1;
+}
+
+.setting-bar__slider .unity-base-slider__dragger {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    background-color: rgb(58, 58, 58);
+}
+
+.setting-bar__slider .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0.31);
+    border-left-color: rgba(83, 83, 83, 0.86);
+    border-right-color: rgba(83, 83, 83, 0.86);
+    border-top-color: rgba(83, 83, 83, 0.86);
+    border-bottom-color: rgba(83, 83, 83, 0.86);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .setting-bar__value-label {
