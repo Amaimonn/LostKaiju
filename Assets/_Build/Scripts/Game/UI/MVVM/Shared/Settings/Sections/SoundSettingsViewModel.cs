@@ -27,10 +27,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             SetCachedSettings();
             
             _soundVolume = new ReactiveProperty<float>(_soundVolumeCached);
-            model.SoundVolume.Skip(1).Subscribe(x => _sfxVolume.Value = x).AddTo(_disposables);
+            model.SoundVolume.Skip(1).Subscribe(x => _soundVolume.Value = x).AddTo(_disposables);
 
             _isSoundEnabled = new ReactiveProperty<bool>(_isSoundEnabledCached);
-            model.IsSoundEnabled.Skip(1).Subscribe(x => _isSfxEnabled.Value = x).AddTo(_disposables);
+            model.IsSoundEnabled.Skip(1).Subscribe(x => _isSoundEnabled.Value = x).AddTo(_disposables);
 
             _sfxVolume = new ReactiveProperty<float>(_sfxVolumeCached);
             model.SfxVolume.Skip(1).Subscribe(x => _sfxVolume.Value = x).AddTo(_disposables);
@@ -70,7 +70,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         public void SetSfxVolume(float volume)
         {
-            _sfxVolume.Value = volume;
+            _model.SfxVolume.Value = volume;
             _isSfxEnabled.Value = volume > 0;
         }
 

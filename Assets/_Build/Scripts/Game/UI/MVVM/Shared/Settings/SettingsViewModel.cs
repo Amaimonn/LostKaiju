@@ -10,10 +10,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public Observable<bool> OnOpenStateChanged => _isOpened;
         public Observable<Unit> OnClosingCompleted => _closingCompletedSignal;
         public SettingsSectionViewModel CurrentSection => _currentSection;
+        public readonly SoundSettingsViewModel SoundSettingsViewModel;
+        public readonly VideoSettingsViewModel VideoSettingsViewModel;
+        public readonly IFullSettingsData SettingsData;
 
         private readonly SettingsModel _model;
-        private readonly SoundSettingsViewModel _soundSettingsViewModel;
-        private readonly VideoSettingsViewModel _videoSettingsViewModel;
         private readonly ReactiveProperty<bool> _isOpened = new(false);
         private readonly Subject<Unit> _closingCompletedSignal = new();
         private SettingsSectionViewModel _currentSection;
@@ -21,9 +22,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public SettingsViewModel(SettingsModel model)
         {
             _model = model;
-            _soundSettingsViewModel = new SoundSettingsViewModel(model);
-            _videoSettingsViewModel = new VideoSettingsViewModel(model);
-            _currentSection = _soundSettingsViewModel;
+            SettingsData = model.SettingsData;
+            SoundSettingsViewModel = new SoundSettingsViewModel(model);
+            VideoSettingsViewModel = new VideoSettingsViewModel(model);
+            _currentSection = SoundSettingsViewModel;
         }
 
         public void Open()
@@ -34,6 +36,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public void Close()
         {
             _isOpened.Value = false;
+            ResetUnappliedChanges();
         }
 
         /// <summary>
@@ -46,18 +49,24 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         public void SetSoundSection()
         {
-            _currentSection = _soundSettingsViewModel;
+            _currentSection = SoundSettingsViewModel;
         }
 
         public void SetVideoSection()
         {
-            _currentSection = _videoSettingsViewModel;
+            _currentSection = VideoSettingsViewModel;
         }
 
         public void ApplyChanges()
         {
-            _soundSettingsViewModel.ApplyChanges();
-            _videoSettingsViewModel.ApplyChanges();
+            SoundSettingsViewModel.ApplyChanges();
+            VideoSettingsViewModel.ApplyChanges();
+        }
+
+        public void ResetUnappliedChanges()
+        {
+            SoundSettingsViewModel.ResetSettings();
+            VideoSettingsViewModel.ResetSettings();
         }
 
         public void ResetCurrentSectionSettings()

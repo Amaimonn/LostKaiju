@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using VContainer.Unity;
 using VContainer;
@@ -8,7 +9,6 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.MainMenu;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Settings;
-using System;
 
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
@@ -16,6 +16,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     public class MainMenuBootstrap : LifetimeScope
     {
         [SerializeField] private MainMenuView _mainMenuViewPrefab;
+        [SerializeField] private string _settingsDataPath;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
         {
@@ -43,7 +44,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         public SettingsModel SettingsModelFactory(IGameStateProvider gameStateProvider)
         {
-            var settingsModel = new SettingsModel(gameStateProvider.Settings);
+            var settingsData = Resources.Load<FullSettingsDataSO>(_settingsDataPath);
+            var settingsModel = new SettingsModel(gameStateProvider.Settings, settingsData);
             return settingsModel;
         }
     }

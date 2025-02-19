@@ -17,8 +17,12 @@ namespace LostKaiju.Game.GameData.Settings
         public readonly ReactiveProperty<bool> IsAntiAliasingEnabled;
 #endregion
 
-        public SettingsModel(SettingsState state) : base(state)
+        public readonly IFullSettingsData SettingsData;
+
+        public SettingsModel(SettingsState state, IFullSettingsData settingsData) : base(state)
         {
+            SettingsData = settingsData;
+
             SoundVolume = new ReactiveProperty<float>(state.SoundVolume);
             SoundVolume.Skip(1).Subscribe(x => state.SoundVolume = x);
 

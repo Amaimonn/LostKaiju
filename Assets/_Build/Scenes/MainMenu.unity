@@ -153,6 +153,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   _mainMenuViewPrefab: {fileID: 1926783122083912866, guid: d98b7fda68c5e7340a4299b821425c43, type: 3}
+  _settingsDataPath: Configs/Settings/FullSettingsDataSO
 --- !u!4 &472460025
 Transform:
   m_ObjectHideFlags: 0

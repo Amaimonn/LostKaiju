@@ -15,11 +15,11 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private bool _isMissionsOpened = false;
         private const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> missionsModelFactory, 
+        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> campaignModelFactory, 
             IRootUIBinder rootUIBinder)
         {
             _exitSubject = exitSubject;
-            _campaignModelFactory = missionsModelFactory;
+            _campaignModelFactory = campaignModelFactory;
             _rootUIBinder = rootUIBinder;
         }
 

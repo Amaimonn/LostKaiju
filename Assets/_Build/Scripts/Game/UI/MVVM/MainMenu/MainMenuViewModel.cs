@@ -15,6 +15,7 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
         private readonly Func<SettingsModel> _settingsModelFactory;
         private bool _isSettingsOpened = false;
         private const string SETTINGS_VIEW_PATH = "UI/Shared/SettingsView";
+        private const string SETTINGS_DATA_PATH = "SettingsData";
 
         public MainMenuViewModel(Subject<Unit> exitSubject, Func<SettingsModel> settingsModelFactory, 
             IRootUIBinder rootUIBinder)
