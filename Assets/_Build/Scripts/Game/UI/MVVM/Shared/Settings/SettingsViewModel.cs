@@ -47,12 +47,12 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _closingCompletedSignal.OnNext(Unit.Default);
         }
 
-        public void SetSoundSection()
+        public void SelectSoundSection()
         {
             _currentSection = SoundSettingsViewModel;
         }
 
-        public void SetVideoSection()
+        public void SelectVideoSection()
         {
             _currentSection = VideoSettingsViewModel;
         }

@@ -49,72 +49,71 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         
         private void InitSoundSection(VisualElement sectionsRoot)
         {
+            var soundViewModel = _viewModel.SoundSettingsViewModel;
             var settingsData = _viewModel.SettingsData;
             var soundSection = new Tab()
             {
                 label = settingsData.SoundSectionLabel,
             };
+            soundSection.selected += _ => _viewModel.SelectSoundSection();
             sectionsRoot.Add(soundSection);
-            var soundViewModel = _viewModel.SoundSettingsViewModel;
 
-            var soundVolumeBar = _sliderSettingBarAsset.CloneTree();
-            soundSection.Add(soundVolumeBar);
-            var soundVolumeSlider = GetSlider(soundVolumeBar, settingsData.SoundVolumeData);
+            var soundVolumeSlider = CreateSlider(settingsData.SoundVolumeData, soundSection);
             soundVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSoundVolume(e.newValue));
             _viewModel.SoundSettingsViewModel.SoundVolume.Subscribe(x => soundVolumeSlider.value = x);
 
-            var sfxVolumeBar = _sliderSettingBarAsset.CloneTree();
-            soundSection.Add(sfxVolumeBar);
-            var sfxVolumeSlider = GetSlider(sfxVolumeBar, settingsData.SfxVolumeData);
+            var sfxVolumeSlider = CreateSlider(settingsData.SfxVolumeData, soundSection);
             sfxVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSfxVolume(e.newValue));
             _viewModel.SoundSettingsViewModel.SfxVolume.Subscribe(x => sfxVolumeSlider.value = x);
         }
 
         private void InitVideoSection(VisualElement sectionsRoot)
         {
+            var videoViewModel = _viewModel.VideoSettingsViewModel;
             var settingsData = _viewModel.SettingsData;
             var videoSection = new Tab()
             {
                 label = settingsData.VideoSectionLabel,
             };
+            videoSection.selected += _ => _viewModel.SelectVideoSection();
             sectionsRoot.Add(videoSection);
-            var videoViewModel = _viewModel.VideoSettingsViewModel;
 
-            var brightnessBar = _sliderSettingBarAsset.CloneTree();
-            videoSection.Add(brightnessBar);
-            var brightnessSlider = GetSlider(brightnessBar, settingsData.BrightnessData);
+            var brightnessSlider = CreateSlider(settingsData.BrightnessData, videoSection);
             brightnessSlider.RegisterCallback<ChangeEvent<float>>(e => videoViewModel.SetBrightness(e.newValue));
             videoViewModel.Brightness.Subscribe(x => brightnessSlider.value = x);
 
-            var bloomBar = _toggleSettingBarAsset.CloneTree();
-            videoSection.Add(bloomBar);
-            var bloomToggle = GetToggle(bloomBar, settingsData.IsHighBloomQualityData);
+            var bloomToggle = CreateToggle(settingsData.IsHighBloomQualityData, videoSection);
             bloomToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsHighBloomQuality(e.newValue));
             videoViewModel.IsHighBloomQuality.Subscribe(x => bloomToggle.value = x);
 
-            var antiAliasingBar = _toggleSettingBarAsset.CloneTree();
-            videoSection.Add(antiAliasingBar);
-            var antiAliasingToggle = GetToggle(antiAliasingBar, settingsData.IsAntiAliasingEnabledData);
+            var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, videoSection);
             antiAliasingToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsAntiAliasingEnabled(e.newValue));
             videoViewModel.IsAntiAliasingEnabled.Subscribe(x => antiAliasingToggle.value = x);
         }
 
-        private Slider GetSlider(VisualElement sliderContainer, ISliderSettingData sliderSettingData)
+        private Slider CreateSlider(ISliderSettingData sliderSettingData, VisualElement parentSection)
         {
-            var slider = sliderContainer.Q<Slider>();
+            var settingBar = _sliderSettingBarAsset.CloneTree();
+            parentSection.Add(settingBar);
+
+            var slider = settingBar.Q<Slider>();
             slider.lowValue = sliderSettingData.MinValue;
             slider.highValue = sliderSettingData.MaxValue;
 
-            var label = sliderContainer.Q<Label>(className: _settingBarLabelClass);
+            var label = settingBar.Q<Label>(className: _settingBarLabelClass);
             label.text = sliderSettingData.Label;
 
             return slider;
         }
 
-        private Toggle GetToggle(VisualElement toggleContainer, IToggleSettingData toggleSettingData)
+        private Toggle CreateToggle(IToggleSettingData toggleSettingData, VisualElement parentSection)
         {
-            var toggle = toggleContainer.Q<Toggle>();
-            var label = toggleContainer.Q<Label>(className: _settingBarLabelClass);
+            var settingBar = _toggleSettingBarAsset.CloneTree();
+            parentSection.Add(settingBar);
+
+            var toggle = settingBar.Q<Toggle>();
+
+            var label = settingBar.Q<Label>(className: _settingBarLabelClass);
             label.text = toggleSettingData.Label;
 
             return toggle;

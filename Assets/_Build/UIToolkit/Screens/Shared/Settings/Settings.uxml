@@ -12,35 +12,31 @@
                 </engine:VisualElement>
                 <engine:TabView name="SettingsTabView" class="settings__tab-view">
                     <engine:Tab label="Sound" name="SoundTab">
-                        <engine:VisualElement name="TabContentContainer" class="settings-tab__content-container">
-                            <engine:ScrollView horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview">
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                            </engine:ScrollView>
-                        </engine:VisualElement>
+                        <engine:ScrollView horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview">
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                        </engine:ScrollView>
                     </engine:Tab>
                     <engine:Tab label="Graphics" name="GraphicsTab">
-                        <engine:VisualElement name="TabContentContainer" class="settings-tab__content-container">
-                            <engine:ScrollView horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview">
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                                <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
-                            </engine:ScrollView>
-                        </engine:VisualElement>
+                        <engine:ScrollView horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview">
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="SliderSettingBar" name="SliderSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                            <engine:Instance template="ToggleSettingBar" name="ToggleSettingBar" />
+                        </engine:ScrollView>
                     </engine:Tab>
                     <engine:Tab label="Input" name="InputTab" />
                 </engine:TabView>
