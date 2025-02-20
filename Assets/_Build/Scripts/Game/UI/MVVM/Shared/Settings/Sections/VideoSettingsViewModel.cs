@@ -75,10 +75,5 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _isHighBloomQualityCached = _model.IsHighBloomQuality.Value;
             _isAntiAliasingEnabledCached = _model.IsAntiAliasingEnabled.Value;
         }
-
-        public override void Dispose()
-        {
-            _disposables.Dispose();
-        }
     }
 }

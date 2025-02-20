@@ -433,7 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentReference:
     TypeName: 
-  autoRun: 1
+  autoRun: 0
   autoInjectGameObjects: []
   _playerInitPosition: {fileID: 1895556568}
   _cinemachineCamera: {fileID: 729280167}

@@ -37,18 +37,19 @@ namespace LostKaiju.Infrastructure.Loading
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
                 yield return LoadSceneAsync(Scenes.MAIN_MENU);
+
+
+                Debug.Log("Main menu scene loaded");
+
+                var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
+                mainMenuBootstrap.Build();
+                var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
+
+                exitMainMenuSignal.Take(1).Subscribe(mainMenuExitContext =>
+                {
+                    _monoHook.StartCoroutine(LoadHub(mainMenuExitContext.HubEnterContext));
+                });
             }
-
-            Debug.Log("Main menu scene loaded");
-
-            var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
-            var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
-
-            exitMainMenuSignal.Take(1).Subscribe(mainMenuExitContext =>
-            {
-                _monoHook.StartCoroutine(LoadHub(mainMenuExitContext.HubEnterContext));
-            });
-
             yield return GetRemainFakeLoadTime(startTime);
             yield return _loadingScreen.HideCoroutine();
         }
@@ -63,26 +64,27 @@ namespace LostKaiju.Infrastructure.Loading
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
                 yield return LoadSceneAsync(Scenes.HUB);
+
+                Debug.Log("Hub scene loaded");
+
+                var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
+                hubBootstrap.Build();
+                var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
+
+                hubExitSignal.Take(1).Subscribe(hubExitContext =>
+                {
+                    var toSceneName = hubExitContext.ToSceneContext.SceneName;
+
+                    if (toSceneName == Scenes.MAIN_MENU)
+                    {
+                        _monoHook.StartCoroutine(LoadMainMenu(hubExitContext.ToSceneContext as MainMenuEnterContext));
+                    }
+                    else if (toSceneName == Scenes.GAMEPLAY)
+                    {
+                        _monoHook.StartCoroutine(LoadGameplay(hubExitContext.ToSceneContext as GameplayEnterContext));
+                    }
+                });
             }
-            Debug.Log("Hub scene loaded");
-
-            var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
-            var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
-
-            hubExitSignal.Take(1).Subscribe(hubExitContext =>
-            {
-                var toSceneName = hubExitContext.ToSceneContext.SceneName;
-
-                if (toSceneName == Scenes.MAIN_MENU)
-                {
-                    _monoHook.StartCoroutine(LoadMainMenu(hubExitContext.ToSceneContext as MainMenuEnterContext));
-                }
-                else if (toSceneName == Scenes.GAMEPLAY)
-                {
-                    _monoHook.StartCoroutine(LoadGameplay(hubExitContext.ToSceneContext as GameplayEnterContext));
-                }
-            });
-
             yield return GetRemainFakeLoadTime(startTime);
             yield return _loadingScreen.HideCoroutine();
         }
@@ -96,28 +98,30 @@ namespace LostKaiju.Infrastructure.Loading
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
                 yield return LoadSceneAsync(Scenes.GAMEPLAY);
+
+                Debug.Log("Gameplay scene loaded");
+
+                var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
+                gameplayBootstrap.Build();
+                var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
+
+                gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
+                {
+                    _monoHook.StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
+                });
+
+                var levelSceneName = gameplayEnterContext.LevelSceneName;
+                var missionEnterContextStub = new MissionEnterContext(gameplayEnterContext);
+                yield return LoadMissionAdditive(gameplayBootstrap, missionEnterContextStub,
+                    toMissionSceneName: levelSceneName);
             }
-            Debug.Log("Gameplay scene loaded");
-
-            var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
-            var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
-
-            gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
-            {
-                _monoHook.StartCoroutine(LoadHub(gameplayExitContext.HubEnterContext));
-            });
-
-            var levelSceneName = gameplayEnterContext.LevelSceneName;
-            var missionEnterContextStub = new MissionEnterContext(gameplayEnterContext);
-            yield return LoadMissionAdditive(gameplayBootstrap, missionEnterContextStub, 
-                toMissionSceneName: levelSceneName);
-                
+            
             yield return GetRemainFakeLoadTime(startTime);
             yield return _loadingScreen.HideCoroutine();
         }
 
-        private IEnumerator LoadMissionAdditive(LifetimeScope parentScope, MissionEnterContext missionEnterContext, 
-            string toMissionSceneName, string fromMissionSceneName=null)
+        private IEnumerator LoadMissionAdditive(LifetimeScope parentScope, MissionEnterContext missionEnterContext,
+            string toMissionSceneName, string fromMissionSceneName = null)
         {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(Scenes.GAMEPLAY));
             if (fromMissionSceneName != null)
@@ -128,25 +132,27 @@ namespace LostKaiju.Infrastructure.Loading
             using (LifetimeScope.EnqueueParent(parentScope))
             {
                 yield return LoadSceneAsync(toMissionSceneName, LoadSceneMode.Additive);
+
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(toMissionSceneName));
+
+                var missionBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
+                missionBootstrap.Build();
+                var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
+                missionExitSignal.Take(1).Subscribe(missionExitContext =>
+                {
+                    _loadingScreen.Show();
+
+                    var toSceneName = missionExitContext.MissionEnterSceneName;
+                    var toSceneContext = missionExitContext.MissionEnterContext;
+                    _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName: toSceneName,
+                        fromMissionSceneName: toMissionSceneName));
+
+                    _loadingScreen.Hide();
+                });
             }
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(toMissionSceneName));
+        }
 
-            var missionBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
-            var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
-            missionExitSignal.Take(1).Subscribe(missionExitContext =>
-            {
-                _loadingScreen.Show();
-
-                var toSceneName = missionExitContext.MissionEnterSceneName;
-                var toSceneContext = missionExitContext.MissionEnterContext;
-                _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName : toSceneName, 
-                    fromMissionSceneName: toMissionSceneName));
-
-                _loadingScreen.Hide();
-            });
-        }   
-
-        private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode=LoadSceneMode.Single)
+        private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
             yield return SceneManager.LoadSceneAsync(sceneName, mode);
         }
@@ -165,7 +171,7 @@ namespace LostKaiju.Infrastructure.Loading
                 return new WaitForSeconds(remainTime);
             }
             else
-            {   
+            {
                 return new WaitForSeconds(0);
             }
         }

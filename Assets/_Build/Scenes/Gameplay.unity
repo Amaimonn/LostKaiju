@@ -148,6 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3fa1c362d990d4f88031d63f7e4957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 0
+  autoInjectGameObjects: []
   _gameplayViewPrefab: {fileID: 2852262315609189070, guid: 1eb8a80199f48f34e88fb76c387503ac, type: 3}
   _mobileControlsViewPrefab: {fileID: 3687898500589295836, guid: 723a0266f67a48747b0d32f82f15a732, type: 3}
 --- !u!4 &1083579659

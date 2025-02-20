@@ -9,7 +9,7 @@ public abstract class SettingsSectionViewModel : IViewModel, IDisposable
     public ReadOnlyReactiveProperty<bool> IsAnyChanges = new ReactiveProperty<bool>(false);
 
     protected readonly SettingsModel _model;
-    protected readonly CompositeDisposable _disposables;
+    protected CompositeDisposable _disposables;
 
     public SettingsSectionViewModel(SettingsModel model)
     {
@@ -24,12 +24,17 @@ public abstract class SettingsSectionViewModel : IViewModel, IDisposable
     public virtual void ResetSettings()
     {
     }
-    
+
     protected virtual void SetCachedSettings()
     {
     }
 
-    public virtual void Dispose() 
+    public virtual void Dispose()
     {
+        if (_disposables != null)
+        {
+            _disposables.Dispose();
+            _disposables = null;
+        }
     }
 }

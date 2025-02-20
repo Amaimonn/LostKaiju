@@ -53,7 +53,8 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 
         public void ClearView(View view)
         {
-            view.Detach(this);
+            if (view != null)
+                view.Detach(this);
         }
 
         public void ClearViews()

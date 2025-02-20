@@ -81,10 +81,5 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _sfxVolumeCached = _model.SfxVolume.Value;
             _isSfxEnabledCached = _model.IsSfxEnabled.Value;
         }
-
-        public override void Dispose()
-        {
-            _disposables.Dispose();
-        }
     }
 }

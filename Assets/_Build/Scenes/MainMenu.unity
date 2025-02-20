@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentReference:
     TypeName: 
-  autoRun: 1
+  autoRun: 0
   autoInjectGameObjects: []
   _mainMenuViewPrefab: {fileID: 1926783122083912866, guid: d98b7fda68c5e7340a4299b821425c43, type: 3}
   _settingsDataPath: Configs/Settings/FullSettingsDataSO
