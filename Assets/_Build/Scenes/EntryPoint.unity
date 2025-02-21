@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentReference:
     TypeName: 
-  autoRun: 1
+  autoRun: 0
   autoInjectGameObjects: []
   _uiRootBinderPrefab: {fileID: 3027197294014773955, guid: 9558fc9b5f3b4ea4c90701e51ea202c4, type: 3}
 --- !u!4 &2024037041

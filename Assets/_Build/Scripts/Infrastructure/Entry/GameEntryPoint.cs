@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using LostKaiju.Infrastructure.Scopes;
 
 namespace LostKaiju.Infrastructure.Entry
 {
@@ -23,6 +24,7 @@ namespace LostKaiju.Infrastructure.Entry
         private async Task Run()
         {
             await SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
+            Object.FindAnyObjectByType<RootScope>().Build();
             Debug.Log("Entry point scene loaded");
         }
     }
