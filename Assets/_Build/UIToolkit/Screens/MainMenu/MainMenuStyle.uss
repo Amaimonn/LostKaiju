@@ -1,18 +1,12 @@
 .wrapper {
-    position: relative;
     align-content: auto;
     justify-content: flex-start;
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
-    min-width: 100%;
-    min-height: 100%;
 }
 
 .game-label {
     -unity-text-align: middle-center;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/_Build/UI/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
+    -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
     font-size: 200px;
     white-space: pre;
     align-self: center;
@@ -24,18 +18,10 @@
 }
 
 .background-image {
-    flex-grow: 1;
-    width: 100%;
     background-color: rgb(25, 29, 35);
-    height: 100%;
-    position: absolute;
 }
 
 .buildings-image {
-    flex-grow: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
     background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/Environment/black_city_parallax_background1.png?fileID=2800000&guid=d794614260162a1429460426f6e7eb04&type=3#black_city_parallax_background1");
     flex-shrink: 0;
     background-repeat: repeat no-repeat;
@@ -57,7 +43,7 @@
     position: relative;
     font-size: 32px;
     -unity-font-style: bold;
-    -unity-font-definition: url("project://database/Assets/_Build/UI/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
+    -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
     transition-duration: 0.1s, 0.1s;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;

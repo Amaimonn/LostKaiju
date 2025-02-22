@@ -27,11 +27,21 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         private void Awake()
         {
             Root = _visualTreeAsset.CloneTree();
-            var lenght = Length.Percent(100);
+            // var lenght = Length.Percent(100);
+            var styles = Root.style;
 
-            Root.style.position = Position.Absolute;
-            Root.style.width = lenght;
-            Root.style.height = lenght;
+            styles.position = Position.Absolute;
+
+            // styles.width = lenght;
+            // styles.height = lenght;
+            // styles.minWidth = lenght;
+            // styles.minHeight = lenght;
+
+            styles.left = 0;
+            styles.right = 0;
+            styles.top = 0;
+            styles.bottom = 0;
+
             OnAwake();
         }
 #endregion

@@ -1,0 +1,6 @@
+.wrapper-base {
+    position: relative;
+    -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
+    height: 100%;
+    width: 100%;
+}

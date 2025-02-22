@@ -1,4 +1,4 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/_Build/UI/Components/UIRoot/UIRootStyles.uss?fileID=7433441132597879392&amp;guid=4081e02f7d6a8c1408a91fa3e29a2199&amp;type=3#UIRootStyles" />
-    <engine:VisualElement name="UIRoot" picking-mode="Ignore" class="ui-root" />
+    <Style src="project://database/Assets/_Build/UIToolkit/Components/UIRoot/UIRootStyles.uss?fileID=7433441132597879392&amp;guid=4081e02f7d6a8c1408a91fa3e29a2199&amp;type=3#UIRootStyles" />
+    <engine:VisualElement picking-mode="Ignore" name="UIRoot" class="ui-root" />
 </engine:UXML>
