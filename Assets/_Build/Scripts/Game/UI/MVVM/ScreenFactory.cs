@@ -1,6 +1,6 @@
 using LostKaiju.Boilerplates.UI.MVVM;
 
-namespace LostKaiju.Game.UI.MVVM.Shared
+namespace LostKaiju.Game.UI.MVVM
 {
     public abstract class ScreenFactory
     {

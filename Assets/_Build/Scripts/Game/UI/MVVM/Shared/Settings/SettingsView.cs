@@ -153,7 +153,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private void Close(ClickEvent clickEvent)
         {
-            ViewModel.Close();
+            ViewModel.StartClosing();
         }
 
         private void ApplyChanges(ClickEvent clickEvent)

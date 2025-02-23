@@ -68,7 +68,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         {
             int childrenAmount = _canvasUiRoot.childCount;
 
-            for (int i = childrenAmount-1; i >=0; i--)
+            for (int i = childrenAmount - 1; i >= 0; i--)
             {
                 Destroy(_canvasUiRoot.GetChild(i).gameObject);
             }

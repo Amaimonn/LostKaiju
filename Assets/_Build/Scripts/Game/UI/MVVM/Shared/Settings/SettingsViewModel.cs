@@ -1,23 +1,18 @@
 using R3;
 using System;
 
-using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
-    public class SettingsViewModel : IViewModel, IDisposable
+    public class SettingsViewModel : BaseScreenViewModel, IDisposable
     {
-        public Observable<bool> OnOpenStateChanged => _isOpened;
-        public Observable<Unit> OnClosingCompleted => _closingCompletedSignal;
         public SettingsSectionViewModel CurrentSection => _currentSection;
         public readonly SoundSettingsViewModel SoundSettingsViewModel;
         public readonly VideoSettingsViewModel VideoSettingsViewModel;
         public readonly IFullSettingsData SettingsData;
 
         private readonly SettingsModel _model;
-        private readonly ReactiveProperty<bool> _isOpened = new(false);
-        private readonly Subject<Unit> _closingCompletedSignal = new();
         private SettingsSectionViewModel _currentSection;
 
         public SettingsViewModel(SettingsModel model)
@@ -29,23 +24,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _currentSection = SoundSettingsViewModel;
         }
 
-        public void Open()
+        public override void StartClosing()
         {
-            _isOpened.Value = true;
-        }
-
-        public void Close()
-        {
-            _isOpened.Value = false;
+            base.StartClosing();
             ResetUnappliedChanges();
-        }
-
-        /// <summary>
-        /// Complete closing when animation is finished. Used by View.
-        /// </summary>
-        public void CompleteClosing()
-        {
-            _closingCompletedSignal.OnNext(Unit.Default);
         }
 
         public void SelectSoundSection()

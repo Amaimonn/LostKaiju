@@ -27,16 +27,9 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         private void Awake()
         {
             Root = _visualTreeAsset.CloneTree();
-            // var lenght = Length.Percent(100);
             var styles = Root.style;
 
             styles.position = Position.Absolute;
-
-            // styles.width = lenght;
-            // styles.height = lenght;
-            // styles.minWidth = lenght;
-            // styles.minHeight = lenght;
-
             styles.left = 0;
             styles.right = 0;
             styles.top = 0;
