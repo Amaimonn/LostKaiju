@@ -15,11 +15,11 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 
     public abstract class View<T> : View where T : IViewModel
     {
-        protected T _viewModel;
+        protected T ViewModel { get; private set; }
 
         public void Bind(T viewModel)
         {
-            _viewModel = viewModel;
+            ViewModel = viewModel;
             OnBind(viewModel);
         }
 

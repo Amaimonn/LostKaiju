@@ -51,7 +51,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _contentElement.RegisterCallback<TransitionEndEvent>(_ =>
             {
                 if (_isClosing)
-                    _viewModel.CompleteClosing();
+                    ViewModel.CompleteClosing();
             });
         }
 
@@ -60,14 +60,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _startButton.RegisterCallback<ClickEvent>(StartGameplay);
             _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
 
-            foreach (var mission in _viewModel.DisplayedMissionsData)
+            foreach (var mission in ViewModel.DisplayedMissionsData)
             {
                 var missionButton = new Button
                 {
                     text = mission.DysplayedNumber,
                 };
                 
-                if (_viewModel.AvailableMissionsMap.TryGetValue(mission.Id, out MissionModel missionModel))
+                if (ViewModel.AvailableMissionsMap.TryGetValue(mission.Id, out MissionModel missionModel))
                 {
                     if (missionModel.IsCompleted.Value)
                     {
@@ -79,16 +79,16 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     missionButton.style.color = Color.gray;
                     // mark mission as locked
                 }
-                missionButton.RegisterCallback<ClickEvent>(_ => _viewModel.SelectMission(mission));
+                missionButton.RegisterCallback<ClickEvent>(_ => ViewModel.SelectMission(mission));
                 missionButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
                 missionButton.AddToClassList(_baseButtonStyleName);
                 missionButton.AddToClassList(_missionButtonStyleName);
                 _missionsGrid.Add(missionButton);
             }
 
-            _viewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
-            _viewModel.SelectedLocation.Subscribe(OnLocationSelected);
-            _viewModel.SelectedMission.Subscribe(OnMissionSelected);
+            ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
+            ViewModel.SelectedLocation.Subscribe(OnLocationSelected);
+            ViewModel.SelectedMission.Subscribe(OnMissionSelected);
         }
 
         private void StartGameplay(ClickEvent clickEvent)
@@ -97,14 +97,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             {
                 return;
             }
-            _viewModel.StartGameplay();
+            ViewModel.StartGameplay();
             _isGameplayStarted = true;
         }
 
         private void Close(ClickEvent clickEvent)
         {
             Debug.Log("Missions: close button clicked");
-            _viewModel.StartClosing();
+            ViewModel.StartClosing();
         }
 
         private void OnOpenStateChanged(bool isOpened)
@@ -145,7 +145,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         {
             if (missionModel != null)
             {
-                if (_viewModel.AvailableMissionsMap.ContainsKey(missionModel.Id))
+                if (ViewModel.AvailableMissionsMap.ContainsKey(missionModel.Id))
                 {
                     _startButton.enabledSelf = true;
                 }

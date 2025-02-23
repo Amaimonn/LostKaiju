@@ -36,7 +36,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
             _applyButton.RegisterCallback<ClickEvent>(ApplyChanges);
             _resetButton.RegisterCallback<ClickEvent>(ResetSettings);
-            _viewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
+            ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
         }
 
         private void InitSections()
@@ -49,33 +49,33 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         
         private void InitSoundSection(VisualElement sectionsRoot)
         {
-            var soundViewModel = _viewModel.SoundSettingsViewModel;
-            var settingsData = _viewModel.SettingsData;
+            var soundViewModel = ViewModel.SoundSettingsViewModel;
+            var settingsData = ViewModel.SettingsData;
             var soundSection = new Tab()
             {
                 label = settingsData.SoundSectionLabel,
             };
-            soundSection.selected += _ => _viewModel.SelectSoundSection();
+            soundSection.selected += _ => ViewModel.SelectSoundSection();
             sectionsRoot.Add(soundSection);
 
             var soundVolumeSlider = CreateSlider(settingsData.SoundVolumeData, soundSection);
             soundVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSoundVolume(e.newValue));
-            _viewModel.SoundSettingsViewModel.SoundVolume.Subscribe(x => soundVolumeSlider.value = x);
+            ViewModel.SoundSettingsViewModel.SoundVolume.Subscribe(x => soundVolumeSlider.value = x);
 
             var sfxVolumeSlider = CreateSlider(settingsData.SfxVolumeData, soundSection);
             sfxVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSfxVolume(e.newValue));
-            _viewModel.SoundSettingsViewModel.SfxVolume.Subscribe(x => sfxVolumeSlider.value = x);
+            ViewModel.SoundSettingsViewModel.SfxVolume.Subscribe(x => sfxVolumeSlider.value = x);
         }
 
         private void InitVideoSection(VisualElement sectionsRoot)
         {
-            var videoViewModel = _viewModel.VideoSettingsViewModel;
-            var settingsData = _viewModel.SettingsData;
+            var videoViewModel = ViewModel.VideoSettingsViewModel;
+            var settingsData = ViewModel.SettingsData;
             var videoSection = new Tab()
             {
                 label = settingsData.VideoSectionLabel,
             };
-            videoSection.selected += _ => _viewModel.SelectVideoSection();
+            videoSection.selected += _ => ViewModel.SelectVideoSection();
             sectionsRoot.Add(videoSection);
 
             var brightnessSlider = CreateSlider(settingsData.BrightnessData, videoSection);
@@ -144,7 +144,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
                 _isClosing = true;
                 Root.SetEnabled(false);
                 if (_isClosing)
-                    _viewModel.CompleteClosing(); // TODO: replace it to the TransitionEndEvent
+                    ViewModel.CompleteClosing(); // TODO: replace it to the TransitionEndEvent
                 // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
                 // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
                 Debug.Log("Settings: closed");
@@ -153,17 +153,17 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private void Close(ClickEvent clickEvent)
         {
-            _viewModel.Close();
+            ViewModel.Close();
         }
 
         private void ApplyChanges(ClickEvent clickEvent)
         {
-            _viewModel.ApplyChanges();
+            ViewModel.ApplyChanges();
         }
 
         private void ResetSettings(ClickEvent clickEvent)
         {
-            _viewModel.ResetCurrentSectionSettings();
+            ViewModel.ResetCurrentSectionSettings();
         }
     }
 }

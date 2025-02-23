@@ -24,12 +24,12 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
 
         public void StartGameplay(ClickEvent clickEvent)
         {
-            _viewModel.StartGameplay();
+            ViewModel.StartGameplay();
         }
 
         public void OpenSettings(ClickEvent clickEvent)
         {
-            _viewModel.OpenSettings();
+            ViewModel.OpenSettings();
         }
 
         public override void Dispose()

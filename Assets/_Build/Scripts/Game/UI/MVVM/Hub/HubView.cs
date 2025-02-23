@@ -19,7 +19,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private void OpenMissions(ClickEvent clickEvent)
         {
-            _viewModel.OpenMissions();
+            ViewModel.OpenMissions();
         }
     }
 }
