@@ -4,19 +4,23 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SettingsBinder : IDisposable
     {
         private readonly IRootUIBinder _rootUIBinder;
+        private readonly IGameStateProvider _gameStateProvider;
         private readonly SettingsModel _settingsModel;
         private SettingsViewModel _currentSettingsViewModel;
         private const string SETTINGS_VIEW_PATH = "UI/Shared/SettingsView";
 
-        public SettingsBinder(IRootUIBinder rootUIBinder, SettingsModel settingsModel)
+        public SettingsBinder(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
+            SettingsModel settingsModel)
         {
             _rootUIBinder = rootUIBinder;
+            _gameStateProvider = gameStateProvider;
             _settingsModel = settingsModel;
         }
 
@@ -28,7 +32,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             var settingsViewPrefab = Resources.Load<SettingsView>(SETTINGS_VIEW_PATH);
             var settingsView = UnityEngine.Object.Instantiate(settingsViewPrefab);
             
-            _currentSettingsViewModel = new SettingsViewModel(_settingsModel);
+            _currentSettingsViewModel = new SettingsViewModel(_settingsModel, _gameStateProvider);
             
             _currentSettingsViewModel.OnClosingCompleted.Subscribe(_ => {
                 _rootUIBinder.ClearView(settingsView);

@@ -1,7 +1,7 @@
-using R3;
 using System;
 
 using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -12,12 +12,12 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public readonly VideoSettingsViewModel VideoSettingsViewModel;
         public readonly IFullSettingsData SettingsData;
 
-        private readonly SettingsModel _model;
+        private readonly IGameStateProvider _gameStateProvider;
         private SettingsSectionViewModel _currentSection;
 
-        public SettingsViewModel(SettingsModel model)
+        public SettingsViewModel(SettingsModel model, IGameStateProvider gameStateProvider)
         {
-            _model = model;
+            _gameStateProvider = gameStateProvider;
             SettingsData = model.SettingsData;
             SoundSettingsViewModel = new SoundSettingsViewModel(model);
             VideoSettingsViewModel = new VideoSettingsViewModel(model);
@@ -44,6 +44,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             SoundSettingsViewModel.ApplyChanges();
             VideoSettingsViewModel.ApplyChanges();
+            SaveSettings();
         }
 
         public void ResetUnappliedChanges()
@@ -55,6 +56,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public void ResetCurrentSectionSettings()
         {
             _currentSection.ResetSettings();
+        }
+
+        private void SaveSettings()
+        {
+            _gameStateProvider.SaveSettingsAsync();
         }
 
         public void Dispose()
