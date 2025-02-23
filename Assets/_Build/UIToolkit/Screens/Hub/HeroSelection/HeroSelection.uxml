@@ -1,0 +1,48 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Build/UIToolkit/Screens/Hub/HeroSelection/HeroSelectionStyles.uss?fileID=7433441132597879392&amp;guid=25df8ffcff20b614487f7b58aa63c5c4&amp;type=3#HeroSelectionStyles" />
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/BackgroundStyles.uss?fileID=7433441132597879392&amp;guid=69d87b7304f02224eb50265f2135d43b&amp;type=3#BackgroundStyles" />
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
+    <engine:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
+    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" class="wrapper-base wrapper">
+        <engine:VisualElement name="Content" class="hero-selection-content">
+            <engine:VisualElement name="TitleBar" class="title-bar">
+                <engine:Button text="←" name="ExitButton" class="exit-button" />
+                <engine:Label text="SELECT YOUR CHAMPION" name="Title" class="title-text" />
+            </engine:VisualElement>
+            <engine:VisualElement name="MainContainer" class="main-container">
+                <engine:ScrollView name="HeroList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview">
+                    <engine:VisualElement name="heroSlot1" class="hero-slot">
+                        <engine:VisualElement name="heroPreview1" class="hero-preview" />
+                        <engine:Label text="SHADOW" name="heroName1" class="hero-name" />
+                        <engine:VisualElement name="DecorLine1" class="decor-line" />
+                    </engine:VisualElement>
+                    <engine:VisualElement name="heroSlot2" class="hero-slot">
+                        <engine:VisualElement name="heroPreview2" class="hero-preview" />
+                        <engine:Label text="LIGHT" name="heroName2" class="hero-name" />
+                        <engine:VisualElement name="DecorLine2" class="decor-line" />
+                    </engine:VisualElement>
+                    <engine:VisualElement name="heroSlot3" class="hero-slot">
+                        <engine:VisualElement name="heroPreview3" class="hero-preview" />
+                        <engine:Label text="VOID" name="heroName3" class="hero-name" />
+                        <engine:VisualElement name="DecorLine3" class="decor-line" />
+                    </engine:VisualElement>
+                </engine:ScrollView>
+                <engine:VisualElement name="PreviewPanel" class="preview-panel">
+                    <engine:Label text="SHADOW" name="SelectedName" class="selected-name" />
+                    <engine:VisualElement name="SelectedPreview" class="selected-preview" />
+                    <engine:Button text="START" name="StartButton" class="start-button" />
+                </engine:VisualElement>
+                <engine:VisualElement name="InfoPanel" class="info-panel">
+                    <engine:Label text="hero STATS" name="InfoTitle" class="info-title" />
+                    <engine:VisualElement name="StatsContainer" class="stats-container">
+                        <engine:Label text="Agility: 85" name="Stat1" class="stat-text" />
+                        <engine:Label text="Strength: 60" name="Stat2" class="stat-text" />
+                        <engine:Label text="Defense: 45" name="Stat3" class="stat-text" />
+                    </engine:VisualElement>
+                    <engine:Label text="A stealthy assassin trained in the arts of shadow manipulation." name="Description" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="description-text" />
+                    <engine:VisualElement name="DecorAccent" class="decor-accent" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
+</engine:UXML>
