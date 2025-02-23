@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -7,21 +9,45 @@ namespace LostKaiju.Services.Saves
 {
     public class FileStorage : IDataStorage
     {
-        private string _basePath;
-        private string _fileExtension;
+        private readonly string _basePath;
+        private readonly string _fileExtension;
+        private readonly ConcurrentDictionary<string, CancellationTokenSource> _ctsMap;
 
         public FileStorage(string fileExtension)
         {
             _basePath = Application.isEditor ? Path.Combine(Application.dataPath, "SaveData") : Application.persistentDataPath;
             _fileExtension = fileExtension;
+            _ctsMap = new ConcurrentDictionary<string, CancellationTokenSource>();
         }
 
-        public Task WriteAsync(string key, string serializedData)
+        public async Task WriteAsync(string key, string serializedData)
         {
             var path = GetPath(key);
-            var task = File.WriteAllTextAsync(path, serializedData);
+            var cts = _ctsMap.AddOrUpdate(key,
+                _ => new CancellationTokenSource(),
+                (_, oldCts) =>
+                {
+                    oldCts.Cancel();
+                    oldCts.Dispose();
 
-            return task;
+                    return new CancellationTokenSource();
+                });
+
+            try
+            {
+                await File.WriteAllTextAsync(path, serializedData, cts.Token);
+
+                _ctsMap.TryRemove(key, out _);
+                cts.Dispose();
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("FileStorage: Save operation was canceled.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"FileStorage: Save operation failed: {ex.Message}");
+            }
         }
 
         public Task<string> ReadAsync(string key)
@@ -46,7 +72,7 @@ namespace LostKaiju.Services.Saves
         {
             var path = GetPath(key);
             var exists = File.Exists(path);
-            
+
             return Task.FromResult(exists);
         }
 
