@@ -7,9 +7,11 @@ namespace LostKaiju.Boilerplates.UI.MVVM
     public class RootUIBinder : MonoBehaviour, IRootUIBinder, IRootUI
     {
         [SerializeField] private UIDocument _document;
-        [SerializeField] private Transform _canvasUiRoot;
-        [SerializeField] private VisualElement _visualElementRoot;
+        [SerializeField] private Canvas _firstCanvas;
+        [SerializeField] private RectTransform _canvasFirstUiRoot;
+        [SerializeField] private RectTransform _canvasLastUiRoot;
         [SerializeField] private string _visualElementRootName;
+        private VisualElement _visualElementRoot;
 
 #region IRootUIBinder
         public void SetView(View view)
@@ -39,7 +41,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         {
             foreach (var view in views)
             {
-                view.Attach(this);
+                AddView(view);
             }
         }
 
@@ -47,7 +49,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         {
             foreach (var view in views)
             {
-                view.Attach(this);
+                AddView(view);
             }
         }
 
@@ -66,11 +68,11 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 
         private void ClearCanvasViews()
         {
-            int childrenAmount = _canvasUiRoot.childCount;
+            int childrenAmount = _canvasFirstUiRoot.childCount;
 
             for (int i = childrenAmount - 1; i >= 0; i--)
             {
-                Destroy(_canvasUiRoot.GetChild(i).gameObject);
+                Destroy(_canvasFirstUiRoot.GetChild(i).gameObject);
             }
         }
 
@@ -83,6 +85,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         private void Awake()
         {
             _visualElementRoot = _document.rootVisualElement.Q(name: _visualElementRootName);
+            _firstCanvas.gameObject.SetActive(false);
         }
 #endregion
 
@@ -103,9 +106,16 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 /// </summary>
 /// <param name="gameObjectUI"></param>
 
-        public void Attach(GameObject gameObjectUI)
+        public void Attach(GameObject gameObjectUI, CanvasOrder order = CanvasOrder.First)
         {
-            gameObjectUI.transform.SetParent(_canvasUiRoot, false);
+            switch (order)
+            {
+                case CanvasOrder.First: 
+                    EnableFirstCanvas();
+                    gameObjectUI.transform.SetParent(_canvasFirstUiRoot, false); break;
+                case CanvasOrder.Last: 
+                    gameObjectUI.transform.SetParent(_canvasLastUiRoot, false); break;
+            }
         }
 
         public void Detach(VisualElement visualElement)
@@ -116,7 +126,19 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         public void Detach(GameObject gameObjectUI)
         {
             Destroy(gameObjectUI);
+            DisableFirstCanvasIfNeeded();
         }
 #endregion
+
+        private void EnableFirstCanvas()
+        {
+            _firstCanvas.gameObject.SetActive(true);
+        }
+
+        private void DisableFirstCanvasIfNeeded()
+        {
+            if (_canvasFirstUiRoot.childCount == 0)
+                _firstCanvas.gameObject.SetActive(false);
+        }
     }
 }

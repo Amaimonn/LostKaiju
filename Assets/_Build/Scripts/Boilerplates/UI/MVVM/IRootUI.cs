@@ -7,7 +7,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
     {
         public void Attach(VisualElement visualElement);
 
-        public void Attach(GameObject gameObjectUI);
+        public void Attach(GameObject gameObjectUI, CanvasOrder order = CanvasOrder.First);
 
         public void Detach(VisualElement visualElement);
         
