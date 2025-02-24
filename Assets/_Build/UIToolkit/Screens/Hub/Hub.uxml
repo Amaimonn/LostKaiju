@@ -1,6 +1,13 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/_Build/UI/Screens/Hub/HubStyles.uss?fileID=7433441132597879392&amp;guid=8d6f11d2d938efe408555a7dca4b8daf&amp;type=3#HubStyles" />
-    <engine:VisualElement name="Header" style="flex-grow: 0; height: 100px; width: 100%; background-color: rgba(226, 226, 226, 0.14);" />
-    <engine:VisualElement name="OpenMissions" class="start-gameplay-image" />
-    <engine:VisualElement name="Floor" style="flex-grow: 0; position: absolute; bottom: 0; width: 100%; height: 165px; background-color: rgba(0, 0, 0, 0); background-image: url(&quot;project://database/Assets/_Build/Art/Images/Gameplay/Tiles/Environment/City/void_noir_tile_2.png?fileID=2800000&amp;guid=9db42a40ba076bd439c6032b9f9953f1&amp;type=3#void_noir_tile_2&quot;);" />
+    <Style src="project://database/Assets/_Build/UIToolkit/Screens/Hub/HubStyles.uss?fileID=7433441132597879392&amp;guid=8d6f11d2d938efe408555a7dca4b8daf&amp;type=3#HubStyles" />
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
+    <engine:VisualElement name="Wrapper" class="wrapper-base" style="flex-grow: 1;">
+        <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Header" _bottom-padding-scale="0" class="header" />
+        <engine:VisualElement name="OpenMissions" class="start-gameplay-image" />
+        <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Footer" _top-padding-scale="0" _bottom-padding-scale="0" class="footer">
+            <engine:VisualElement name="FooterContent" class="footer__content" style="flex-grow: 1;">
+                <engine:Button text="HEROES" name="HeroSelectionButton" class="heroes-button" />
+            </engine:VisualElement>
+        </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
+    </engine:VisualElement>
 </engine:UXML>
