@@ -6,8 +6,8 @@ using R3;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.MainMenu;
-using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Settings;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
@@ -19,10 +19,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         protected override void Configure(IContainerBuilder builder)
         {
-            var settingsData = Resources.Load<FullSettingsDataSO>(_settingsDataPath);
             builder.Register<SettingsModel>(resolver => 
-                new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings, settingsData), Lifetime.Singleton);
-            builder.Register<SettingsBinder>(Lifetime.Singleton);
+                new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings), Lifetime.Singleton);
+            builder.Register<SettingsBinder>(resolver => {
+                var settingsBinder = new SettingsBinder(_settingsDataPath);
+                resolver.Inject(settingsBinder);
+                return settingsBinder;
+            }, Lifetime.Singleton);
         }
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)

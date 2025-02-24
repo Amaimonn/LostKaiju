@@ -4,18 +4,19 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign;
+using System.Threading.Tasks;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HubViewModel : IViewModel
     {
         private readonly Subject<Unit> _exitSubject;
-        private readonly Func<CampaignModel> _campaignModelFactory;
+        private readonly Func<Task<CampaignModel>> _campaignModelFactory;
         private readonly IRootUIBinder _rootUIBinder;
         private bool _isMissionsOpened = false;
         private const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<CampaignModel> campaignModelFactory, 
+        public HubViewModel(Subject<Unit> exitSubject, Func<Task<CampaignModel>> campaignModelFactory, 
             IRootUIBinder rootUIBinder)
         {
             _exitSubject = exitSubject;
@@ -28,19 +29,28 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             if (_isMissionsOpened)
                 return;
 
-            var missionsViewPrefab = Resources.Load<CampaignNavigationView>(CAMPAIGN_NAVIGATION_VIEW_PATH);
-            var missionsView = UnityEngine.Object.Instantiate(missionsViewPrefab);
-            var missionsModel = _campaignModelFactory();
-            var missionsViewModel = new CampaignNavigationViewModel(_exitSubject, missionsModel);
-            missionsViewModel.OnClosingCompleted.Subscribe(_ =>  {
-                _rootUIBinder.ClearView(missionsView);
+            var campaignViewPrefab = Resources.Load<CampaignNavigationView>(CAMPAIGN_NAVIGATION_VIEW_PATH);
+            var campaignView = UnityEngine.Object.Instantiate(campaignViewPrefab);
+
+            var campaignViewModel = new CampaignNavigationViewModel(_exitSubject);
+            campaignViewModel.OnClosingCompleted.Subscribe(_ =>  {
+                _rootUIBinder.ClearView(campaignView);
                 _isMissionsOpened = false;
             });
-
-            missionsView.Bind(missionsViewModel);
-            _rootUIBinder.AddView(missionsView);
-            missionsViewModel.Open();
+            BindCampaignAsync();
+            campaignView.Bind(campaignViewModel);
+            _rootUIBinder.AddView(campaignView);
+            campaignViewModel.Open();
             _isMissionsOpened = true;
+
+            async void BindCampaignAsync()
+            {
+                var campaignModel = await _campaignModelFactory();
+                if (campaignViewModel != null && campaignView != null)
+                {
+                    campaignViewModel.Bind(campaignModel);
+                }
+            }
         }
     }
 }

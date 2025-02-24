@@ -11,21 +11,27 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class CampaignNavigationViewModel : BaseScreenViewModel
     {
+        public Observable<bool> IsLoaded => _isLoaded;
         public ReadOnlyReactiveProperty<ILocationData> SelectedLocation => _selectedLocation;
         public ReadOnlyReactiveProperty<IMissionData> SelectedMission => _selectedMission;
         public IReadOnlyObservableList<IMissionData> DisplayedMissionsData => _displayedMissionsData;
         public IReadOnlyObservableDictionary<string, MissionModel> AvailableMissionsMap => _availableMissionsMap;
 
-        private readonly CampaignModel _campaignModel;
+        private CampaignModel _campaignModel;
         private readonly Subject<Unit> _startMissionSubject;
-        private readonly ReactiveProperty<ILocationData> _selectedLocation;
-        private readonly ReactiveProperty<IMissionData> _selectedMission;
-        private readonly ObservableList<IMissionData> _displayedMissionsData;
-        private readonly ObservableDictionary<string, MissionModel> _availableMissionsMap;
+        private readonly ReactiveProperty<bool> _isLoaded = new(false);
+        private ReactiveProperty<ILocationData> _selectedLocation;
+        private ReactiveProperty<IMissionData> _selectedMission;
+        private ObservableList<IMissionData> _displayedMissionsData;
+        private ObservableDictionary<string, MissionModel> _availableMissionsMap;
         
-        public CampaignNavigationViewModel(Subject<Unit> startMissionSubject, CampaignModel campaignModel)
+        public CampaignNavigationViewModel(Subject<Unit> startMissionSubject)
         {
             _startMissionSubject = startMissionSubject;
+        }
+
+        public void Bind(CampaignModel campaignModel)
+        {
             _campaignModel = campaignModel;
 
             // test with first location
@@ -40,6 +46,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
             _campaignModel.SelectedLocation.Skip(1).Subscribe(OnLocationSelected);
             _campaignModel.SelectedMission.Skip(1).Subscribe(OnMissionSelected);
+
+            _isLoaded.Value = true;
         }
 
         public void StartGameplay()

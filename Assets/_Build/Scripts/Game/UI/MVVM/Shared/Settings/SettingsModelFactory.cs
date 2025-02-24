@@ -10,17 +10,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
     {
         [Inject]
         private readonly IGameStateProvider _gameStateProvider;
-        private readonly string _settingsDataPath;
-
-        public SettingsModelFactory(string settingsDataPath)
-        {
-            _settingsDataPath = settingsDataPath;
-        }
 
         public SettingsModel Create()
         {
-            var settingsData = Resources.Load<FullSettingsDataSO>(_settingsDataPath);
-            return new SettingsModel(_gameStateProvider.Settings, settingsData);
+            return new SettingsModel(_gameStateProvider.Settings);
         }
     }
 }

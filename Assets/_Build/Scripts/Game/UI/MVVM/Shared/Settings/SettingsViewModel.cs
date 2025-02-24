@@ -15,10 +15,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         private readonly IGameStateProvider _gameStateProvider;
         private SettingsSectionViewModel _currentSection;
 
-        public SettingsViewModel(SettingsModel model, IGameStateProvider gameStateProvider)
+        public SettingsViewModel(SettingsModel model, IFullSettingsData settingsData,
+            IGameStateProvider gameStateProvider)
         {
             _gameStateProvider = gameStateProvider;
-            SettingsData = model.SettingsData;
+            SettingsData = settingsData;
             SoundSettingsViewModel = new SoundSettingsViewModel(model);
             VideoSettingsViewModel = new VideoSettingsViewModel(model);
             _currentSection = SoundSettingsViewModel;

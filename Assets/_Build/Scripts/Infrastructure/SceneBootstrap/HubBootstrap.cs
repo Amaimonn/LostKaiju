@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -38,7 +39,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
 
-            var campaignModelFactory = new Func<CampaignModel>(() => CampaignModelFactory(gameplayEnterContext, 
+            var campaignModelFactory = new Func<Task<CampaignModel>>(async () => await CampaignModelFactory(gameplayEnterContext, 
                 gameStateProvider));
             var hubViewModel = new HubViewModel(exitSignal, campaignModelFactory, uiRootBinder);
 
@@ -48,10 +49,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             return hubExitSignal;
         }
 
-        private CampaignModel CampaignModelFactory(GameplayEnterContext gameplayEnterContext, 
+        private async Task<CampaignModel> CampaignModelFactory(GameplayEnterContext gameplayEnterContext, 
             IGameStateProvider gameStateProvider)
         {
-            var locationsDataSO = Resources.Load<LocationsDataSO>(_locationsConfigPath);
+            var locationsDataSORequest = Resources.LoadAsync<LocationsDataSO>(_locationsConfigPath);
+            await locationsDataSORequest;
+
+            var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;
             var locationsPairs = locationsDataSO.Locations
                 .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
             var locationsMap = new Dictionary<string, ILocationData>(locationsPairs);

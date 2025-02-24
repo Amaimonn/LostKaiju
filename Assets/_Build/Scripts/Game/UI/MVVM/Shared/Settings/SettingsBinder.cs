@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using VContainer;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
@@ -10,13 +11,15 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SettingsBinder : IDisposable
     {
-        private readonly IRootUIBinder _rootUIBinder;
-        private readonly IGameStateProvider _gameStateProvider;
-        private readonly SettingsModel _settingsModel;
+        private IRootUIBinder _rootUIBinder;
+        private IGameStateProvider _gameStateProvider;
+        private SettingsModel _settingsModel;
         private SettingsViewModel _currentSettingsViewModel;
+        private readonly string _settingsDataPath;
         private const string SETTINGS_VIEW_PATH = "UI/Shared/SettingsView";
 
-        public SettingsBinder(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
+        [Inject]
+        public void Construct(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
             SettingsModel settingsModel)
         {
             _rootUIBinder = rootUIBinder;
@@ -24,15 +27,20 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _settingsModel = settingsModel;
         }
 
+        public SettingsBinder(string settingsDataPath)
+        {
+            _settingsDataPath = settingsDataPath;
+        }
+
         public SettingsViewModel ShowSettings()
         {
-            if (_currentSettingsViewModel != null) // already exists
+            if (_currentSettingsViewModel != null) // if already exists
                 return null;
-
+            var settingsDataSO = Resources.Load<FullSettingsDataSO>(_settingsDataPath);
             var settingsViewPrefab = Resources.Load<SettingsView>(SETTINGS_VIEW_PATH);
             var settingsView = UnityEngine.Object.Instantiate(settingsViewPrefab);
             
-            _currentSettingsViewModel = new SettingsViewModel(_settingsModel, _gameStateProvider);
+            _currentSettingsViewModel = new SettingsViewModel(_settingsModel, settingsDataSO, _gameStateProvider);
             
             _currentSettingsViewModel.OnClosingCompleted.Subscribe(_ => {
                 _rootUIBinder.ClearView(settingsView);

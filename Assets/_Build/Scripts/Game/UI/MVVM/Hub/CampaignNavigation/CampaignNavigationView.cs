@@ -54,12 +54,24 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     ViewModel.CompleteClosing();
             });
         }
-
+        
         protected override void OnBind(CampaignNavigationViewModel viewModel)
         {
-            _startButton.RegisterCallback<ClickEvent>(StartGameplay);
             _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
+            ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
+            ViewModel.IsLoaded.Subscribe(isLoaded => {
+                if (isLoaded)
+                    OnLoadingCompletedBinding();
+                else 
+                {
+                    // loading circle animation
+                }
+            });
+        }
 
+        private void OnLoadingCompletedBinding()
+        {
+            _startButton.RegisterCallback<ClickEvent>(StartGameplay);
             foreach (var mission in ViewModel.DisplayedMissionsData)
             {
                 var missionButton = new Button
@@ -86,7 +98,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 _missionsGrid.Add(missionButton);
             }
 
-            ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
             ViewModel.SelectedLocation.Subscribe(OnLocationSelected);
             ViewModel.SelectedMission.Subscribe(OnMissionSelected);
         }
