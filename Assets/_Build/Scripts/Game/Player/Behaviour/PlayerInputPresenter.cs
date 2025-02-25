@@ -16,17 +16,19 @@ using LostKaiju.Game.Creatures.Views;
 
 namespace LostKaiju.Game.Player.Behaviour
 {
-    public class PlayerInputPresenter : IPlayerInputPresenter
+    public class PlayerInputPresenter : IPlayerInputPresenter, IDisposable
     {
         protected ICreatureBinder _creature;
         private readonly PlayerControlsData _controlsData;
         private FiniteStateMachine _finiteStateMachine;
         private readonly IInputProvider _inputProvider;
         private readonly PlayerControllerState.Factory _stateFactory;
+        private IGroundCheck _groundCheck;
         private readonly List<Timer> _cooldownTimers = new(2);
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
         private bool _readAttack;
+        private CompositeDisposable _disposables = new();
 
         public PlayerInputPresenter(PlayerControlsData controlsData, IInputProvider inputProvider, 
             PlayerControllerState.Factory stateFactory)
@@ -41,7 +43,7 @@ namespace LostKaiju.Game.Player.Behaviour
         {
             _creature = creature;
             var features = creature.Features;
-            var groundCheck = features.Resolve<IGroundCheck>();
+            _groundCheck = features.Resolve<IGroundCheck>();
             var flipper = features.Resolve<IFlipper>();
             var attacker = features.Resolve<IAttacker>();
 
@@ -69,9 +71,9 @@ namespace LostKaiju.Game.Player.Behaviour
             var dashRefreshed = Observable.Merge(
                 Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)
                     .Skip(1)
-                    .Where(x => x == true && groundCheck.IsGrounded == true)
+                    .Where(x => x == true && _groundCheck.IsGrounded == true)
                     .Select(_ => true), // finished on the ground
-                Observable.EveryValueChanged(groundCheck, x => x.IsGrounded)
+                Observable.EveryValueChanged(_groundCheck, x => x.IsGrounded)
                     .Skip(1)
                     .Where(x => x == true));  // on grounded signal
             dashState.Init(dashParameters, _creature.Rigidbody, 
@@ -96,12 +98,12 @@ namespace LostKaiju.Game.Player.Behaviour
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
                 new FiniteTransition<AttackState, IdleState>(() => attackState.IsAttackCompleted.CurrentValue),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
-                    groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
+                    _groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
                 new FiniteTransition<JumpState, WalkState>(() => _inputProvider.GetHorizontal != 0),
                 new FiniteTransition<JumpState, IdleState>(() => _inputProvider.GetHorizontal == 0),
                 new FiniteTransition<IdleState, WalkState>(() => _inputProvider.GetHorizontal != 0),
                 new FiniteTransition<IdleState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted 
-                    && groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
+                    && _groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
                 new SameForMultipleTransition<DashState>(() => _inputProvider.GetShift && 
                     dashCooldownTimer.IsCompleted && dashState.IsRefreshed.CurrentValue,
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState) }),
@@ -116,6 +118,8 @@ namespace LostKaiju.Game.Player.Behaviour
             _finiteStateMachine.AddTransitions(observableTransitions);
             
             _finiteStateMachine.Init(typeof(IdleState));
+
+            _creature.OnDispose.Take(1).Subscribe(_ => Dispose());
         }
         
         public void UpdateLogic()
@@ -148,10 +152,26 @@ namespace LostKaiju.Game.Player.Behaviour
         private void BindAnimations(IdleState idleState, WalkState walkState, 
             JumpState jumpState, AttackState attackState)
         {
-            int noFadeLayerIndex = _creature.Animator.GetLayerIndex(AnimationLayers.NO_FADE);
+            var noFadeLayerIndex = _creature.Animator.GetLayerIndex(AnimationLayers.NO_FADE);
+            var movementOverrideLayer = _creature.Animator.GetLayerIndex(AnimationLayers.MOVEMENT_OVERRIDE_LAYER);
 
             walkState.OnEnter.Subscribe(_ => _creature.Animator.CrossFade(AnimationClips.WALK, 0.02f));
+            
             jumpState.OnEnter.Subscribe(_ => _creature.Animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
+            Observable.EveryValueChanged(_groundCheck, x => _groundCheck.IsGrounded)
+                .Where(x => x == true)
+                .Subscribe(_ => _creature.Animator.Play(AnimationClips.EMPTY, movementOverrideLayer))
+                .AddTo(_disposables);
+
+            Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)
+                .Where(_ => _groundCheck.IsGrounded == false)
+                .Subscribe(x => {
+                    if (x > 0)
+                        _creature.Animator.Play(AnimationClips.AIR_UP, movementOverrideLayer);
+                    else
+                       _creature.Animator.Play(AnimationClips.AIR_DOWN, movementOverrideLayer);
+                })
+                .AddTo(_disposables);
             idleState.OnEnter.Subscribe(_ => {
                 _creature.Animator.CrossFade(AnimationClips.IDLE, 0.2f);
                 _creature.Animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
@@ -169,6 +189,11 @@ namespace LostKaiju.Game.Player.Behaviour
                 _creature.Rigidbody.AddForceX(frictionForce * -Mathf.Sign(_creature.Rigidbody.linearVelocityX), 
                     ForceMode2D.Impulse);
             }
+        }
+
+        public void Dispose()
+        {
+            _disposables?.Dispose();
         }
     }
 }

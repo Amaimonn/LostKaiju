@@ -1,4 +1,5 @@
 using UnityEngine;
+using R3;
 
 using LostKaiju.Game.Creatures.Features;
 using LostKaiju.Game.Creatures.Views;
@@ -41,6 +42,11 @@ namespace LostKaiju.Game.Player.Views
         private void FixedUpdate()
         {
             _updatablePresenter?.FixedUpdateLogic();
+        }
+
+        private void OnDestroy()
+        {
+            _onDispose.OnNext(Unit.Default);
         }
     }
 }
