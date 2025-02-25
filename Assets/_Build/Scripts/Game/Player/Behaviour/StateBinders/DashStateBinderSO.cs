@@ -22,8 +22,8 @@ namespace LostKaiju.Game.Player.Behaviour.StateBinders
         {
             var inputProvider = ServiceLocator.Instance.Get<IInputProvider>();
 
-            var flipper = features.Resolve<Flipper>();
-            var groundCheck =features.Resolve<GroundCheck>();
+            var flipper = features.Resolve<IFlipper>();
+            var groundCheck = features.Resolve<IGroundCheck>();
             var dashState = new DashState();
             var dashRefreshed = Observable.Merge(
                 Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)

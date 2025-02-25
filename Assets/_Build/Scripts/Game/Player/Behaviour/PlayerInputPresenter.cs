@@ -41,8 +41,8 @@ namespace LostKaiju.Game.Player.Behaviour
         {
             _creature = creature;
             var features = creature.Features;
-            var groundCheck = features.Resolve<GroundCheck>();
-            var flipper = features.Resolve<Flipper>();
+            var groundCheck = features.Resolve<IGroundCheck>();
+            var flipper = features.Resolve<IFlipper>();
             var attacker = features.Resolve<IAttacker>();
 
             // idle state

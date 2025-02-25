@@ -1,6 +1,5 @@
 using R3;
 
-using LostKaiju.Game.Creatures.DamageSystem;
 using LostKaiju.Game.Creatures.Features;
 using LostKaiju.Game.Creatures.Views;
 using LostKaiju.Game.Player.Data;
@@ -10,10 +9,10 @@ namespace LostKaiju.Game.Player.Behaviour
 {
     public class PlayerDefencePresenter : IPlayerDefencePresenter
     {
-        private HealthModel _healthModel;
-        private DamageReceiver _damageReceiver;
+        private readonly HealthModel _healthModel;
+        private IDamageReceiver _damageReceiver;
 
-        public PlayerDefencePresenter(HealthModel healthModel,PlayerDefenceData playerDefenceData)
+        public PlayerDefencePresenter(HealthModel healthModel, PlayerDefenceData playerDefenceData)
         {
             _healthModel = healthModel;
         }
@@ -21,7 +20,7 @@ namespace LostKaiju.Game.Player.Behaviour
         public void Bind(ICreatureBinder creature)
         {
             var features = creature.Features;
-            _damageReceiver = features.Resolve<DamageReceiver>();
+            _damageReceiver = features.Resolve<IDamageReceiver>();
             _damageReceiver.OnDamageTaken.Subscribe(DecreaseHealth);
         }
 

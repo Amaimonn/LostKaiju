@@ -25,9 +25,9 @@ namespace LostKaiju.Game.Player.Views
 
         private void Awake()
         {
-            _features.Register<Flipper>(_flipper);
-            _features.Register<GroundCheck>(_groundCheck);
-            _features.Register<DamageReceiver>(_damageReceiver);
+            _features.Register<IFlipper>(_flipper);
+            _features.Register<IGroundCheck>(_groundCheck);
+            _features.Register<IDamageReceiver>(_damageReceiver);
             _features.Register<ICreatureUpdater>(this);
             _features.Register<IAttacker>(_attacker);
             Debug.Log("Player features registered");
