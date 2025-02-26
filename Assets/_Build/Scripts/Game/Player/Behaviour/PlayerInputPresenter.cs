@@ -185,8 +185,8 @@ namespace LostKaiju.Game.Player.Behaviour
                 else
                 {
                     animator.CrossFade(AnimationClips.IDLE, 0.2f);
-                    animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
                 }
+                animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
             });
             idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
             attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer));
