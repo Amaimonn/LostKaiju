@@ -1102,6 +1102,7 @@ MonoBehaviour:
   _groundCheck: {fileID: 6183724006927231869}
   _damageReceiver: {fileID: 224813660141403052}
   _attacker: {fileID: 7044714958022081357}
+  _playerJuicySystem: {fileID: 0}
 --- !u!114 &224813660141403052
 MonoBehaviour:
   m_ObjectHideFlags: 0

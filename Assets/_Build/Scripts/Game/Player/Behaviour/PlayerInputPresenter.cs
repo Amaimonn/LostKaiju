@@ -184,7 +184,8 @@ namespace LostKaiju.Game.Player.Behaviour
 
             idleState.OnEnter.Subscribe(_ => {
                 var currentClipHash = animator.GetCurrentAnimatorStateInfo(baseLayer).shortNameHash;
-                if (currentClipHash == AnimationClips.SITTING)
+
+                if (currentClipHash == AnimationClips.SITTING || currentClipHash == AnimationClips.LYING)
                 {
                     animator.Play(AnimationClips.IDLE);
                 }
@@ -192,8 +193,27 @@ namespace LostKaiju.Game.Player.Behaviour
                 {
                     animator.CrossFade(AnimationClips.IDLE, 0.2f);
                 }
+
+                var subscription = new SerialDisposable();
+
+                subscription.Disposable = Observable.Timer(TimeSpan.FromSeconds(4))
+                    .TakeUntil(idleState.OnExit)
+                    .Subscribe(_ => {
+                        animator.CrossFadeInFixedTime(AnimationClips.SITTING, 0.5f);
+
+                        subscription.Disposable = Observable.Timer(TimeSpan.FromSeconds(4))
+                            .TakeUntil(idleState.OnExit)
+                            .Subscribe(_ => {
+                                animator.CrossFadeInFixedTime(AnimationClips.LYING, 0.5f);
+                                animator.Play(AnimationClips.LYING_SCALES, noFadeLayerIndex);
+                            });
+                    });
+
+                idleState.OnExit.Take(1).Subscribe(_ => subscription.Dispose());
+                
                 animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
             });
+
             idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
             attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer));
             attackState.IsAttackCompleted.Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer));
