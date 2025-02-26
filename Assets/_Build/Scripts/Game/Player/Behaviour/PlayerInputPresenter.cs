@@ -20,7 +20,7 @@ namespace LostKaiju.Game.Player.Behaviour
     {
         protected ICreatureBinder _creature;
         private readonly PlayerControlsData _controlsData;
-        private FiniteStateMachine _finiteStateMachine;
+        private FiniteStateMachine _movementFSM;
         private readonly IInputProvider _inputProvider;
         private readonly PlayerControllerState.Factory _stateFactory;
         private IGroundCheck _groundCheck;
@@ -96,7 +96,7 @@ namespace LostKaiju.Game.Player.Behaviour
                 new SameForMultipleTransition<AttackState>(
                     () => _readAttack && attackState.IsAttackReady.CurrentValue, 
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
-                new FiniteTransition<AttackState, IdleState>(() => attackState.IsAttackCompleted.CurrentValue),
+                new FiniteTransition<AttackState, IdleState>(() => true),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
                     _groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
                 new FiniteTransition<JumpState, WalkState>(() => _inputProvider.GetHorizontal != 0),
@@ -113,18 +113,18 @@ namespace LostKaiju.Game.Player.Behaviour
 
             var observableTransitions = new ObservableList<IFiniteTransition>(transitions);
 
-            _finiteStateMachine = new BaseFiniteStateMachine();
-            _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState, attackState);
-            _finiteStateMachine.AddTransitions(observableTransitions);
+            _movementFSM = new FiniteStateMachine();
+            _movementFSM.AddStates(walkState, jumpState, idleState, dashState, attackState);
+            _movementFSM.AddTransitions(observableTransitions);
             
-            _finiteStateMachine.Init(typeof(IdleState));
+            _movementFSM.Init(typeof(IdleState));
 
             _creature.OnDispose.Take(1).Subscribe(_ => Dispose());
         }
         
         public void UpdateLogic()
         {
-            _finiteStateMachine.CurrentState.UpdateLogic();
+            _movementFSM.CurrentState.UpdateLogic();
 
             foreach (Timer timer in _cooldownTimers)
             {
@@ -142,7 +142,7 @@ namespace LostKaiju.Game.Player.Behaviour
 
         public void FixedUpdateLogic()
         {
-            _finiteStateMachine.CurrentState.FixedUpdateLogic();
+            _movementFSM.CurrentState.FixedUpdateLogic();
 
             //if (GroundCheck.IsGrounded)
                 ApplyFriction();
@@ -152,32 +152,45 @@ namespace LostKaiju.Game.Player.Behaviour
         private void BindAnimations(IdleState idleState, WalkState walkState, 
             JumpState jumpState, AttackState attackState)
         {
-            var noFadeLayerIndex = _creature.Animator.GetLayerIndex(AnimationLayers.NO_FADE);
-            var movementOverrideLayer = _creature.Animator.GetLayerIndex(AnimationLayers.MOVEMENT_OVERRIDE_LAYER);
+            var animator = _creature.Animator;
+            var baseLayer = animator.GetLayerIndex(AnimationLayers.BASE);
+            var noFadeLayerIndex = animator.GetLayerIndex(AnimationLayers.NO_FADE);
+            var movementOverrideLayer = animator.GetLayerIndex(AnimationLayers.MOVEMENT_OVERRIDE_LAYER);
+            var attackOverrideLayer = animator.GetLayerIndex(AnimationLayers.ATTACK_OVERRIDE_LAYER);
 
-            walkState.OnEnter.Subscribe(_ => _creature.Animator.CrossFade(AnimationClips.WALK, 0.02f));
+            walkState.OnEnter.Subscribe(_ => animator.CrossFade(AnimationClips.WALK, 0.02f));
             
-            jumpState.OnEnter.Subscribe(_ => _creature.Animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
+            jumpState.OnEnter.Subscribe(_ => animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
             Observable.EveryValueChanged(_groundCheck, x => _groundCheck.IsGrounded)
                 .Where(x => x == true)
-                .Subscribe(_ => _creature.Animator.Play(AnimationClips.EMPTY, movementOverrideLayer))
+                .Subscribe(_ => animator.Play(AnimationClips.EMPTY, movementOverrideLayer))
                 .AddTo(_disposables);
 
             Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)
                 .Where(_ => _groundCheck.IsGrounded == false)
                 .Subscribe(x => {
                     if (x > 0)
-                        _creature.Animator.Play(AnimationClips.AIR_UP, movementOverrideLayer);
+                        animator.Play(AnimationClips.AIR_UP, movementOverrideLayer);
                     else
-                       _creature.Animator.Play(AnimationClips.AIR_DOWN, movementOverrideLayer);
+                       animator.Play(AnimationClips.AIR_DOWN, movementOverrideLayer);
                 })
                 .AddTo(_disposables);
+
             idleState.OnEnter.Subscribe(_ => {
-                _creature.Animator.CrossFade(AnimationClips.IDLE, 0.2f);
-                _creature.Animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
+                var currentClipHash = animator.GetCurrentAnimatorStateInfo(baseLayer).shortNameHash;
+                if (currentClipHash == AnimationClips.SITTING)
+                {
+                    animator.Play(AnimationClips.IDLE);
+                }
+                else
+                {
+                    animator.CrossFade(AnimationClips.IDLE, 0.2f);
+                    animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
+                }
             });
-            idleState.OnExit.Subscribe(_ => _creature.Animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
-            attackState.OnEnter.Subscribe(_ => _creature.Animator.Play(AnimationClips.ATTACK_FORWARD));
+            idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
+            attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer));
+            attackState.IsAttackCompleted.Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer));
         }
 
         private void ApplyFriction()

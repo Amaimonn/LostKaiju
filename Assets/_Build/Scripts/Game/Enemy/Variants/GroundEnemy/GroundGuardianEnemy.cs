@@ -12,14 +12,14 @@ namespace LostKaiju.Game.Enemy
         [SerializeField] private GroundAgent _groundAgent;
         [SerializeField] private Transform[] _patrolPoints;
 
-        private FiniteStateMachine _finiteStateMachine;
+        private BaseFiniteStateMachine _finiteStateMachine;
 
         private void Awake()
         {
             var patrolState = new PatrolState(_groundAgent, _patrolPoints);
             patrolState.Init(new PatrolParameters());
 
-            _finiteStateMachine = new BaseFiniteStateMachine();
+            _finiteStateMachine = new FiniteStateMachine();
             _finiteStateMachine.AddState(patrolState);
             _finiteStateMachine.Init(typeof(PatrolState));
         }
