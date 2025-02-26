@@ -1391,7 +1391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3631390916223535942, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.02529406
+      value: 0.18630987
       objectReference: {fileID: 0}
     - target: {fileID: -3631390916223535942, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1399,11 +1399,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3631390916223535942, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.9996801
+      value: 0.9824911
       objectReference: {fileID: 0}
     - target: {fileID: -3631390916223535942, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 184.906
+      value: 158.525
       objectReference: {fileID: 0}
     - target: {fileID: -3585885643269538282, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_Layer
@@ -1787,15 +1787,19 @@ PrefabInstance:
       objectReference: {fileID: 6287578424358695941}
     - target: {fileID: 6919247135886666907, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -1
+      value: 0.8102616
+      objectReference: {fileID: 0}
+    - target: {fileID: 6919247135886666907, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6919247135886666907, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000016645558
+      value: 0.58606845
       objectReference: {fileID: 0}
     - target: {fileID: 6919247135886666907, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 88.189
+      value: 71.757
       objectReference: {fileID: 0}
     - target: {fileID: 6973689207450871895, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
       propertyPath: m_SortingLayer

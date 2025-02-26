@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bed60146a580d445a1691250533c12d, type: 3}
   m_Name: DinoKaiju
   m_EditorClassIdentifier: 
-  <CreatureBinder>k__BackingField: {fileID: 652682650157282383, guid: 523269f558eaa7f47b1e7825a5364a7c, type: 3}
+  <CreatureBinder>k__BackingField: {fileID: 652682650157282383, guid: d7308660d4f45ae42a155776116f8e26, type: 3}
   _playerDataSO: {fileID: 11400000, guid: 6e738d01cb6710444a13d040590681e8, type: 2}

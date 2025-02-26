@@ -13,6 +13,7 @@ using LostKaiju.Game.Player.Data;
 using LostKaiju.Game.Player.Data.StateParameters;
 using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.Creatures.Views;
+using LostKaiju.Game.Player.Views;
 
 namespace LostKaiju.Game.Player.Behaviour
 {
@@ -24,6 +25,7 @@ namespace LostKaiju.Game.Player.Behaviour
         private readonly IInputProvider _inputProvider;
         private readonly PlayerControllerState.Factory _stateFactory;
         private IGroundCheck _groundCheck;
+        private PlayerJuicySystem _playerJuicySystem;
         private readonly List<Timer> _cooldownTimers = new(2);
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
@@ -46,6 +48,7 @@ namespace LostKaiju.Game.Player.Behaviour
             _groundCheck = features.Resolve<IGroundCheck>();
             var flipper = features.Resolve<IFlipper>();
             var attacker = features.Resolve<IAttacker>();
+            _playerJuicySystem = features.Resolve<PlayerJuicySystem>();
 
             // idle state
             var idleState = new IdleState();
@@ -163,7 +166,10 @@ namespace LostKaiju.Game.Player.Behaviour
             jumpState.OnEnter.Subscribe(_ => animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
             Observable.EveryValueChanged(_groundCheck, x => _groundCheck.IsGrounded)
                 .Where(x => x == true)
-                .Subscribe(_ => animator.Play(AnimationClips.EMPTY, movementOverrideLayer))
+                .Subscribe(_ => {
+                    animator.Play(AnimationClips.EMPTY, movementOverrideLayer);
+                    _playerJuicySystem.PlayStep();
+                })
                 .AddTo(_disposables);
 
             Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)

@@ -9,7 +9,7 @@
 
 .hero-selection-content {
     width: 95%;
-    max-width: 1600px;
+    max-width: 1800px;
     padding: 40px;
     background-color: rgba(25, 25, 25, 0.9);
     border-radius: 14px;
@@ -95,7 +95,7 @@
     border-radius: 12px;
     padding: 20px;
     margin-right: 25px;
-    width: 30%;
+    width: 25%;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -252,15 +252,9 @@
     background-color: rgb(10, 10, 10);
     border-radius: 14px;
     margin-bottom: 25px;
-    transition-property: scale;
-    transition-duration: 0.35s;
     flex-grow: 1;
     align-self: stretch;
     align-items: stretch;
-}
-
-.selected-preview:hover {
-    scale: 1.03;
 }
 
 .selected-name {
