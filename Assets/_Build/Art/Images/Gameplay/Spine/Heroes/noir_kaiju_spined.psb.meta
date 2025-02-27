@@ -3010,7 +3010,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 908, y: 3}
     spritePosition: {x: 442, y: 351}
-  - name: low_leg_l
+  - name: low_leg_r
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0

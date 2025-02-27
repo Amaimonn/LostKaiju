@@ -94,18 +94,16 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 /// This is only used by UI Toolkit Views in terms of implementation Visitor pattern. 
 /// For the scene UI binding use SetViews or AddViews method instead.
 /// </summary>
-/// <param name="visualElement"></param>
         public void Attach(VisualElement visualElement)
         {
             _visualElementRoot.Add(visualElement);
         }
 
 /// <summary>
-/// This is only used by Canvas Views in terms of implementation Visitor pattern. 
+/// This is used by Canvas Views in terms of implementation Visitor pattern. 
+/// Can also be used with UI Toolkit Views gameobjects just to hold them.
 /// For the scene UI binding use SetViews or AddViews method instead.
 /// </summary>
-/// <param name="gameObjectUI"></param>
-
         public void Attach(GameObject gameObjectUI, CanvasOrder order = CanvasOrder.First)
         {
             switch (order)
@@ -120,7 +118,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 
         public void Detach(VisualElement visualElement)
         {
-            _visualElementRoot.Remove(visualElement);
+            _visualElementRoot.Remove(visualElement); // Another option: visualElement.RemoveFromHierarchy();
         }
 
         public void Detach(GameObject gameObjectUI)
