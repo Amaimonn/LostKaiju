@@ -10,8 +10,9 @@ using R3;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Hub;
-using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.GameState;
+using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.GameData.Campaign.Locations;
 
 
@@ -36,12 +37,11 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             };
             var hubExitContext = new HubExitContext(gameplayEnterContext);
             var hubExitSignal = exitSignal.Select(_ => hubExitContext); // send to UI
-
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
-
             var campaignModelFactory = new Func<Task<CampaignModel>>(async () => await CampaignModelFactory(gameplayEnterContext, 
                 gameStateProvider));
-            var hubViewModel = new HubViewModel(exitSignal, campaignModelFactory, uiRootBinder);
+            var settingsBinder = Container.Resolve<SettingsBinder>();
+            var hubViewModel = new HubViewModel(exitSignal, campaignModelFactory, settingsBinder, uiRootBinder);
 
             hubView.Bind(hubViewModel);
             uiRootBinder.SetView(hubView);

@@ -9,6 +9,8 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature
 {
     public class PlayerIndicatorsView : CanvasView<PlayerIndicatorsViewModel>
     {
+        protected override CanvasOrder Order => CanvasOrder.First;
+
         [SerializeField] private Image _healthBarImage;
         [SerializeField] private TMP_Text _maxHealthText;
         [SerializeField] private TMP_Text _currentHealthText;

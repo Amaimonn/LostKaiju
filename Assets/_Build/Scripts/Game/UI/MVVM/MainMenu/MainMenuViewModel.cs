@@ -28,10 +28,12 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
         {
             if (_isSettingsOpened)
                 return;
+
             var settingsViewModel = _settingsBinder.ShowSettings();
             settingsViewModel?.OnClosingCompleted.Subscribe(_ =>  {
                 _isSettingsOpened = false;
             });
+            
             _isSettingsOpened = true;
         }
     }

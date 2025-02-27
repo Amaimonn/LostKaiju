@@ -18,7 +18,7 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
             _playButton = Root.Q<Button>(name: _playButtonName);
             _settingsButton = Root.Q<Button>(name: _settingsButtonName);
 
-            _playButton.RegisterCallback<ClickEvent>(StartGameplay);
+            _playButton.RegisterCallbackOnce<ClickEvent>(StartGameplay);
             _settingsButton.RegisterCallback<ClickEvent>(OpenSettings);
         }
 
@@ -32,9 +32,9 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
             ViewModel.OpenSettings();
         }
 
-        public override void Dispose()
-        {
-            _playButton.UnregisterCallback<ClickEvent>(StartGameplay);
-        }
+        // public override void Dispose()
+        // {
+        //     _playButton.UnregisterCallback<ClickEvent>(StartGameplay);
+        // }
     }
 }

@@ -9,12 +9,15 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Services.Saves;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.UI.MVVM.Shared.Settings;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
     public class RootScope : LifetimeScope
     {
         [SerializeField] private RootUIBinder _uiRootBinderPrefab;
+        [SerializeField] private string _settingsDataPath;
 
         protected override async void Configure(IContainerBuilder builder)
         {
@@ -41,6 +44,14 @@ namespace LostKaiju.Infrastructure.Scopes
             await Task.WhenAll(campaignTask, settingsTask);
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
+
+            builder.Register<SettingsModel>(resolver => 
+                new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings), Lifetime.Singleton);
+            builder.Register<SettingsBinder>(resolver => {
+                var settingsBinder = new SettingsBinder(_settingsDataPath);
+                resolver.Inject(settingsBinder);
+                return settingsBinder;
+            }, Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
             var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);

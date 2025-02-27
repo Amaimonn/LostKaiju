@@ -5,6 +5,8 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.UI.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -12,26 +14,27 @@ namespace LostKaiju.Game.UI.MVVM.Hub
     {
         private readonly Subject<Unit> _exitSubject;
         private readonly Func<Task<CampaignModel>> _campaignModelFactory;
+        private readonly SettingsBinder _settingsBinder;
         private readonly IRootUIBinder _rootUIBinder;
         private bool _isMissionsOpened = false;
         private bool _isHeroSelectionOpened = false;
-        private const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
-        private const string HERO_SELECTION_VIEW_PATH = "UI/Hub/HeroSelectionView";
+        private bool _isSettingsOpened = false;
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<Task<CampaignModel>> campaignModelFactory, 
-            IRootUIBinder rootUIBinder)
+        public HubViewModel(Subject<Unit> exitSubject, Func<Task<CampaignModel>> campaignModelFactory,
+            SettingsBinder settingsBinder, IRootUIBinder rootUIBinder)
         {
             _exitSubject = exitSubject;
             _campaignModelFactory = campaignModelFactory;
+            _settingsBinder = settingsBinder;
             _rootUIBinder = rootUIBinder;
         }
 
-        public void OpenMissions()
+        public void OpenCampaign()
         {
             if (_isMissionsOpened)
                 return;
 
-            var campaignViewPrefab = Resources.Load<CampaignNavigationView>(CAMPAIGN_NAVIGATION_VIEW_PATH);
+            var campaignViewPrefab = Resources.Load<CampaignNavigationView>(Paths.CAMPAIGN_NAVIGATION_VIEW_PATH);
             var campaignView = UnityEngine.Object.Instantiate(campaignViewPrefab);
 
             var campaignViewModel = new CampaignNavigationViewModel(_exitSubject);
@@ -62,7 +65,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             if (_isHeroSelectionOpened)
                 return;
             
-            var heroSelectionViewPrefab = Resources.Load<HeroSelectionView>(HERO_SELECTION_VIEW_PATH);
+            var heroSelectionViewPrefab = Resources.Load<HeroSelectionView>(Paths.HERO_SELECTION_VIEW_PATH);
             var heroSelectionView = UnityEngine.Object.Instantiate(heroSelectionViewPrefab);
 
             var heroSelectionViewModel = new HeroSelectionViewModel();
@@ -76,6 +79,19 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             heroSelectionViewModel.Open();
 
             _isHeroSelectionOpened = true;
+        }
+
+        public void OpenSettings()
+        {
+            if (_isSettingsOpened)
+                return;
+
+            var settingsViewModel = _settingsBinder.ShowSettings();
+            settingsViewModel?.OnClosingCompleted.Subscribe(_ =>  {
+                _isSettingsOpened = false;
+            });
+            
+            _isSettingsOpened = true;
         }
     }
 }

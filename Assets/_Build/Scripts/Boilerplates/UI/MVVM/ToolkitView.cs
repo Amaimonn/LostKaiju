@@ -12,14 +12,15 @@ namespace LostKaiju.Boilerplates.UI.MVVM
 #region View<T>
         public sealed override void Attach(IRootUI rootUI)
         {
+            rootUI.Attach(gameObject);
             rootUI.Attach(Root);
         }
 
         public sealed override void Detach(IRootUI rootUI)
         {
-            rootUI.Detach(Root);
             Dispose();
-            Destroy(gameObject);
+            rootUI.Detach(Root);
+            rootUI.Detach(gameObject);
         }
 #endregion
 

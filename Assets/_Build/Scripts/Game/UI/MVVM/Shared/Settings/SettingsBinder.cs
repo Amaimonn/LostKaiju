@@ -4,6 +4,7 @@ using VContainer;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.UI.Constants;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
 
@@ -16,7 +17,6 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         private SettingsModel _settingsModel;
         private SettingsViewModel _currentSettingsViewModel;
         private readonly string _settingsDataPath;
-        private const string SETTINGS_VIEW_PATH = "UI/Shared/SettingsView";
 
         [Inject]
         public void Construct(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
@@ -37,7 +37,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             if (_currentSettingsViewModel != null) // if already exists
                 return null;
             var settingsDataSO = Resources.Load<FullSettingsDataSO>(_settingsDataPath);
-            var settingsViewPrefab = Resources.Load<SettingsView>(SETTINGS_VIEW_PATH);
+            var settingsViewPrefab = Resources.Load<SettingsView>(Paths.SETTINGS_VIEW_PATH);
             var settingsView = UnityEngine.Object.Instantiate(settingsViewPrefab);
             
             _currentSettingsViewModel = new SettingsViewModel(_settingsModel, settingsDataSO, _gameStateProvider);
