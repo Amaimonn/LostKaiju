@@ -34,6 +34,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
         public override void Dispose()
         {
             _disposables?.Dispose();
+            base.Dispose();
         }
     }
 }

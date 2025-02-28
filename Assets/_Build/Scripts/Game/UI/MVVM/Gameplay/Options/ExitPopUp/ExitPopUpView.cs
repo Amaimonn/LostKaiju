@@ -14,7 +14,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
         protected override void OnBind(ExitPopUpViewModel viewModel)
         {
             base.OnBind(viewModel);
-            _confirmExitButton.onClick.AddListener(viewModel.StartClosing);
+            _confirmExitButton.onClick.AddListener(viewModel.ConfirmExit);
         }
     }
 }

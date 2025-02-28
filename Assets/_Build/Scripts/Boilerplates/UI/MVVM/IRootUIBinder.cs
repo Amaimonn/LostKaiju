@@ -16,6 +16,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         public void AddViews(params View[] views);
 
         public void AddViews(IEnumerable<View> views);
+        
         public void ClearView(View view);
 
         public void ClearViews();

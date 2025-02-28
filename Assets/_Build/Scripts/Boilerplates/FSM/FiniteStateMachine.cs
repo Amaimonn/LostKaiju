@@ -12,11 +12,11 @@ namespace LostKaiju.Boilerplates.FSM
 
             if (_states.TryGetValue(stateType, out var newState))
             {
+                Debug.Log($"FSM: {_currentStateType.Name} --> {stateType.Name}");
                 CurrentState?.Exit();
                 CurrentState = newState;
                 _currentStateType = stateType;
                 CurrentState.Enter();
-                Debug.Log($"FSM: {_currentStateType.Name} --> {stateType.Name}");
             }
             else
             {

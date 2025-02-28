@@ -5,9 +5,9 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
-using LostKaiju.Game.Player.Data.Models;
 using LostKaiju.Game.UI.MVVM.Gameplay.MobileControls;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
+using LostKaiju.Game.UI.MVVM.Shared.Settings;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -20,22 +20,33 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 # if MOBILE_BUILD || UNITY_EDITOR
         [SerializeField] private MobileControlsView _mobileControlsViewPrefab;
 # endif
+        // protected override void Configure(IContainerBuilder builder)
+        // {
+        //     // builder.Register<ExitPopUpBinder>(Lifetime.Singleton);
+        //     // builder.Register<OptionsBinder>(Lifetime.Singleton);
+        // }
 
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
             var exitSignal = new Subject<Unit>();
-            var exitGameplaySignal = new Subject<GameplayExitContext>();
-            var uiRootBinder = Container.Resolve<IRootUIBinder>();
-            var gameplayViewModel = new GameplayViewModel(exitSignal);
+            var hubEnterContext = new HubEnterContext();
+            var gameplayExitContext = new GameplayExitContext(hubEnterContext);
+            var rootUIBinder = Container.Resolve<IRootUIBinder>();
+            var settingsBinder = Container.Resolve<SettingsBinder>();
+            var exitPopUpBinder = new ExitPopUpBinder(rootUIBinder, exitSignal);
+            var optionsBinder  = new OptionsBinder(rootUIBinder, settingsBinder, exitPopUpBinder);
+            // var optionsBinder = Container.Resolve<OptionsBinder>();
+            var gameplayViewModel = new GameplayViewModel(optionsBinder);
             var gameplayView = Instantiate(_gameplayViewPrefab);
 
             gameplayView.Bind(gameplayViewModel);
-            uiRootBinder.SetView(gameplayView);
+            rootUIBinder.SetView(gameplayView);
 
 # if MOBILE_BUILD || UNITY_EDITOR
             var mobileControls = Instantiate(_mobileControlsViewPrefab);
-            uiRootBinder.AddView(mobileControls);
+            rootUIBinder.AddView(mobileControls);
 # endif
+            var exitGameplaySignal = exitSignal.Select(_ => gameplayExitContext);
             return exitGameplaySignal;
         }
     }

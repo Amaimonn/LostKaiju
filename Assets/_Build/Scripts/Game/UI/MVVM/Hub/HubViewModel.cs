@@ -18,7 +18,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly IRootUIBinder _rootUIBinder;
         private bool _isMissionsOpened = false;
         private bool _isHeroSelectionOpened = false;
-        private bool _isSettingsOpened = false;
         
         public HubViewModel(Subject<Unit> exitSubject, Func<Task<CampaignModel>> campaignModelFactory,
             SettingsBinder settingsBinder, IRootUIBinder rootUIBinder)
@@ -83,15 +82,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         public void OpenSettings()
         {
-            if (_isSettingsOpened)
-                return;
-
-            var settingsViewModel = _settingsBinder.ShowSettings();
-            settingsViewModel?.OnClosingCompleted.Subscribe(_ =>  {
-                _isSettingsOpened = false;
-            });
-            
-            _isSettingsOpened = true;
+            _settingsBinder.ShowSettings();
         }
     }
 }

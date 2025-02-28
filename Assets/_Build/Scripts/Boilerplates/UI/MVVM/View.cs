@@ -1,15 +1,19 @@
 using System;
 using UnityEngine;
+using R3;
 
 namespace LostKaiju.Boilerplates.UI.MVVM
 {
     public abstract class View : MonoBehaviour, IDisposable
     {
+        public Observable<Unit> OnDisposed => _onDisposed;
+        public Subject<Unit> _onDisposed = new();
         public abstract void Attach(IRootUI rootUI);
         public abstract void Detach(IRootUI rootUI);
-
+        
         public virtual void Dispose()
         {
+            _onDisposed.OnNext(Unit.Default);
         }
     }
 

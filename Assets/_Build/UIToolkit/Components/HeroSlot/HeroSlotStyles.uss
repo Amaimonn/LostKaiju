@@ -1,0 +1,73 @@
+.hero-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(70, 70, 70, 0.6);
+    border-radius: 10px;
+    transition-property: background-color, scale;
+    transition-duration: 0.3s;
+    position: relative;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+}
+
+.hero-slot:hover {
+    background-color: rgba(110, 110, 110, 0.8);
+    scale: 1.05;
+}
+
+.hero-slot:active {
+    scale: 0.97;
+}
+
+.hero-slot__preview {
+    width: auto;
+    height: 220px;
+    background-color: rgb(10, 10, 10);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    flex-grow: 1;
+    align-self: stretch;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.hero-slot__preview:hover {
+    opacity: 0.9;
+}
+
+.hero-slot__name {
+    font-size: 24px;
+    color: rgb(240, 240, 240);
+    -unity-text-align: middle-center;
+    transition-property: color;
+    transition-duration: 0.2s;
+}
+
+.hero-slot__name:hover {
+    color: rgb(255, 255, 255);
+}
+
+.decor-line {
+    position: absolute;
+    bottom: 5px;
+    width: 80%;
+    height: 3px;
+    background-color: rgba(200, 200, 200, 0.4);
+    border-radius: 2px;
+    transition-property: background-color, width;
+    transition-duration: 0.3s, 0.3s;
+}
+
+.hero-slot:hover .decor-line {
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 87%;
+}

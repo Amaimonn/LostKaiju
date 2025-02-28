@@ -1,18 +1,20 @@
-using R3;
-
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
+using LostKaiju.Game.UI.MVVM.Shared.Settings;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
     public class GameplayViewModel : IViewModel
     {
-        private readonly Subject<Unit> _exitSignal;
-        private readonly PlayerIndicatorsViewModel _playerIndicatorsViewModel;
+        private readonly OptionsBinder _optionsBinder;
 
-        public GameplayViewModel(Subject<Unit> exitSignal)
+        public GameplayViewModel(OptionsBinder optionsBinder)
         {
-            _exitSignal = exitSignal;
+            _optionsBinder = optionsBinder;
+        }
+
+        public void OpenOptions()
+        {
+            _optionsBinder.ShowOptions();
         }
     }
 }

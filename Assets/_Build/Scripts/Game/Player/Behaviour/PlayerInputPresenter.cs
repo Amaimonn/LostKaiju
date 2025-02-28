@@ -206,8 +206,8 @@ namespace LostKaiju.Game.Player.Behaviour
                             .Subscribe(_ => {
                                 animator.CrossFadeInFixedTime(AnimationClips.LYING, 0.5f);
                                 animator.Play(AnimationClips.LYING_SCALES, noFadeLayerIndex);
-                            });
-                    });
+                            }).AddTo(_disposables);
+                    }).AddTo(_disposables);
 
                 idleState.OnExit.Take(1).Subscribe(_ => subscription.Dispose());
                 
