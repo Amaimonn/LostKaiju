@@ -9,7 +9,7 @@ using LostKaiju.Game.GameData.Campaign.Locations;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class CampaignNavigationViewModel : BaseScreenViewModel
+    public class CampaignNavigationViewModel : ScreenViewModel
     {
         public Observable<bool> IsLoaded => _isLoaded;
         public ReadOnlyReactiveProperty<ILocationData> SelectedLocation => _selectedLocation;

@@ -5,16 +5,15 @@ using R3;
 
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
-using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.UI.MVVM.Gameplay;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class CampaignNavigationView : ToolkitView<CampaignNavigationViewModel>
+    public class CampaignNavigationView : PopUpToolkitView<CampaignNavigationViewModel>
     {
         [Header("UI Elements")]
         [SerializeField] private string _contentElementName;
         [SerializeField] private string _startButtonName;
-        [SerializeField] private string _closeButtonName;
         [SerializeField] private string _selectedMissionLabelName;
         [SerializeField] private string _selectedMissionTextName;
         [SerializeField] private string _contentStyleName;
@@ -28,7 +27,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private AudioClip _buttonHoverSFX;
 
         private Button _startButton;
-        private Button _closeButton;
         private VisualElement _contentElement;
         private Label _selectedMissionLabel;
         private Label _selectedMissionText;
@@ -39,9 +37,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         protected override void OnAwake()
         {
+            base.OnAwake();
             _contentElement = Root.Q<VisualElement>(name: _contentElementName);
             _startButton = Root.Q<Button>(name: _startButtonName);
-            _closeButton = Root.Q<Button>(name: _closeButtonName);
             _selectedMissionLabel = Root.Q<Label>(name: _selectedMissionLabelName);
             _selectedMissionText = Root.Q<Label>(name: _selectedMissionTextName);
             _missionsGrid = Root.Q<VisualElement>(name: _missionsGridName);
@@ -57,8 +55,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         
         protected override void OnBind(CampaignNavigationViewModel viewModel)
         {
-            _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
-            ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
+            base.OnBind(viewModel);
             ViewModel.IsLoaded.Subscribe(isLoaded => {
                 if (isLoaded)
                     OnLoadingCompletedBinding();
@@ -71,7 +68,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private void OnLoadingCompletedBinding()
         {
-            _startButton.RegisterCallback<ClickEvent>(StartGameplay);
+            _startButton.RegisterCallbackOnce<ClickEvent>(StartGameplay);
             foreach (var mission in ViewModel.DisplayedMissionsData)
             {
                 var missionButton = new Button
@@ -112,40 +109,34 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _isGameplayStarted = true;
         }
 
-        private void Close(ClickEvent clickEvent)
+#region PopUpToolkitView
+        protected override void StartClosing(ClickEvent clickEvent)
         {
             Debug.Log("Missions: close button clicked");
-            ViewModel.StartClosing();
+            base.StartClosing(clickEvent);
         }
 
-        private void OnOpenStateChanged(bool isOpened)
+        protected override void OnOpening()
         {
-            if (isOpened)
-                OnOpened();
-            else
-                OnClosed();
+            StartCoroutine(OpenAnimation());
 
-            void OnOpened()
+            IEnumerator OpenAnimation()
             {
-                StartCoroutine(OpenAnimation());
-
-                IEnumerator OpenAnimation()
-                {
-                    yield return null;
-                    _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
-                    _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-                    Debug.Log("Missions: opened");
-                }
-            }
-
-            void OnClosed()
-            {
-                _isClosing = true;
-                _contentElement.AddToClassList($"{_contentStyleName}--disabled");
-                _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-                Debug.Log("Missions: closed");
+                yield return null;
+                _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
+                _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                Debug.Log("Missions: opened");
             }
         }
+
+        protected override void OnClosing()
+        {
+            _isClosing = true;
+            _contentElement.AddToClassList($"{_contentStyleName}--disabled");
+            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+            Debug.Log("Missions: closed");
+        }
+#endregion
 
         private void OnLocationSelected(ILocationData locationData)
         {

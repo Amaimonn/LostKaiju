@@ -5,7 +5,7 @@ using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
-    public class SettingsViewModel : BaseScreenViewModel, IDisposable
+    public class SettingsViewModel : ScreenViewModel, IDisposable
     {
         public SettingsSectionViewModel CurrentSection => _currentSection;
         public readonly SoundSettingsViewModel SoundSettingsViewModel;
@@ -27,8 +27,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         public override void StartClosing()
         {
-            base.StartClosing();
             ResetUnappliedChanges();
+            base.StartClosing();
         }
 
         public void SelectSoundSection()

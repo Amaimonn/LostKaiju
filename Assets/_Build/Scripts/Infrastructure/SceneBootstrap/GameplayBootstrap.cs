@@ -23,10 +23,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
+            var exitSignal = new Subject<Unit>();
             var exitGameplaySignal = new Subject<GameplayExitContext>();
             var uiRootBinder = Container.Resolve<IRootUIBinder>();
-            var playerLiveParameters = new PlayerLiveParametersModel();
-            var gameplayViewModel = new GameplayViewModel(playerLiveParameters);
+            var gameplayViewModel = new GameplayViewModel(exitSignal);
             var gameplayView = Instantiate(_gameplayViewPrefab);
 
             gameplayView.Bind(gameplayViewModel);

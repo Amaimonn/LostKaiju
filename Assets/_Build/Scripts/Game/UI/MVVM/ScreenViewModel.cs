@@ -4,7 +4,7 @@ using LostKaiju.Boilerplates.UI.MVVM;
 
 namespace LostKaiju.Game.UI.MVVM
 {
-    public abstract class BaseScreenViewModel : IViewModel
+    public abstract class ScreenViewModel : IViewModel
     {
         public Observable<bool> OnOpenStateChanged => _isOpened;
         public Observable<Unit> OnClosingCompleted => _closingCompletedSignal;
