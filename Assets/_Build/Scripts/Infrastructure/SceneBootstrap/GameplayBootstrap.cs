@@ -8,6 +8,7 @@ using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.MVVM.Gameplay.MobileControls;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.Providers.InputState;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -20,11 +21,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 # if MOBILE_BUILD || UNITY_EDITOR
         [SerializeField] private MobileControlsView _mobileControlsViewPrefab;
 # endif
-        // protected override void Configure(IContainerBuilder builder)
-        // {
-        //     // builder.Register<ExitPopUpBinder>(Lifetime.Singleton);
-        //     // builder.Register<OptionsBinder>(Lifetime.Singleton);
-        // }
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<InputStateProvider>(Lifetime.Singleton);
+        }
 
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
@@ -32,9 +32,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubEnterContext = new HubEnterContext();
             var gameplayExitContext = new GameplayExitContext(hubEnterContext);
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
+            var inputStateProvider = Container.Resolve<InputStateProvider>();
             var settingsBinder = Container.Resolve<SettingsBinder>();
             var exitPopUpBinder = new ExitPopUpBinder(rootUIBinder, exitSignal);
-            var optionsBinder  = new OptionsBinder(rootUIBinder, settingsBinder, exitPopUpBinder);
+            var optionsBinder  = new OptionsBinder(rootUIBinder, inputStateProvider, settingsBinder, exitPopUpBinder);
             // var optionsBinder = Container.Resolve<OptionsBinder>();
             var gameplayViewModel = new GameplayViewModel(optionsBinder);
             var gameplayView = Instantiate(_gameplayViewPrefab);

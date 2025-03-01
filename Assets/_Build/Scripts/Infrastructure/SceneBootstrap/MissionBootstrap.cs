@@ -13,6 +13,7 @@ using LostKaiju.Game.Player.Data.Indicators;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
+using LostKaiju.Game.Providers.InputState;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -48,7 +49,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             var inputProvider = Container.Resolve<IInputProvider>();
             var playerStateFactory = Container.Resolve<PlayerControllerState.Factory>();
+            var inputStateProvider = Container.Resolve<InputStateProvider>();
             var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider, playerStateFactory);
+            inputStateProvider.IsInputEnabled.Subscribe(playerInputPresenter.SetInputEnabled);
             var playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
             var playerRootPresenter = new PlayerRootPresenter(playerInputPresenter, playerDefencePresenter);
             playerRootPresenter.Bind(player);

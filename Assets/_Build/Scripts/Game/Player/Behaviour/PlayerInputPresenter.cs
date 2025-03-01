@@ -29,8 +29,8 @@ namespace LostKaiju.Game.Player.Behaviour
         private readonly List<Timer> _cooldownTimers = new(2);
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
-        private bool _readAttack;
-        private CompositeDisposable _disposables = new();
+        private bool _isInputEnabled = true;
+        private readonly CompositeDisposable _disposables = new();
 
         public PlayerInputPresenter(PlayerControlsData controlsData, IInputProvider inputProvider, 
             PlayerControllerState.Factory stateFactory)
@@ -38,6 +38,11 @@ namespace LostKaiju.Game.Player.Behaviour
             _controlsData = controlsData;
             _inputProvider = inputProvider;
             _stateFactory = stateFactory;
+        }
+
+        public void SetInputEnabled(bool isEnabled)
+        {
+            _isInputEnabled = isEnabled;
         }
 
 #region CreaturePresenter
@@ -97,7 +102,7 @@ namespace LostKaiju.Game.Player.Behaviour
             var transitions = new IFiniteTransition[]
             {
                 new SameForMultipleTransition<AttackState>(
-                    () => _readAttack && attackState.IsAttackReady.CurrentValue, 
+                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue, 
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
                 new FiniteTransition<AttackState, IdleState>(() => true),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
@@ -127,20 +132,19 @@ namespace LostKaiju.Game.Player.Behaviour
         
         public void UpdateLogic()
         {
-            _movementFSM.CurrentState.UpdateLogic();
+            if (_isInputEnabled)
+            {
+                _movementFSM.CurrentState.UpdateLogic();
+                    _readJump = _inputProvider.GetJump;
+                if (_readJump)
+                    _jumpInputBufferTimer.Refresh();
+            }
 
             foreach (Timer timer in _cooldownTimers)
             {
                 timer.Tick();
             }
             _jumpInputBufferTimer.Tick();
-
-            _readJump = _inputProvider.GetJump;
-            if (_readJump && _jumpInputBufferTimer.IsCompleted)
-            {
-                _jumpInputBufferTimer.Refresh();
-            }
-            _readAttack = _inputProvider.GetAttack;
         }
 
         public void FixedUpdateLogic()

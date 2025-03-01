@@ -4,20 +4,23 @@ using R3;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.Constants;
 using LostKaiju.Game.UI.MVVM.Gameplay;
-using UnityEngine.InputSystem;
+using LostKaiju.Game.Providers.InputState;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class OptionsBinder
     {
         private readonly IRootUIBinder _rootUIBinder;
+        private readonly InputStateProvider _inputStateProvider;
         private readonly SettingsBinder _settingsBinder;
         private readonly ExitPopUpBinder _exitPopUpBinder;
         private OptionsViewModel _currentOptionsViewModel;
 
-        public OptionsBinder(IRootUIBinder rootUIBinder, SettingsBinder settingsBinder, ExitPopUpBinder exitPopUpBinder)
+        public OptionsBinder(IRootUIBinder rootUIBinder, InputStateProvider inputStateProvider, 
+            SettingsBinder settingsBinder, ExitPopUpBinder exitPopUpBinder)
         {
             _rootUIBinder = rootUIBinder;
+            _inputStateProvider = inputStateProvider;
             _settingsBinder = settingsBinder;
             _exitPopUpBinder = exitPopUpBinder;
         }
@@ -30,6 +33,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             // TODO: disable/enable input through mediator/interface
             var optionsViewPrefab = Resources.Load<OptionsView>(Paths.OPTIONS_VIEW_PATH);
             var optionsView = UnityEngine.Object.Instantiate(optionsViewPrefab);
+            _inputStateProvider.AddBlocker(optionsView);
             
             _currentOptionsViewModel = new OptionsViewModel(_settingsBinder, _exitPopUpBinder);
             
@@ -38,6 +42,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             });
             optionsView.OnDisposed.Take(1).Subscribe(_ => {
                 // _currentOptionsViewModel?.Dispose();
+                _inputStateProvider.RemoveBlocker(optionsView);
                 _currentOptionsViewModel = null;
             });
             

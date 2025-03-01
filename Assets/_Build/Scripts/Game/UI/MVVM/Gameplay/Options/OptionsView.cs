@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.Providers.InputState;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
-    public class OptionsView : PopUpCanvasView<OptionsViewModel>
+    public class OptionsView : PopUpCanvasView<OptionsViewModel>, IInputBlocker
     {
         [SerializeField] private Button _openSettingsButton;
         [SerializeField] private Button _openExitPopUpButton;
