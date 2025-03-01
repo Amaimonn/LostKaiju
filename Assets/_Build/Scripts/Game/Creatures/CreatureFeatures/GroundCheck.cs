@@ -1,9 +1,0 @@
-using UnityEngine;
-
-namespace LostKaiju.Game.Creatures.Features
-{
-    public abstract class GroundCheck : MonoBehaviour, IGroundCheck
-    {
-        public abstract bool IsGrounded { get; }
-    }
-} 

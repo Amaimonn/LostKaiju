@@ -6,13 +6,13 @@ using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
-using LostKaiju.Game.Player;
-using LostKaiju.Game.Player.Behaviour;
-using LostKaiju.Game.Player.Data.Configs;
-using LostKaiju.Game.Player.Data.Indicators;
+using LostKaiju.Game.World.Player;
+using LostKaiju.Game.World.Player.Behaviour;
+using LostKaiju.Game.World.Player.Data.Configs;
+using LostKaiju.Game.World.Player.Data.Indicators;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
-using LostKaiju.Game.Player.Behaviour.PlayerControllerStates;
+using LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.Providers.InputState;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap

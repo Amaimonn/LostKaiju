@@ -1,7 +1,7 @@
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.Player.Data.Indicators;
+using LostKaiju.Game.World.Player.Data.Indicators;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature
 {
