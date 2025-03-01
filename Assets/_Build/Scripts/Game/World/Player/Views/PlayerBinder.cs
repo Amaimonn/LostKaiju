@@ -7,7 +7,7 @@ using LostKaiju.Game.World.Creatures.Presenters;
 
 namespace LostKaiju.Game.World.Player.Views
 {
-    public class PlayerBinder : CreatureBinder, ICreatureUpdater
+    public class PlayerBinder : CreatureBinder, ICreatureUpdater, IPlayerHero
     {    
         [Header("Creature features")]
         [SerializeField] private Flipper _flipper;
