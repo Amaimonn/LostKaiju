@@ -14,7 +14,7 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         protected ReactiveProperty<bool> _isAttackCompleted = new(true);
         protected IAttacker _attacker;
 
-        public void Init(IAttacker attacker)
+        public AttackState(IAttacker attacker)
         {
             _attacker = attacker;
             _attacker.OnAttackCompleted.Subscribe(_ => _isAttackReady.Value = true);

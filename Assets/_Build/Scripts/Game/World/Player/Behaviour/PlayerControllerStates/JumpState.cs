@@ -9,7 +9,7 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         protected JumpParameters _parameters;
         protected Rigidbody2D _rigidbody;
         
-        public void Init(JumpParameters parameters, Rigidbody2D rigidbody)
+        public JumpState(JumpParameters parameters, Rigidbody2D rigidbody)
         {
             _parameters = parameters;
             _rigidbody = rigidbody;

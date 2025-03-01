@@ -2,6 +2,7 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Game.World.Player.Data.StateParameters;
+using System;
 
 namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
 {
@@ -12,19 +13,19 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         protected ReactiveProperty<bool> _isPositiveDirectionX = new();
         protected WalkParameters _parameters;
         protected Rigidbody2D _rigidbody;
-        // protected Func<bool> _checkIsGrounded;
+        private Func<float> _readHorizontalFunc;
         private float _readHorizontal;
 
-        public void Init(WalkParameters parameters, Rigidbody2D rigidbody) //, Func<bool> checkIsGrounded
+        public WalkState(WalkParameters parameters, Rigidbody2D rigidbody, Func<float> readHorizontalFunc)
         {
             _parameters = parameters;
             _rigidbody = rigidbody;
-            // _checkIsGrounded = checkIsGrounded;
+            _readHorizontalFunc = readHorizontalFunc;
         }
 
         public override void UpdateLogic()
         {
-            _readHorizontal = _inputProvider.GetHorizontal;
+            _readHorizontal = _readHorizontalFunc();
 
             if (_readHorizontal != 0)
                 _isPositiveDirectionX.Value = _readHorizontal > 0;

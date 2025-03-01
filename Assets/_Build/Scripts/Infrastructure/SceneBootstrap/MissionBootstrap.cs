@@ -23,10 +23,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private CinemachineCamera _cinemachineCamera;
         [SerializeField] private string _playerIndicatorsViewPrefabPath = "UI/Gameplay/PlayerIndicatorsView";
 
-        protected override void Configure(IContainerBuilder builder)
-        {
-            builder.Register<PlayerControllerState.Factory>(Lifetime.Singleton);
-        }
+        // protected override void Configure(IContainerBuilder builder)
+        // {
+        // }
 
         public Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
@@ -48,9 +47,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             rootUIBinder.AddView(playerIndicatorsView); // TODO: UI cleaning logic
 
             var inputProvider = Container.Resolve<IInputProvider>();
-            var playerStateFactory = Container.Resolve<PlayerControllerState.Factory>();
             var inputStateProvider = Container.Resolve<InputStateProvider>();
-            var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider, playerStateFactory);
+            var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider);
             inputStateProvider.IsInputEnabled.Subscribe(playerInputPresenter.SetInputEnabled);
             var playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
             var playerRootPresenter = new PlayerRootPresenter(playerInputPresenter, playerDefencePresenter);
