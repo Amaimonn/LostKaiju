@@ -1,21 +1,27 @@
 using UnityEngine;
 using R3;
 
+using LostKaiju.Game.World.Player.Views;
+
 namespace LostKaiju.Game.World.Missions
 {
     public class MissionExitAreaTrigger : MonoBehaviour
     {
-        public Observable<Unit> OnTriggerEnter => _onTriggerEnter;
+        public Observable<IPlayerHero> OnPlayerHeroEnter => _onPlayerHeroEnter;
         [SerializeField] private Collider2D _triggerCollider;
-        private readonly Subject<Unit> _onTriggerEnter = new();
+        private readonly Subject<IPlayerHero> _onPlayerHeroEnter = new();
 
-        private void OnPlayerEnter()
+        private void OnPlayerEnter(IPlayerHero playerHero)
         {
-            _onTriggerEnter.OnNext(Unit.Default);
+            _onPlayerHeroEnter.OnNext(playerHero);
         }
-
+        
+#region MonoBehaviour
         private void TriggerEnter2D(Collider2D collision)
         {
+            if (collision.TryGetComponent<IPlayerHero>(out var playerHero))
+                OnPlayerEnter(playerHero);
         }
+#endregion
     }
 }
