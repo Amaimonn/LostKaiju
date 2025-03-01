@@ -4,8 +4,9 @@ using UnityEngine;
 namespace LostKaiju.Game.GameData.Campaign.Locations
 {
     [CreateAssetMenu(fileName = "LocationsDataSO", menuName = "Scriptable Objects/LocationsDataSO")]
-    public class LocationsDataSO : ScriptableObject
+    public class LocationsDataSO : ScriptableObject, IAllLocationsData
     {
-        [field: SerializeField] public List<LocationDataSO> Locations { get; private set; }
+        public ILocationData[] AllData => _locationsData;
+        [SerializeField] private LocationDataSO[] _locationsData;
     }
 }

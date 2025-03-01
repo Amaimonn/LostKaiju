@@ -12,7 +12,6 @@ using LostKaiju.Game.World.Player.Data.Configs;
 using LostKaiju.Game.World.Player.Data.Indicators;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
-using LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.Providers.InputState;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
@@ -22,10 +21,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private Transform _playerInitPosition;
         [SerializeField] private CinemachineCamera _cinemachineCamera;
         [SerializeField] private string _playerIndicatorsViewPrefabPath = "UI/Gameplay/PlayerIndicatorsView";
-
-        // protected override void Configure(IContainerBuilder builder)
-        // {
-        // }
 
         public Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {

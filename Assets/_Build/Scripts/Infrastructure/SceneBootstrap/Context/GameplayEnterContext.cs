@@ -1,3 +1,6 @@
+using LostKaiju.Game.GameData.Campaign.Locations;
+using LostKaiju.Game.GameData.Campaign.Missions;
+
 namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {
     /// <summary>
@@ -7,6 +10,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap.Context
     {
         public string LevelSceneName;
         public string PlayerConfigPath;
+        public MissionModel SelectedMissionModel;
+        public LocationModel SelectedLocationModel;
 
         public GameplayEnterContext() : base(Scenes.GAMEPLAY)
         {

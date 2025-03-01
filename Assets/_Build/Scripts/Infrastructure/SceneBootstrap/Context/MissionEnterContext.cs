@@ -5,7 +5,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap.Context
     /// </summary>
     public class MissionEnterContext
     {
-        // some mission data to pass to the mission scene
+        // Primarily, some data for transition between mission scenes
         public string MissionName;
         public GameplayEnterContext GameplayEnterContext { get; }
 

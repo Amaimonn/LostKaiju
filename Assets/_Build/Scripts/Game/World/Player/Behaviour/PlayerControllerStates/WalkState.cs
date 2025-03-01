@@ -13,7 +13,7 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         protected ReactiveProperty<bool> _isPositiveDirectionX = new();
         protected WalkParameters _parameters;
         protected Rigidbody2D _rigidbody;
-        private Func<float> _readHorizontalFunc;
+        private readonly Func<float> _readHorizontalFunc;
         private float _readHorizontal;
 
         public WalkState(WalkParameters parameters, Rigidbody2D rigidbody, Func<float> readHorizontalFunc)

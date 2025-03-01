@@ -23,6 +23,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private string _playerConfigName; // choose your player character
         [SerializeField] private string _locationsConfigPath;
+        private CampaignModel _campaignModel = null;
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
@@ -34,6 +35,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             {
                 LevelSceneName = "Mission_1_1", // mission loading example
                 PlayerConfigPath = $"Gameplay/PlayerConfigs/{_playerConfigName}",
+                SelectedMissionModel = null,
+                SelectedLocationModel = null
             };
             var hubExitContext = new HubExitContext(gameplayEnterContext);
             var hubExitSignal = exitSignal.Select(_ => hubExitContext); // send to UI
@@ -56,21 +59,19 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             await locationsDataSORequest;
 
             var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;
-            var locationsPairs = locationsDataSO.Locations
-                .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
-            var locationsMap = new Dictionary<string, ILocationData>(locationsPairs);
             var campaignState = gameStateProvider.Campaign;
-            var campaignModel = new CampaignModel(campaignState, locationsMap);
+            _campaignModel = new CampaignModel(campaignState, locationsDataSO);
 
-            campaignModel.SelectedMission.Subscribe(x => {
+            _campaignModel.SelectedMission.Subscribe(x => {
                 if (x != null)
                 {
                     gameplayEnterContext.LevelSceneName = x.SceneName;
+                    // gameplayEnterContext.SelectedMissionModel = x;
                     Debug.Log($"r3: Scene in signal: {x.SceneName}");
                 }
             });
 
-            return campaignModel;
+            return _campaignModel;
         }
     }
 }
