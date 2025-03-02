@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
@@ -84,16 +83,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;
             var campaignState = gameStateProvider.Campaign;
             _campaignModel = new CampaignModel(campaignState, locationsDataSO);
-
-            // _campaignModel.SelectedMission.Subscribe(x =>
-            // {
-            //     if (x != null)
-            //     {
-            //         gameplayEnterContext.LevelSceneName = x.SceneName;
-            //         // gameplayEnterContext.SelectedMissionModel = x;
-            //         Debug.Log($"r3: Scene in signal: {x.SceneName}");
-            //     }
-            // });
 
             return _campaignModel;
         }

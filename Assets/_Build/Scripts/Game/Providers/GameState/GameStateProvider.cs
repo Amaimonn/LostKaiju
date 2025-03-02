@@ -8,7 +8,6 @@ using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Services.Saves;
 
-
 namespace LostKaiju.Game.Providers.GameState
 {
     public class GameStateProvider : IGameStateProvider
