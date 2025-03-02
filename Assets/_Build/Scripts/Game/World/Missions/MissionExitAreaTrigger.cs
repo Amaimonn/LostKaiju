@@ -17,10 +17,13 @@ namespace LostKaiju.Game.World.Missions
         }
         
 #region MonoBehaviour
-        private void TriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent<IPlayerHero>(out var playerHero))
+            {
+                Debug.Log("Player has entered exit area");
                 OnPlayerEnter(playerHero);
+            }
         }
 #endregion
     }

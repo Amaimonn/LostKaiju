@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03db6001afc680458650967828ba875, type: 3}
   m_Name: LocationsSO
   m_EditorClassIdentifier: 
-  <Locations>k__BackingField:
+  _locationsData:
   - {fileID: 11400000, guid: d89bd02cb074e8640815b4cc6e623f72, type: 2}
   - {fileID: 11400000, guid: 910e4bfdc8b1b654391b5f67778400cb, type: 2}

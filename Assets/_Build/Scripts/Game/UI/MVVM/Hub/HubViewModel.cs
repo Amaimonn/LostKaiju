@@ -12,17 +12,19 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HubViewModel : IViewModel
     {
-        private readonly Subject<Unit> _exitSubject;
+        public Observable<CampaignNavigationViewModel> OnCampaignOpened => _onCampaignOpened;
+        private readonly Subject<CampaignNavigationViewModel> _onCampaignOpened;
+        private readonly Subject<Unit> _exitToGameplaySignal;
         private readonly Func<Task<CampaignModel>> _campaignModelFactory;
         private readonly SettingsBinder _settingsBinder;
         private readonly IRootUIBinder _rootUIBinder;
         private bool _isMissionsOpened = false;
         private bool _isHeroSelectionOpened = false;
         
-        public HubViewModel(Subject<Unit> exitSubject, Func<Task<CampaignModel>> campaignModelFactory,
+        public HubViewModel(Subject<Unit> exitToGameplaySignal, Func<Task<CampaignModel>> campaignModelFactory,
             SettingsBinder settingsBinder, IRootUIBinder rootUIBinder)
         {
-            _exitSubject = exitSubject;
+            _exitToGameplaySignal = exitToGameplaySignal;
             _campaignModelFactory = campaignModelFactory;
             _settingsBinder = settingsBinder;
             _rootUIBinder = rootUIBinder;
@@ -36,7 +38,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             var campaignViewPrefab = Resources.Load<CampaignNavigationView>(Paths.CAMPAIGN_NAVIGATION_VIEW_PATH);
             var campaignView = UnityEngine.Object.Instantiate(campaignViewPrefab);
 
-            var campaignViewModel = new CampaignNavigationViewModel(_exitSubject);
+            var campaignViewModel = new CampaignNavigationViewModel(_exitToGameplaySignal);
             campaignViewModel.OnClosingCompleted.Subscribe(_ =>  {
                 _rootUIBinder.ClearView(campaignView);
                 _isMissionsOpened = false;
