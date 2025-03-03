@@ -103,7 +103,7 @@ MonoBehaviour:
   TargetOffset: {x: 0, y: 1, z: 0}
   Damping: {x: 0.7, y: 0.5, z: 1}
   Lookahead:
-    Enabled: 0
-    Time: 0
-    Smoothing: 0
-    IgnoreY: 0
+    Enabled: 1
+    Time: 0.2
+    Smoothing: 4
+    IgnoreY: 1

@@ -5,6 +5,7 @@ using LostKaiju.Game.World.Player.Views;
 
 namespace LostKaiju.Game.World.Missions
 {
+    [RequireComponent(typeof(Collider2D))]
     public class MissionExitAreaTrigger : MonoBehaviour
     {
         public Observable<IPlayerHero> OnPlayerHeroEnter => _onPlayerHeroEnter;

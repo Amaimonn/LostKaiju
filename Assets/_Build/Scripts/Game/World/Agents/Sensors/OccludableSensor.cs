@@ -38,7 +38,7 @@ namespace LostKaiju.Game.World.Agents.Sensors
                     _searchCoroutines.Remove(exitingTarget);
                     if (_detected.Value != null && _detected.Value.Equals(exitingTarget))
                     {
-                        _detected.Value = default;
+                        _detected.Value = null;
                     }
                 }
             }
@@ -63,11 +63,11 @@ namespace LostKaiju.Game.World.Agents.Sensors
                         }
                         else
                         {
-                            _detected.Value = default;
+                            _detected.Value = null;
                         }
                     }
                 }
-                yield return new WaitForSeconds(_rayCooldown);
+                yield return _wait;
             }
         }
     }

@@ -20063,7 +20063,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1667183462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08ad25efc2393ae45bd956935d10e739, type: 3}
+  m_Script: {fileID: 11500000, guid: bc1a9dd61567d58438c7ebd28ce482e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerCollider: {fileID: 1667183465}
