@@ -19,7 +19,7 @@
     flex-grow: 1;
 }
 
-.title-bar {
+.top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,17 +28,12 @@
     margin-bottom: -20px;
 }
 
-.title-text {
-    font-size: 48px;
-    color: rgb(230, 230, 230);
-    -unity-text-align: upper-left;
-    letter-spacing: 3px;
+.hero-selection-title {
     transition-property: color;
     transition-duration: 0.3s;
     -unity-font-style: bold;
-    text-shadow: 6px 4px 0 rgba(99, 99, 99, 0.81);
-    -unity-text-outline-width: 1px;
     white-space: normal;
+    font-size: 48px;
 }
 
 .title-text:hover {
@@ -189,7 +184,7 @@
 
 .selected-preview__image {
     border-radius: 14px;
-    -unity-background-scale-mode: scale-and-crop;
+    -unity-background-scale-mode: scale-to-fit;
 }
 
 .selected-name {

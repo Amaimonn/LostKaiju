@@ -3,16 +3,24 @@
     <Style src="project://database/Assets/_Build/UIToolkit/Screens/Hub/HeroSelection/HeroSelectionStyles.uss?fileID=7433441132597879392&amp;guid=25df8ffcff20b614487f7b58aa63c5c4&amp;type=3#HeroSelectionStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/BackgroundStyles.uss?fileID=7433441132597879392&amp;guid=69d87b7304f02224eb50265f2135d43b&amp;type=3#BackgroundStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/LabelStyles.uss?fileID=7433441132597879392&amp;guid=33d8b22ae8b90ba4780c5513c6218f70&amp;type=3#LabelStyles" />
     <engine:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
     <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" class="wrapper-base wrapper">
         <engine:VisualElement name="Content" class="hero-selection-content">
-            <engine:VisualElement name="TitleBar" class="title-bar">
+            <engine:VisualElement name="TopBar" class="top-bar">
                 <engine:Button text="←" name="ExitButton" class="exit-button" />
-                <engine:Label text="SELECT YOUR CHAMPION" name="Title" class="title-text" />
+                <engine:Label text="SELECT YOUR CHAMPION" name="HeroSelectionTitle" class="view__title hero-selection-title" />
             </engine:VisualElement>
             <engine:VisualElement name="MainContainer" class="main-container">
                 <engine:ScrollView name="HeroList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview">
-                    <engine:Instance template="HeroSlot" name="HeroSlot" />
+                    <engine:VisualElement name="HeroSlot" template="HeroSlot">
+                        <Style src="project://database/Assets/_Build/UIToolkit/Components/HeroSlot/HeroSlotStyles.uss?fileID=7433441132597879392&amp;guid=c608f5900995c63418884dddfae393da&amp;type=3#HeroSlotStyles" />
+                        <engine:VisualElement name="HeroSlot" class="hero-slot">
+                            <engine:VisualElement name="HeroPreview" class="hero-slot__preview" style="background-image: url(&quot;project://database/Assets/_Build/Art/Images/Gameplay/Sprites/Creatures/noir_kaiju_mono.png?fileID=2800000&amp;guid=f28c2da374646a743912cc3126a19ca2&amp;type=3#noir_kaiju_mono&quot;); background-size: 256px 100%; -unity-background-image-tint-color: rgb(231, 136, 49); background-position-y: top 30px;" />
+                            <engine:Label text="ORITH" name="HeroName" class="hero-slot__name" />
+                            <engine:VisualElement name="DecorLine" class="decor-line" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
                     <engine:Instance template="HeroSlot" name="HeroSlot" />
                     <engine:Instance template="HeroSlot" name="HeroSlot" />
                     <engine:Instance template="HeroSlot" name="HeroSlot" />

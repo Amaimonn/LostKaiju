@@ -20,7 +20,7 @@ MonoBehaviour:
       <Deceleration>k__BackingField: 7
       <AirMultiplier>k__BackingField: 0.5
     <Jump>k__BackingField:
-      <Force>k__BackingField: 10
+      <Force>k__BackingField: 12
       <CoyotteTime>k__BackingField: 0.1
       <Cooldown>k__BackingField: 0.2
       <InputTimeBufferSize>k__BackingField: 0.1
