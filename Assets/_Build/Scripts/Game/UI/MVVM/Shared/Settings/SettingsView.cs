@@ -78,6 +78,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             brightnessSlider.RegisterCallback<ChangeEvent<float>>(e => videoViewModel.SetBrightness(e.newValue));
             videoViewModel.Brightness.Subscribe(x => brightnessSlider.value = x);
 
+            var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, videoSection);
+            postProcessingToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsPostProcessingEnabled(e.newValue));
+            videoViewModel.IsPostProcessingEnabled.Subscribe(x => postProcessingToggle.value = x);
+
             var bloomToggle = CreateToggle(settingsData.IsHighBloomQualityData, videoSection);
             bloomToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsHighBloomQuality(e.newValue));
             videoViewModel.IsHighBloomQuality.Subscribe(x => bloomToggle.value = x);

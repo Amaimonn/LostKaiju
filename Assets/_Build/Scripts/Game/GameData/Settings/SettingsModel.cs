@@ -13,6 +13,7 @@ namespace LostKaiju.Game.GameData.Settings
 
 #region Video settings
         public readonly ReactiveProperty<float> Brightness;
+        public readonly ReactiveProperty<bool> IsPostProcessingEnabled;
         public readonly ReactiveProperty<bool> IsHighBloomQuality;
         public readonly ReactiveProperty<bool> IsAntiAliasingEnabled;
 #endregion
@@ -33,6 +34,9 @@ namespace LostKaiju.Game.GameData.Settings
 
             Brightness = new ReactiveProperty<float>(state.Brightness);
             Brightness.Skip(1).Subscribe(x => state.Brightness = x);
+
+            IsPostProcessingEnabled = new ReactiveProperty<bool>(state.IsPostProcessingEnabled);
+            IsPostProcessingEnabled.Skip(1).Subscribe(x => state.IsPostProcessingEnabled = x);
 
             IsHighBloomQuality = new ReactiveProperty<bool>(state.IsHighBloomQuality);
             IsHighBloomQuality.Skip(1).Subscribe(x => state.IsHighBloomQuality = x);

@@ -25,7 +25,7 @@ public abstract class SettingsSectionViewModel : IViewModel, IDisposable
     {
     }
 
-    protected virtual void SetCachedSettings()
+    protected virtual void CacheSettings()
     {
     }
 

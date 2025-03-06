@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using VContainer;
 using R3;
 
@@ -14,17 +16,19 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.World.Missions.Triggers;
+using LostKaiju.Game.GameData.Settings;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class CommonMissionBootstrap : MissionBootstrap
     {
-        [SerializeField] private Transform _playerInitPosition;
+        [SerializeField] private Transform _playerInitPosition; 
         [SerializeField] private CinemachineCamera _cinemachineCamera;
+        [SerializeField] private Volume _volume;
         [SerializeField] private PlayerHeroTrigger _missionExitAreaTrigger;
         [SerializeField] private string _playerIndicatorsViewPrefabPath = "UI/Gameplay/PlayerIndicatorsView";
 
-        public override Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
+        public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
             var playerConfigPath = gameplayEnterContext.PlayerConfigPath;
@@ -80,6 +84,22 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 Debug.LogError("Mission Exit Area Trigger is null");
             }
 
+            
+            if (_volume == null)
+            {
+                Debug.LogError("No Volume found");
+            }
+            else
+            {
+                var settingsModel = Container.Resolve<SettingsModel>();
+                settingsModel.IsPostProcessingEnabled.Subscribe(x => _volume.enabled = x);
+
+                if (_volume.profile.TryGet<Bloom>(out var bloom))
+                    settingsModel.IsHighBloomQuality.Subscribe(x => bloom.highQualityFiltering.value = x);
+                else
+                    Debug.LogWarning("No Bloom in VolumeProfile found");   
+            }
+            
             return missionExitSignal;
         }
     }

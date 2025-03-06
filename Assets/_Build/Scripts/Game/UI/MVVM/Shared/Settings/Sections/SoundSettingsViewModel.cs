@@ -24,7 +24,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         public SoundSettingsViewModel(SettingsModel model) : base(model)
         {
-            SetCachedSettings();
+            CacheSettings();
             
             _soundVolume = new ReactiveProperty<float>(_soundVolumeCached);
             model.SoundVolume.Skip(1).Subscribe(x => _soundVolume.Value = x).AddTo(_disposables);
@@ -51,7 +51,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public override void ApplyChanges()
         {
             // set additional data to model if needed 
-            SetCachedSettings();
+            CacheSettings();
         }
 
         public override void ResetSettings()
@@ -74,7 +74,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _isSfxEnabled.Value = volume > 0;
         }
 
-        protected override void SetCachedSettings()
+        protected override void CacheSettings()
         {
             _soundVolumeCached = _model.SoundVolume.Value;
             _isSoundEnabledCached = _model.IsSoundEnabled.Value;

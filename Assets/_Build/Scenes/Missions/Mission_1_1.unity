@@ -284,6 +284,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3875056177257728114, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
   m_PrefabInstance: {fileID: 7459206069062887884}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &280393885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5967330482510635913, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
+  m_PrefabInstance: {fileID: 7459206069062887884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &281836909 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6537543487710427611, guid: 544f146c7e02e87429315d4cce1870d9, type: 3}
@@ -438,6 +449,7 @@ MonoBehaviour:
   autoInjectGameObjects: []
   _playerInitPosition: {fileID: 1895556568}
   _cinemachineCamera: {fileID: 729280167}
+  _volume: {fileID: 280393885}
   _missionExitAreaTrigger: {fileID: 1667183466}
   _playerIndicatorsViewPrefabPath: UI/Gameplay/PlayerIndicatorsView
 --- !u!4 &843688258

@@ -14,6 +14,7 @@ namespace LostKaiju.Game.GameData.Settings
         public float SfxVolume;
         public bool IsSfxEnabled;
         public float Brightness;
+        public bool IsPostProcessingEnabled;
         public bool IsHighBloomQuality;
         public bool IsAntiAliasingEnabled;
     }

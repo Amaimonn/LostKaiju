@@ -9,6 +9,7 @@ namespace LostKaiju.Game.GameData.Settings
         public ISliderSettingData SoundVolumeData { get; }
         public ISliderSettingData SfxVolumeData { get; }
         public ISliderSettingData BrightnessData { get; }
+        public IToggleSettingData IsPostProcessingEnabledData { get; }
         public IToggleSettingData IsHighBloomQualityData { get; }
         public IToggleSettingData IsAntiAliasingEnabledData { get; }
     }

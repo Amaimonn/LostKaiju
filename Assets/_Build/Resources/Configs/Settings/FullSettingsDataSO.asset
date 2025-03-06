@@ -19,5 +19,6 @@ MonoBehaviour:
   _soundVolumeSliderDataSO: {fileID: 11400000, guid: 10af5270a61b1364d82a437209dda177, type: 2}
   _sfxVolumeSliderDataSO: {fileID: 11400000, guid: e9572a34633ff7742b58e326a1fa0ddf, type: 2}
   _brightnessSliderDataSO: {fileID: 11400000, guid: 3fe9a9613fa006340857ee9d4f223cb7, type: 2}
+  _IsPostProcessingEnabledToggleDataSO: {fileID: 11400000, guid: d35e66200d4cf824dad95d1659311e8f, type: 2}
   _IsHighBloomQualityToggleDataSO: {fileID: 11400000, guid: ad39a82d453319d468652bd674f3ea19, type: 2}
   _IsAntiAliasingEnabledToggleDataSO: {fileID: 11400000, guid: aa72f8ebb668fa44cbf0b0c1112720d0, type: 2}
