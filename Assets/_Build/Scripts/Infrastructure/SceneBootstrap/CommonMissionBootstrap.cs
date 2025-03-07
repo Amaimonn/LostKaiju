@@ -16,7 +16,7 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.World.Missions.Triggers;
-using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.GameData.SettingsDyn;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -92,10 +92,12 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             else
             {
                 var settingsModel = Container.Resolve<SettingsModel>();
-                settingsModel.IsPostProcessingEnabled.Subscribe(x => _volume.enabled = x);
+                settingsModel.GetBoolSetting(SettingNames.IsPostProcessingEnabled)
+                    .Subscribe(x => _volume.enabled = x);
 
                 if (_volume.profile.TryGet<Bloom>(out var bloom))
-                    settingsModel.IsHighBloomQuality.Subscribe(x => bloom.highQualityFiltering.value = x);
+                    settingsModel.GetBoolSetting(SettingNames.IsHighBloomQuality)
+                        .Subscribe(x => bloom.highQualityFiltering.value = x);
                 else
                     Debug.LogWarning("No Bloom in VolumeProfile found");   
             }

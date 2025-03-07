@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bbfdcb65217c9d48b0e9059f7d16775, type: 3}
-  m_Name: BloomDataSO
+  m_Name: PostProcessingDataSo
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 
-  <Label>k__BackingField: High bloom quality
+  <Label>k__BackingField: Post processing
+  <NameId>k__BackingField: IsPostProcessingEnabled
+  <SetAfterApply>k__BackingField: 1

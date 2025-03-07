@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b946088a7eb6f01428d48e9c11a851cd, type: 3}
-  m_Name: BrightnessDataSO
+  m_Name: SoundVolumeDataSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 
-  <Label>k__BackingField: Brightness
+  <Label>k__BackingField: Sound volume
+  <NameId>k__BackingField: SoundVolume
+  <SetAfterApply>k__BackingField: 0
   <MinValue>k__BackingField: 0
   <MaxValue>k__BackingField: 100

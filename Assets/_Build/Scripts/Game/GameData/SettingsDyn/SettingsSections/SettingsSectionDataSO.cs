@@ -1,8 +1,10 @@
 using UnityEngine;
 
-namespace LostKaiju.Game.GameData.Settings
+using LostKaiju.Game.GameData.Settings;
+
+namespace LostKaiju.Game.GameData.SettingsDyn
 {
-    [CreateAssetMenu(fileName = "SettingsSectionDataSO", menuName = "Scriptable Objects/Settings/SettingsSectionDataSO")]
+    [CreateAssetMenu(fileName = "SettingsSectionDataSO", menuName = "Scriptable Objects/SettingsDyn/SettingsSectionDataSO")]
     public class SettingsSectionDataSO : ScriptableObject, ISettingsSectionData
     {
         [field: SerializeField] public string Id { get; private set; }

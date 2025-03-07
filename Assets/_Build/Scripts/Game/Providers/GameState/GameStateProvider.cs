@@ -5,7 +5,7 @@ using UnityEngine;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
-using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.GameData.SettingsDyn;
 using LostKaiju.Services.Saves;
 
 namespace LostKaiju.Game.Providers.GameState
@@ -70,33 +70,50 @@ namespace LostKaiju.Game.Providers.GameState
 
         private void InitializeAndSaveSettings()
         {
+            // Settings = new SettingsState()
+            // {
+            //     SoundVolume = 60,
+            //     IsSoundEnabled = true,
+            //     SfxVolume = 60,
+            //     IsSfxEnabled = true,
+            //     Brightness = 80,
+            //     IsPostProcessingEnabled = true,
+            //     IsHighBloomQuality = false,
+            //     IsAntiAliasingEnabled = false
+            // };
             Settings = new SettingsState()
             {
-                SoundVolume = 60,
-                IsSoundEnabled = true,
-                SfxVolume = 60,
-                IsSfxEnabled = true,
-                Brightness = 80,
-                IsPostProcessingEnabled = true,
-                IsHighBloomQuality = false,
-                IsAntiAliasingEnabled = false
+                FloatSettings = new()
+                {
+                    {SettingNames.SoundVolume, 60},
+                    {SettingNames.SfxVolume, 60},
+                    {SettingNames.Brightness, 80}
+                },
+                BoolSettings = new()
+                {
+                    {SettingNames.IsSoundEnabled, true},
+                    {SettingNames.IsSfxEnabled, true},
+                    {SettingNames.IsPostProcessingEnabled, true},
+                    {SettingNames.IsHighBloomQuality, false},
+                    {SettingNames.IsAntiAliasingEnabled, false}
+                }
             };
 
             Debug.Log("Settings load: init");
             _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);
         }
-        
+
         private SettingsState MigrateSettings(SettingsState settingsState)
         {
-            if (settingsState.Version != 1)
-            {
-                settingsState.Brightness = 80;
-                settingsState.IsHighBloomQuality = false;
-                settingsState.IsAntiAliasingEnabled = false;
-                _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings); 
-            }
-            
+            // if (settingsState.Version != 1)
+            // {
+            //     settingsState.Brightness = 80;
+            //     settingsState.IsHighBloomQuality = false;
+            //     settingsState.IsAntiAliasingEnabled = false;
+            //     _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);
+            // }
+
             return settingsState;
-        }   
+        }
     }
 }

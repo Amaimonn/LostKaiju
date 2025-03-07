@@ -7,7 +7,7 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.MVVM.Gameplay.MobileControls;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.UI.MVVM.Shared.SettingsDyn;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 

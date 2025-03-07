@@ -2,7 +2,7 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.UI.MVVM.Shared.SettingsDyn;
 
 namespace LostKaiju.Game.UI.MVVM.MainMenu
 {

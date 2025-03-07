@@ -1,4 +1,4 @@
-using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.UI.MVVM.Shared.SettingsDyn;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay
 {

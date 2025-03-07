@@ -6,7 +6,7 @@ using LostKaiju.Game.UI.Constants;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Providers.InputState;
 
-namespace LostKaiju.Game.UI.MVVM.Shared.Settings
+namespace LostKaiju.Game.UI.MVVM.Shared.SettingsDyn
 {
     public class OptionsBinder
     {

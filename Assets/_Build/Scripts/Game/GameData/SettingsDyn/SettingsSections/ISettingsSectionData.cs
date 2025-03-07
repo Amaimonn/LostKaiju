@@ -1,4 +1,6 @@
-namespace LostKaiju.Game.GameData.Settings
+using LostKaiju.Game.GameData.Settings;
+
+namespace LostKaiju.Game.GameData.SettingsDyn
 {
     public interface ISettingsSectionData
     {

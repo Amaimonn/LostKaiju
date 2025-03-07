@@ -1,7 +1,7 @@
 using UnityEngine;
 using VContainer;
 
-using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.GameData.SettingsDyn;
 using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings

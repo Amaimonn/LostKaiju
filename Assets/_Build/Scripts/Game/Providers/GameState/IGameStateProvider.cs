@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Game.GameData.Campaign;
-using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.GameData.SettingsDyn;
 
 namespace LostKaiju.Game.Providers.GameState
 {
