@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using VContainer.Unity;
 using VContainer;
@@ -11,6 +10,7 @@ using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.GameData.Campaign;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
@@ -40,8 +40,20 @@ namespace LostKaiju.Infrastructure.Scopes
 
             var gameStateProvider = new GameStateProvider(saveSystem);
             var campaignTask =  gameStateProvider.LoadCampaignAsync();
+            
             var settingsTask = gameStateProvider.LoadSettingsAsync();
-            await Task.WhenAll(campaignTask, settingsTask);
+            await campaignTask;
+
+            if (gameStateProvider.Campaign.LastUpdateIndex != GameInfo.CampaignUpdateIndex)
+            {
+                var campaignModelFactory = new CampaignModelFactory();
+                var campaignModel = await campaignModelFactory.GetModelAsync(gameStateProvider);
+                campaignModel.UpdateAvailableLocationsAndMissions();
+                gameStateProvider.Campaign.LastUpdateIndex = GameInfo.CampaignUpdateIndex;
+                await gameStateProvider.SaveCampaignAsync();
+            }
+
+            await settingsTask;
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
 

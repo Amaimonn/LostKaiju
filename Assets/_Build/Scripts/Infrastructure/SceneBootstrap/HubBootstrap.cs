@@ -20,7 +20,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     {
         [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private string _playerConfigName; // choose your player character
-        [SerializeField] private string _locationsConfigPath;
         private CampaignModel _campaignModel = null;
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
@@ -40,10 +39,12 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitSignal = new Subject<HubExitContext>();
 
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
-            var campaignModelFactory = new Func<Task<CampaignModel>>(async () => await CampaignModelFactory(gameplayEnterContext,
-                gameStateProvider));
+            var campaignModelFactory = new CampaignModelFactory();
+            campaignModelFactory.OnProduced.Subscribe(x => _campaignModel = x);
+            var getCampaignModel = new Func<Task<CampaignModel>>(async () => 
+                await campaignModelFactory.GetModelAsync(gameStateProvider));
             var settingsBinder = Container.Resolve<SettingsBinder>();
-            var hubViewModel = new HubViewModel(exitToGameplaySignal, campaignModelFactory, settingsBinder, uiRootBinder);
+            var hubViewModel = new HubViewModel(exitToGameplaySignal, getCampaignModel, settingsBinder, uiRootBinder);
 
             hubView.Bind(hubViewModel);
             uiRootBinder.SetView(hubView);
@@ -72,19 +73,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             });
 
             return hubExitSignal;
-        }
-
-        private async Task<CampaignModel> CampaignModelFactory(GameplayEnterContext gameplayEnterContext,
-            IGameStateProvider gameStateProvider)
-        {
-            var locationsDataSORequest = Resources.LoadAsync<LocationsDataSO>(_locationsConfigPath);
-            await locationsDataSORequest;
-
-            var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;
-            var campaignState = gameStateProvider.Campaign;
-            _campaignModel = new CampaignModel(campaignState, locationsDataSO);
-
-            return _campaignModel;
         }
     }
 }

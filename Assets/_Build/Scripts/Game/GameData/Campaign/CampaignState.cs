@@ -9,9 +9,10 @@ namespace LostKaiju.Game.GameData.Campaign
     [Serializable]
     public class CampaignState : IVersioned
     {
-        public int Version => _version;
+        public int Version { get => _version; set => _version = value; }
         [SerializeField] private int _version = 1;
 
+        public int LastUpdateIndex = 1; // to update the saved state when new missions are added
         public List<LocationState> Locations;
         public string SelectedLocationId;
         public string SelectedMissionId;

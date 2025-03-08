@@ -3,7 +3,6 @@ using VContainer;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.UI.Constants;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
 

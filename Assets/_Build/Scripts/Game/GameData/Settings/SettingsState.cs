@@ -6,7 +6,7 @@ namespace LostKaiju.Game.GameData.Settings
     [Serializable]
     public class SettingsState : IVersioned
     {
-        public int Version => _version;
+        public int Version { get => _version; set => _version = value; }
         [SerializeField] private int _version = 1;
 
         public float SoundVolume;

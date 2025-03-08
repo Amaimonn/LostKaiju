@@ -2,7 +2,6 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.UI.Constants;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Providers.InputState;
 

@@ -6,7 +6,6 @@ using R3;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
-using LostKaiju.Game.UI.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
