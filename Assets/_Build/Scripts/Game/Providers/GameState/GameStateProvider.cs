@@ -54,10 +54,10 @@ namespace LostKaiju.Game.Providers.GameState
         {
             var missions = new List<MissionState>()
             {
-                new (id:"1_1", isOpened: true, isCompleted: false)
+                new (id:"1_1", isCompleted: false)
             };
 
-            var location = new LocationState(id: "1", isOpened: true, openedMissions: missions);
+            var location = new LocationState(id: "1", isCompleted: false, openedMissions: missions);
 
             Campaign = new CampaignState()
             {

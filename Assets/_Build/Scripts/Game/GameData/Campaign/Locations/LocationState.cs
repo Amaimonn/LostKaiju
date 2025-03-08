@@ -9,13 +9,14 @@ namespace LostKaiju.Game.GameData.Campaign.Locations
     public class LocationState
     {
         public string Id;
-        public bool IsOpened;
+        public bool IsCompleted;
         public List<MissionState> OpenedMissions;
+        public string MaxCompletedMissionId;
 
-        public LocationState(string id, bool isOpened, List<MissionState> openedMissions)
+        public LocationState(string id, bool isCompleted, List<MissionState> openedMissions)
         {
             Id = id;
-            IsOpened = isOpened;
+            IsCompleted = isCompleted;
             OpenedMissions = openedMissions;
         }
     }
