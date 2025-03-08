@@ -165,6 +165,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
             
             jumpState.OnEnter.Subscribe(_ => animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
             Observable.EveryValueChanged(_groundCheck, x => _groundCheck.IsGrounded)
+                .SkipFrame(1)
                 .Where(x => x == true)
                 .Subscribe(_ => {
                     animator.Play(AnimationClips.EMPTY, movementOverrideLayer);
@@ -173,6 +174,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 .AddTo(_disposables);
 
             Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)
+                .SkipFrame(1)
                 .Where(_ => _groundCheck.IsGrounded == false)
                 .Subscribe(x => {
                     if (x > 0)

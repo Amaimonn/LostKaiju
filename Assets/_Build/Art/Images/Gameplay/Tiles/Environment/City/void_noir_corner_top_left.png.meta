@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a1d357a0f9e0a9d44821117acb662268
+guid: b898c3d090bb0a84faef9319eac857be
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -77,7 +77,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 100
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
@@ -165,8 +165,8 @@ TextureImporter:
     physicsShape:
     - - {x: 256, y: 256}
       - {x: -156, y: 256}
-      - {x: -155, y: 156}
-      - {x: -256, y: 156}
+      - {x: -156, y: 155}
+      - {x: -256, y: 155}
       - {x: -256, y: -256}
       - {x: 256, y: -256}
     bones: []

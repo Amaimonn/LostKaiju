@@ -5,7 +5,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap.Context
     /// </summary>
     public class MissionExitContext
     {
-        public string MissionEnterSceneName;
+        public string ToMissionSceneName;
         public MissionEnterContext MissionEnterContext { get; }
 
         public MissionExitContext(MissionEnterContext missionEnterContext)

@@ -17,6 +17,7 @@ using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.World.Missions.Triggers;
 using LostKaiju.Game.GameData.Settings;
+using System;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -26,6 +27,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private CinemachineCamera _cinemachineCamera;
         [SerializeField] private Volume _volume;
         [SerializeField] private PlayerHeroTrigger _missionExitAreaTrigger;
+        [SerializeField] private SubSceneTrigger[] _subSceneTriggers;
         [SerializeField] private string _playerIndicatorsViewPrefabPath = "UI/Gameplay/PlayerIndicatorsView";
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
@@ -34,7 +36,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var playerConfigPath = gameplayEnterContext.PlayerConfigPath;
             var playerConfigSO = Resources.Load<PlayerConfigSO>(playerConfigPath);
             var playerPrefab = playerConfigSO.CreatureBinder;
-            var player = Instantiate(playerPrefab, _playerInitPosition.position, Quaternion.identity);
+            var spawnPosition = missionEnterContext.FromMissionSceneName == null ? // if from subscene to main
+                missionEnterContext.PlayerPosition ?? _playerInitPosition.position : _playerInitPosition.position;
+            var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
             Debug.Log("player instantiated");
 
             var playerData = playerConfigSO.PlayerData;
@@ -62,7 +66,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 rootUIBinder.ClearView(playerIndicatorsView);
             });
             var toMissionEnterContext = new MissionEnterContext(gameplayEnterContext); // add toMissionSceneName
-            var missionExitContext = new MissionExitContext(missionEnterContext);
+            var missionExitContext = new MissionExitContext(toMissionEnterContext);
             var missionExitSignal = exitSignal.Select(_ => missionExitContext); // for transition between one mission scenes
             var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
             _cinemachineCamera.Follow = player.transform;
@@ -70,14 +74,60 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             // {
             //     var groupTrigger = new GroupTriggerObserver<IPlayerHero>(_missionExitAreaTrigger);
             // }
+            if (_subSceneTriggers != null)
+            {
+                var shouldSkip = !String.IsNullOrEmpty(missionEnterContext.FromTriggerId);
+                foreach (var subTrigger in _subSceneTriggers)
+                {
+                    if (subTrigger == null) 
+                    {
+                        Debug.LogWarning("SubScene trigger is null");
+                        continue;
+                    }
+                    // TODO: not to spawn hero in trigger or add button or another option to approve transitions on trigger stay
+                    var onTriggerEnter = subTrigger.OnEnter;
+                    if (shouldSkip && subTrigger.ToSceneName == missionEnterContext.FromTriggerId)
+                    {
+                        onTriggerEnter = onTriggerEnter.Skip(1);
+                    }
+                    
+                    onTriggerEnter
+                        .Take(1)
+                        .Subscribe(_ =>
+                        {
+                            Debug.Log("SubScene signal");
+                            Debug.Log((subTrigger.transform.position - player.transform.position).magnitude);
+                            toMissionEnterContext.FromMissionSceneName = missionEnterContext.GameplayEnterContext.LevelSceneName;
+                            toMissionEnterContext.PlayerPosition = player.transform.position;
+                            toMissionEnterContext.FromTriggerId = subTrigger.ToSceneName;
+                            missionExitContext.ToMissionSceneName = subTrigger.ToSceneName;
+                            exitSignal.OnNext(Unit.Default);
+                        });
+                }
+            }
+
             if (_missionExitAreaTrigger != null)
             {
-                _missionExitAreaTrigger.OnEnter.Take(1).Subscribe(_ =>
+                if (!String.IsNullOrEmpty(missionEnterContext.FromMissionSceneName)) // from main mission scene to subscene
                 {
-                    Debug.Log("Mission completed signal");
-                    missionEnterContext.GameplayEnterContext.MissionCompletionSignal.OnNext(Unit.Default);
-                    gameplayExitSignal.OnNext(Unit.Default);
-                });
+                    _missionExitAreaTrigger.OnEnter.Take(1).Subscribe(_ =>
+                    {
+                        Debug.Log("Exit SubScene signal");
+                        toMissionEnterContext.PlayerPosition = missionEnterContext.PlayerPosition;
+                        toMissionEnterContext.FromTriggerId = missionEnterContext.FromTriggerId;
+                        missionExitContext.ToMissionSceneName = missionEnterContext.FromMissionSceneName;
+                        exitSignal.OnNext(Unit.Default);
+                    });
+                }
+                else
+                {
+                    _missionExitAreaTrigger.OnEnter.Take(1).Subscribe(_ => // current mission scene is main
+                    {
+                        Debug.Log("Mission completed signal");
+                        missionEnterContext.GameplayEnterContext.MissionCompletionSignal.OnNext(Unit.Default);
+                        gameplayExitSignal.OnNext(Unit.Default);
+                    });
+                }
             }
             else
             {

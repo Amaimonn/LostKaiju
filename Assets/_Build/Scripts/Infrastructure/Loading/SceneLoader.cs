@@ -142,7 +142,7 @@ namespace LostKaiju.Infrastructure.Loading
                 {
                     _loadingScreen.Show();
 
-                    var toSceneName = missionExitContext.MissionEnterSceneName;
+                    var toSceneName = missionExitContext.ToMissionSceneName;
                     var toSceneContext = missionExitContext.MissionEnterContext;
                     _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName: toSceneName,
                         fromMissionSceneName: toMissionSceneName));
