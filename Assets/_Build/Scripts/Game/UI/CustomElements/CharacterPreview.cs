@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[UxmlElement]
-public partial class CharacterPreview : VisualElement
+namespace LostKaiju.Game.UI.CustomElements
 {
-    [UxmlAttribute] public GameObject _character;
+    [UxmlElement]
+    public partial class CharacterPreview : VisualElement
+    {
+        [UxmlAttribute] public GameObject _character;
+    }
 }

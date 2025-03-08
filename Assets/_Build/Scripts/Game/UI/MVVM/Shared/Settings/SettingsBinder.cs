@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using VContainer;
 using R3;
@@ -57,14 +56,5 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             
             return _currentSettingsViewModel;
         }
-
-        // public void Dispose() // with VContainer on Scope destroy
-        // {
-        //     if (_currentSettingsViewModel != null)
-        //     {
-        //         _currentSettingsViewModel.Dispose();
-        //         _currentSettingsViewModel = null;
-        //     }
-        // }
     }
 }

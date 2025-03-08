@@ -3,7 +3,7 @@
     <engine:VisualElement name="SettingBar" class="setting-bar">
         <engine:Label text="SettingLabel" name="SettingLabel" class="setting-bar__label" />
         <engine:VisualElement name="SettingControlsContainer" class="setting-bar__controls-container">
-            <engine:Toggle toggle-on-label-click="false" class="setting-bar__toggle" />
+            <LostKaiju.Game.UI.CustomElements.ArrowsMenu />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

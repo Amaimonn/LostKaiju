@@ -8,7 +8,6 @@ using ObservableCollections;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
 
-
 namespace LostKaiju.Game.GameData.Campaign
 {
     public class CampaignModel : Model<CampaignState>
@@ -17,10 +16,10 @@ namespace LostKaiju.Game.GameData.Campaign
         public readonly ReactiveProperty<IMissionData> SelectedMission;
         public readonly ILocationData LastLaunchedLocation;
         public readonly IMissionData LastLaunchedMission;
-        /// <summary>
-        /// all Locations const data in campaign
-        /// </summary>
         public readonly IReadOnlyDictionary<string, ILocationData> LocationsDataMap;
+        /// <summary>
+        /// all Locations config data in campaign
+        /// </summary>
         private readonly IAllLocationsData _allLocationsData;
         public readonly ObservableList<LocationModel> AvailableLocations;
 
@@ -32,13 +31,12 @@ namespace LostKaiju.Game.GameData.Campaign
 
             var locationsPairs = allLocationsData.AllData
                 .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
-            var locationsData = new Dictionary<string, ILocationData>(locationsPairs);
+            LocationsDataMap = new Dictionary<string, ILocationData>(locationsPairs);
 
-            LocationsDataMap = locationsData;
             AvailableLocations = new ObservableList<LocationModel>();
             foreach (var location in campaignState.Locations)
             {
-                if (locationsData.TryGetValue(location.Id, out var locationData))
+                if (LocationsDataMap.TryGetValue(location.Id, out var locationData))
                 {
                     var locationModel = new LocationModel(location, locationData);
                     AvailableLocations.Add(locationModel);
@@ -53,7 +51,7 @@ namespace LostKaiju.Game.GameData.Campaign
             if (!String.IsNullOrEmpty(campaignState.LastLaunchedLocationId))
             {
                 // last launched data
-                locationsData.TryGetValue(campaignState.LastLaunchedLocationId, out LastLaunchedLocation);
+                LocationsDataMap.TryGetValue(campaignState.LastLaunchedLocationId, out LastLaunchedLocation);
                 if (LastLaunchedLocation != null)
                 {
                     LastLaunchedMission = LastLaunchedLocation.AllMissionsData
@@ -107,14 +105,15 @@ namespace LostKaiju.Game.GameData.Campaign
             
             var actions = new List<Action>();
             var dispatcher = new Subject<Unit>();
+
+            if (currentMissionState.IsCompleted) // already completed, no actions needed
+                return dispatcher;
+
             dispatcher.Subscribe(_ =>
             {
                 foreach (var action in actions)
                     action?.Invoke();
             });
-
-            if (currentMissionState.IsCompleted) // already completed
-                return dispatcher;
 
             actions.Add(() => currentMissionState.IsCompleted = true); // mission completed
 
