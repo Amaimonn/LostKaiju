@@ -1,11 +1,10 @@
 using UnityEngine;
-using VContainer;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.UI.Constants;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -15,10 +14,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         private IGameStateProvider _gameStateProvider;
         private SettingsModel _settingsModel;
         private SettingsViewModel _currentSettingsViewModel;
-        private readonly string _settingsDataPath;
 
-        [Inject]
-        public void Construct(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
+        public SettingsBinder(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
             SettingsModel settingsModel)
         {
             _rootUIBinder = rootUIBinder;
@@ -26,18 +23,13 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _settingsModel = settingsModel;
         }
 
-        public SettingsBinder(string settingsDataPath)
-        {
-            _settingsDataPath = settingsDataPath;
-        }
-
         public SettingsViewModel ShowSettings()
         {
             if (_currentSettingsViewModel != null) // if already exists
                 return null;
 
-            var settingsDataSO = Resources.Load<FullSettingsDataSO>(_settingsDataPath);
-            var settingsViewPrefab = Resources.Load<SettingsView>(Paths.SETTINGS_VIEW_PATH);
+            var settingsDataSO = Resources.Load<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
+            var settingsViewPrefab = Resources.Load<SettingsView>(Paths.SETTINGS_VIEW);
             var settingsView = UnityEngine.Object.Instantiate(settingsViewPrefab);
             
             _currentSettingsViewModel = new SettingsViewModel(_settingsModel, settingsDataSO, _gameStateProvider);

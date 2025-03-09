@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 09e215aaf6c55f84ca72ad52405de115
+guid: 052ae8e7fa917834590d12ca0220a462
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -77,7 +77,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 100
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0

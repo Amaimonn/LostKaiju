@@ -14,6 +14,7 @@ using LostKaiju.Game.World.Player.Data.StateParameters;
 using LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.World.Player.Views;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.World.Player.Behaviour
 {
@@ -165,6 +166,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
             
             jumpState.OnEnter.Subscribe(_ => animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
             Observable.EveryValueChanged(_groundCheck, x => _groundCheck.IsGrounded)
+                .SkipFrame(1)
                 .Where(x => x == true)
                 .Subscribe(_ => {
                     animator.Play(AnimationClips.EMPTY, movementOverrideLayer);
@@ -173,6 +175,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 .AddTo(_disposables);
 
             Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)
+                .SkipFrame(1)
                 .Where(_ => _groundCheck.IsGrounded == false)
                 .Subscribe(x => {
                     if (x > 0)
@@ -209,8 +212,6 @@ namespace LostKaiju.Game.World.Player.Behaviour
                             }).AddTo(_disposables);
                     }).AddTo(_disposables);
 
-                idleState.OnExit.Take(1).Subscribe(_ => subscription.Dispose());
-                
                 animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
             });
 

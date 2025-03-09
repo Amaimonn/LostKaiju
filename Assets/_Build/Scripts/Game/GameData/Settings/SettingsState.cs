@@ -4,9 +4,9 @@ using UnityEngine;
 namespace LostKaiju.Game.GameData.Settings
 {
     [Serializable]
-    public class SettingsState : IVersioned
+    public class SettingsState : IVersioned, ICopyable<SettingsState>
     {
-        public int Version => _version;
+        public int Version { get => _version; set => _version = value; }
         [SerializeField] private int _version = 1;
 
         public float SoundVolume;
@@ -17,5 +17,11 @@ namespace LostKaiju.Game.GameData.Settings
         public bool IsPostProcessingEnabled;
         public bool IsHighBloomQuality;
         public bool IsAntiAliasingEnabled;
+
+        public SettingsState Copy()
+        {
+            var copy = (SettingsState)MemberwiseClone();
+            return copy;
+        }
     }
 }

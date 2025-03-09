@@ -1,6 +1,8 @@
+using R3;
+
+using LostKaiju.Game.Constants;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
-using R3;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {

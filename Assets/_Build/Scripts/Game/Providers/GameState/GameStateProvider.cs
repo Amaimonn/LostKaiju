@@ -1,12 +1,11 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
 using LostKaiju.Game.GameData.Campaign;
-using LostKaiju.Game.GameData.Campaign.Locations;
-using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Services.Saves;
+using LostKaiju.Game.Constants;
+using LostKaiju.Game.Providers.DefaultState;
 
 namespace LostKaiju.Game.Providers.GameState
 {
@@ -16,10 +15,12 @@ namespace LostKaiju.Game.Providers.GameState
         public CampaignState Campaign { get; private set; }
 
         private readonly ISaveSystem _saveSystem;
+        private readonly IDefaultStateProvider _defaultStateProvider;
 
-        public GameStateProvider(ISaveSystem saveSystem)
+        public GameStateProvider(ISaveSystem saveSystem, IDefaultStateProvider defaultStateProvider)
         {
             _saveSystem = saveSystem;
+            _defaultStateProvider = defaultStateProvider;
         }
 
         public async Task LoadCampaignAsync()
@@ -52,17 +53,18 @@ namespace LostKaiju.Game.Providers.GameState
 
         private void InitializeAndSaveCampaign()
         {
-            var missions = new List<MissionState>()
-            {
-                new (id:"1_1", isOpened: true, isCompleted: false)
-            };
+            // var missions = new List<MissionState>()
+            // {
+            //     new (id:"1_1", isCompleted: false)
+            // };
 
-            var location = new LocationState(id: "1", isOpened: true, openedMissions: missions);
+            // var location = new LocationState(id: "1", isCompleted: false, openedMissions: missions);
 
-            Campaign = new CampaignState()
-            {
-                Locations = new List<LocationState> { location }
-            };
+            // Campaign = new CampaignState()
+            // {
+            //     Locations = new List<LocationState> { location }
+            // };
+            Campaign = _defaultStateProvider.GetCampaign();
 
             Debug.Log("Campaign load: init");
             _saveSystem.SaveAsync(StateKeys.CAMPAIGN, Campaign);
@@ -70,17 +72,19 @@ namespace LostKaiju.Game.Providers.GameState
 
         private void InitializeAndSaveSettings()
         {
-            Settings = new SettingsState()
-            {
-                SoundVolume = 60,
-                IsSoundEnabled = true,
-                SfxVolume = 60,
-                IsSfxEnabled = true,
-                Brightness = 80,
-                IsPostProcessingEnabled = true,
-                IsHighBloomQuality = false,
-                IsAntiAliasingEnabled = false
-            };
+            // Settings = new SettingsState()
+            // {
+            //     SoundVolume = 60,
+            //     IsSoundEnabled = true,
+            //     SfxVolume = 60,
+            //     IsSfxEnabled = true,
+            //     Brightness = 80,
+            //     IsPostProcessingEnabled = true,
+            //     IsHighBloomQuality = false,
+            //     IsAntiAliasingEnabled = false
+            // };
+
+            Settings = _defaultStateProvider.GetSettings();
 
             Debug.Log("Settings load: init");
             _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);

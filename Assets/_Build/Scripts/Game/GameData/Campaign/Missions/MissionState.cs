@@ -3,17 +3,20 @@ using System;
 namespace LostKaiju.Game.GameData.Campaign.Missions
 {
     [Serializable]
-    public class MissionState
+    public class MissionState : ICopyable<MissionState>
     {
         public string Id;
-        public bool IsOpened = false;
-        public bool IsCompleted = false;
+        public bool IsCompleted;
 
-        public MissionState(string id, bool isOpened, bool isCompleted)
+        public MissionState(string id, bool isCompleted)
         {
             Id = id;
-            IsOpened = isOpened;
             IsCompleted = isCompleted;
+        }
+
+        public MissionState Copy()
+        {
+            return new MissionState(Id, IsCompleted);
         }
     }
 }

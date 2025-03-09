@@ -2,7 +2,7 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.UI.Constants;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
@@ -24,7 +24,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
                 return null;
 
             _currentExitPopUpViewModel = new ExitPopUpViewModel();
-            var exitPopUpPrefab = Resources.Load<ExitPopUpView>(Paths.EXIT_POPUP_VIEW_PATH);
+            var exitPopUpPrefab = Resources.Load<ExitPopUpView>(Paths.EXIT_POPUP_VIEW);
             var exitPopUpView = Object.Instantiate<ExitPopUpView>(exitPopUpPrefab);
 
             _currentExitPopUpViewModel.OnClosingCompleted.Subscribe(_ =>

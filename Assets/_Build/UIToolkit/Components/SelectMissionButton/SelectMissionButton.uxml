@@ -1,0 +1,5 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Build/UIToolkit/Components/SelectMissionButton/SelectMissionButtonStyles.uss?fileID=7433441132597879392&amp;guid=aa0d21edc938d0c4fa64e13dfa4244f1&amp;type=3#SelectMissionButtonStyles" />
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ButtonStyles.uss?fileID=7433441132597879392&amp;guid=e542f6a0d82cbbd4e883ca8747cf44a8&amp;type=3#ButtonStyles" />
+    <engine:Button text="1" name="SelectMissionButton" enabled="true" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="select-mission-button button-transitions-base" />
+</engine:UXML>

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: dark_narrow_window_tile_1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: f86f2b49214969f4aa5fd7addd17db17, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7e36d6e5cf8fa0f4d969300fcffd58ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

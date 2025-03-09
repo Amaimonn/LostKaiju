@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using LostKaiju.Infrastructure.Scopes;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Infrastructure.Entry
 {

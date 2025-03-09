@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
 using UnityEngine;
-using VContainer.Unity;
 using VContainer;
+using VContainer.Unity;
 
 using LostKaiju.Utils;
 using LostKaiju.Infrastructure.Loading;
@@ -11,13 +10,15 @@ using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.Constants;
+using LostKaiju.Game.Providers.DefaultState;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
     public class RootScope : LifetimeScope
     {
         [SerializeField] private RootUIBinder _uiRootBinderPrefab;
-        [SerializeField] private string _settingsDataPath;
 
         protected override async void Configure(IContainerBuilder builder)
         {
@@ -32,26 +33,38 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.RegisterInstance<IRootUIBinder>(uiRootBinder);
             
             builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
-            
+            // builder.Register<IDefaultStateProvider, DefaultStateSOProvider>(Lifetime.Singleton);
+            var defaultStateProvider = new DefaultStateSOProvider();
+#if UNITY_EDITOR || !YG_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
             var serizlizer = new JsonUtilitySerializer();
             var storage = new FileStorage(fileExtension: "json");
             var saveSystem = new SimpleSaveSystem(serizlizer, storage);
-            builder.RegisterInstance<ISaveSystem>(saveSystem);
-
-            var gameStateProvider = new GameStateProvider(saveSystem);
+            // builder.RegisterInstance<ISaveSystem>(saveSystem);
+            var gameStateProvider = new GameStateProvider(saveSystem, defaultStateProvider);
+#elif YG_BUILD
+            var gameStateProvider = new GameStateProviderYG(defaultStateProvider);  
+#endif
             var campaignTask =  gameStateProvider.LoadCampaignAsync();
+            
             var settingsTask = gameStateProvider.LoadSettingsAsync();
-            await Task.WhenAll(campaignTask, settingsTask);
+            await campaignTask;
+
+            if (gameStateProvider.Campaign.LastUpdateIndex != GameInfo.CampaignUpdateIndex)
+            {
+                var campaignModelFactory = new CampaignModelFactory();
+                var campaignModel = await campaignModelFactory.GetModelAsync(gameStateProvider);
+                campaignModel.UpdateAvailableLocationsAndMissions();
+                gameStateProvider.Campaign.LastUpdateIndex = GameInfo.CampaignUpdateIndex;
+                await gameStateProvider.SaveCampaignAsync();
+            }
+
+            await settingsTask;
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
 
             builder.Register<SettingsModel>(resolver => 
                 new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings), Lifetime.Singleton);
-            builder.Register<SettingsBinder>(resolver => {
-                var settingsBinder = new SettingsBinder(_settingsDataPath);
-                resolver.Inject(settingsBinder);
-                return settingsBinder;
-            }, Lifetime.Singleton);
+            builder.Register<SettingsBinder>(Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
             var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);

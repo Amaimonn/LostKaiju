@@ -1,0 +1,12 @@
+.button-transitions-base {
+    transition-property: border-color, scale;
+    transition-duration: 0.1s, 0.1s;
+}
+
+.button-transitions-base:hover {
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    scale: 1.07 1.07;
+}

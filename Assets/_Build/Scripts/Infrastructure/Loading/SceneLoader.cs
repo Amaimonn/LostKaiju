@@ -6,6 +6,7 @@ using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Infrastructure.Loading
 {
@@ -38,7 +39,6 @@ namespace LostKaiju.Infrastructure.Loading
             {
                 yield return LoadSceneAsync(Scenes.MAIN_MENU);
 
-
                 Debug.Log("Main menu scene loaded");
 
                 var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
@@ -59,7 +59,6 @@ namespace LostKaiju.Infrastructure.Loading
             yield return _loadingScreen.ShowCoroutine();
             var startTime = Time.time;
 
-            var wait = new WaitForSeconds(FAKE_LOAD_TIME);
             yield return LoadSceneAsync(Scenes.GAP);
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
@@ -142,7 +141,7 @@ namespace LostKaiju.Infrastructure.Loading
                 {
                     _loadingScreen.Show();
 
-                    var toSceneName = missionExitContext.MissionEnterSceneName;
+                    var toSceneName = missionExitContext.ToMissionSceneName;
                     var toSceneContext = missionExitContext.MissionEnterContext;
                     _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName: toSceneName,
                         fromMissionSceneName: toMissionSceneName));
@@ -167,13 +166,9 @@ namespace LostKaiju.Infrastructure.Loading
             var currentTime = Time.time;
             var remainTime = FAKE_LOAD_TIME - (currentTime - startTime);
             if (remainTime > 0)
-            {
                 return new WaitForSeconds(remainTime);
-            }
             else
-            {
-                return new WaitForSeconds(0);
-            }
+                return null;
         }
     }
 }

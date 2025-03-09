@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {
     /// <summary>
@@ -6,7 +8,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap.Context
     public class MissionEnterContext
     {
         // Primarily, some data for transition between mission scenes
-        public string MissionName;
+        public string FromMissionSceneName;
+        public Vector3? PlayerPosition = null;
+        public string FromTriggerId;
         public GameplayEnterContext GameplayEnterContext { get; }
 
         public MissionEnterContext(GameplayEnterContext gameplayEnterContext)

@@ -10,7 +10,11 @@ namespace LostKaiju.Game.Providers.GameState
     {
         public SettingsState Settings { get; }
         public CampaignState Campaign { get; }
+
+        public Task LoadCampaignAsync();
         public Task SaveCampaignAsync();
+        
+        public Task LoadSettingsAsync();
         public Task SaveSettingsAsync();
     }
 }
