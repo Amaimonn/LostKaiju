@@ -603,7 +603,6 @@ MonoBehaviour:
   _missionExitAreaTrigger: {fileID: 1667183466}
   _subSceneTriggers:
   - {fileID: 703513187}
-  _playerIndicatorsViewPrefabPath: UI/Gameplay/PlayerIndicatorsView
 --- !u!4 &843688258
 Transform:
   m_ObjectHideFlags: 0

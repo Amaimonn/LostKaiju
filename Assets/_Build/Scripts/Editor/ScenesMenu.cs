@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
@@ -32,3 +33,4 @@ namespace LostKaiju.Editor
         }
     }
 }
+#endif

@@ -12,6 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa747916aa66674d96ea40ca8a480b2, type: 3}
   m_Name: SettingsYG2
   m_EditorClassIdentifier: 
+  Authorization:
+    scopes: 1
+    playerPhotoSize: 1
+    authorized: 1
+    playerName: Player current
+    uniqueID: 000
+    playerPhoto: demo image
+    payingStatus: 0
+  InterstitialAdv:
+    showFirstAdv: 1
+    interAdvInterval: 60
+    postponeCallByFail: 0
+    postponeCallTimer: 10
+    labelAdvSimLabel: 0
+  Storage:
+    saveLocal: 0
+    saveCloud: 1
+    saveCloudInterval: 0
+    flush: 0
   Basic:
     platform: {fileID: 11400000, guid: c2a303d33a9fd394bae4c4b88b9a1c44, type: 2}
     autoApplySettings: 1
@@ -42,11 +61,11 @@ MonoBehaviour:
     customProgressBar: 1
     progressBarSettigs:
       round: 1
-      roundAngle: 10
+      roundAngle: 6
       width: 30
       height: 24
-      color1: {r: 0.25, g: 0.6392, b: 1, a: 1}
-      color2: {r: 1, g: 0.831, b: 0.149, a: 0.7}
+      color1: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+      color2: {r: 1, g: 1, b: 1, a: 0.7}
     fixedAspectRatio: 0
     aspectRatio: 16/9
     fillBackground: 0
@@ -61,6 +80,11 @@ MonoBehaviour:
   platformInfo:
     ownHost: 0
   platformToggles:
+    showFirstAdv: 0
+    interAdvInterval: 0
+    postponeCallByFail: 0
+    saveLocal: 0
+    saveCloud: 0
     selectWebGLTemplate: 1
     runInBackground: 1
     enableExceptions: 1

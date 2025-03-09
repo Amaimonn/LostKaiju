@@ -1,0 +1,18 @@
+{
+    "name": "EditorYG",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9785602eaf19c154a850438765fe330d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
