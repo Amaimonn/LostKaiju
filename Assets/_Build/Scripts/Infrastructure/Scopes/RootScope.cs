@@ -12,6 +12,7 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.Constants;
+using LostKaiju.Game.Providers.DefaultState;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
@@ -32,13 +33,17 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.RegisterInstance<IRootUIBinder>(uiRootBinder);
             
             builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
-            
+            // builder.Register<IDefaultStateProvider, DefaultStateSOProvider>(Lifetime.Singleton);
+            var defaultStateProvider = new DefaultStateSOProvider();
+#if UNITY_EDITOR || !YG_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
             var serizlizer = new JsonUtilitySerializer();
             var storage = new FileStorage(fileExtension: "json");
             var saveSystem = new SimpleSaveSystem(serizlizer, storage);
-            builder.RegisterInstance<ISaveSystem>(saveSystem);
-
-            var gameStateProvider = new GameStateProvider(saveSystem);
+            // builder.RegisterInstance<ISaveSystem>(saveSystem);
+            var gameStateProvider = new GameStateProvider(saveSystem, defaultStateProvider);
+#elif YG_BUILD
+            var gameStateProvider = new GameStateProviderYG(defaultStateProvider);  
+#endif
             var campaignTask =  gameStateProvider.LoadCampaignAsync();
             
             var settingsTask = gameStateProvider.LoadSettingsAsync();

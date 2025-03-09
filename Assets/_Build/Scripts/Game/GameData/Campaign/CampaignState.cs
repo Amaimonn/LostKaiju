@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using LostKaiju.Game.GameData.Campaign.Locations;
+using System.Linq;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
     [Serializable]
-    public class CampaignState : IVersioned
+    public class CampaignState : IVersioned, ICopyable<CampaignState>
     {
         public int Version { get => _version; set => _version = value; }
         [SerializeField] private int _version = 1;
@@ -18,5 +19,14 @@ namespace LostKaiju.Game.GameData.Campaign
         public string SelectedMissionId;
         public string LastLaunchedLocationId;
         public string LastLaunchedMissionId;
+
+        public CampaignState Copy()
+        {
+            var copiedLocations = Locations?.Select(x => x.Copy()).ToList();
+            var copy = (CampaignState)MemberwiseClone();
+            copy.Locations = copiedLocations;
+            
+            return copy;
+        }
     }
 }

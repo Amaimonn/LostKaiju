@@ -9,7 +9,9 @@ namespace LostKaiju.Game.Constants
         public const string OPTIONS_VIEW = "UI/Gameplay/OptionsView";
         public const string PLAYER_INDICATORS_VIEW = "UI/Gameplay/PlayerIndicatorsView";
 
-        public const string SETTINGS_DATA = "Configs/Settings/SettingsSO";
+        public const string FULL_SETTINGS_DATA_SO = "Configs/Settings/FullSettingsDataSO";
         public const string LOCATIONS_DATA = "Configs/Campaign/LocationsSO";
+
+        public const string DEFAULT_STATE_SO = "Configs/DefaultStateSO";
     }
 }

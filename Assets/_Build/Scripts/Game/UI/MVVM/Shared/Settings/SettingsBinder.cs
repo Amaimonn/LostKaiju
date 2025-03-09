@@ -28,7 +28,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             if (_currentSettingsViewModel != null) // if already exists
                 return null;
 
-            var settingsDataSO = Resources.Load<FullSettingsDataSO>(Paths.SETTINGS_DATA);
+            var settingsDataSO = Resources.Load<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
             var settingsViewPrefab = Resources.Load<SettingsView>(Paths.SETTINGS_VIEW);
             var settingsView = UnityEngine.Object.Instantiate(settingsViewPrefab);
             
