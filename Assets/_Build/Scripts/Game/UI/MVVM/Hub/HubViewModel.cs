@@ -6,6 +6,7 @@ using R3;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -34,7 +35,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             if (_isMissionsOpened)
                 return;
 
-            var campaignViewPrefab = Resources.Load<CampaignNavigationView>(Paths.CAMPAIGN_NAVIGATION_VIEW_PATH);
+            var campaignViewPrefab = Resources.Load<CampaignNavigationView>(Paths.CAMPAIGN_NAVIGATION_VIEW);
             var campaignView = UnityEngine.Object.Instantiate(campaignViewPrefab);
 
             var campaignViewModel = new CampaignNavigationViewModel(_exitToGameplaySignal);
@@ -65,7 +66,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             if (_isHeroSelectionOpened)
                 return;
             
-            var heroSelectionViewPrefab = Resources.Load<HeroSelectionView>(Paths.HERO_SELECTION_VIEW_PATH);
+            var heroSelectionViewPrefab = Resources.Load<HeroSelectionView>(Paths.HERO_SELECTION_VIEW);
             var heroSelectionView = UnityEngine.Object.Instantiate(heroSelectionViewPrefab);
 
             var heroSelectionViewModel = new HeroSelectionViewModel();

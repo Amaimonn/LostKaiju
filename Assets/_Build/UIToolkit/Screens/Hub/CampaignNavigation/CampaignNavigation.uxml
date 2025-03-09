@@ -1,5 +1,7 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/_Build/UI/Screens/Hub/Missions/MissionsStyles.uss?fileID=7433441132597879392&amp;guid=229885b05b4f10245859532e249b89bc&amp;type=3#MissionsStyles" />
+    <engine:Template name="SelectMissionButton" src="project://database/Assets/_Build/UIToolkit/Components/SelectMissionButton/SelectMissionButton.uxml?fileID=9197481963319205126&amp;guid=679d34c4e598d584abfed56114aba654&amp;type=3#SelectMissionButton" />
+    <Style src="project://database/Assets/_Build/UIToolkit/Screens/Hub/CampaignNavigation/CampaignNavigationStyles.uss?fileID=7433441132597879392&amp;guid=229885b05b4f10245859532e249b89bc&amp;type=3#CampaignNavigationStyles" />
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ButtonStyles.uss?fileID=7433441132597879392&amp;guid=e542f6a0d82cbbd4e883ca8747cf44a8&amp;type=3#ButtonStyles" />
     <engine:VisualElement name="OverlayImage" class="overlay-image" />
     <engine:VisualElement name="Wrapper" class="wrapper">
         <engine:VisualElement name="Content" class="missions-content missions-content__transitions">
@@ -12,14 +14,14 @@
                 <engine:VisualElement name="PanelBlackBackground" class="panel__black-background" />
                 <engine:VisualElement name="MissionInfoContainer" class="mission-info-container">
                     <engine:VisualElement name="MissionInfoSection" style="flex-grow: 1; margin-top: 20px;">
-                        <engine:Label text="Some mission" name="MissionInfoLabel" style="color: rgb(255, 255, 255); font-size: 32px;" />
-                        <engine:Label text="Some mission text, e.g. it&apos;s location description, useful tips, gameplay mechanics, resources information and etc." name="MissionInfoText" style="font-size: 24px; color: rgb(255, 255, 255); width: 600px; white-space: normal;" />
+                        <engine:Label name="MissionInfoLabel" style="color: rgb(255, 255, 255); font-size: 32px;" />
+                        <engine:Label name="MissionInfoText" class="mission-info__text" />
                     </engine:VisualElement>
                 </engine:VisualElement>
                 <engine:VisualElement name="Slider" class="missions-slider">
                     <engine:Button text="&lt;" name="SliderLeftButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--left" />
                     <engine:VisualElement name="MissionsGrid" class="missions-grid">
-                        <engine:Button text="1" name="SelectMissionButton" enabled="true" class="select-mission-button button-transitions-base" style="display: none;" />
+                        <engine:Instance template="SelectMissionButton" name="SelectMissionButton" style="display: none;" />
                     </engine:VisualElement>
                     <engine:Button text="&gt;" name="SliderRightButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--right" />
                 </engine:VisualElement>

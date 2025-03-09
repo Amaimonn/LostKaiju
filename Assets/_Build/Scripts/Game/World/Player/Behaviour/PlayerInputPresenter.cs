@@ -14,6 +14,7 @@ using LostKaiju.Game.World.Player.Data.StateParameters;
 using LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.World.Player.Views;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.World.Player.Behaviour
 {
@@ -211,8 +212,6 @@ namespace LostKaiju.Game.World.Player.Behaviour
                             }).AddTo(_disposables);
                     }).AddTo(_disposables);
 
-                idleState.OnExit.Take(1).Subscribe(_ => subscription.Dispose());
-                
                 animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
             });
 

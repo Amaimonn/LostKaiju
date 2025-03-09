@@ -1,5 +1,8 @@
-public static class StateKeys
+namespace LostKaiju.Game.Constants
 {
-    public const string CAMPAIGN = "Campaign";
-    public const string SETTINGS = "Settings";
+    public static class StateKeys
+    {
+        public const string CAMPAIGN = "Campaign";
+        public const string SETTINGS = "Settings";
+    }
 }

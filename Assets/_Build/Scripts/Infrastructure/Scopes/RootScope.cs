@@ -1,6 +1,6 @@
 using UnityEngine;
-using VContainer.Unity;
 using VContainer;
+using VContainer.Unity;
 
 using LostKaiju.Utils;
 using LostKaiju.Infrastructure.Loading;
@@ -11,13 +11,13 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
     public class RootScope : LifetimeScope
     {
         [SerializeField] private RootUIBinder _uiRootBinderPrefab;
-        [SerializeField] private string _settingsDataPath;
 
         protected override async void Configure(IContainerBuilder builder)
         {
@@ -59,11 +59,7 @@ namespace LostKaiju.Infrastructure.Scopes
 
             builder.Register<SettingsModel>(resolver => 
                 new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings), Lifetime.Singleton);
-            builder.Register<SettingsBinder>(resolver => {
-                var settingsBinder = new SettingsBinder(_settingsDataPath);
-                resolver.Inject(settingsBinder);
-                return settingsBinder;
-            }, Lifetime.Singleton);
+            builder.Register<SettingsBinder>(Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
             var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);

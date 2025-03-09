@@ -1,0 +1,30 @@
+.select-mission-button {
+    background-color: rgb(37, 37, 37);
+    font-size: 32px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 0;
+    border-left-color: rgb(63, 63, 63);
+    border-right-color: rgb(63, 63, 63);
+    border-top-color: rgb(63, 63, 63);
+    border-bottom-color: rgb(63, 63, 63);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    text-shadow: 0 3px 0 rgb(0, 0, 0);
+    width: 140px;
+    flex-grow: 0;
+    height: auto;
+    max-height: 64px;
+}
+
+.select-mission-button:hover {
+    scale: 1.05 1.05;
+}

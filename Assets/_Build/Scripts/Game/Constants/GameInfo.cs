@@ -1,5 +1,8 @@
-public static class GameInfo
+namespace LostKaiju.Game.Constants
 {
-    public const int ApplicationVersion = 1;
-    public const int CampaignUpdateIndex = 1;
+    public static class GameInfo
+    {
+        public const int ApplicationVersion = 1;
+        public const int CampaignUpdateIndex = 1;
+    }
 }

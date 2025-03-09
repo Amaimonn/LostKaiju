@@ -7,6 +7,7 @@ using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Services.Saves;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.Providers.GameState
 {

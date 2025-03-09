@@ -4,6 +4,7 @@ using R3;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Providers.InputState;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -30,7 +31,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
                 return null;
 
             // TODO: disable/enable input through mediator/interface
-            var optionsViewPrefab = Resources.Load<OptionsView>(Paths.OPTIONS_VIEW_PATH);
+            var optionsViewPrefab = Resources.Load<OptionsView>(Paths.OPTIONS_VIEW);
             var optionsView = UnityEngine.Object.Instantiate(optionsViewPrefab);
             _inputStateProvider.AddBlocker(optionsView);
             

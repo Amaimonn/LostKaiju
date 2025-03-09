@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.Rendering;
@@ -17,7 +18,7 @@ using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.World.Missions.Triggers;
 using LostKaiju.Game.GameData.Settings;
-using System;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -28,7 +29,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private Volume _volume;
         [SerializeField] private PlayerHeroTrigger _missionExitAreaTrigger;
         [SerializeField] private SubSceneTrigger[] _subSceneTriggers;
-        [SerializeField] private string _playerIndicatorsViewPrefabPath = "UI/Gameplay/PlayerIndicatorsView";
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
@@ -46,7 +46,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var healthModel = new HealthModel(healthState);
             var playerIndicatorsViewModel = new PlayerIndicatorsViewModel(healthModel);
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
-            var playerIndicatorsViewPrefab = Resources.Load<PlayerIndicatorsView>(_playerIndicatorsViewPrefabPath);
+            var playerIndicatorsViewPrefab = Resources.Load<PlayerIndicatorsView>(Paths.PLAYER_INDICATORS_VIEW);
             var playerIndicatorsView = Instantiate(playerIndicatorsViewPrefab);
             playerIndicatorsView.Bind(playerIndicatorsViewModel);
             rootUIBinder.AddView(playerIndicatorsView);
@@ -60,6 +60,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             playerRootPresenter.Bind(player);
             Debug.Log("player root presenter binded");
 
+            _cinemachineCamera.Follow = player.transform;
+
             var exitSignal = new Subject<Unit>();
             exitSignal.Take(1).Subscribe(_ =>
             {
@@ -69,7 +71,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var missionExitContext = new MissionExitContext(toMissionEnterContext);
             var missionExitSignal = exitSignal.Select(_ => missionExitContext); // for transition between one mission scenes
             var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
-            _cinemachineCamera.Follow = player.transform;
             // if (isMultuplayer)
             // {
             //     var groupTrigger = new GroupTriggerObserver<IPlayerHero>(_missionExitAreaTrigger);
@@ -135,13 +136,20 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             }
 
             
+            var settingsModel = Container.Resolve<SettingsModel>();
+            BindPostProcessing(settingsModel);
+
+            return missionExitSignal;
+        }
+
+        private void BindPostProcessing(SettingsModel settingsModel)
+        {
             if (_volume == null)
             {
-                Debug.LogError("No Volume found");
+                Debug.LogWarning("No Volume found");
             }
             else
             {
-                var settingsModel = Container.Resolve<SettingsModel>();
                 settingsModel.IsPostProcessingEnabled.Subscribe(x => _volume.enabled = x);
 
                 if (_volume.profile.TryGet<Bloom>(out var bloom))
@@ -149,8 +157,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 else
                     Debug.LogWarning("No Bloom in VolumeProfile found");   
             }
-            
-            return missionExitSignal;
         }
     }
 }

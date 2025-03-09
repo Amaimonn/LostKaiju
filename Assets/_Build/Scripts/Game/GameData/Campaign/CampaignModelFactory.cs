@@ -4,6 +4,7 @@ using R3;
 
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign.Locations;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
@@ -13,7 +14,7 @@ namespace LostKaiju.Game.GameData.Campaign
 
         public async Task<CampaignModel> GetModelAsync(IGameStateProvider gameStateProvider)
         {
-            var locationsDataSORequest = Resources.LoadAsync<LocationsDataSO>(Paths.LOCATIONS_DATA_PATH);
+            var locationsDataSORequest = Resources.LoadAsync<LocationsDataSO>(Paths.LOCATIONS_DATA);
             await locationsDataSORequest;
 
             var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;

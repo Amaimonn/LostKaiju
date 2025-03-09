@@ -1,3 +1,5 @@
+using LostKaiju.Game.Constants;
+
 namespace LostKaiju.Infrastructure.SceneBootstrap.Context
 {
     /// <summary>

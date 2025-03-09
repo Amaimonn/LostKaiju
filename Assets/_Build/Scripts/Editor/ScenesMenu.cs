@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
+using LostKaiju.Game.Constants;
+
 namespace LostKaiju.Editor
 {
     public static class ScenesMenu
@@ -8,19 +10,25 @@ namespace LostKaiju.Editor
         [MenuItem("Scenes/EntryPoint")]
         private static void Entry()
         {
-            EditorSceneManager.OpenScene($"Assets/_Build/Scenes/{Scenes.ENTRY_POINT}.unity");
+            OpenScene(Scenes.ENTRY_POINT);
         }
 
         [MenuItem("Scenes/MainMenu")]
         private static void MainMenu()
         {
-            EditorSceneManager.OpenScene($"Assets/_Build/Scenes/{Scenes.MAIN_MENU}.unity");
+            OpenScene(Scenes.MAIN_MENU);
         }
 
         [MenuItem("Scenes/Hub")]
         private static void Hub()
         {
-            EditorSceneManager.OpenScene($"Assets/_Build/Scenes/{Scenes.HUB}.unity");
+            OpenScene(Scenes.HUB);
+        }
+
+        private static void OpenScene(string sceneRelativePath)
+        {
+            EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+            EditorSceneManager.OpenScene($"Assets/_Build/Scenes/{sceneRelativePath}.unity");
         }
     }
 }

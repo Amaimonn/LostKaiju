@@ -1,10 +1,15 @@
-public static class Paths
+namespace LostKaiju.Game.Constants
 {
-    public const string SETTINGS_VIEW_PATH = "UI/Shared/SettingsView";
-    public const string CAMPAIGN_NAVIGATION_VIEW_PATH = "UI/Hub/CampaignNavigationView";
-    public const string HERO_SELECTION_VIEW_PATH = "UI/Hub/HeroSelectionView";
-    public const string EXIT_POPUP_VIEW_PATH = "UI/Gameplay/ExitPopUpView";
-    public const string OPTIONS_VIEW_PATH = "UI/Gameplay/OptionsView";
+    public static class Paths
+    {
+        public const string SETTINGS_VIEW = "UI/Shared/SettingsView";
+        public const string CAMPAIGN_NAVIGATION_VIEW = "UI/Hub/CampaignNavigationView";
+        public const string HERO_SELECTION_VIEW = "UI/Hub/HeroSelectionView";
+        public const string EXIT_POPUP_VIEW = "UI/Gameplay/ExitPopUpView";
+        public const string OPTIONS_VIEW = "UI/Gameplay/OptionsView";
+        public const string PLAYER_INDICATORS_VIEW = "UI/Gameplay/PlayerIndicatorsView";
 
-    public const string LOCATIONS_DATA_PATH = "Configs/Campaign/LocationsSO";
+        public const string SETTINGS_DATA = "Configs/Settings/SettingsSO";
+        public const string LOCATIONS_DATA = "Configs/Campaign/LocationsSO";
+    }
 }

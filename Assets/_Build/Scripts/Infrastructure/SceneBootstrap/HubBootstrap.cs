@@ -12,7 +12,6 @@ using LostKaiju.Game.UI.MVVM.Hub;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign;
-using LostKaiju.Game.GameData.Campaign.Locations;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {

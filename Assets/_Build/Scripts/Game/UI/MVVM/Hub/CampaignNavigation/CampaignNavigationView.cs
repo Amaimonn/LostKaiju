@@ -26,6 +26,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _buttonHoverSFX;
 
+        [Space(3f)]
+        [SerializeField] private VisualTreeAsset _selectMissionButton;
+
         private Button _startButton;
         private VisualElement _contentElement;
         private Label _selectedMissionLabel;
@@ -71,11 +74,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _startButton.RegisterCallbackOnce<ClickEvent>(StartGameplay);
             foreach (var mission in ViewModel.DisplayedMissionsData)
             {
-                var missionButton = new Button
-                {
-                    text = mission.DysplayedNumber,
-                };
-                
+                // var missionButton = new Button
+                // {
+                //     text = mission.DysplayedNumber,
+                // };
+                var missionButtonContainer = _selectMissionButton.CloneTree();
+                var missionButton = missionButtonContainer.Q<Button>();
+                missionButton.text = mission.DysplayedNumber;
+
                 if (ViewModel.AvailableMissionsMap.TryGetValue(mission.Id, out MissionModel missionModel))
                 {
                     if (missionModel.IsCompleted.Value)
@@ -92,7 +98,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 missionButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
                 missionButton.AddToClassList(_baseButtonStyleName);
                 missionButton.AddToClassList(_missionButtonStyleName);
-                _missionsGrid.Add(missionButton);
+                _missionsGrid.Add(missionButtonContainer);
             }
 
             ViewModel.SelectedLocation.Subscribe(OnLocationSelected);
