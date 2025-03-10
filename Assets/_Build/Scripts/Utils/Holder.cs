@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LostKaiju.Utils
@@ -11,14 +12,23 @@ namespace LostKaiju.Utils
         public virtual TKeyType Resolve<TKeyType>() where TKeyType : TElement
         {
             var resolveType = typeof(TKeyType);
+
             if (_items.TryGetValue(resolveType, out var item))
             {
                 return (TKeyType)item;
             }
             else
             {
-                Debug.LogError($"Can't resolve {resolveType.Name}");
-                throw new InvalidOperationException();
+                var resolvedKey = _items.Keys.FirstOrDefault(x => resolveType.IsAssignableFrom(x));
+                if (resolvedKey != null)
+                {
+                    return (TKeyType)_items[resolvedKey];
+                }
+                else
+                {
+                    Debug.LogError($"Can't resolve {resolveType.Name}");
+                    throw new InvalidOperationException();
+                }
             }
         }
 
@@ -30,6 +40,20 @@ namespace LostKaiju.Utils
                 Debug.Log($"Overriding key {registeredType.Name}");
 
             _items[registeredType] = item;
+        }
+
+        public void Register(Type type, TElement item)
+        {
+            if (!typeof(TElement).IsAssignableFrom(type))
+            {
+                Debug.LogError($"Type '{type.Name}' is not a {typeof(TElement)}.");
+                return;
+            }
+
+            if (_items.ContainsKey(type))
+                Debug.Log($"Overriding key {type.Name}");
+
+            _items[type] = item;
         }
 
         public void Remove<TKeyType>()

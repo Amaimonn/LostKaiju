@@ -1,8 +1,8 @@
 using UnityEngine;
+using R3;
 
 using LostKaiju.Utils;
 using LostKaiju.Game.World.Creatures.Features;
-using R3;
 
 namespace LostKaiju.Game.World.Creatures.Views
 {
@@ -17,5 +17,9 @@ namespace LostKaiju.Game.World.Creatures.Views
 
         protected Holder<ICreatureFeature> _features = new();
         protected Subject<Unit> _onDispose = new();
+
+        public virtual void Init()
+        {
+        }
     }
 }
