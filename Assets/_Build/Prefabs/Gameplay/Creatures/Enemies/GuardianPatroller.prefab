@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1821030922764011315}
   - component: {fileID: 3917595997164669085}
   - component: {fileID: 7452560550349761538}
+  - component: {fileID: 4289922536399385067}
   m_Layer: 7
   m_Name: GuardianEnemy
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 6208525376516424558}
   _featuresToRegister:
   - {fileID: 7452560550349761538}
+  - {fileID: 4289922536399385067}
 --- !u!114 &1821030922764011315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _creatureBinder: {fileID: 7663580123025048432}
   _groundAgent: {fileID: 3917595997164669085}
+  _playerSensor: {fileID: 3358357951802088526}
   _patrolPoints:
   - {fileID: 4415762369266893390}
   - {fileID: 9204384836057334838}
@@ -174,6 +177,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isInitialLookingToTheRight: 0
+--- !u!114 &4289922536399385067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699444421151935144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb160650626b89408c930ef7518fd54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1946725213830811832
 GameObject:
   m_ObjectHideFlags: 0

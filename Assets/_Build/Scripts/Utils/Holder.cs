@@ -42,18 +42,26 @@ namespace LostKaiju.Utils
             _items[registeredType] = item;
         }
 
-        public void Register(Type type, TElement item)
+        public void Register(Type keyType, TElement item)
         {
-            if (!typeof(TElement).IsAssignableFrom(type))
+            if (!typeof(TElement).IsAssignableFrom(keyType))
             {
-                Debug.LogError($"Type '{type.Name}' is not a {typeof(TElement)}.");
+                Debug.LogError($"Type '{keyType.Name}' is not a {typeof(TElement)}.");
                 return;
             }
 
-            if (_items.ContainsKey(type))
-                Debug.Log($"Overriding key {type.Name}");
+            var itemType = item.GetType();
 
-            _items[type] = item;
+            if (!keyType.IsAssignableFrom(itemType))
+            {
+                Debug.LogError($"Type '{itemType}' is not a {keyType.Name}.");
+                return;
+            }
+
+            if (_items.ContainsKey(keyType))
+                Debug.Log($"Overriding key {keyType.Name}");
+
+            _items[keyType] = item;
         }
 
         public void Remove<TKeyType>()
