@@ -6,7 +6,7 @@ namespace LostKaiju.Game.World.Creatures.Views
 {
     public class DynamicCreatureBinder : CreatureBinder
     {
-        [SerializeField] private Component[] _featuresToRegister;
+        [SerializeField] private MonoBehaviour[] _featuresToRegister;
 
         public override void Init()
         {

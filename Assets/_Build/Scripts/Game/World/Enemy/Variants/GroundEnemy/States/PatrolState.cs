@@ -45,6 +45,7 @@ namespace LostKaiju.Game.World.Enemy.Variants.GroundEnemy.States
         public override void UpdateLogic()
         {
             Patrol();
+            HandleTransitions();
         }
 
         private void SetFinishPatrolTime()

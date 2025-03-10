@@ -9,7 +9,6 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         public ReadOnlyReactiveProperty<bool> IsAttackReady => _isAttackReady;
         public ReadOnlyReactiveProperty<bool> IsAttackCompleted => _isAttackCompleted;
 
-        protected float _currentDuration;
         protected ReactiveProperty<bool> _isAttackReady = new(true);
         protected ReactiveProperty<bool> _isAttackCompleted = new(true);
         protected IAttacker _attacker;
@@ -36,9 +35,7 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         {
             _isAttackReady.Value = false;
             _isAttackCompleted.Value = false;
-            _currentDuration = 0;
             _attacker.Attack();
         }
-
     }
 }

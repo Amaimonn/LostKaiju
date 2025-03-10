@@ -10,7 +10,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 {
     public class TriggerAttacker: Attacker
     {
-        public Observable<Unit> OnTargetAttacked => _onTargetAttacked;
+        public override Observable<Unit> OnTargetAttacked => _onTargetAttacked;
         public override Observable<Unit> OnAttackCompleted => _onFinish;
 
         [SerializeField] private Collider2D _attackCollider;
@@ -57,7 +57,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         private void Awake()
         {
             _attackCollider.OnTriggerEnter2DAsObservable()
-                .Where(collision => _isDamagingModeActive == true && (collision.gameObject.layer & _attackableMask) != 0)
+                .Where(collision => _isDamagingModeActive == true && (1 << collision.gameObject.layer & _attackableMask) != 0)
                 .Subscribe(x => TryAttack(x.gameObject));
 
             SetDamagingModeActive(false);

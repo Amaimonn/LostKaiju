@@ -7,6 +7,7 @@ namespace LostKaiju.Game.World.Agents.Sensors
     public class OccludableSensor<T> : Sensor<T> where T : Component
     {
         [SerializeField] protected Transform _rayOrigin;
+        [SerializeField] protected Vector3 _rayOffset;
         [SerializeField] protected float _rayDistance;
         [SerializeField] protected Transform _rayDirection;
         [SerializeField] protected float _rayCooldown = 0.1f;
@@ -20,7 +21,7 @@ namespace LostKaiju.Game.World.Agents.Sensors
             _wait = new WaitForSeconds(_rayCooldown);
         }
 
-        protected override void  OnTriggerEnter2D(Collider2D collision)
+        protected override void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent<T>(out var target))
             {
@@ -28,7 +29,7 @@ namespace LostKaiju.Game.World.Agents.Sensors
             }
         }
 
-        protected override void  OnTriggerExit2D(Collider2D collision)
+        protected override void OnTriggerExit2D(Collider2D collision)
         {
             if (collision.TryGetComponent<T>(out var exitingTarget))
             {
@@ -42,31 +43,35 @@ namespace LostKaiju.Game.World.Agents.Sensors
                     }
                 }
             }
-        }    
-        
+        }
+
         protected virtual IEnumerator CheckTargetForVisibility(T target)
         {
             while (true)
             {
-                if (_detected.Value == null)
+                var currentTargetDetected = _detected.Value != null && _detected.Value.Equals(target);
+                RaycastHit2D hit = Physics2D.Raycast(_rayOrigin.position,
+                    target.transform.position - _rayOrigin.position + _rayOffset, _rayDistance, _rayMask);
+                if (hit)
                 {
-                    RaycastHit2D hit = Physics2D.Raycast(_rayOrigin.position, target.transform.position - _rayOrigin.position, _rayDistance, _rayMask);
-                    if (hit)
+                    if (hit.collider.TryGetComponent<T>(out var visible))
                     {
-                        if (hit.collider.TryGetComponent<T>(out var visible))
+                        if (visible.Equals(target))
                         {
-                            if (visible.Equals(target))
-                            {
-                                _detected.Value = visible;
-                                Debug.DrawLine(_rayOrigin.position, hit.point, Color.red, 1f);
-                            }
-                        }
-                        else
-                        {
-                            _detected.Value = null;
+                            _detected.Value = visible;
+                            Debug.DrawLine(_rayOrigin.position, hit.point, Color.red, 1f);
                         }
                     }
+                    else if (currentTargetDetected)
+                    {
+                        _detected.Value = null;
+                    }
                 }
+                else if (currentTargetDetected)
+                {
+                    _detected.Value = null;
+                }
+
                 yield return _wait;
             }
         }

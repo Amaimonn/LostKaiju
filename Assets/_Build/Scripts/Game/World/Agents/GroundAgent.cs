@@ -28,13 +28,23 @@ namespace LostKaiju.Game.World.Agents
             }
         }
 
+        public override void LookAt(Vector3 point)
+        {
+            _flipper.LookRight(point.x > transform.position.x);
+        }
+
+        public override void Stop()
+        {
+            _isStopped.Value = true;
+        }
+
         private void FixedUpdate()
         {
             if (!_isStopped.Value)
-                GoToDestination();
+                GoToTheDestinationPoint();
         }
 
-        private void GoToDestination()
+        private void GoToTheDestinationPoint()
         {
             CalculateDestinationParameters();
             if (IsWithinStopDistance)

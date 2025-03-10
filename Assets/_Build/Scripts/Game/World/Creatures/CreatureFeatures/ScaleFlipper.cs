@@ -16,11 +16,13 @@ namespace LostKaiju.Game.World.Creatures.Features
             var sign = _isInitialLookingToTheRight ? 1 : -1;
             if (isTrue)
             {
-                transform.localScale = new Vector3(sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                transform.localScale = new Vector3(sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, 
+                    transform.localScale.z);
             }
             else
             {
-                transform.localScale = new Vector3(-sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                transform.localScale = new Vector3(-sign * Mathf.Abs(transform.localScale.x), transform.localScale.y, 
+                    transform.localScale.z);
             }
         }
     }

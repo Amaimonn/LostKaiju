@@ -11,5 +11,7 @@ namespace LostKaiju.Game.World.Agents
         protected ReactiveProperty<bool> _isStopped = new(true);
         
         public abstract void SetDestination(Vector3 point);
+        public abstract void LookAt(Vector3 point);
+        public abstract void Stop();
     }
 }

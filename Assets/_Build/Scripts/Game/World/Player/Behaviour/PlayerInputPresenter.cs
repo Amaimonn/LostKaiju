@@ -22,7 +22,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
     {
         protected ICreatureBinder _creature;
         private readonly PlayerControlsData _controlsData;
-        private FiniteStateMachine _movementFSM;
+        private FiniteStateMachine _finiteStateMachine;
         private IInputProvider _inputProvider;
         private readonly IInputProvider _cachedInputProvider;
         private IGroundCheck _groundCheck;
@@ -119,20 +119,20 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 new FiniteTransition<WalkState, IdleState>(() => _inputProvider.GetHorizontal == 0) // low priority
             };
 
-            var observableTransitions = new ObservableList<IFiniteTransition>(transitions);
+            // var observableTransitions = new ObservableList<IFiniteTransition>(transitions);
 
-            _movementFSM = new FiniteStateMachine();
-            _movementFSM.AddStates(walkState, jumpState, idleState, dashState, attackState);
-            _movementFSM.AddTransitions(observableTransitions);
+            _finiteStateMachine = new FiniteStateMachine();
+            _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState, attackState);
+            _finiteStateMachine.AddTransitions(transitions);
             
-            _movementFSM.Init(typeof(IdleState));
+            _finiteStateMachine.Init(typeof(IdleState));
 
             _creature.OnDispose.Take(1).Subscribe(_ => Dispose());
         }
         
         public void UpdateLogic()
         {
-            _movementFSM.CurrentState.UpdateLogic();
+            _finiteStateMachine.CurrentState.UpdateLogic();
             _readJump = _inputProvider.GetJump;
             if (_readJump)
                 _jumpInputBufferTimer.Refresh();
@@ -146,7 +146,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         public void FixedUpdateLogic()
         {
-            _movementFSM.CurrentState.FixedUpdateLogic();
+            _finiteStateMachine.CurrentState.FixedUpdateLogic();
 
             //if (GroundCheck.IsGrounded)
                 ApplyFriction();
