@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ShootDataSO
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 10
-  <Speed>k__BackingField: 30
+  <Speed>k__BackingField: 10

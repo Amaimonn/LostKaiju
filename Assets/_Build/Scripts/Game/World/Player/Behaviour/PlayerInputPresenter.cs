@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using ObservableCollections;
 using R3;
 
 using LostKaiju.Utils;
@@ -119,8 +118,6 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 new FiniteTransition<WalkState, IdleState>(() => _inputProvider.GetHorizontal == 0) // low priority
             };
 
-            // var observableTransitions = new ObservableList<IFiniteTransition>(transitions);
-
             _finiteStateMachine = new FiniteStateMachine();
             _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState, attackState);
             _finiteStateMachine.AddTransitions(transitions);
@@ -148,8 +145,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
         {
             _finiteStateMachine.CurrentState.FixedUpdateLogic();
 
-            //if (GroundCheck.IsGrounded)
-                ApplyFriction();
+            ApplyFriction();
         }
 #endregion
 
