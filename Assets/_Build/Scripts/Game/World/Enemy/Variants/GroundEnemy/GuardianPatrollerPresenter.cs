@@ -2,15 +2,18 @@ using System;
 using UnityEngine;
 using R3;
 
+using LostKaiju.Utils;
 using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
+using LostKaiju.Game.World.Agents;
+using LostKaiju.Game.World.Agents.Sensors;
+using LostKaiju.Game.World.Enemy.Configs;
 using LostKaiju.Game.World.Enemy.Variants.GroundEnemy.StateParameters;
 using LostKaiju.Game.World.Enemy.Variants.GroundEnemy.States;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.World.Creatures.Features;
-using LostKaiju.Game.World.Agents;
-using LostKaiju.Game.World.Agents.Sensors;
-using LostKaiju.Utils;
+using LostKaiju.Game.GameData.HealthSystem;
+using LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature;
 
 namespace LostKaiju.Game.World.Enemy
 {
@@ -20,41 +23,62 @@ namespace LostKaiju.Game.World.Enemy
         [SerializeField] private GroundAgent _groundAgent;
         [SerializeField] private OccludablePlayerSensor _playerSensor;
         [SerializeField] private Transform[] _patrolPoints;
+        [SerializeField] private float _attackDelay = 0.3f;
         [SerializeField] private float _attackCooldown;
         [SerializeField] private float _attackDistance = 5;
-
-        private Timer _attackCooldownTimer;
+        [SerializeField] private EnemyHealthWorldView _healthView;
+        [SerializeField] private EnemyDefenceDataSO _defenceDataSO;
 
         private FiniteStateMachine _finiteStateMachine;
+        private ITargeter _targeter;
+        private Timer _attackDelayTimer;
+        private Timer _attackCooldownTimer;
+        private SerialDisposable _targetLossDisposable = new();
 
-        private void Awake()
+        private void Start()
         {
             _creatureBinder.Init();
+            BindMovement();
+            BindDefence();
+        }
 
-            var targeter = _creatureBinder.Features.Resolve<ITargeter>();
+        private void BindMovement()
+        {
+            _targeter = _creatureBinder.Features.Resolve<ITargeter>();
             var attacker = _creatureBinder.Features.Resolve<IAttacker>();
 
-            _playerSensor.Detected.Skip(1).Subscribe(x =>
-            {
-                if (x != null)
+            _attackDelayTimer = new Timer(_attackDelay, true);
+            _attackCooldownTimer = new Timer(_attackCooldown, true);
+
+            _playerSensor.Detected.Skip(1)
+                .Where(x => x != null)
+                .Subscribe(x =>
                 {
-                    Debug.Log(x.name);
-                    targeter.SetTarget(x.transform);
-                }
-                else
+                    if (!_targeter.IsTargeting)
+                        _attackDelayTimer.Refresh();
+                    _targeter.SetTarget(x.transform);
+                    _targetLossDisposable.Disposable = Disposable.Empty;
+                })
+                .AddTo(this);
+
+            _playerSensor.Detected.Skip(1)
+                .Where(x => x == null)
+                .Subscribe(t => 
                 {
-                    targeter.SetTarget(null);
-                }
-            });
+                    _targetLossDisposable.Disposable = Observable.Timer(TimeSpan.FromSeconds(1))
+                        .Subscribe(_ => _targeter.SetTarget(null))
+                        .AddTo(this);
+                })
+                .AddTo(this);
 
             var patrolState = new PatrolState(_groundAgent, _patrolPoints);
             patrolState.Init(new PatrolParameters());
 
-            var chaseState = new ChaseState(_groundAgent, targeter);
+            var chaseState = new ChaseState(_groundAgent, _targeter);
             chaseState.Init(_attackDistance);
 
             var attackState = new AttackState(_groundAgent, attacker);
-            _attackCooldownTimer = new Timer(_attackCooldown, true);
+            
             attackState.OnEnter.Subscribe(x =>
             {
                 _attackCooldownTimer.Refresh();
@@ -62,12 +86,13 @@ namespace LostKaiju.Game.World.Enemy
 
             var transitions = new IFiniteTransition[]
             {
-                new SameForMultipleTransition<AttackState>(() => targeter.IsTargeting == true && _attackCooldownTimer.IsCompleted,
+                new SameForMultipleTransition<AttackState>(() => _targeter.IsTargeting == true && 
+                _attackCooldownTimer.IsCompleted && _attackDelayTimer.IsCompleted,
                     new Type[]{typeof(ChaseState), typeof(PatrolState)}),
-                new FiniteTransition<AttackState, ChaseState>(() => targeter.IsTargeting == true),
-                new FiniteTransition<AttackState, PatrolState>(() => targeter.IsTargeting == false),
-                new FiniteTransition<PatrolState, ChaseState>(() => targeter.IsTargeting && !_attackCooldownTimer.IsCompleted),
-                new FiniteTransition<ChaseState, PatrolState>(() => targeter.IsTargeting == false)
+                new FiniteTransition<AttackState, ChaseState>(() => _targeter.IsTargeting == true),
+                new FiniteTransition<AttackState, PatrolState>(() => _targeter.IsTargeting == false),
+                new FiniteTransition<PatrolState, ChaseState>(() => _targeter.IsTargeting && !_attackCooldownTimer.IsCompleted),
+                new FiniteTransition<ChaseState, PatrolState>(() => _targeter.IsTargeting == false)
             };
 
             _finiteStateMachine = new FiniteStateMachine();
@@ -76,10 +101,27 @@ namespace LostKaiju.Game.World.Enemy
             _finiteStateMachine.Init(typeof(PatrolState));
         }
 
+        private void BindDefence()
+        {
+            var healthState = new HealthState(_defenceDataSO.MaxHealth);
+            var healthModel = new HealthModel(healthState);
+            var defencePresenter = new EnemyDefencePresenter(healthModel, _defenceDataSO);
+            defencePresenter.Bind(_creatureBinder);
+            defencePresenter.OnDeath.Take(1).Subscribe(_ => OnDeath());
+            var healthViewModel = new HealthViewModel(healthModel);
+            _healthView.Bind(healthViewModel);
+        }
+
+        private void OnDeath()
+        {
+            Destroy(gameObject);
+        }
+
         private void Update()
         {
             _finiteStateMachine.CurrentState.UpdateLogic();
 
+            _attackDelayTimer.Tick();
             _attackCooldownTimer.Tick();
         }
     }

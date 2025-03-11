@@ -9,8 +9,8 @@ namespace LostKaiju.Utils
     {
         public T CurrentValue => _currentValue;
         public Observable<T> OnValueSet => _onValueSet;
-        public T Max => _maxValue;
-        public T Min => _minValue;
+        public T Max { get => _maxValue; set => _maxValue = value; }
+        public T Min { get => _minValue; set => _minValue = value; }
         public bool IsFull => _currentValue.Equals(_maxValue);
         public bool IsEmpty => _currentValue.Equals(_minValue);
 
@@ -48,6 +48,5 @@ namespace LostKaiju.Utils
         {
             SetValue(_minValue);
         }
-
     }
 }

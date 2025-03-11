@@ -1,9 +1,8 @@
 using R3;
 
 using LostKaiju.Game.World.Creatures.DamageSystem;
-using LostKaiju.Game.GameData;
 
-namespace LostKaiju.Game.World.Player.Data.Indicators
+namespace LostKaiju.Game.GameData.HealthSystem
 {
     public class HealthModel : Model<HealthState>
     {
@@ -25,9 +24,21 @@ namespace LostKaiju.Game.World.Player.Data.Indicators
             _currentHealth.Skip(1).Subscribe(x => state.CurrentHealth = x);
         }
 
-        public void IncreaseHealth(int amount)
+        public void SetNewMax(int max)
         {
-            _health.Increase(amount);
+            _health.Max = max;
+            _maxHealth.Value = _health.Max;
+        }
+
+        public void SetCurrent(int current)
+        {
+            _health.SetValue(current);
+            _currentHealth.Value = _health.CurrentValue;
+        }
+
+        public void RestoreHealth(int amount)
+        {
+            _health.Restore(amount);
             _currentHealth.Value = _health.CurrentValue;
         }
 

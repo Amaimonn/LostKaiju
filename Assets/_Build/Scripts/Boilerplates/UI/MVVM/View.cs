@@ -17,7 +17,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         }
     }
 
-    public abstract class View<T> : View where T : IViewModel
+    public abstract class View<T> : View, IView<T> where T : IViewModel
     {
         protected T ViewModel { get; private set; }
 

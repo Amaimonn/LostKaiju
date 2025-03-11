@@ -25,11 +25,14 @@ namespace LostKaiju.Game.World.Enemy.Variants.GroundEnemy.States
             if (_targeter.IsTargeting)
             {
                 var targetPosition = _targeter.GetTargetPosition();
-                var distanceX = Mathf.Abs(targetPosition.x - _agent.transform.position.x);
-                if (distanceX > _stopDistance)
+                var distance = Vector3.Distance(targetPosition, _agent.transform.position);
+                if (distance > _stopDistance)
                     _agent.SetDestination(targetPosition);
                 else
+                {
+                    _agent.Stop();
                     _agent.LookAt(targetPosition);
+                }
                     
             }
             HandleTransitions();

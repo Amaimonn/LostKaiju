@@ -3,9 +3,10 @@ using R3;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.HealthSystem;
 
-namespace LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature
+
+namespace LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature
 {
-    public class PlayerIndicatorsViewModel : IViewModel
+    public class HealthViewModel : IViewModel
     {
         public Observable<int> MaxHealth => _maxHealth;
         public Observable<int> CurrentHealth => _currentHealth;
@@ -16,7 +17,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature
         private readonly ReactiveProperty<float> _healthFillAmount = new();
         private readonly HealthModel _healthModel;
 
-        public PlayerIndicatorsViewModel(HealthModel healthModel)
+        public HealthViewModel(HealthModel healthModel)
         {
             _healthModel = healthModel;
             _healthModel.MaxHealth.Subscribe(OnMaxHealthSet);

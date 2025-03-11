@@ -2,20 +2,19 @@ using R3;
 
 using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.World.Creatures.Views;
-using LostKaiju.Game.World.Player.Data;
 using LostKaiju.Game.GameData.HealthSystem;
+using LostKaiju.Game.World.Enemy.Configs;
 
-namespace LostKaiju.Game.World.Player.Behaviour
+namespace LostKaiju.Game.World.Enemy
 {
-    public class PlayerDefencePresenter : IPlayerDefencePresenter
+    public class EnemyDefencePresenter : IEnemyDefencePresenter
     {
-        
         public Observable<Unit> OnDeath => _onDeath;
         private readonly HealthModel _healthModel;
         private IDamageReceiver _damageReceiver;
         private readonly Subject<Unit> _onDeath = new();
 
-        public PlayerDefencePresenter(HealthModel healthModel, PlayerDefenceData playerDefenceData)
+        public EnemyDefencePresenter(HealthModel healthModel, IEnemyDefenceData enemyDefenceData)
         {
             _healthModel = healthModel;
             _healthModel.CurrentHealth.Where(x => x == 0)

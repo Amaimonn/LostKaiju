@@ -19,7 +19,7 @@ namespace LostKaiju.Game.World.Creatures.DamageSystem
         {
         }
 
-        public void Increase(int amount)
+        public void Restore(int amount)
         {
             SetValue(CurrentValue + amount);
         }

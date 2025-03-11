@@ -6,19 +6,19 @@ using UnityEngine.Rendering.Universal;
 using VContainer;
 using R3;
 
+using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
 using LostKaiju.Game.World.Player;
 using LostKaiju.Game.World.Player.Behaviour;
 using LostKaiju.Game.World.Player.Data.Configs;
-using LostKaiju.Game.World.Player.Data.Indicators;
-using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Services.Inputs;
 using LostKaiju.Game.Providers.InputState;
-using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.World.Missions.Triggers;
 using LostKaiju.Game.GameData.Settings;
+using LostKaiju.Game.GameData.HealthSystem;
 using LostKaiju.Game.Constants;
+using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Services.Inputs;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {

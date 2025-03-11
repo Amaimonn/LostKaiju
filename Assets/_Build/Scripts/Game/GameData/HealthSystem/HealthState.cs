@@ -1,4 +1,4 @@
-namespace LostKaiju.Game.World.Player.Data.Indicators
+namespace LostKaiju.Game.GameData.HealthSystem
 {
     public class HealthState
     {
