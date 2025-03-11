@@ -646,7 +646,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -4, y: 0}
+  m_Offset: {x: -3, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -656,7 +656,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10, y: 4}
+  m_Size: {x: 12, y: 4}
   m_EdgeRadius: 0
 --- !u!114 &3358357951802088526
 MonoBehaviour:
@@ -672,7 +672,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parameters:
     <RayOrigin>k__BackingField: {fileID: 101229786004138155}
-    <RayDirection>k__BackingField: {fileID: 4580982320866120213}
     <RayOffset>k__BackingField: {x: 0, y: 1, z: 0}
     <RandomOffset>k__BackingField: {x: 0, y: 0.5, z: 0}
     <RayDistance>k__BackingField: 15

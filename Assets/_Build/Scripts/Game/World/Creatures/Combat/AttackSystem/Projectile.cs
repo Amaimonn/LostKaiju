@@ -21,7 +21,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 
         public Projectile WithDestination(Vector3 targetPosition)
         {
-            _direction = (targetPosition - transform.position).normalized;
+            _direction = Vector3.Normalize((Vector2)(targetPosition - transform.position));
             return this;
         }
 
@@ -34,9 +34,9 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         public void Shoot()
         {
             var angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-            
-            _rigidbody.AddForce(_speed * _direction, ForceMode2D.Impulse);
+
+            _rigidbody.SetRotation(angle);
+            _rigidbody.linearVelocity = _direction * _speed;
         }
     }
 }
