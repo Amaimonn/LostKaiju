@@ -670,14 +670,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32fce42b67e615d44962065ea70c0680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rayOrigin: {fileID: 101229786004138155}
-  _rayOffset: {x: 0, y: 0, z: 0}
-  _rayDistance: 10
-  _rayDirection: {fileID: 4580982320866120213}
-  _rayCooldown: 0.2
-  _rayMask:
-    serializedVersion: 2
-    m_Bits: 320
+  _parameters:
+    <RayOrigin>k__BackingField: {fileID: 101229786004138155}
+    <RayDirection>k__BackingField: {fileID: 4580982320866120213}
+    <RayOffset>k__BackingField: {x: 0, y: 1, z: 0}
+    <RandomOffset>k__BackingField: {x: 0, y: 0.5, z: 0}
+    <RayDistance>k__BackingField: 15
+    <RayCooldown>k__BackingField: 0.3
+    <RayMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 320
 --- !u!1 &8546916067148935463
 GameObject:
   m_ObjectHideFlags: 0

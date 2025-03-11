@@ -1,78 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using R3;
 
 namespace LostKaiju.Game.World.Agents.Sensors
 {
-    public class OccludableSensor<T> : Sensor<T> where T : Component
+    public abstract class OccludableSensor<T> : Searcher<T>, ISensor<T> where T : Component
     {
-        [SerializeField] protected Transform _rayOrigin;
-        [SerializeField] protected Vector3 _rayOffset;
-        [SerializeField] protected float _rayDistance;
-        [SerializeField] protected Transform _rayDirection;
-        [SerializeField] protected float _rayCooldown = 0.1f;
-        [SerializeField] protected LayerMask _rayMask;
+        public Observable<T> Detected => _detected;
+        protected ReactiveProperty<T> _detected = new();
 
-        protected Dictionary<T, Coroutine> _searchCoroutines = new();
-        protected WaitForSeconds _wait;
-
-        protected void Awake()
+        protected override void OnTargetFound(T target)
         {
-            _wait = new WaitForSeconds(_rayCooldown);
+            _detected.Value = target;
         }
 
-        protected override void OnTriggerEnter2D(Collider2D collision)
+        protected override void OnTargetLost(T target)
         {
-            if (collision.TryGetComponent<T>(out var target))
+            if (_detected.Value != null && _detected.Value.Equals(target))
             {
-                _searchCoroutines.Add(target, StartCoroutine(CheckTargetForVisibility(target)));
-            }
-        }
-
-        protected override void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent<T>(out var exitingTarget))
-            {
-                if (_searchCoroutines.ContainsKey(exitingTarget))
-                {
-                    StopCoroutine(_searchCoroutines[exitingTarget]);
-                    _searchCoroutines.Remove(exitingTarget);
-                    if (_detected.Value != null && _detected.Value.Equals(exitingTarget))
-                    {
-                        _detected.Value = null;
-                    }
-                }
-            }
-        }
-
-        protected virtual IEnumerator CheckTargetForVisibility(T target)
-        {
-            while (true)
-            {
-                var currentTargetDetected = _detected.Value != null && _detected.Value.Equals(target);
-                RaycastHit2D hit = Physics2D.Raycast(_rayOrigin.position,
-                    target.transform.position - _rayOrigin.position + _rayOffset, _rayDistance, _rayMask);
-                if (hit)
-                {
-                    if (hit.collider.TryGetComponent<T>(out var visible))
-                    {
-                        if (visible.Equals(target))
-                        {
-                            _detected.Value = visible;
-                            Debug.DrawLine(_rayOrigin.position, hit.point, Color.red, 1f);
-                        }
-                    }
-                    else if (currentTargetDetected)
-                    {
-                        _detected.Value = null;
-                    }
-                }
-                else if (currentTargetDetected)
-                {
-                    _detected.Value = null;
-                }
-
-                yield return _wait;
+                _detected.Value = null;
             }
         }
     }

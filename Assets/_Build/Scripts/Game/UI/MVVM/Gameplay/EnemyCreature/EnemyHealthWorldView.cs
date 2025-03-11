@@ -17,9 +17,17 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature
         public void Bind(HealthViewModel viewModel)
         {
             _viewModel = viewModel;
+            _viewModel.HealthFillAmount.Skip(1).Take(1).Subscribe(x =>
+            {
+                InitUI();
+                _viewModel.HealthFillAmount.DelayFrame(2).Subscribe(OnFillAmountChanged);
+            });
+        }
+
+        private void InitUI()
+        {
             _worldUI.Init();
             _mask = _worldUI.Root.Q<VisualElement>(_maskElementName);
-            _viewModel.HealthFillAmount.Subscribe(OnFillAmountChanged);
         }
 
         private void OnFillAmountChanged(float newAmount)
