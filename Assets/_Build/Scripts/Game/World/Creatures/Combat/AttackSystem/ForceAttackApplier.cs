@@ -1,12 +1,12 @@
-using LostKaiju.Game.World.Creatures.DamageSystem;
 using UnityEngine;
 
 namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 {
+    [System.Serializable]
     public class ForceAttackApplier : IAttackApplier
     {
-        private Transform _forceOrigin;
-        private float _strength;
+        [SerializeField] private Transform _forceOrigin;
+        [SerializeField] private float _strength;
 
         public ForceAttackApplier(Transform forceOrigin, float strength)
         {
@@ -16,11 +16,8 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 
         public void ApplyAttack(GameObject target)
         {
-            if (target.TryGetComponent<Rigidbody>(out var rigidbody))
-            {
-                var forceDirection = target.transform.position - _forceOrigin.position;
-                rigidbody.AddForce(forceDirection * _strength, ForceMode.Impulse);
-            }
+            if (target.TryGetComponent<IForceable>(out var forceable))
+                forceable.Force(_forceOrigin.position, _strength);
         }
     }
 }

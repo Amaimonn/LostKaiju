@@ -10,10 +10,11 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private float _speed;
+        [SerializeField] private ParticleSystem _hitParticles;
 
-        private Vector3 _direction;
+        private Vector2 _direction;
 
-        public Projectile WithDirection(Vector3 direction)
+        public Projectile WithDirection(Vector2 direction)
         {
             _direction = direction.normalized;
             return this;
@@ -21,7 +22,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 
         public Projectile WithDestination(Vector3 targetPosition)
         {
-            _direction = Vector3.Normalize((Vector2)(targetPosition - transform.position));
+            _direction = ((Vector2)(targetPosition - transform.position)).normalized;
             return this;
         }
 
@@ -37,6 +38,11 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 
             _rigidbody.SetRotation(angle);
             _rigidbody.linearVelocity = _direction * _speed;
+        }
+
+        public void PlaySparks()
+        {
+            Instantiate(_hitParticles, transform.position, Quaternion.identity);
         }
     }
 }

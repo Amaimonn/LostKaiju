@@ -10,17 +10,21 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 {
     public class TriggerAttacker: Attacker
     {
-        public override Observable<Unit> OnTargetAttacked => _onTargetAttacked;
+        public override Observable<GameObject> OnTargetAttacked => _onTargetAttacked;
+        public override Observable<Vector2> OnHitPositionSent => _onHitPositionSent;
         public override Observable<Unit> OnAttackCompleted => _onFinish;
+
 
         [SerializeField] private Collider2D _attackCollider;
         [SerializeField] private GameObject _attackGameObject;
         [SerializeField] private LayerMask _attackableMask;
         [SerializeField] private AttackProvider _attackProvider;
+        [SerializeField] private ForceAttackApplier _forceAttackApplier;
 
         private IAttackPathProcessor _attackPathProcessor = new SingleAttackPathProcessor(); // test
         private IAttackApplier _attackApplier;
-        private readonly Subject<Unit> _onTargetAttacked = new();
+        private readonly Subject<GameObject> _onTargetAttacked = new();
+        private readonly Subject<Vector2> _onHitPositionSent = new();
         private readonly Subject<Unit> _onFinish = new();
         private bool _isDamagingModeActive;
 
@@ -58,7 +62,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         {
             _attackCollider.OnTriggerEnter2DAsObservable()
                 .Where(collision => _isDamagingModeActive == true && (1 << collision.gameObject.layer & _attackableMask) != 0)
-                .Subscribe(x => TryAttack(x.gameObject));
+                .Subscribe(x => TryAttack(x));
 
             SetDamagingModeActive(false);
 
@@ -76,13 +80,15 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
             _attackGameObject.SetActive(isActive);
         }
 
-        private void TryAttack(GameObject target)
+        private void TryAttack(Collider2D collider)
         {
-            if (target.TryGetComponent(out IDamageable damageable))
+            if (collider.gameObject.TryGetComponent(out IDamageable damageable))
             {
-                _onTargetAttacked.OnNext(Unit.Default);
+                _onTargetAttacked.OnNext(collider.gameObject);
+                _onHitPositionSent.OnNext(collider.ClosestPoint(_attackGameObject.transform.position));
                 damageable.TakeDamage(10);
-                _attackApplier?.ApplyAttack(target);
+                _attackApplier?.ApplyAttack(collider.gameObject);
+                _forceAttackApplier.ApplyAttack(collider.gameObject);
             }
         }
     }

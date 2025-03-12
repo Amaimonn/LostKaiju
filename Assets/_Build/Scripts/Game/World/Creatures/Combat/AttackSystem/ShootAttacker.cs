@@ -9,7 +9,8 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 {
     public class ShootAttacker: Attacker
     {
-        public override Observable<Unit> OnTargetAttacked => _onTargetAttacked;
+        public override Observable<GameObject> OnTargetAttacked => _onTargetAttacked;
+        public override Observable<Vector2> OnHitPositionSent => _onHitPositionSent;
         public override Observable<Unit> OnAttackCompleted => _onFinish;
 
         [SerializeField] private Targeter _targeter;
@@ -18,7 +19,8 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         [SerializeField] private ShootDataSO _shootData;
 
         private IAttackApplier _attackApplier;
-        private readonly Subject<Unit> _onTargetAttacked = new();
+        private readonly Subject<GameObject> _onTargetAttacked = new();
+        private readonly Subject<Vector2> _onHitPositionSent = new();
         private readonly Subject<Unit> _onFinish = new();
 
 #region Attacker
@@ -31,9 +33,10 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
                 
                 var projectile = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
                 projectile.Collider.OnTriggerEnter2DAsObservable()
-                    .Where(collision => (1 << collision.gameObject.layer & _attackableMask) != 0)
+                    .Where(collision => ((1 << collision.gameObject.layer) & _attackableMask) != 0)
                     .Subscribe(x => {
-                        TryAttack(x.gameObject);
+                        TryAttackWithProjectile(x.gameObject, projectile);
+                        projectile.PlaySparks();
                         Destroy(projectile.gameObject);
                     });
                     
@@ -44,11 +47,12 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         }
 #endregion
 
-        private void TryAttack(GameObject target)
+        private void TryAttackWithProjectile(GameObject target, Projectile projectile)
         {
             if (target.TryGetComponent(out IDamageable damageable))
             {
-                _onTargetAttacked.OnNext(Unit.Default);
+                _onTargetAttacked.OnNext(target);
+                _onHitPositionSent.OnNext(projectile.transform.position);
                 damageable.TakeDamage(_shootData.Damage);
                 _attackApplier?.ApplyAttack(target);
             }

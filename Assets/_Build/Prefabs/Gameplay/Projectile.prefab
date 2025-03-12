@@ -50,6 +50,7 @@ MonoBehaviour:
   _collider: {fileID: 5265378571345504062}
   _rigidbody: {fileID: 2634641748447202463}
   _speed: 0
+  _hitParticles: {fileID: 4769716970317659923, guid: ea090fd50b0d91345aa3bdb01e1c5812, type: 3}
 --- !u!212 &5177992984001776918
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +94,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1480751013
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 8931372472081413355, guid: c6d3fa819da4c5c4ea2fcc450c03c321, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

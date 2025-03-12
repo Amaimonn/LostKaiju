@@ -57,6 +57,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var attacker = features.Resolve<IAttacker>();
             _playerJuicySystem = features.Resolve<PlayerJuicySystem>();
 
+            attacker.OnHitPositionSent.Subscribe(x => _playerJuicySystem.PlayHit(x));
+
             // idle state
             var idleState = new IdleState();
 

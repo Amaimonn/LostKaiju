@@ -307,11 +307,9 @@ MonoBehaviour:
   _patrolPoints:
   - {fileID: 4415762369266893390}
   - {fileID: 9204384836057334838}
-  _attackDelay: 0.5
-  _attackCooldown: 1.5
-  _attackDistance: 15
+  _attackData: {fileID: 11400000, guid: 934eae32a075ea348ba1baadbf1a1412, type: 2}
+  _defenceData: {fileID: 11400000, guid: f71f0ceba3eef76439473f7d1942c873, type: 2}
   _healthView: {fileID: 1457715295272081568}
-  _defenceDataSO: {fileID: 11400000, guid: f71f0ceba3eef76439473f7d1942c873, type: 2}
 --- !u!114 &3917595997164669085
 MonoBehaviour:
   m_ObjectHideFlags: 0
