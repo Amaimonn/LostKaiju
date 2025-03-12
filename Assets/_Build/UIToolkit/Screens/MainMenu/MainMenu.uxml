@@ -8,9 +8,9 @@
         <engine:VisualElement name="Menu" style="align-self: center; height: 100%;">
             <engine:Label text="LOST&#10;KAIJU" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" />
             <engine:VisualElement name="ButtonsContainer" class="buttons-container">
-                <engine:Button text="PLAY" name="PlayButton" enable-rich-text="false" emoji-fallback-support="false" class="menu-button" />
-                <engine:Button text="SETTINGS" name="SettingsButton" enable-rich-text="false" emoji-fallback-support="false" class="menu-button" />
-                <engine:Button text="EXIT" name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" class="menu-button" />
+                <engine:Button text="PLAY" name="PlayButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" />
+                <engine:Button text="SETTINGS" name="SettingsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" />
+                <engine:Button text="EXIT" name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" />
             </engine:VisualElement>
         </engine:VisualElement>
     </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
