@@ -47,6 +47,10 @@ namespace LostKaiju.Game.World.Enemy
             _creature = creature;
             _targeter = _creature.Features.Resolve<ITargeter>();
             var attacker = _creature.Features.Resolve<IAttacker>();
+            var pusher = _creature.Features.Resolve<IPusher>();
+
+            pusher.OnPushed.Subscribe(_ => _attackDelayTimer.Refresh())
+                .AddTo(_disposables);
 
             _attackDelayTimer = new Timer(_attackData.AttackDelay, true);
             _attackCooldownTimer = new Timer(_attackData.AttackCooldown, true);

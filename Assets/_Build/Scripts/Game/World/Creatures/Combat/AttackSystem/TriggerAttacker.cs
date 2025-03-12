@@ -14,12 +14,11 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         public override Observable<Vector2> OnHitPositionSent => _onHitPositionSent;
         public override Observable<Unit> OnAttackCompleted => _onFinish;
 
-
         [SerializeField] private Collider2D _attackCollider;
         [SerializeField] private GameObject _attackGameObject;
         [SerializeField] private LayerMask _attackableMask;
         [SerializeField] private AttackProvider _attackProvider;
-        [SerializeField] private ForceAttackApplier _forceAttackApplier;
+        [SerializeField] private AttackForceApplier _forceAttackApplier;
 
         private IAttackPathProcessor _attackPathProcessor = new SingleAttackPathProcessor(); // test
         private IAttackApplier _attackApplier;
@@ -87,8 +86,8 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
                 _onTargetAttacked.OnNext(collider.gameObject);
                 _onHitPositionSent.OnNext(collider.ClosestPoint(_attackGameObject.transform.position));
                 damageable.TakeDamage(10);
+                _forceAttackApplier?.TryApplyForce(collider.gameObject);
                 _attackApplier?.ApplyAttack(collider.gameObject);
-                _forceAttackApplier.ApplyAttack(collider.gameObject);
             }
         }
     }

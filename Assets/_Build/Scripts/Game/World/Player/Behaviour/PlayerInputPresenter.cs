@@ -26,7 +26,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
         private readonly IInputProvider _cachedInputProvider;
         private IGroundCheck _groundCheck;
         private PlayerJuicySystem _playerJuicySystem;
-        private readonly List<Timer> _cooldownTimers = new(2);
+        private readonly List<Timer> _cooldownTimers = new(3);
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
         private readonly CompositeDisposable _disposables = new();
@@ -96,14 +96,16 @@ namespace LostKaiju.Game.World.Player.Behaviour
             // attack state
             // var attackParameters = _controlsData.Attack;
             var attackState = new AttackState(attacker);
-
+            var attackCooldownTimer = new Timer(_controlsData.Attack.Cooldown, true);
+            _cooldownTimers.Add(attackCooldownTimer);
+            attackState.IsAttackCompleted.Where(x => x == true).Subscribe(_ => attackCooldownTimer.Refresh());
 
             BindAnimations(idleState, walkState, jumpState, attackState);
 
             var transitions = new IFiniteTransition[]
             {
                 new SameForMultipleTransition<AttackState>(
-                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue, 
+                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue && attackCooldownTimer.IsCompleted, 
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
                 new FiniteTransition<AttackState, IdleState>(() => true),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
@@ -215,7 +217,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
             idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
             attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer));
-            attackState.IsAttackCompleted.Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer));
+            attackState.IsAttackCompleted.Where(x => x == true)
+                .Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer));
         }
 
         private void ApplyFriction()

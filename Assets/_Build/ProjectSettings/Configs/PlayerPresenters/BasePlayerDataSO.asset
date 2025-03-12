@@ -24,6 +24,8 @@ MonoBehaviour:
       <CoyotteTime>k__BackingField: 0.1
       <Cooldown>k__BackingField: 0.2
       <InputTimeBufferSize>k__BackingField: 0.1
+    <Attack>k__BackingField:
+      <Cooldown>k__BackingField: 0.1
   <PlayerDefenceData>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <Defence>k__BackingField: 0

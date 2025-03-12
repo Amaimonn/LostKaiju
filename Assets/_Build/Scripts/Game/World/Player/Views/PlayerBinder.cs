@@ -14,6 +14,7 @@ namespace LostKaiju.Game.World.Player.Views
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private DamageReceiver _damageReceiver;
         [SerializeField] private Attacker _attacker;
+        [SerializeField] private Pusher _pusher;
         [SerializeField] private PlayerJuicySystem _playerJuicySystem;
 
         protected IUpdatablePresenter _updatablePresenter;
@@ -31,6 +32,7 @@ namespace LostKaiju.Game.World.Player.Views
             _features.Register<IGroundCheck>(_groundCheck);
             _features.Register<IDamageReceiver>(_damageReceiver);
             _features.Register<ICreatureUpdater>(this);
+            _features.Register<IPusher>(_pusher);
             _features.Register<IAttacker>(_attacker);
             _features.Register<PlayerJuicySystem>(_playerJuicySystem);
             Debug.Log("Player features registered");

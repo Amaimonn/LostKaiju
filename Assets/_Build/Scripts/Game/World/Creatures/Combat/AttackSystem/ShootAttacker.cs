@@ -17,6 +17,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         [SerializeField] private Projectile _projectilePrefab;
         [SerializeField] private LayerMask _attackableMask;
         [SerializeField] private ShootDataSO _shootData;
+        [SerializeField] private AttackForceApplier _forceAttackApplier;
 
         private IAttackApplier _attackApplier;
         private readonly Subject<GameObject> _onTargetAttacked = new();
@@ -52,8 +53,10 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
             if (target.TryGetComponent(out IDamageable damageable))
             {
                 _onTargetAttacked.OnNext(target);
-                _onHitPositionSent.OnNext(projectile.transform.position);
+                var projectilePosition = projectile.transform.position;
+                _onHitPositionSent.OnNext(projectilePosition);
                 damageable.TakeDamage(_shootData.Damage);
+                _forceAttackApplier?.TryApplyForceFromOrigin(target, projectilePosition);
                 _attackApplier?.ApplyAttack(target);
             }
         }

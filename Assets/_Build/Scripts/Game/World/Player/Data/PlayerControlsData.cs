@@ -10,5 +10,6 @@ namespace LostKaiju.Game.World.Player.Data
     {
         [field: SerializeField] public WalkParameters Walk { get; private set; }
         [field: SerializeField] public JumpParameters Jump { get; private set; }
+        [field: SerializeField] public AttackParameters Attack { get; private set; }
     }
 }

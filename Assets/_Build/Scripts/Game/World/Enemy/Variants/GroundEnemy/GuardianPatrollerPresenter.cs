@@ -7,11 +7,11 @@ using LostKaiju.Game.World.Enemy.Configs;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.GameData.HealthSystem;
 using LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature;
-using LostKaiju.Game.World.Creatures.Combat.AttackSystem;
+using LostKaiju.Game.World.Creatures.Features;
 
 namespace LostKaiju.Game.World.Enemy
 {
-    public class GuardianPatrollerPresenter : MonoBehaviour, IForceable
+    public class GuardianPatrollerPresenter : MonoBehaviour
     {
         [SerializeField] private CreatureBinder _creatureBinder;
         [SerializeField] private GroundAgent _groundAgent;
@@ -23,15 +23,6 @@ namespace LostKaiju.Game.World.Enemy
 
         private PatrollerAIPresenter _patrollerAIPresenter;
 
-#region IForceable
-        public void Force(Vector2 origin, float force)
-        {
-            var directionVector = (Vector2)_creatureBinder.transform.position - origin;
-            if (directionVector.y < 0)
-                directionVector.y = 0;
-            _creatureBinder.Rigidbody.AddForce(force * directionVector.normalized, ForceMode2D.Impulse);
-        }
-#endregion
         private void Start()
         {
             _creatureBinder.Init();
@@ -41,7 +32,7 @@ namespace LostKaiju.Game.World.Enemy
 
         private void BindAI()
         {
-            _patrollerAIPresenter = new PatrollerAIPresenter(_attackData,  _groundAgent, _playerSensor, _patrolPoints);
+            _patrollerAIPresenter = new PatrollerAIPresenter(_attackData, _groundAgent, _playerSensor, _patrolPoints);
             _patrollerAIPresenter.Bind(_creatureBinder);
         }
 

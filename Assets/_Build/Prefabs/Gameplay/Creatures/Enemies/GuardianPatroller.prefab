@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &410621312324084234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 639984424279127826}
+  m_Layer: 7
+  m_Name: Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &639984424279127826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410621312324084234}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4091463331046391811}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1347896059142117013
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +204,7 @@ GameObject:
   - component: {fileID: 3917595997164669085}
   - component: {fileID: 4289922536399385067}
   - component: {fileID: 3381175065213165697}
+  - component: {fileID: 3279490609505557692}
   m_Layer: 7
   m_Name: GuardianEnemy
   m_TagString: Untagged
@@ -193,6 +225,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 639984424279127826}
   - {fileID: 4662693427807585469}
   - {fileID: 5587517119649064700}
   m_Father: {fileID: 2737754288585042003}
@@ -289,6 +322,7 @@ MonoBehaviour:
   - {fileID: 4289922536399385067}
   - {fileID: 7972356892482112332}
   - {fileID: 3381175065213165697}
+  - {fileID: 3279490609505557692}
 --- !u!114 &1821030922764011315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +384,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce1f99a9c8d26b49a4f90cf4249f5d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3279490609505557692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699444421151935144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c7fa5861269d094a9246f63f96c7dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ownOrigin: {fileID: 639984424279127826}
+  _rigidbody: {fileID: 1875524967820815672}
 --- !u!1 &1946725213830811832
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +623,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   _shootData: {fileID: 11400000, guid: 02c0befab3ab39d4aa1cd96e7cf4f85a, type: 2}
+  _forceAttackApplier:
+    _forceOrigin: {fileID: 639984424279127826}
+    _data: {fileID: 11400000, guid: 1399774507f6dd84e9bccb030e2109dd, type: 2}
 --- !u!1 &6660734186707292784
 GameObject:
   m_ObjectHideFlags: 0

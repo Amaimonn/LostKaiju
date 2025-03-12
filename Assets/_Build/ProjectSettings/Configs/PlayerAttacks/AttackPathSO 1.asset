@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ce398488bdb1d4c9f4e3ff7556d046, type: 3}
   m_Name: AttackPathSO 1
   m_EditorClassIdentifier: 
-  _duration: 0.16
+  _duration: 0.2
   _xScaleCurve:
     serializedVersion: 2
     m_Curve:
@@ -26,14 +26,14 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.31998903
-      value: 1.9103775
-      inSlope: 0
-      outSlope: 0
+      time: 0.15027687
+      value: 1.8868798
+      inSlope: 1.5603316
+      outSlope: 1.5603316
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
