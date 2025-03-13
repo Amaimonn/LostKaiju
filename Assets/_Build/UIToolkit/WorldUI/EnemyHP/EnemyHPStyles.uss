@@ -4,6 +4,29 @@
     height: 100%;
 }
 
+.shadow {
+    flex-grow: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=fc64cdcd4fddeb04da8363b1473dae46&type=3#hp_bar");
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.78);
+    left: 4px;
+    top: 3px;
+}
+
+.background {
+    flex-grow: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=fc64cdcd4fddeb04da8363b1473dae46&type=3#hp_bar");
+    padding-top: 6px;
+    padding-right: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+}
+
 .inner {
     flex-grow: 1;
     border-top-left-radius: 3px;
@@ -11,34 +34,56 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     overflow: hidden;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=fc64cdcd4fddeb04da8363b1473dae46&type=3#hp_bar");
+    padding-top: 14px;
+    padding-right: 3%;
+    padding-bottom: 14px;
+    padding-left: 2%;
+    flex-direction: column-reverse;
+    justify-content: center;
+}
+
+.mask-container {
+    width: 100%;
+    height: 100%;
 }
 
 .mask {
     flex-grow: 0;
     overflow: hidden;
-    transition-property: width;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out-bounce;
-    height: 100%;
+    position: absolute;
+    flex-shrink: 0;
     width: 100%;
+    height: 100%;
 }
 
 .fill {
     flex-grow: 0;
-    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=c9ac64857ffdb7c41ac47aa7e5a75bea&type=3#hp_bar");
+    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=fc64cdcd4fddeb04da8363b1473dae46&type=3#hp_bar");
     width: 100%;
     position: absolute;
     height: 100%;
     overflow: hidden;
 }
 
-.shadow {
+.mask-late {
     flex-grow: 0;
+    overflow: hidden;
+    position: absolute;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    transition-property: width;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+
+.fill-late {
     width: 100%;
     height: 100%;
     position: absolute;
-    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=c9ac64857ffdb7c41ac47aa7e5a75bea&type=3#hp_bar");
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.78);
-    left: 4px;
-    top: 3px;
+    flex-grow: 0;
+    background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&guid=fc64cdcd4fddeb04da8363b1473dae46&type=3#hp_bar");
+    -unity-background-image-tint-color: rgb(173, 173, 173);
 }

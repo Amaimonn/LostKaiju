@@ -2,10 +2,19 @@
     <Style src="project://database/Assets/_Build/UIToolkit/WorldUI/EnemyHP/EnemyHPStyles.uss?fileID=7433441132597879392&amp;guid=3a741a07a45521040a2b8513ce952928&amp;type=3#EnemyHPStyles" />
     <engine:VisualElement name="HealthBar" class="health-bar">
         <engine:VisualElement name="HealthBarShadow" class="shadow" />
-        <engine:VisualElement name="HealthBarBackground" style="flex-grow: 0; width: 100%; height: 100%; position: absolute; background-image: url(&quot;project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&amp;guid=c9ac64857ffdb7c41ac47aa7e5a75bea&amp;type=3#hp_bar&quot;); padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;">
-            <engine:VisualElement name="Inner" class="inner" style="-unity-background-image-tint-color: rgb(0, 0, 0); background-image: url(&quot;project://database/Assets/_Build/Art/Images/Gameplay/Sprites/hp_bar.png?fileID=2800000&amp;guid=c9ac64857ffdb7c41ac47aa7e5a75bea&amp;type=3#hp_bar&quot;); padding-top: 7px; padding-right: 3%; padding-bottom: 7px; padding-left: 1.5%; flex-direction: column-reverse; justify-content: center;">
-                <engine:VisualElement name="Mask" class="mask">
-                    <engine:VisualElement name="Fill" class="fill" />
+        <engine:VisualElement name="HealthBarBackground" class="background">
+            <engine:VisualElement name="Inner" class="inner">
+                <engine:VisualElement name="MaskContainer" class="mask-container">
+                    <engine:VisualElement name="MaskLate" class="mask-late">
+                        <LostKaiju.Game.UI.CustomElements.PreSizeFollower follow-width="true" follow-height="true" style="position: absolute;">
+                            <engine:VisualElement name="FillLate" class="fill-late" />
+                        </LostKaiju.Game.UI.CustomElements.PreSizeFollower>
+                    </engine:VisualElement>
+                    <engine:VisualElement name="Mask" class="mask">
+                        <LostKaiju.Game.UI.CustomElements.PreSizeFollower follow-width="true" follow-height="true" style="position: absolute;">
+                            <engine:VisualElement name="Fill" class="fill" />
+                        </LostKaiju.Game.UI.CustomElements.PreSizeFollower>
+                    </engine:VisualElement>
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
