@@ -7,7 +7,6 @@ using LostKaiju.Game.World.Enemy.Configs;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.GameData.HealthSystem;
 using LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature;
-using LostKaiju.Game.World.Creatures.Features;
 
 namespace LostKaiju.Game.World.Enemy
 {
@@ -20,6 +19,8 @@ namespace LostKaiju.Game.World.Enemy
         [SerializeField] private EnemyAttackDataSO _attackData;
         [SerializeField] private EnemyDefenceDataSO _defenceData;
         [SerializeField] private EnemyHealthWorldView _healthView;
+        [SerializeField] private GameObject _toDisableOnDeath;
+        [SerializeField] private GameObject _toDestory;
 
         private PatrollerAIPresenter _patrollerAIPresenter;
 
@@ -49,7 +50,9 @@ namespace LostKaiju.Game.World.Enemy
 
         private void OnDeath()
         {
-            Destroy(gameObject);
+            _toDisableOnDeath.SetActive(false);
+            enabled = false;
+            Destroy(_toDestory, 0.5f);
         }
 
         private void Update()

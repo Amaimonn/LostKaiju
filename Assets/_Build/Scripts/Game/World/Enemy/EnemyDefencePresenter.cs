@@ -25,7 +25,12 @@ namespace LostKaiju.Game.World.Enemy
         {
             var features = creature.Features;
             _damageReceiver = features.Resolve<IDamageReceiver>();
-            _damageReceiver.OnDamageTaken.Subscribe(DecreaseHealth);
+            var juicySystem = features.Resolve<EnemyJuicySystem>();
+            _damageReceiver.OnDamageTaken.Subscribe(x => 
+            {
+                juicySystem.PlayOnDamaged();
+                DecreaseHealth(x);
+            });
         }
 
         private void RestoreHealth(int amount)

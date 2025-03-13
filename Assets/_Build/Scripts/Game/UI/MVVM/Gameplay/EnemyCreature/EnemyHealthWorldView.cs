@@ -17,8 +17,8 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature
         private VisualElement _maskLate;
         private StyleList<StylePropertyName> _maskLateTransitionProperty;
         private StyleList<TimeValue> _maskLateTransitionDuration;
-        private StyleList<StylePropertyName> _emptyProperty = new() {};
-        private StyleList<TimeValue> _emptyDuration = new() {};
+        private readonly StyleList<StylePropertyName> _emptyProperty = new();
+        private readonly StyleList<TimeValue> _emptyDuration = new();
         private bool _lateMaskTransitionsSet;
 
         public void Bind(HealthViewModel viewModel)
@@ -48,7 +48,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature
         {
             var newLength = Length.Percent(newAmount * 100.0f);
             var oldLateLength = _maskLate.style.width.value;
-            Debug.Log($"new {newLength.value}, old {oldLateLength.value}");
+            
             if (newLength.value > oldLateLength.value)
             {
                 _maskLate.style.transitionProperty = _emptyProperty;

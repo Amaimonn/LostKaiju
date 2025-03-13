@@ -54,18 +54,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         Root = _uiDocument.rootVisualElement;
     }
 
-    public void SetLabelText(string label, string text)
-    {
-        if (_uiDocument.rootVisualElement == null)
-        {
-            _uiDocument.visualTreeAsset = _visualTreeAsset;
-        }
-
-        // Consider caching the label element for better performance
-        _uiDocument.rootVisualElement.Q<Label>(label).text = text;
-    }
-
-    void InitializeComponents()
+    private void InitializeComponents()
     {
         InitializeMeshRenderer();
 
@@ -75,7 +64,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         _meshFilter.sharedMesh = GetQuadMesh();
     }
 
-    void InitializeMeshRenderer()
+    private void InitializeMeshRenderer()
     {
         _meshRenderer.sharedMaterial = null;
         _meshRenderer.shadowCastingMode = ShadowCastingMode.Off;
@@ -85,7 +74,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         _meshRenderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
     }
 
-    void BuildPanel()
+    private void BuildPanel()
     {
         CreateRenderTexture();
         CreatePanelSettings();
@@ -96,7 +85,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         SetPanelSize();
     }
 
-    void CreateRenderTexture()
+    private void CreateRenderTexture()
     {
         RenderTextureDescriptor descriptor = _renderTextureAsset.descriptor;
         descriptor.width = _panelWidth;
@@ -107,7 +96,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         };
     }
 
-    void CreatePanelSettings()
+    private void CreatePanelSettings()
     {
         _panelSettings = Instantiate(_panelSettingsAsset);
         _panelSettings.targetTexture = _renderTexture;
@@ -117,20 +106,20 @@ public class WorldSpaceUIDocument : MonoBehaviour
         _panelSettings.name = $"{name} - PanelSettings";
     }
 
-    void CreateUIDocument()
+    private void CreateUIDocument()
     {
         _uiDocument.panelSettings = _panelSettings;
         _uiDocument.visualTreeAsset = _visualTreeAsset;
     }
 
-    void CreateMaterial()
+    private void CreateMaterial()
     {
         string shaderName = _panelSettings.colorClearValue.a < 1.0f ? k_transparentShader : k_textureShader;
         _material = new Material(Shader.Find(shaderName));
         _material.SetTexture(MainTex, _renderTexture);
     }
 
-    void SetMaterialToRenderer()
+    private void SetMaterialToRenderer()
     {
         if (_meshRenderer != null)
         {
@@ -138,7 +127,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         }
     }
 
-    void SetPanelSize()
+    private void SetPanelSize()
     {
         if (_renderTexture != null && (_renderTexture.width != _panelWidth || _renderTexture.height != _panelHeight))
         {
@@ -153,7 +142,7 @@ public class WorldSpaceUIDocument : MonoBehaviour
         transform.localScale = new Vector3(_panelWidth / _pixelsPerUnit, _panelHeight / _pixelsPerUnit, 1.0f);
     }
 
-    static Mesh GetQuadMesh()
+    private static Mesh GetQuadMesh()
     {
         GameObject tempQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
         Mesh quadMesh = tempQuad.GetComponent<MeshFilter>().sharedMesh;
@@ -162,15 +151,22 @@ public class WorldSpaceUIDocument : MonoBehaviour
         return quadMesh;
     }
 
-    void DestroyGeneratedAssets()
+    private void DestroyGeneratedAssets()
     {
-        if (_uiDocument) Destroy(_uiDocument);
-        if (_renderTexture) Destroy(_renderTexture);
-        if (_panelSettings) Destroy(_panelSettings);
-        if (_material) Destroy(_material);
+        if (_uiDocument) 
+            Destroy(_uiDocument);
+
+        if (_renderTexture) 
+            Destroy(_renderTexture);
+
+        if (_panelSettings) 
+            Destroy(_panelSettings);
+
+        if (_material) 
+            Destroy(_material);
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         DestroyGeneratedAssets();
     }

@@ -6,12 +6,12 @@
             <engine:VisualElement name="Inner" class="inner">
                 <engine:VisualElement name="MaskContainer" class="mask-container">
                     <engine:VisualElement name="MaskLate" class="mask-late">
-                        <LostKaiju.Game.UI.CustomElements.PreSizeFollower follow-width="true" follow-height="true" style="position: absolute;">
+                        <LostKaiju.Game.UI.CustomElements.PreSizeFollower follow-width="true" name="MaskContainerSizeFollower" style="position: absolute; height: 100%;">
                             <engine:VisualElement name="FillLate" class="fill-late" />
                         </LostKaiju.Game.UI.CustomElements.PreSizeFollower>
                     </engine:VisualElement>
                     <engine:VisualElement name="Mask" class="mask">
-                        <LostKaiju.Game.UI.CustomElements.PreSizeFollower follow-width="true" follow-height="true" style="position: absolute;">
+                        <LostKaiju.Game.UI.CustomElements.PreSizeFollower follow-width="true" name="MaskContainerSizeFollower" style="position: absolute; height: 100%;">
                             <engine:VisualElement name="Fill" class="fill" />
                         </LostKaiju.Game.UI.CustomElements.PreSizeFollower>
                     </engine:VisualElement>
