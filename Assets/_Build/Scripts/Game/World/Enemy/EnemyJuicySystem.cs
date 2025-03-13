@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using LostKaiju.Game.World.Creatures.Features;
+using LostKaiju.Game.World.VFX;
 
 namespace LostKaiju.Game.World.Enemy
 {

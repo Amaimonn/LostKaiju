@@ -24,10 +24,10 @@ EditorBuildSettings:
     path: Assets/_Build/Scenes/Missions/SubScenes/VoidRoom.unity
     guid: 82c3961dd0f86854db89e6d895d33d36
   - enabled: 1
-    path: Assets/_Build/Scenes/Missions/Mission_1_1.unity
+    path: Assets/_Build/Scenes/Missions/Mission_1_5.unity
     guid: f222050f8b81e1d40bea52ea1d3ded66
   - enabled: 1
-    path: Assets/_Build/Scenes/Missions/Mission_1_2.unity
+    path: Assets/_Build/Scenes/Missions/Mission_1_6.unity
     guid: 77576f4de7795e848a4cb7becab5d4d6
   - enabled: 1
     path: Assets/_Build/Scenes/Missions/Mission_1_3.unity
