@@ -256,6 +256,11 @@
     border-bottom-left-radius: 6px;
 }
 
+.mission-info__scrollview {
+    height: 400px;
+    margin-bottom: 10px;
+}
+
 .mission-info__text {
     font-size: 24px;
     color: rgb(255, 255, 255);

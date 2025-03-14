@@ -1,0 +1,68 @@
+.settings-tab__scrollview {
+    flex-grow: 1;
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-slider {
+    width: 100%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    align-items: center;
+    min-width: auto;
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-dragger {
+    left: auto;
+    width: 52%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.settings-tab__scrollview .unity-scroller--vertical {
+    margin-left: 12px;
+    align-items: center;
+    width: 14px;
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-low-button {
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    height: 20px;
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-high-button {
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    height: 20px;
+    margin-top: 0;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-drag-container {
+    align-items: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-dragger-border {
+}
+
+.settings-tab__scrollview .unity-scroll-view__vertical-scroller #unity-tracker {
+    border-right-width: 0.5px;
+    border-left-width: 0.5px;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}

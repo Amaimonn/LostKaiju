@@ -8,14 +8,14 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
         [SerializeField] protected string _closeButtonName;
         [SerializeField] protected string _closeBackgroundName;
         protected Button _closeButton;
-        protected Button _closeBackground;
+        protected VisualElement _closeBackground;
 
         protected override void OnAwake()
         {
             base.OnAwake();
 
             _closeButton = Root.Q<Button>(name: _closeButtonName);
-            _closeBackground = Root.Q<Button>(name: _closeBackgroundName);
+            _closeBackground = Root.Q<VisualElement>(name: _closeBackgroundName);
         }
 
         protected override void OnBind(T viewModel)

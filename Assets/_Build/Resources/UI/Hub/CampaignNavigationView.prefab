@@ -47,13 +47,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualTreeAsset: {fileID: 9197481963319205126, guid: 443e9133a0f1e56408d2cdf49677fe86, type: 3}
   _closeButtonName: CloseButton
-  _closeBackgroundName: 
+  _closeBackgroundName: OverlayImage
   _contentElementName: Content
   _startButtonName: StartButton
   _locationTabsContainerName: LocationsTabs
   _selectedMissionLabelName: MissionInfoLabel
   _selectedMissionTextName: MissionInfoText
   _contentStyleName: missions-content
+  _missionTextScrollViewName: MissionTextScrollView
   _missionsGridName: MissionsGrid
   _baseButtonStyleName: button-transitions-base
   _missionButtonStyleName: select-mission-button
@@ -63,7 +64,6 @@ MonoBehaviour:
   _selectMissionButton: {fileID: 9197481963319205126, guid: 679d34c4e598d584abfed56114aba654, type: 3}
   _locationTabButton: {fileID: 9197481963319205126, guid: d0a44ad60bc531b42819ad5496972c3f, type: 3}
   _locationButtonSelectedStyleName: location-tab-button--selected
-  _locationButtonLockedStyleName: location-tab-button--locked
 --- !u!82 &-3571223380058938639
 AudioSource:
   m_ObjectHideFlags: 0

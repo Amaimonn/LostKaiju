@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
@@ -6,7 +7,6 @@ using R3;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.UI.MVVM.Gameplay;
-using System.Collections.Generic;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -19,6 +19,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private string _selectedMissionLabelName;
         [SerializeField] private string _selectedMissionTextName;
         [SerializeField] private string _contentStyleName;
+        [SerializeField] private string _missionTextScrollViewName;
         [SerializeField] private string _missionsGridName;
         [SerializeField] private string _baseButtonStyleName;
         [SerializeField] private string _missionButtonStyleName;
@@ -41,6 +42,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _locationTabsContainer;
         private Label _selectedMissionLabel;
         private Label _selectedMissionText;
+        private ScrollView _missionTextScrollView;
         private VisualElement _missionsGrid;
         private VisualElement _panelWhiteBackground;
         private bool _isGameplayStarted = false;
@@ -56,6 +58,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _locationTabsContainer = Root.Q<VisualElement>(name: _locationTabsContainerName);
             _selectedMissionLabel = Root.Q<Label>(name: _selectedMissionLabelName);
             _selectedMissionText = Root.Q<Label>(name: _selectedMissionTextName);
+            _missionTextScrollView = Root.Q<ScrollView>(name: _missionTextScrollViewName);
             _missionsGrid = Root.Q<VisualElement>(name: _missionsGridName);
             _panelWhiteBackground = Root.Q<VisualElement>(className: _panelWhiteBackgroundStyleName);
 
@@ -220,6 +223,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 _selectedMissionLabel.text = string.Empty;
                 _selectedMissionText.text = string.Empty;
             }
+            _missionTextScrollView.scrollOffset = Vector2.zero;
         }
 
         private void PlayButtonHoverSFX(PointerEnterEvent pointerEnterEvent)

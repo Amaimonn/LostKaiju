@@ -12,6 +12,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         [SerializeField] private string _applyButtonName;
         [SerializeField] private string _resetButtonName;
         [SerializeField] private string _sectionsRootClass;
+        [SerializeField] private string _scrollViewClass;
         [SerializeField] private string _settingBarLabelClass;
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
@@ -54,11 +55,13 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             soundSection.selected += _ => ViewModel.SelectSoundSection();
             sectionsRoot.Add(soundSection);
 
-            var soundVolumeSlider = CreateSlider(settingsData.SoundVolumeData, soundSection);
+            var scrollView = CreateScrollView(soundSection);
+
+            var soundVolumeSlider = CreateSlider(settingsData.SoundVolumeData, scrollView);
             soundVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSoundVolume(e.newValue));
             ViewModel.SoundSettingsViewModel.SoundVolume.Subscribe(x => soundVolumeSlider.value = x);
 
-            var sfxVolumeSlider = CreateSlider(settingsData.SfxVolumeData, soundSection);
+            var sfxVolumeSlider = CreateSlider(settingsData.SfxVolumeData, scrollView);
             sfxVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSfxVolume(e.newValue));
             ViewModel.SoundSettingsViewModel.SfxVolume.Subscribe(x => sfxVolumeSlider.value = x);
         }
@@ -74,21 +77,32 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             videoSection.selected += _ => ViewModel.SelectVideoSection();
             sectionsRoot.Add(videoSection);
 
-            var brightnessSlider = CreateSlider(settingsData.BrightnessData, videoSection);
+            var scrollView = CreateScrollView(videoSection);
+
+            var brightnessSlider = CreateSlider(settingsData.BrightnessData, scrollView);
             brightnessSlider.RegisterCallback<ChangeEvent<float>>(e => videoViewModel.SetBrightness(e.newValue));
             videoViewModel.Brightness.Subscribe(x => brightnessSlider.value = x);
 
-            var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, videoSection);
+            var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, scrollView);
             postProcessingToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsPostProcessingEnabled(e.newValue));
             videoViewModel.IsPostProcessingEnabled.Subscribe(x => postProcessingToggle.value = x);
 
-            var bloomToggle = CreateToggle(settingsData.IsHighBloomQualityData, videoSection);
+            var bloomToggle = CreateToggle(settingsData.IsHighBloomQualityData, scrollView);
             bloomToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsHighBloomQuality(e.newValue));
             videoViewModel.IsHighBloomQuality.Subscribe(x => bloomToggle.value = x);
 
-            var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, videoSection);
+            var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, scrollView);
             antiAliasingToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsAntiAliasingEnabled(e.newValue));
             videoViewModel.IsAntiAliasingEnabled.Subscribe(x => antiAliasingToggle.value = x);
+        }
+
+        private ScrollView CreateScrollView(VisualElement parentSection)
+        {
+            var scrollView = new ScrollView();
+            scrollView.AddToClassList(_scrollViewClass);
+            parentSection.Add(scrollView);
+
+            return scrollView;
         }
 
         private Slider CreateSlider(ISliderSettingData sliderSettingData, VisualElement parentSection)
