@@ -32,6 +32,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [Space(3f)]
         [Header("Assets")]
         [SerializeField] private VisualTreeAsset _selectMissionButton;
+        [SerializeField] private string _selectMissionButtonSelectedStyleName;
+        [SerializeField] private string _selectMissionButtonCompletedStyleName;
 
         [Space(2f)]
         [SerializeField] private VisualTreeAsset _locationTabButton;
@@ -47,7 +49,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _panelWhiteBackground;
         private bool _isGameplayStarted = false;
         private bool _isClosing = false;
+        private Dictionary<string, Button> _missionButtonsMap;
         private Dictionary<string, VisualElement> _locationTabButtonsMap;
+        private Button _selectedMissionButton;
         private VisualElement _selectedLocationTab;
 
         protected override void OnAwake()
@@ -127,6 +131,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private void BindDisplayedMissionsButtons(IMissionData[] missions)
         {
             _missionsGrid.Clear();
+            _missionButtonsMap = new();
             foreach (var mission in missions)
             {
                 var missionButtonContainer = _selectMissionButton.CloneTree();
@@ -137,12 +142,13 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 {
                     if (missionModel.IsCompleted.Value)
                     {
-                        // mark mission as completed
+                        missionButton.AddToClassList(_selectMissionButtonCompletedStyleName);
                     }
+                    _missionButtonsMap[mission.Id] = missionButton;
                 }
                 else
                 {
-                    missionButton.style.color = Color.gray;
+                    missionButton.SetEnabled(false);
                     // mark mission as locked
                 }
                 missionButton.RegisterCallback<ClickEvent>(_ => ViewModel.SelectMission(mission));
@@ -206,6 +212,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         {
             if (missionData != null)
             {
+                _selectedMissionButton?.RemoveFromClassList(_selectMissionButtonSelectedStyleName);
+
                 if (ViewModel.AvailableMissionsMap.ContainsKey(missionData.Id))
                 {
                     _startButton.enabledSelf = true;
@@ -214,6 +222,17 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 {
                     _startButton.enabledSelf = false;
                 }
+
+                if (_missionButtonsMap.TryGetValue(missionData.Id, out var button))
+                {
+                    button.AddToClassList(_selectMissionButtonSelectedStyleName);
+                    _selectedMissionButton = button;
+                }
+                else
+                {
+                    Debug.LogWarning($"No button for {missionData.Id} missionId");
+                }
+
                 _selectedMissionLabel.text = missionData.Name;
                 _selectedMissionText.text = missionData.Text;
             }

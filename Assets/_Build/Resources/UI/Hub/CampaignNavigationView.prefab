@@ -62,6 +62,8 @@ MonoBehaviour:
   _audioSource: {fileID: -3571223380058938639}
   _buttonHoverSFX: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}
   _selectMissionButton: {fileID: 9197481963319205126, guid: 679d34c4e598d584abfed56114aba654, type: 3}
+  _selectMissionButtonSelectedStyleName: select-mission-button--selected
+  _selectMissionButtonCompletedStyleName: select-mission-button--completed
   _locationTabButton: {fileID: 9197481963319205126, guid: d0a44ad60bc531b42819ad5496972c3f, type: 3}
   _locationButtonSelectedStyleName: location-tab-button--selected
 --- !u!82 &-3571223380058938639

@@ -1,6 +1,6 @@
 .select-mission-button {
     background-color: rgb(37, 37, 37);
-    font-size: 32px;
+    font-size: 28px;
     color: rgb(255, 255, 255);
     margin-bottom: 10px;
     margin-right: 5px;
@@ -21,10 +21,48 @@
     text-shadow: 0 3px 0 rgb(0, 0, 0);
     width: 140px;
     flex-grow: 0;
-    height: auto;
+    height: 64px;
     max-height: 64px;
 }
 
-.select-mission-button:hover {
+.select-mission-button:enabled:hover {
     scale: 1.05 1.05;
+}
+
+.select-mission-button:disabled {
+    opacity: 0.75;
+    color: rgb(170, 170, 170);
+}
+
+.select-mission-button--selected {
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    background-color: rgb(99, 99, 99);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    scale: 1.06 1.06;
+}
+
+.select-mission-button--completed {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(120, 120, 120);
+    border-right-color: rgb(120, 120, 120);
+    border-top-color: rgb(120, 120, 120);
+    border-bottom-color: rgb(120, 120, 120);
+    background-color: rgb(41, 56, 47);
+}
+
+.select-mission-button--completed.select-mission-button--selected {
+    background-color: rgb(41, 56, 47);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
 }
