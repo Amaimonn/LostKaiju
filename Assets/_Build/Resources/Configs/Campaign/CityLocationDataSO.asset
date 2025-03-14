@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6b96c6d3b46f2468b42899cd1e3942, type: 3}
   m_Name: CityLocationDataSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 1
+  <Id>k__BackingField: 2
+  <Name>k__BackingField: City
   <AllMissionsDataSO>k__BackingField:
   - {fileID: 11400000, guid: 3afaf6dde8b4cd147b1d292689e4152c, type: 2}
   - {fileID: 11400000, guid: 023260b38431de44e97299b7e71e5ae5, type: 2}
   - {fileID: 11400000, guid: 11a70e876e7c25146acb2548efdd14d5, type: 2}
-  - {fileID: 11400000, guid: 019441b97d446a64f84527755f2800ed, type: 2}

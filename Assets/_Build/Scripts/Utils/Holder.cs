@@ -32,6 +32,32 @@ namespace LostKaiju.Utils
             }
         }
 
+        public virtual bool TryResolve<TKeyType>(out TKeyType item) where TKeyType : TElement
+        {
+            var resolveType = typeof(TKeyType);
+
+            if (_items.TryGetValue(resolveType, out var storedItem))
+            {
+                item = (TKeyType)storedItem;
+                return true;
+            }
+            else
+            {
+                var resolvedKey = _items.Keys.FirstOrDefault(x => resolveType.IsAssignableFrom(x));
+                if (resolvedKey != null)
+                {
+                    item = (TKeyType)_items[resolvedKey];
+                    return true;
+                }
+                else
+                {
+                    item = default;
+                    Debug.LogError($"Can't resolve {resolveType.Name}");
+                    return false;
+                }
+            }
+        }
+
         public void Register<TKeyType>(TKeyType item) where TKeyType : TElement
         {
             var registeredType = typeof(TKeyType);

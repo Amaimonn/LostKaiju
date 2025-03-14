@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: LocationsSO
   m_EditorClassIdentifier: 
   _locationsData:
-  - {fileID: 11400000, guid: d89bd02cb074e8640815b4cc6e623f72, type: 2}
+  - {fileID: 11400000, guid: 957e9eadf4d5def45b57f5548b9db8cc, type: 2}
   - {fileID: 11400000, guid: 910e4bfdc8b1b654391b5f67778400cb, type: 2}

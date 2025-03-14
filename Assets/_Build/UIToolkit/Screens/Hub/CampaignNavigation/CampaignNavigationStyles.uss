@@ -21,6 +21,7 @@
     justify-content: center;
     max-width: 1400px;
     padding-bottom: 30px;
+    flex-direction: column-reverse;
 }
 
 .missions-panel {
@@ -94,6 +95,7 @@
     margin-bottom: 10px;
     padding-left: 7px;
     padding-right: 7px;
+    margin-left: 100px;
 }
 
 .close-button {
@@ -222,7 +224,7 @@
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
     transition-property: rotate, background-color;
-    transition-duration: 0.1s, 0.1s;
+    transition-duration: 0.2s, 0.1s;
     transition-delay: 0s, 0s;
 }
 
@@ -231,7 +233,7 @@
     rotate: -2deg;
     transition-property: rotate, background-color;
     transition-duration: 0.2s, 0.2s;
-    transition-delay: 0.3s, 0.3s;
+    transition-delay: 0.3s, 0s;
 }
 
 .panel__black-background {
@@ -252,8 +254,6 @@
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
-    top: 12px;
-    left: 9px;
 }
 
 .mission-info__text {
@@ -264,4 +264,13 @@
     white-space: normal;
     -unity-font-style: normal;
     overflow: hidden;
+}
+
+.locations-tabs {
+    flex-grow: 0;
+    width: 180px;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    margin-right: -20px;
 }

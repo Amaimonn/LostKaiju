@@ -19,6 +19,7 @@ using LostKaiju.Game.GameData.HealthSystem;
 using LostKaiju.Game.Constants;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
+using LostKaiju.Game.World.Creatures.Features;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -60,7 +61,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             playerRootPresenter.Bind(player);
             Debug.Log("player root presenter binded");
 
-            _cinemachineCamera.Follow = player.transform;
+            if (player.Features.TryResolve<ICameraTarget>(out var cameraTarget) && cameraTarget.TargetTransform != null)
+                _cinemachineCamera.Follow = cameraTarget.TargetTransform;
+            else
+                _cinemachineCamera.Follow = player.transform;
 
             var exitSignal = new Subject<Unit>();
             exitSignal.Take(1).Subscribe(_ =>

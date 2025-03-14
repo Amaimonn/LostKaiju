@@ -14,15 +14,15 @@ namespace LostKaiju.Game.GameData.Campaign
     {
         public readonly ReactiveProperty<ILocationData> SelectedLocation;
         public readonly ReactiveProperty<IMissionData> SelectedMission;
+        public readonly ObservableDictionary<string, LocationModel> AvailableLocationsMap;
+        public readonly IReadOnlyDictionary<string, ILocationData> LocationsDataMap;
         public readonly ILocationData LastLaunchedLocation;
         public readonly IMissionData LastLaunchedMission;
-        public readonly IReadOnlyDictionary<string, ILocationData> LocationsDataMap;
+        public Subject<Unit> OnStateChanged = new();
         /// <summary>
         /// all Locations config data in campaign
         /// </summary>
         private readonly IAllLocationsData _allLocationsData;
-        public readonly ObservableList<LocationModel> AvailableLocations;
-        public Subject<Unit> OnStateChanged = new();
 
         public CampaignModel(CampaignState campaignState, IAllLocationsData allLocationsData,
             ILocationData selectedLocationData = null, IMissionData selectedMissionData = null)
@@ -34,20 +34,20 @@ namespace LostKaiju.Game.GameData.Campaign
                 .Select(x => new KeyValuePair<string, ILocationData>(x.Id, x));
             LocationsDataMap = new Dictionary<string, ILocationData>(locationsPairs);
 
-            AvailableLocations = new ObservableList<LocationModel>();
+            AvailableLocationsMap = new ObservableDictionary<string, LocationModel>();
             foreach (var location in campaignState.Locations)
             {
                 if (LocationsDataMap.TryGetValue(location.Id, out var locationData))
                 {
                     var locationModel = new LocationModel(location, locationData);
-                    AvailableLocations.Add(locationModel);
+                    AvailableLocationsMap.Add(location.Id, locationModel);
                 }
                 else
                 {
                     Debug.LogWarning($"Location {location.Id} from state not found in locationData map");
                 }
             }
-            AvailableLocations.ObserveAdd().Subscribe(x => State.Locations.Add(x.Value.State));
+            AvailableLocationsMap.ObserveAdd().Subscribe(x => State.Locations.Add(x.Value.Value.State));
 
             if (!String.IsNullOrEmpty(campaignState.LastLaunchedLocationId))
             {
@@ -222,7 +222,7 @@ namespace LostKaiju.Game.GameData.Campaign
                             var newLocationState = new LocationState(locationData.Id, false, new List<MissionState> { firstMissionState });
 
                             var newLocationModel = new LocationModel(newLocationState, locationData);
-                            AvailableLocations.Add(newLocationModel);
+                            AvailableLocationsMap.Add(locationData.Id, newLocationModel);
 
                             stateChanged = true;
                         }
@@ -233,7 +233,7 @@ namespace LostKaiju.Game.GameData.Campaign
                         var newLocationState = new LocationState(locationData.Id, false, new List<MissionState> { firstMissionState });
 
                         var newLocationModel = new LocationModel(newLocationState, locationData);
-                        AvailableLocations.Add(newLocationModel);
+                        AvailableLocationsMap.Add(locationData.Id, newLocationModel);
 
                         stateChanged = true;
                     }
@@ -258,7 +258,7 @@ namespace LostKaiju.Game.GameData.Campaign
                             if (missionState == null)
                             {
                                 var newMissionState = new MissionState(missionData.Id, false);
-                                var locationModel = AvailableLocations.First(x => x.Data.Id == locationData.Id);
+                                var locationModel = AvailableLocationsMap[locationData.Id];
                                 var newMissionModel = new MissionModel(newMissionState, missionData);
                                 locationModel.AvailableMissionsMap.Add(missionData.Id, newMissionModel);
 

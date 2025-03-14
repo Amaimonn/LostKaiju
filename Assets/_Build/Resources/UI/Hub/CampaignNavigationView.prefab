@@ -50,6 +50,7 @@ MonoBehaviour:
   _closeBackgroundName: 
   _contentElementName: Content
   _startButtonName: StartButton
+  _locationTabsContainerName: LocationsTabs
   _selectedMissionLabelName: MissionInfoLabel
   _selectedMissionTextName: MissionInfoText
   _contentStyleName: missions-content
@@ -60,6 +61,9 @@ MonoBehaviour:
   _audioSource: {fileID: -3571223380058938639}
   _buttonHoverSFX: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}
   _selectMissionButton: {fileID: 9197481963319205126, guid: 679d34c4e598d584abfed56114aba654, type: 3}
+  _locationTabButton: {fileID: 9197481963319205126, guid: d0a44ad60bc531b42819ad5496972c3f, type: 3}
+  _locationButtonSelectedStyleName: location-tab-button--selected
+  _locationButtonLockedStyleName: location-tab-button--locked
 --- !u!82 &-3571223380058938639
 AudioSource:
   m_ObjectHideFlags: 0

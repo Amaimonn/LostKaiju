@@ -7,9 +7,14 @@ using LostKaiju.Game.World.Creatures.Presenters;
 
 namespace LostKaiju.Game.World.Player.Views
 {
-    public class PlayerBinder : CreatureBinder, ICreatureUpdater, IPlayerHero
+    public class PlayerBinder : CreatureBinder, ICreatureUpdater, IPlayerHero, ICameraTarget
     {    
+#region ICameraTarget
+        public Transform TargetTransform => _cameraTargetTransform;
+#endregion
+
         [Header("Creature features")]
+        [SerializeField] private Transform _cameraTargetTransform;
         [SerializeField] private Flipper _flipper;
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private DamageReceiver _damageReceiver;
@@ -19,7 +24,7 @@ namespace LostKaiju.Game.World.Player.Views
 
         protected IUpdatablePresenter _updatablePresenter;
 
-#region ICreatureUpdater
+        #region ICreatureUpdater
         public void SetUpdatablePresenter(IUpdatablePresenter updatablePresenter)
         {
             _updatablePresenter = updatablePresenter;
@@ -28,6 +33,7 @@ namespace LostKaiju.Game.World.Player.Views
 
         private void Awake()
         {
+            _features.Register<ICameraTarget>(this);
             _features.Register<IFlipper>(_flipper);
             _features.Register<IGroundCheck>(_groundCheck);
             _features.Register<IDamageReceiver>(_damageReceiver);

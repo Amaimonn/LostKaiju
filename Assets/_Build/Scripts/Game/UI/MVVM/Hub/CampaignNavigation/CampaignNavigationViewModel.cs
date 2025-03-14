@@ -6,6 +6,7 @@ using ObservableCollections;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
+using System.Collections.Generic;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -14,7 +15,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         public Observable<bool> IsLoaded => _isLoaded;
         public ReadOnlyReactiveProperty<ILocationData> SelectedLocation => _selectedLocation;
         public ReadOnlyReactiveProperty<IMissionData> SelectedMission => _selectedMission;
-        public IReadOnlyObservableList<IMissionData> DisplayedMissionsData => _displayedMissionsData;
+        public IReadOnlyObservableList<ILocationData> DisplayedLocationsData => _displayedLocationsData;
+        public Observable<IMissionData[]> DisplayedMissionsData => _displayedMissionsData;
+        public IReadOnlyObservableDictionary<string, LocationModel> AvailableLocationsMap => _availableLocationsMap;
         public IReadOnlyObservableDictionary<string, MissionModel> AvailableMissionsMap => _availableMissionsMap;
 
         private CampaignModel _campaignModel;
@@ -22,8 +25,10 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly ReactiveProperty<bool> _isLoaded = new(false);
         private ReactiveProperty<ILocationData> _selectedLocation;
         private ReactiveProperty<IMissionData> _selectedMission;
-        private ObservableList<IMissionData> _displayedMissionsData;
+        private ObservableList<ILocationData> _displayedLocationsData;
+        private ReactiveProperty<IMissionData[]> _displayedMissionsData;
         private ObservableDictionary<string, MissionModel> _availableMissionsMap;
+        private ObservableDictionary<string, LocationModel> _availableLocationsMap;
         
         public CampaignNavigationViewModel(Subject<Unit> startMissionSubject)
         {
@@ -35,9 +40,19 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _campaignModel = campaignModel;
 
             // test with first location
-            var displayedLocationModel = campaignModel.AvailableLocations[0];
-            _displayedMissionsData = new ObservableList<IMissionData>(displayedLocationModel.Data.AllMissionsData); 
-            _availableMissionsMap = new ObservableDictionary<string, MissionModel>(displayedLocationModel.AvailableMissionsMap);
+            _displayedLocationsData = new ObservableList<ILocationData>(campaignModel.LocationsDataMap.Values);
+            _availableLocationsMap = campaignModel.AvailableLocationsMap;
+            var displayedLocationModel = campaignModel.AvailableLocationsMap[_campaignModel.SelectedLocation.Value.Id];
+            _displayedMissionsData = new ReactiveProperty<IMissionData[]>(displayedLocationModel.Data.AllMissionsData); 
+            var availableMissionsMap = new Dictionary<string, MissionModel>();
+            foreach (var locationModel in campaignModel.AvailableLocationsMap)
+            {
+                foreach (var missionMapPair in locationModel.Value.AvailableMissionsMap)
+                {
+                    availableMissionsMap.Add(missionMapPair.Key, missionMapPair.Value);
+                }
+            }
+            _availableMissionsMap = new ObservableDictionary<string, MissionModel>(availableMissionsMap);
             
             _selectedLocation = new ReactiveProperty<ILocationData>(_campaignModel.SelectedLocation.Value);
             _selectedMission = new ReactiveProperty<IMissionData>(_campaignModel.SelectedMission.Value);
@@ -59,6 +74,15 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         public void SelectLocation(ILocationData locationData)
         {
             _campaignModel.SelectedLocation.Value = locationData;
+            if (_campaignModel.AvailableLocationsMap.TryGetValue(locationData.Id, out var locationModel))
+            {
+                if (locationModel.AvailableMissionsMap.Count != 0)
+                    SelectMission(locationModel.AvailableMissionsMap.Last().Value.Data);
+                else
+                    SelectMission(null);
+            }
+
+            _displayedMissionsData.Value = _campaignModel.LocationsDataMap[locationData.Id].AllMissionsData;
         }
 
         public void SelectMission(IMissionData missionData)
