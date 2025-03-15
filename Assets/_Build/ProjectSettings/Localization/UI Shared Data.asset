@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI
+  m_TableCollectionNameGuidString: 53406fac855010a40bab638b98d72d3f
+  m_Entries:
+  - m_Id: 8323121152
+    m_Key: play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36999577600
+    m_Key: settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 550353027072
+    m_Key: exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 596851081216
+    m_Key: wanna_exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1665920450560
+    m_Key: missions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1687231709184
+    m_Key: select_your_hero
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1450172627509838040
+  references:
+    version: 2
+    RefIds:
+    - rid: 1450172627509838040
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1742051523548

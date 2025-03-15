@@ -4,13 +4,30 @@
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
     <engine:VisualElement name="BackgroundImage" class="background-image background-full-stretch" />
     <engine:VisualElement name="BuildingsImage" class="buildings-image background-full-stretch" />
-    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" _right-border-scale="0" _left-border-scale="0" class="wrapper-base wrapper">
+    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" _right-border-scale="0" _left-border-scale="0" _right-padding-scale="0" _left-padding-scale="0" class="wrapper-base wrapper">
         <engine:VisualElement name="Menu" style="align-self: center; height: 100%;">
-            <engine:Label text="LOST&#10;KAIJU" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" />
+            <engine:Label text="LOST" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" style="color: rgb(0, 0, 0); -unity-text-outline-color: rgb(255, 255, 255); font-size: 220px;">
+                <engine:Label text="LOST" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; left: -12px; top: 7px; text-shadow: 0 18px 0 rgba(0, 0, 0, 0); font-size: 220px;" />
+            </engine:Label>
+            <engine:Label text="KAIJU" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" style="color: rgb(0, 0, 0); -unity-text-outline-color: rgb(255, 255, 255); margin-top: -1%;">
+                <engine:Label text="KAIJU" name="GameLabel" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="game-label" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; left: -12px; top: 7px; text-shadow: 0 18px 0 rgba(0, 0, 0, 0);" />
+            </engine:Label>
             <engine:VisualElement name="ButtonsContainer" class="buttons-container">
-                <engine:Button text="PLAY" name="PlayButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" />
-                <engine:Button text="SETTINGS" name="SettingsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" />
-                <engine:Button text="EXIT" name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" />
+                <engine:Button text="missions" name="PlayButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" style="height: 64px; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; min-width: 220px; margin-bottom: 20px;">
+                    <Bindings>
+                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(8323121152)" />
+                    </Bindings>
+                </engine:Button>
+                <engine:Button text="SETTINGS" name="SettingsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button">
+                    <Bindings>
+                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(36999577600)" />
+                    </Bindings>
+                </engine:Button>
+                <engine:Button name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button">
+                    <Bindings>
+                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(550353027072)" />
+                    </Bindings>
+                </engine:Button>
             </engine:VisualElement>
         </engine:VisualElement>
     </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>

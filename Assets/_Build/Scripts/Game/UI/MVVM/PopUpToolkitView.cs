@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,8 +15,11 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
         {
             base.OnAwake();
 
-            _closeButton = Root.Q<Button>(name: _closeButtonName);
-            _closeBackground = Root.Q<VisualElement>(name: _closeBackgroundName);
+            if (!String.IsNullOrEmpty(_closeButtonName))
+                _closeButton = Root.Q<Button>(name: _closeButtonName);
+
+            if (!String.IsNullOrEmpty(_closeBackgroundName))
+                _closeBackground = Root.Q<VisualElement>(name: _closeBackgroundName);
         }
 
         protected override void OnBind(T viewModel)

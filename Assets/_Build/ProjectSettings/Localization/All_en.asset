@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: All_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 4be2248e2bcce804ba480f90f8abdc53, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 672440827904
+    m_Localized: "Deep beneath the city, where faint light seeps through cracks in
+      the surface, the journey begins. But this is no ordinary path through tunnels\u2014it
+      is a journey through oblivion. The first moments here are shrouded in a fog
+      of confusion. Who are you? How did you end up here? There are no answers, only
+      the heavy, damp air that fills your lungs and distant, indistinct sounds that
+      draw near, then fade away, as if toying with you.\r\nThe walls seem to press
+      closer with every step."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 742762528768
+    m_Localized: "Deeper. Darker. Quieter. You descend further, to a place where
+      light no longer reaches, and only the faint glimmer of your own presence illuminates
+      the path. Here, in this endless void, the ground is no longer beneath your
+      feet. Instead, there are only scattered islands of solid surface, floating
+      in the darkness like fragments of a forgotten world.\r\n\r\nJumps. They become
+      the only way forward. Each one is a leap into the unknown. Below you lies the
+      abyss\u2014black and bottomless, like death itself. It doesn\u2019t just wait
+      \u2014 it breathes, shifts, as if alive. Sometimes, it feels as though it\u2019s
+      calling to you, luring you, promising an end to all your doubts and fears.
+      But you know: one misstep, and you\u2019ll vanish into it forever.\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 749595049984
+    m_Localized: What? No.. What if... No..., no.......
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1477436817408
+    m_Localized: .................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1492985102336
+    m_Localized: Above an endless sea of dark buildings, beneath a low, smog-choked
+      sky, lies a world where time has stood still. The rooftops, like islands in
+      an ocean of emptiness, are separated by deep chasms that seem bottomless. Silence.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1510974472192
+    m_Localized: "Between the rooftops, where streets once lay, there is now only
+      emptiness. But this emptiness is not dead \u2014 it is alive, breathing. Within
+      it hover fragments of something vast, something important, that once collapsed
+      and now hangs suspended in the air, as if time itself decided to halt their
+      fall. These platforms, cracked and marked by the scars of long-forgotten disasters,
+      seem both fragile and eternal. They defy gravity, as if challenging the very
+      laws of this world. It feels as though they are waiting\u2014waiting for someone
+      to step onto them and continue a journey that was interrupted so long ago."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

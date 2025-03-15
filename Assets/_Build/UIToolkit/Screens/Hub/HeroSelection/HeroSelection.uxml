@@ -30,7 +30,7 @@
                 <engine:VisualElement name="PreviewPanel" class="preview-panel">
                     <engine:Label text="BLANKO" name="SelectedName" class="selected-name" />
                     <engine:VisualElement name="SelectedPreview" class="selected-preview__frame">
-                        <engine:VisualElement name="SelectedImage" class="selected-preview__image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/_Build/Art/HeroRenderTexture.renderTexture?fileID=8400000&amp;guid=8ade1f3a75f86e84cb8c26ac91457bde&amp;type=2#HeroRenderTexture&quot;); background-color: rgba(47, 47, 47, 0.32);" />
+                        <engine:VisualElement name="SelectedImage" class="selected-preview__image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/_Build/Art/RenderTextures/HeroRenderTexture.renderTexture?fileID=8400000&amp;guid=8ade1f3a75f86e84cb8c26ac91457bde&amp;type=2#HeroRenderTexture&quot;); background-color: rgba(47, 47, 47, 0.32);" />
                     </engine:VisualElement>
                     <engine:Button text="START" name="StartButton" class="start-button" />
                 </engine:VisualElement>

@@ -13,8 +13,11 @@
     -unity-font-style: bold;
     -unity-text-outline-width: 2px;
     -unity-text-outline-color: rgb(0, 0, 0);
-    flex-grow: 0.4;
-    text-shadow: 0 18px 0 rgb(0, 0, 0);
+    flex-grow: 0;
+    text-shadow: -2px 5.5px 0 rgb(0, 0, 0);
+    align-items: auto;
+    width: auto;
+    margin-top: 10%;
 }
 
 .background-image {
@@ -37,11 +40,10 @@
 }
 
 .menu-button {
-    width: 200px;
-    height: 64px;
+    height: 54px;
     align-self: center;
     position: relative;
-    font-size: 32px;
+    font-size: 24px;
     -unity-font-style: bold;
     -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
     transition-duration: 0.1s, 0.1s, 0.2s;
@@ -64,6 +66,7 @@
     background-image: url("project://database/Assets/_Build/Art/Images/Gameplay/VFX/fresnel.png?fileID=2800000&guid=3f072d54cc828594a9b26fc96185cdfd&type=3#fresnel");
     background-size: 0 0;
     transition-timing-function: ease, ease, ease-in-out-sine;
+    min-width: 200px;
 }
 
 .menu-button:hover {

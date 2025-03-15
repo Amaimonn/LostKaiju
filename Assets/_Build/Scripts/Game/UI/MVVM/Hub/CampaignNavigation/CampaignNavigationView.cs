@@ -7,6 +7,8 @@ using R3;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.UI.MVVM.Gameplay;
+using UnityEngine.Localization;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -234,7 +236,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 }
 
                 _selectedMissionLabel.text = missionData.Name;
-                _selectedMissionText.text = missionData.Text;
+                var localizedString = new LocalizedString("All", missionData.Text);
+                _selectedMissionText.SetBinding("text", localizedString);
+                // _selectedMissionText.text = missionData.Text;
             }
             else
             {

@@ -15,11 +15,5 @@ MonoBehaviour:
   <Id>k__BackingField: 1_1
   <DysplayedNumber>k__BackingField: 1
   <Name>k__BackingField: First steps
-  <Text>k__BackingField: "Deep beneath the city, where faint light seeps through
-    cracks in the surface, the journey begins. But this is no ordinary path through
-    tunnels\u2014it is a journey through oblivion. The first moments here are shrouded
-    in a fog of confusion. Who are you? How did you end up here? There are no answers,
-    only the heavy, damp air that fills your lungs and distant, indistinct sounds
-    that draw near, then fade away, as if toying with you.\r\nThe walls seem to press
-    closer with every step."
+  <Text>k__BackingField: mission_description_1_1
   <SceneName>k__BackingField: Mission_1_1

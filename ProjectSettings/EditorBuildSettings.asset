@@ -36,5 +36,7 @@ EditorBuildSettings:
     path: Assets/_Build/Scenes/Missions/Mission_1_6.unity
     guid: 77576f4de7795e848a4cb7becab5d4d6
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 5a7caf7d97ecab5408af1169ed4282b4, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 282e2d3ab0297de488595cf8a7bd2665, type: 3}
+    com.unity.localization.settings: {fileID: 11400000, guid: d637dd5e785ef16489823e1142ce58ed, type: 2}
   m_UseUCBPForAssetBundles: 0
