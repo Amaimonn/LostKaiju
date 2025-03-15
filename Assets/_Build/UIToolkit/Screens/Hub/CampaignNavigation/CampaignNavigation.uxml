@@ -12,9 +12,9 @@
                     <engine:VisualElement name="VerticalLayout" style="flex-grow: 1; width: 100%; height: 100%; position: relative;">
                         <engine:VisualElement name="PanelBlackBackground" class="panel__black-background" />
                         <engine:VisualElement name="MissionInfoContainer" class="mission-info-container">
-                            <engine:VisualElement name="MissionInfoSection" style="flex-grow: 1; margin-top: 20px;">
-                                <engine:Label name="MissionInfoLabel" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="color: rgb(255, 255, 255); font-size: 32px;" />
-                                <engine:ScrollView name="MissionTextScrollView" class="settings-tab__scrollview mission-info__scrollview">
+                            <engine:VisualElement name="MissionInfoSection" class="mission-info" style="width: 800px; max-width: 100%;">
+                                <engine:Label name="MissionInfoLabel" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="mission-info__label" />
+                                <engine:ScrollView name="MissionTextScrollView" horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview mission-info__scrollview">
                                     <engine:Label name="MissionInfoText" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="mission-info__text" />
                                 </engine:ScrollView>
                             </engine:VisualElement>
@@ -25,7 +25,11 @@
                             <engine:Button text="&gt;" name="SliderRightButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--right" />
                         </engine:VisualElement>
                         <engine:VisualElement name="BottomBar" class="panel__bottom-bar" style="margin-right: 16px; margin-left: 16px; margin-bottom: 16px;">
-                            <engine:Button text="Start" name="StartButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="start-button button-transitions-base" />
+                            <engine:Button name="StartButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="start-button button-transitions-base">
+                                <Bindings>
+                                    <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(49855898107904)" />
+                                </Bindings>
+                            </engine:Button>
                         </engine:VisualElement>
                     </engine:VisualElement>
                     <engine:VisualElement name="LocationsTabs" class="locations-tabs">
@@ -35,7 +39,11 @@
                 </engine:VisualElement>
             </engine:VisualElement>
             <engine:VisualElement name="TopBar" class="content__top-bar">
-                <engine:Label text="Missions" name="Label" class="missions-content__label" />
+                <engine:Label text="Missions" name="Label" class="missions-content__label">
+                    <Bindings>
+                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(1665920450560)" />
+                    </Bindings>
+                </engine:Label>
                 <engine:Button text="X" name="CloseButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="close-button button-transitions-base" />
             </engine:VisualElement>
         </engine:VisualElement>

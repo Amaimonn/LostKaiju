@@ -10,43 +10,55 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: All Shared Data
+  m_Name: Settings Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: All
-  m_TableCollectionNameGuidString: 4be2248e2bcce804ba480f90f8abdc53
+  m_TableCollectionName: Settings
+  m_TableCollectionNameGuidString: 84f91dfb9ec8ade4b861f1c3998b16b0
   m_Entries:
-  - m_Id: 672440827904
-    m_Key: mission_description_1_1
+  - m_Id: 66233876480
+    m_Key: sound
     m_Metadata:
       m_Items: []
-  - m_Id: 742762528768
-    m_Key: mission_description_1_2
+  - m_Id: 319880216576
+    m_Key: sound_volume
     m_Metadata:
       m_Items: []
-  - m_Id: 749595049984
-    m_Key: mission_description_1_3
+  - m_Id: 232701607936
+    m_Key: sfx_volume
     m_Metadata:
       m_Items: []
-  - m_Id: 1477436817408
-    m_Key: mission_description_1_4
+  - m_Id: 356643291136
+    m_Key: video
     m_Metadata:
       m_Items: []
-  - m_Id: 1492985102336
-    m_Key: mission_description_1_5
+  - m_Id: 473060392960
+    m_Key: anti_aliasing
     m_Metadata:
       m_Items: []
-  - m_Id: 1510974472192
-    m_Key: mission_description_1_6
+  - m_Id: 520292450304
+    m_Key: bloom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 571639119872
+    m_Key: brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612919459840
+    m_Key: post_processing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1602443853824
+    m_Key: film_grain
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 1450172627509837924
+    rid: 1450172630569845265
   references:
     version: 2
     RefIds:
-    - rid: 1450172627509837924
+    - rid: 1450172630569845265
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1742049163274
+        m_CustomEpoch: 1742064772296

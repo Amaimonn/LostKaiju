@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Gameplay;
+using LostKaiju.Game.UI.Extentions;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -48,52 +51,44 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var soundViewModel = ViewModel.SoundSettingsViewModel;
             var settingsData = ViewModel.SettingsData;
-            var soundSection = new Tab()
-            {
-                label = settingsData.SoundSectionLabel,
-            };
+            
+            var soundSection = new Tab();
+            soundSection.LocalizeLabel(Tables.SETTINGS, settingsData.SoundSectionLabel);
             soundSection.selected += _ => ViewModel.SelectSoundSection();
             sectionsRoot.Add(soundSection);
 
             var scrollView = CreateScrollView(soundSection);
 
             var soundVolumeSlider = CreateSlider(settingsData.SoundVolumeData, scrollView);
-            soundVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSoundVolume(e.newValue));
-            ViewModel.SoundSettingsViewModel.SoundVolume.Subscribe(x => soundVolumeSlider.value = x);
+            BindSlider(soundVolumeSlider, soundViewModel.SetSoundVolume, soundViewModel.SoundVolume);
 
             var sfxVolumeSlider = CreateSlider(settingsData.SfxVolumeData, scrollView);
-            sfxVolumeSlider.RegisterCallback<ChangeEvent<float>>(e => soundViewModel.SetSfxVolume(e.newValue));
-            ViewModel.SoundSettingsViewModel.SfxVolume.Subscribe(x => sfxVolumeSlider.value = x);
+            BindSlider(sfxVolumeSlider, soundViewModel.SetSfxVolume, soundViewModel.SfxVolume);
         }
 
         private void InitVideoSection(VisualElement sectionsRoot)
         {
             var videoViewModel = ViewModel.VideoSettingsViewModel;
             var settingsData = ViewModel.SettingsData;
-            var videoSection = new Tab()
-            {
-                label = settingsData.VideoSectionLabel,
-            };
+
+            var videoSection = new Tab();
+            videoSection.LocalizeLabel(Tables.SETTINGS, settingsData.VideoSectionLabel);
             videoSection.selected += _ => ViewModel.SelectVideoSection();
             sectionsRoot.Add(videoSection);
 
             var scrollView = CreateScrollView(videoSection);
 
             var brightnessSlider = CreateSlider(settingsData.BrightnessData, scrollView);
-            brightnessSlider.RegisterCallback<ChangeEvent<float>>(e => videoViewModel.SetBrightness(e.newValue));
-            videoViewModel.Brightness.Subscribe(x => brightnessSlider.value = x);
+            BindSlider(brightnessSlider, videoViewModel.SetBrightness, videoViewModel.Brightness);
 
             var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, scrollView);
-            postProcessingToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsPostProcessingEnabled(e.newValue));
-            videoViewModel.IsPostProcessingEnabled.Subscribe(x => postProcessingToggle.value = x);
+            BindToggle(postProcessingToggle, videoViewModel.SetIsPostProcessingEnabled, videoViewModel.IsPostProcessingEnabled);
 
             var bloomToggle = CreateToggle(settingsData.IsHighBloomQualityData, scrollView);
-            bloomToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsHighBloomQuality(e.newValue));
-            videoViewModel.IsHighBloomQuality.Subscribe(x => bloomToggle.value = x);
+            BindToggle(bloomToggle, videoViewModel.SetIsHighBloomQuality, videoViewModel.IsHighBloomQuality);
 
             var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, scrollView);
-            antiAliasingToggle.RegisterCallback<ChangeEvent<bool>>(e => videoViewModel.SetIsAntiAliasingEnabled(e.newValue));
-            videoViewModel.IsAntiAliasingEnabled.Subscribe(x => antiAliasingToggle.value = x);
+            BindToggle(antiAliasingToggle, videoViewModel.SetIsAntiAliasingEnabled, videoViewModel.IsAntiAliasingEnabled);
         }
 
         private ScrollView CreateScrollView(VisualElement parentSection)
@@ -115,9 +110,15 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             slider.highValue = sliderSettingData.MaxValue;
 
             var label = settingBar.Q<Label>(className: _settingBarLabelClass);
-            label.text = sliderSettingData.Label;
+            label.LocalizeText(Tables.SETTINGS, sliderSettingData.Label);
 
             return slider;
+        }
+
+        private void BindSlider(Slider slider, Action<float> method, Observable<float> observable)
+        {
+            slider.RegisterCallback<ChangeEvent<float>>(e => method(e.newValue));
+            observable.Subscribe(x => slider.value = x);
         }
 
         private Toggle CreateToggle(IToggleSettingData toggleSettingData, VisualElement parentSection)
@@ -128,9 +129,15 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             var toggle = settingBar.Q<Toggle>();
 
             var label = settingBar.Q<Label>(className: _settingBarLabelClass);
-            label.text = toggleSettingData.Label;
+            label.LocalizeText(Tables.SETTINGS, toggleSettingData.Label);
 
             return toggle;
+        }
+
+        private void BindToggle(Toggle toggle, Action<bool> method, Observable<bool> observable)
+        {
+            toggle.RegisterCallback<ChangeEvent<bool>>(e => method(e.newValue));
+            observable.Subscribe(x => toggle.value = x);
         }
         
 #region PopUpToolkitView

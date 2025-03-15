@@ -9,14 +9,26 @@
         <engine:VisualElement name="Content" class="settings-content">
             <engine:VisualElement name="Settings" class="settings">
                 <engine:VisualElement name="TopBar" class="settings__top-bar" style="flex-direction: row;">
-                    <engine:Label text="SETTINGS" name="SettingsLabel" class="view__title settings__label" />
+                    <engine:Label name="SettingsLabel" class="view__title settings__label">
+                        <Bindings>
+                            <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(36999577600)" />
+                        </Bindings>
+                    </engine:Label>
                     <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
                 </engine:VisualElement>
                 <engine:TabView name="SettingsTabView" class="settings__tab-view" />
                 <engine:VisualElement name="BottomBar" class="panel__bottom-bar">
-                    <engine:Button text="Apply" name="ApplyButton" class="apply-button button-transitions-base" />
+                    <engine:Button name="ApplyButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="apply-button button-transitions-base">
+                        <Bindings>
+                            <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54113250885632)" />
+                        </Bindings>
+                    </engine:Button>
                     <engine:Button name="ResetButton" class="button-transitions-base reset-button">
-                        <engine:Label text="&lt;u&gt;Reset settings&lt;/u&gt;" name="CancelLabel" enable-rich-text="true" emoji-fallback-support="false" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; color: rgb(180, 180, 180); font-size: 18px;" />
+                        <engine:Label text="&lt;u&gt;Reset settings&lt;/u&gt;" name="CancelLabel" enable-rich-text="true" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; color: rgb(180, 180, 180); font-size: 18px;">
+                            <Bindings>
+                                <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54183685832704)" />
+                            </Bindings>
+                        </engine:Label>
                     </engine:Button>
                 </engine:VisualElement>
             </engine:VisualElement>

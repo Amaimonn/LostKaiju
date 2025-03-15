@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: All_en
+  m_Name: Campaign_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
@@ -42,7 +42,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 749595049984
-    m_Localized: What? No.. What if... No..., no.......
+    m_Localized: What?.. No.. No way...
     m_Metadata:
       m_Items: []
   - m_Id: 1477436817408
@@ -64,6 +64,38 @@ MonoBehaviour:
       seem both fragile and eternal. They defy gravity, as if challenging the very
       laws of this world. It feels as though they are waiting\u2014waiting for someone
       to step onto them and continue a journey that was interrupted so long ago."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62870869557248
+    m_Localized: First steps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63150537359360
+    m_Localized: Embrace of the Abyss
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63161220251648
+    m_Localized: Uncertainty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63176298774528
+    m_Localized: Emptiness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63204396417024
+    m_Localized: Chasms
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63216224354304
+    m_Localized: Laws of gravity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75049828139008
+    m_Localized: Underground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75255537778688
+    m_Localized: City
     m_Metadata:
       m_Items: []
   references:

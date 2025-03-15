@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbfdcb65217c9d48b0e9059f7d16775, type: 3}
   m_Name: PostProcessingDataSo
   m_EditorClassIdentifier: 
-  <Label>k__BackingField: Post processing
+  <Label>k__BackingField: post_processing

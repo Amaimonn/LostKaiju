@@ -3,7 +3,7 @@
     transition-duration: 0.1s, 0.1s;
 }
 
-.button-transitions-base:hover {
+.button-transitions-base:enabled:hover {
     border-left-color: rgb(255, 255, 255);
     border-right-color: rgb(255, 255, 255);
     border-top-color: rgb(255, 255, 255);

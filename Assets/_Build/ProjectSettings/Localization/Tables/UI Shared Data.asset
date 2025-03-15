@@ -39,6 +39,18 @@ MonoBehaviour:
     m_Key: select_your_hero
     m_Metadata:
       m_Items: []
+  - m_Id: 49855898107904
+    m_Key: start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54113250885632
+    m_Key: apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54183685832704
+    m_Key: cancel_changes
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

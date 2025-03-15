@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: Campaign
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: 4be2248e2bcce804ba480f90f8abdc53, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: 9f2332e3cde30d046808297e96950730, type: 2}
+  - {fileID: 11400000, guid: 25762e720ccf7ff46a3042a2f1241ec7, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

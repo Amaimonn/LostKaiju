@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b946088a7eb6f01428d48e9c11a851cd, type: 3}
   m_Name: BrightnessDataSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 
-  <Label>k__BackingField: Brightness
+  <Label>k__BackingField: brightness
   <MinValue>k__BackingField: 0
   <MaxValue>k__BackingField: 100

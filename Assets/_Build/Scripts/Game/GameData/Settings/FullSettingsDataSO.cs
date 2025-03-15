@@ -5,7 +5,6 @@ namespace LostKaiju.Game.GameData.Settings
     [CreateAssetMenu(fileName = "FullSettingsDataSO", menuName = "Scriptable Objects/Settings/FullSettingsDataSO")]
     public class FullSettingsDataSO : ScriptableObject, IFullSettingsData
     {
-        [field: SerializeField] public string Label { get; private set; }
         [field: SerializeField] public string SoundSectionLabel { get; private set; }
         [field: SerializeField] public string VideoSectionLabel { get; private set; }
         [field: SerializeField] public string InputSectionLabel { get; private set; }

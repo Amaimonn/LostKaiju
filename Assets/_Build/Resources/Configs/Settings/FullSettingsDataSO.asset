@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040e6a99e49d42a4a9ad7d9c7345e50f, type: 3}
   m_Name: FullSettingsDataSO
   m_EditorClassIdentifier: 
-  <Label>k__BackingField: Settings
-  <SoundSectionLabel>k__BackingField: Sound
-  <VideoSectionLabel>k__BackingField: Video
-  <InputSectionLabel>k__BackingField: Input
+  <SoundSectionLabel>k__BackingField: sound
+  <VideoSectionLabel>k__BackingField: video
+  <InputSectionLabel>k__BackingField: input
   _soundVolumeSliderDataSO: {fileID: 11400000, guid: 10af5270a61b1364d82a437209dda177, type: 2}
   _sfxVolumeSliderDataSO: {fileID: 11400000, guid: e9572a34633ff7742b58e326a1fa0ddf, type: 2}
   _brightnessSliderDataSO: {fileID: 11400000, guid: 3fe9a9613fa006340857ee9d4f223cb7, type: 2}

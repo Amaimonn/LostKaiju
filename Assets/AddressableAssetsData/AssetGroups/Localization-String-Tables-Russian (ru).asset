@@ -22,7 +22,13 @@ MonoBehaviour:
     - Locale-ru
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 25762e720ccf7ff46a3042a2f1241ec7
-    m_Address: All_ru
+    m_Address: Campaign_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4d1fbddb447dc64ea312d62770c7b48
+    m_Address: Settings_ru
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ru

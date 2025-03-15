@@ -7,25 +7,23 @@ using R3;
 using LostKaiju.Game.GameData.Campaign.Missions;
 using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.UI.MVVM.Gameplay;
-using UnityEngine.Localization;
-using System.ComponentModel.DataAnnotations.Schema;
+using LostKaiju.Game.UI.Extentions;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class CampaignNavigationView : PopUpToolkitView<CampaignNavigationViewModel>
     {
         [Header("UI Elements")]
-        [SerializeField] private string _contentElementName;
+        [SerializeField] private string _contentName;
+        [SerializeField] private string _contentClass;
         [SerializeField] private string _startButtonName;
         [SerializeField] private string _locationTabsContainerName;
         [SerializeField] private string _selectedMissionLabelName;
         [SerializeField] private string _selectedMissionTextName;
-        [SerializeField] private string _contentStyleName;
         [SerializeField] private string _missionTextScrollViewName;
         [SerializeField] private string _missionsGridName;
-        [SerializeField] private string _baseButtonStyleName;
-        [SerializeField] private string _missionButtonStyleName;
-        [SerializeField] private string _panelWhiteBackgroundStyleName;
+        [SerializeField] private string _panelWhiteBackgroundClass;
 
         [Header("SFX")]
         [SerializeField] private AudioSource _audioSource;
@@ -33,13 +31,13 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         [Space(3f)]
         [Header("Assets")]
-        [SerializeField] private VisualTreeAsset _selectMissionButton;
-        [SerializeField] private string _selectMissionButtonSelectedStyleName;
-        [SerializeField] private string _selectMissionButtonCompletedStyleName;
+        [SerializeField] private VisualTreeAsset _missionButton;
+        [SerializeField] private string _missionButtonSelectedClass;
+        [SerializeField] private string _missionButtonCompletedClass;
 
         [Space(2f)]
         [SerializeField] private VisualTreeAsset _locationTabButton;
-        [SerializeField] private string _locationButtonSelectedStyleName;
+        [SerializeField] private string _locationButtonSelectedClass;
 
         private Button _startButton;
         private VisualElement _content;
@@ -51,24 +49,24 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _panelWhiteBackground;
         private bool _isGameplayStarted = false;
         private bool _isClosing = false;
-        private Dictionary<string, Button> _missionButtonsMap;
-        private Dictionary<string, VisualElement> _locationTabButtonsMap;
+        private readonly Dictionary<string, Button> _missionButtonsMap = new();
+        private readonly Dictionary<string, VisualElement> _locationTabButtonsMap = new();
         private Button _selectedMissionButton;
         private VisualElement _selectedLocationTab;
 
         protected override void OnAwake()
         {
             base.OnAwake();
-            _content = Root.Q<VisualElement>(name: _contentElementName);
+            _content = Root.Q<VisualElement>(name: _contentName);
             _startButton = Root.Q<Button>(name: _startButtonName);
             _locationTabsContainer = Root.Q<VisualElement>(name: _locationTabsContainerName);
             _selectedMissionLabel = Root.Q<Label>(name: _selectedMissionLabelName);
             _selectedMissionText = Root.Q<Label>(name: _selectedMissionTextName);
             _missionTextScrollView = Root.Q<ScrollView>(name: _missionTextScrollViewName);
             _missionsGrid = Root.Q<VisualElement>(name: _missionsGridName);
-            _panelWhiteBackground = Root.Q<VisualElement>(className: _panelWhiteBackgroundStyleName);
+            _panelWhiteBackground = Root.Q<VisualElement>(className: _panelWhiteBackgroundClass);
 
-            _content.AddToClassList($"{_contentStyleName}--disabled");
+            _content.AddToClassList($"{_contentClass}--disabled");
             _content.RegisterCallback<TransitionEndEvent>(_ =>
             {
                 if (_isClosing)
@@ -82,10 +80,10 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             ViewModel.IsLoaded.Subscribe(isLoaded => {
                 if (isLoaded)
                     OnLoadingCompletedBinding();
-                else 
-                {
-                    // loading circle animation
-                }
+                // else 
+                // {
+                //     // loading circle animation
+                // }
             });
         }
 
@@ -103,24 +101,25 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private void BindDisplayedLocationsButtons()
         {
             _locationTabsContainer.Clear();
-            _locationTabButtonsMap = new();
+            _locationTabButtonsMap.Clear();
+
             var selectedLocationId = ViewModel.SelectedLocation.CurrentValue.Id;
-            foreach (var location in ViewModel.DisplayedLocationsData)
+            foreach (var locationData in ViewModel.DisplayedLocationsData)
             {
                 var locationTabButtonContainer = _locationTabButton.CloneTree();
                 var locationTabButton = locationTabButtonContainer.Q<Button>();
                 var locationLabel = locationTabButtonContainer.Q<Label>();
-                locationLabel.text = location.Name;
+                locationLabel.LocalizeText(Tables.CAMPAIGN, locationData.Name);
 
-                if (ViewModel.AvailableLocationsMap.TryGetValue(location.Id, out var locationModel))
+                if (ViewModel.AvailableLocationsMap.TryGetValue(locationData.Id, out var locationModel))
                 {
-                    if (locationModel.IsCompleted.Value)
-                    {
-                        // mark location as completed
-                    }
-                    locationTabButton.RegisterCallback<ClickEvent>(_ => ViewModel.SelectLocation(location));
-                    locationTabButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
-                    _locationTabButtonsMap[location.Id] = locationTabButton;
+                    // if (locationModel.IsCompleted.Value)
+                    // {
+                    //     // mark location as completed
+                    // }
+                    locationTabButton.RegisterCallback<ClickEvent>(_ => ViewModel.SelectLocation(locationData));
+                    // locationTabButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
+                    _locationTabButtonsMap[locationData.Id] = locationTabButton;
                 }
                 else
                 {
@@ -133,30 +132,28 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private void BindDisplayedMissionsButtons(IMissionData[] missions)
         {
             _missionsGrid.Clear();
-            _missionButtonsMap = new();
-            foreach (var mission in missions)
-            {
-                var missionButtonContainer = _selectMissionButton.CloneTree();
-                var missionButton = missionButtonContainer.Q<Button>();
-                missionButton.text = mission.DysplayedNumber;
+            _missionButtonsMap.Clear();
 
-                if (ViewModel.AvailableMissionsMap.TryGetValue(mission.Id, out var missionModel))
+            foreach (var missionData in missions)
+            {
+                var missionButtonContainer = _missionButton.CloneTree();
+                var missionButton = missionButtonContainer.Q<Button>();
+                missionButton.text = missionData.DysplayedNumber;
+
+                if (ViewModel.AvailableMissionsMap.TryGetValue(missionData.Id, out var missionModel))
                 {
                     if (missionModel.IsCompleted.Value)
                     {
-                        missionButton.AddToClassList(_selectMissionButtonCompletedStyleName);
+                        missionButton.AddToClassList(_missionButtonCompletedClass);
                     }
-                    _missionButtonsMap[mission.Id] = missionButton;
+                    _missionButtonsMap[missionData.Id] = missionButton;
+                    missionButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
+                    missionButton.RegisterCallback<ClickEvent>(_ => ViewModel.SelectMission(missionData));
                 }
                 else
                 {
                     missionButton.SetEnabled(false);
-                    // mark mission as locked
                 }
-                missionButton.RegisterCallback<ClickEvent>(_ => ViewModel.SelectMission(mission));
-                missionButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);
-                missionButton.AddToClassList(_baseButtonStyleName);
-                missionButton.AddToClassList(_missionButtonStyleName);
                 _missionsGrid.Add(missionButtonContainer);
             }
         }
@@ -185,8 +182,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             IEnumerator OpenAnimation()
             {
                 yield return null;
-                _content.RemoveFromClassList($"{_contentStyleName}--disabled");
-                _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                _content.RemoveFromClassList($"{_contentClass}--disabled");
+                _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundClass}--enabled");
                 Debug.Log("Missions: opened");
             }
         }
@@ -194,8 +191,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         protected override void OnClosing()
         {
             _isClosing = true;
-            _content.AddToClassList($"{_contentStyleName}--disabled");
-            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+            _content.AddToClassList($"{_contentClass}--disabled");
+            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundClass}--enabled");
             Debug.Log("Missions: closed");
         }
 #endregion
@@ -204,8 +201,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         {
             if (locationData != null)
             {
-                _selectedLocationTab?.RemoveFromClassList(_locationButtonSelectedStyleName);
-                _locationTabButtonsMap[locationData.Id].AddToClassList(_locationButtonSelectedStyleName);
+                _selectedLocationTab?.RemoveFromClassList(_locationButtonSelectedClass);
+                _locationTabButtonsMap[locationData.Id].AddToClassList(_locationButtonSelectedClass);
                 _selectedLocationTab = _locationTabButtonsMap[locationData.Id];
             }
         }
@@ -214,7 +211,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         {
             if (missionData != null)
             {
-                _selectedMissionButton?.RemoveFromClassList(_selectMissionButtonSelectedStyleName);
+                _selectedMissionButton?.RemoveFromClassList(_missionButtonSelectedClass);
 
                 if (ViewModel.AvailableMissionsMap.ContainsKey(missionData.Id))
                 {
@@ -227,7 +224,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
                 if (_missionButtonsMap.TryGetValue(missionData.Id, out var button))
                 {
-                    button.AddToClassList(_selectMissionButtonSelectedStyleName);
+                    button.AddToClassList(_missionButtonSelectedClass);
                     _selectedMissionButton = button;
                 }
                 else
@@ -235,10 +232,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     Debug.LogWarning($"No button for {missionData.Id} missionId");
                 }
 
-                _selectedMissionLabel.text = missionData.Name;
-                var localizedString = new LocalizedString("All", missionData.Text);
-                _selectedMissionText.SetBinding("text", localizedString);
-                // _selectedMissionText.text = missionData.Text;
+                _selectedMissionLabel.LocalizeText(Tables.CAMPAIGN, missionData.Name);
+                _selectedMissionText.LocalizeText(Tables.CAMPAIGN, missionData.Text);
             }
             else
             {

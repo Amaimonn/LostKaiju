@@ -2,7 +2,6 @@ namespace LostKaiju.Game.GameData.Settings
 {
     public interface IFullSettingsData
     {
-        public string Label { get; }
         public string SoundSectionLabel { get; }
         public string VideoSectionLabel { get; }
         public string InputSectionLabel { get; }

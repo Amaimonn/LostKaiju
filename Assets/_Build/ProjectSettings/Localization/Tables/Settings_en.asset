@@ -10,36 +10,48 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: UI_en
+  m_Name: Settings_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 53406fac855010a40bab638b98d72d3f, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 84f91dfb9ec8ade4b861f1c3998b16b0, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 8323121152
-    m_Localized: PLAY
+  - m_Id: 232701607936
+    m_Localized: Sound effects volume
     m_Metadata:
       m_Items: []
-  - m_Id: 36999577600
-    m_Localized: SETTINGS
+  - m_Id: 319880216576
+    m_Localized: Sound volume
     m_Metadata:
       m_Items: []
-  - m_Id: 550353027072
-    m_Localized: EXIT
+  - m_Id: 356643291136
+    m_Localized: Video
     m_Metadata:
       m_Items: []
-  - m_Id: 596851081216
-    m_Localized: "\rDo you want to drop everything and go home?"
+  - m_Id: 473060392960
+    m_Localized: Anti aliasing
     m_Metadata:
       m_Items: []
-  - m_Id: 1665920450560
-    m_Localized: MISSIONS
+  - m_Id: 520292450304
+    m_Localized: High bloom quality
     m_Metadata:
       m_Items: []
-  - m_Id: 1687231709184
-    m_Localized: CHOOSE YOUR HERO
+  - m_Id: 571639119872
+    m_Localized: Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612919459840
+    m_Localized: Post processing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1602443853824
+    m_Localized: Film grain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66233876480
+    m_Localized: Sound
     m_Metadata:
       m_Items: []
   references:
