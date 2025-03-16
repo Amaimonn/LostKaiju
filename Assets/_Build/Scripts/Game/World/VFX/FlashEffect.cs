@@ -54,6 +54,7 @@ namespace LostKaiju.Game.World.VFX
                 _currentElapsedTime += Time.deltaTime;
                 yield return null;
             }
+            _flashMaterial.SetFloat(_flashPropertyId, 0);
 
             for (var i = 0; i < _spriteRenderers.Length; i++)
             {

@@ -42,6 +42,12 @@ namespace LostKaiju.Game.GameData.HealthSystem
             _currentHealth.Value = _health.CurrentValue;
         }
 
+        public void RestoreFullHealth()
+        {
+            _health.Restore(_health.Max);
+            _currentHealth.Value = _health.CurrentValue;
+        }
+
         public void DecreaseHealth(int amount)
         {
             _health.Decrease(amount);

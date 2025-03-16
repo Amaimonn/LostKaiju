@@ -74,6 +74,15 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 hubExitSignal.OnNext(hubExitToMainMenuContext);
             });
 
+            if (!String.IsNullOrEmpty(hubEnterContext.ExitingMissionId))
+            {
+                if (hubEnterContext.IsMissionCompleted)
+                    Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} completed</color>");
+                else
+                    Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} exited</color>");
+                hubViewModel.OpenCampaign();
+            }
+
             return hubExitSignal;
         }
     }

@@ -14,7 +14,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
     {
         public Observable<CampaignNavigationViewModel> OnCampaignOpened => _onCampaignOpened;
         
-        private readonly Subject<CampaignNavigationViewModel> _onCampaignOpened;
+        private readonly Subject<CampaignNavigationViewModel> _onCampaignOpened = new();
         private readonly Subject<Unit> _exitToGameplaySignal;
         private readonly Func<Task<CampaignModel>> _campaignModelFactory;
         private readonly SettingsBinder _settingsBinder;
@@ -49,6 +49,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             campaignView.Bind(campaignViewModel);
             _rootUIBinder.AddView(campaignView);
             campaignViewModel.Open();
+            _onCampaignOpened.OnNext(campaignViewModel);
             
             _isMissionsOpened = true;
 

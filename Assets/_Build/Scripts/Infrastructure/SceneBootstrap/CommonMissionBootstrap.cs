@@ -45,6 +45,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var playerData = playerConfigSO.PlayerData;
             var healthState = new HealthState(playerData.PlayerDefenceData.MaxHealth);
             var healthModel = new HealthModel(healthState);
+
             var playerIndicatorsViewModel = new PlayerIndicatorsViewModel(healthModel);
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var playerIndicatorsViewPrefab = Resources.Load<PlayerIndicatorsView>(Paths.PLAYER_INDICATORS_VIEW);
@@ -67,6 +68,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 _cinemachineCamera.Follow = player.transform;
 
             var exitSignal = new Subject<Unit>();
+            
             exitSignal.Take(1).Subscribe(_ =>
             {
                 rootUIBinder.ClearView(playerIndicatorsView);
@@ -75,10 +77,31 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var missionExitContext = new MissionExitContext(toMissionEnterContext);
             var missionExitSignal = exitSignal.Select(_ => missionExitContext); // for transition between one mission scenes
             var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
+            
+#region Death handling
+            healthModel.CurrentHealth.Where(x => x == 0).TakeUntil(exitSignal).Subscribe(_ => 
+            {
+                playerInputPresenter.SetInputEnabled(false);
+                player.gameObject.SetActive(false);
+                Observable.Timer(TimeSpan.FromSeconds(1)).TakeUntil(exitSignal).Subscribe(_ =>
+                {
+                    // player.transform.position = _playerInitPosition.position;
+                    // healthModel.RestoreFullHealth();
+                    toMissionEnterContext.PlayerPosition = null;
+                    toMissionEnterContext.FromMissionSceneName = null;
+                    toMissionEnterContext.FromTriggerId = null;
+                    missionExitContext.ToMissionSceneName = gameplayEnterContext.LevelSceneName;
+
+                    exitSignal.OnNext(Unit.Default);
+                });
+            });
+#endregion
+
             // if (isMultuplayer)
             // {
             //     var groupTrigger = new GroupTriggerObserver<IPlayerHero>(_missionExitAreaTrigger);
             // }
+#region Subscene trigger handling
             if (_subSceneTriggers != null)
             {
                 var shouldSkip = !String.IsNullOrEmpty(missionEnterContext.FromTriggerId);
@@ -110,7 +133,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                         });
                 }
             }
+#endregion
 
+#region Mission complete area
             if (_missionExitAreaTrigger != null)
             {
                 if (!String.IsNullOrEmpty(missionEnterContext.FromMissionSceneName)) // from main mission scene to subscene
@@ -138,7 +163,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             {
                 Debug.LogError("Mission Exit Area Trigger is null");
             }
-
+#endregion
             
             var settingsModel = Container.Resolve<SettingsModel>();
             BindPostProcessing(settingsModel);

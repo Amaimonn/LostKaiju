@@ -20,7 +20,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     public class GameplayBootstrap : LifetimeScope
     {
         [SerializeField] private GameplayView _gameplayViewPrefab;
-# if MOBILE_BUILD || UNITY_EDITOR
+# if MOBILE_BUILD || WEB_BUILD || UNITY_EDITOR
         [SerializeField] private MobileControlsView _mobileControlsViewPrefab;
 # endif
         protected override void Configure(IContainerBuilder builder)
@@ -36,8 +36,17 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         {
             var exitGameplaySignal = new Subject<GameplayExitContext>();
             var exitToHubSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
-            var hubEnterContext = new HubEnterContext();
+            var hubEnterContext = new HubEnterContext()
+            {
+                ExitingMissionId = gameplayEnterContext.SelectedMissionData.Id
+            };
+            
             var gameplayExitContext = new GameplayExitContext(hubEnterContext);
+            gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ =>
+            {
+                hubEnterContext.IsMissionCompleted = true;
+            });
+
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
             var optionsBinder  =  Container.Resolve<OptionsBinder>();
@@ -59,7 +68,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
 
-# if MOBILE_BUILD || UNITY_EDITOR
+# if MOBILE_BUILD || WEB_BUILD || UNITY_EDITOR
             var mobileControls = Instantiate(_mobileControlsViewPrefab);
             rootUIBinder.AddView(mobileControls);
 # endif
@@ -70,6 +79,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 optionsBinder.Dispose(); // shouldn`t be opened with a loading screen by clicking escape.
                 exitGameplaySignal.OnNext(gameplayExitContext);
             });
+
             return exitGameplaySignal;
         }
     }

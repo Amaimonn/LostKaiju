@@ -16,8 +16,8 @@ namespace LostKaiju.Game.GameData.Campaign
         public readonly ReactiveProperty<IMissionData> SelectedMission;
         public readonly ObservableDictionary<string, LocationModel> AvailableLocationsMap;
         public readonly IReadOnlyDictionary<string, ILocationData> LocationsDataMap;
-        public readonly ILocationData LastLaunchedLocation;
-        public readonly IMissionData LastLaunchedMission;
+        public readonly ReactiveProperty<ILocationData> LastLaunchedLocation = new();
+        public readonly ReactiveProperty<IMissionData> LastLaunchedMission = new();
         public Subject<Unit> OnStateChanged = new();
         /// <summary>
         /// all Locations config data in campaign
@@ -52,19 +52,28 @@ namespace LostKaiju.Game.GameData.Campaign
             if (!String.IsNullOrEmpty(campaignState.LastLaunchedLocationId))
             {
                 // last launched data
-                LocationsDataMap.TryGetValue(campaignState.LastLaunchedLocationId, out LastLaunchedLocation);
-                if (LastLaunchedLocation != null)
+                if (LocationsDataMap.TryGetValue(campaignState.LastLaunchedLocationId, out var lastLaunchedLocationData))
                 {
-                    LastLaunchedMission = LastLaunchedLocation.AllMissionsData
+                    LastLaunchedLocation.Value = lastLaunchedLocationData;
+                    var lastLaunchedMissionData = lastLaunchedLocationData.AllMissionsData
                         .FirstOrDefault(x => x.Id == campaignState.LastLaunchedMissionId);
+                    LastLaunchedMission.Value = lastLaunchedMissionData;
                 }
             }
+            LastLaunchedLocation.Skip(1).Subscribe(x => State.LastLaunchedLocationId = x?.Id);
+            LastLaunchedMission.Skip(1).Subscribe(x => State.LastLaunchedMissionId = x?.Id);
 
             if (selectedLocationData != null)
             {
                 // from constructor
                 SelectedLocation = new ReactiveProperty<ILocationData>(selectedLocationData);
                 SelectedMission = new ReactiveProperty<IMissionData>(selectedMissionData);
+            }
+            else if (LastLaunchedLocation.Value != null)
+            {
+                SelectedLocation = new ReactiveProperty<ILocationData>(LastLaunchedLocation.Value);
+                if (LastLaunchedMission.Value != null)
+                    SelectedMission = new ReactiveProperty<IMissionData>(LastLaunchedMission.Value);
             }
             else
             {

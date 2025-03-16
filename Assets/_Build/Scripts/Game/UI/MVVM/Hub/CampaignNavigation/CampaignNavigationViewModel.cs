@@ -68,6 +68,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         public void StartGameplay()
         {
             Debug.Log("vm start gameplay");
+            _campaignModel.LastLaunchedLocation.Value = _campaignModel.SelectedLocation.Value;
+            _campaignModel.LastLaunchedMission.Value = _campaignModel.SelectedMission.Value;
             _startMissionSubject.OnNext(Unit.Default);
         }
 
