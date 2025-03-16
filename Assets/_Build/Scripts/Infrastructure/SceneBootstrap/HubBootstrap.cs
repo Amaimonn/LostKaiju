@@ -12,6 +12,7 @@ using LostKaiju.Game.UI.MVVM.Hub;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Services.Inputs;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -26,6 +27,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubView = Instantiate(_hubViewPrefab);
             var uiRootBinder = Container.Resolve<IRootUIBinder>();
 
+            var hubExitSignal = new Subject<HubExitContext>();
             var exitToGameplaySignal = new Subject<Unit>();
             var exitToMainMenuSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext()
@@ -35,7 +37,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var mainMenuEnterContext = new MainMenuEnterContext();
             var hubExitToMainMenuContext = new HubExitContext(mainMenuEnterContext);
             var hubExitToGameplayContext = new HubExitContext(gameplayEnterContext);
-            var hubExitSignal = new Subject<HubExitContext>();
 
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
             var campaignModelFactory = new CampaignModelFactory();
@@ -43,6 +44,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var getCampaignModel = new Func<Task<CampaignModel>>(async () => 
                 await campaignModelFactory.GetModelAsync(gameStateProvider));
             var settingsBinder = Container.Resolve<SettingsBinder>();
+            var inputProvider = Container.Resolve<IInputProvider>();
+            settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
             var hubViewModel = new HubViewModel(exitToGameplaySignal, getCampaignModel, settingsBinder, uiRootBinder);
 
             hubView.Bind(hubViewModel);

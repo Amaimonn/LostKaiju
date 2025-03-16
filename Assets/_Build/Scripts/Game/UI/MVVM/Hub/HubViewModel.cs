@@ -13,6 +13,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
     public class HubViewModel : IViewModel
     {
         public Observable<CampaignNavigationViewModel> OnCampaignOpened => _onCampaignOpened;
+        
         private readonly Subject<CampaignNavigationViewModel> _onCampaignOpened;
         private readonly Subject<Unit> _exitToGameplaySignal;
         private readonly Func<Task<CampaignModel>> _campaignModelFactory;

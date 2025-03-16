@@ -38,6 +38,7 @@ namespace LostKaiju.Services.Inputs
         public bool GetShift => _onReadDash();
 
         public bool GetAttack => _onReadAttack();
+        public Observable<Unit> OnEscape => _onEscape;
 
         private readonly Func<Vector2> _onReadMove;
         private readonly Func<bool> _onReadJump;
@@ -45,6 +46,7 @@ namespace LostKaiju.Services.Inputs
         private readonly Func<bool> _onReadAttack;
         private readonly ReactiveProperty<bool> _horizontalCanceled = new(true);
         private readonly ReactiveProperty<bool> _verticalCanceled = new(true);
+        private readonly Subject<Unit> _onEscape = new();
 
         public InputSystemProvider()
         {
@@ -52,6 +54,7 @@ namespace LostKaiju.Services.Inputs
             var jumpAction = InputSystem.actions.FindAction("Jump");
             var dashAction = InputSystem.actions.FindAction("Dash");
             var attackAction = InputSystem.actions.FindAction("Attack");
+            InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
 
             _onReadMove = moveAction.ReadValue<Vector2>;
             _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;

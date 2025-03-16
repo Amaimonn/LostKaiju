@@ -8,6 +8,9 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
     public class ExitPopUpBinder
     {
+        public Observable<ExitPopUpViewModel> OnOpened => _onOpened;
+        
+        private readonly Subject<ExitPopUpViewModel> _onOpened = new();
         private readonly IRootUIBinder _rootUIBinder;
         private readonly Subject<Unit> _exitSignal;
         private ExitPopUpViewModel _currentExitPopUpViewModel;
@@ -43,6 +46,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
             exitPopUpView.Bind(_currentExitPopUpViewModel);
             _rootUIBinder.AddView(exitPopUpView);
             _currentExitPopUpViewModel.Open();
+            _onOpened.OnNext(_currentExitPopUpViewModel);
 
             return _currentExitPopUpViewModel;
         }

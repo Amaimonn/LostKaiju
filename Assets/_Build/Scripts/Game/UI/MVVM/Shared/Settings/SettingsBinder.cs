@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using R3;
 
@@ -10,10 +11,15 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SettingsBinder
     {
+        public Observable<SettingsViewModel> OnOpened => _onOpened;
+        
+        private readonly Subject<SettingsViewModel> _onOpened = new();
         private IRootUIBinder _rootUIBinder;
         private IGameStateProvider _gameStateProvider;
         private SettingsModel _settingsModel;
+        // private ApplyPopUpBinder _applyPopUpBinder
         private SettingsViewModel _currentSettingsViewModel;
+        private bool _isClosingEnabled = true;
 
         public SettingsBinder(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
             SettingsModel settingsModel)
@@ -21,6 +27,32 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _rootUIBinder = rootUIBinder;
             _gameStateProvider = gameStateProvider;
             _settingsModel = settingsModel;
+        }
+
+        public IDisposable BindClosingSignal(Observable<Unit> onClose)
+        {
+            return onClose.Subscribe(_ => 
+            {
+                if (!_isClosingEnabled)
+                    return;
+
+                if (_currentSettingsViewModel != null)
+                {
+                    if (_currentSettingsViewModel.IsApplyPopUpOpened) // if _applyPopUpBinder.CurrentViewModel != null
+                    {
+                        // _isClosingEnabled = false;
+                        // _applyPopUpBinder.CurrentViewModel.OnClosingCompleted.Take(1).Subscribe(_ => _isClosingEnabled = true);
+                        // _applyPopUpBinder.CurrentViewModel.StartClosing();
+                    }
+                    else
+                    {
+                        _isClosingEnabled = false;
+                        _currentSettingsViewModel.OnClosingCompleted.Take(1).Subscribe(_ => _isClosingEnabled = true);
+                        _currentSettingsViewModel.StartClosing();
+                        Debug.Log("SettingsBinder catched esc");
+                    }
+                }
+            });
         }
 
         public SettingsViewModel ShowSettings()
@@ -45,6 +77,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             settingsView.Bind(_currentSettingsViewModel);
             _rootUIBinder.AddView(settingsView);
             _currentSettingsViewModel.Open();
+            _onOpened.OnNext(_currentSettingsViewModel);
             
             return _currentSettingsViewModel;
         }

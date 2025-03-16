@@ -86,11 +86,17 @@ namespace LostKaiju.Infrastructure.Loading
             }
             yield return GetRemainFakeLoadTime(startTime);
             yield return _loadingScreen.HideCoroutine();
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         private IEnumerator LoadGameplay(GameplayEnterContext gameplayEnterContext)
         {
             yield return _loadingScreen.ShowCoroutine();
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             var startTime = Time.time;
 
             yield return LoadSceneAsync(Scenes.GAP);

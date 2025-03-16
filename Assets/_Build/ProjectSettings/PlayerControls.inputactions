@@ -291,7 +291,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "0d303f1e-7e0d-4289-b863-5ba662411ecd",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

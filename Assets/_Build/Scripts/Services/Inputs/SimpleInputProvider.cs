@@ -35,6 +35,8 @@ namespace LostKaiju.Services.Inputs
 
         public bool GetAttack => Input.GetKeyDown(KeyCode.Mouse0);
 
+        public Observable<Unit> OnEscape => Observable.EveryUpdate().Where(x => Input.GetKeyDown(KeyCode.Escape));
+
         private readonly ReactiveProperty<bool> _horizontalCanceled = new(true);
         private readonly ReactiveProperty<bool> _verticalCanceled = new(true);
     }

@@ -7,6 +7,7 @@ using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.MainMenu;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Services.Inputs;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -20,6 +21,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var settingsBinder = Container.Resolve<SettingsBinder>();
+            var inputProvider = Container.Resolve<IInputProvider>();
+            settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(exitSignal));
             var mainMenuViewModel = new MainMenuViewModel(exitSignal, settingsBinder);
             var rootBinder = Container.Resolve<IRootUIBinder>();
             var mainMenuView = Instantiate(_mainMenuViewPrefab);

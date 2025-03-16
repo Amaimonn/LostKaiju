@@ -8,6 +8,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
     public class SettingsViewModel : ScreenViewModel, IDisposable
     {
         public SettingsSectionViewModel CurrentSection => _currentSection;
+        public bool IsApplyPopUpOpened => false; // TODO: popup
         public readonly SoundSettingsViewModel SoundSettingsViewModel;
         public readonly VideoSettingsViewModel VideoSettingsViewModel;
         public readonly IFullSettingsData SettingsData;
