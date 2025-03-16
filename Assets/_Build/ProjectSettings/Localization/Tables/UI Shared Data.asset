@@ -51,6 +51,18 @@ MonoBehaviour:
     m_Key: cancel_changes
     m_Metadata:
       m_Items: []
+  - m_Id: 68019272859648
+    m_Key: loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73504487161856
+    m_Key: confirm_exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73554550374400
+    m_Key: cancel
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

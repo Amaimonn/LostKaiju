@@ -54,6 +54,18 @@ MonoBehaviour:
     m_Localized: <u>Cancel changes</u>
     m_Metadata:
       m_Items: []
+  - m_Id: 68019272859648
+    m_Localized: Loading...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73504487161856
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73554550374400
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
