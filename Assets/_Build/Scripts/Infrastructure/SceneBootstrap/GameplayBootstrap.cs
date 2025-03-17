@@ -12,6 +12,9 @@ using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.Loading;
+using System.Threading.Tasks;
+using UnityEngine.AddressableAssets;
+using LostKaiju.Game.World.Player.Data.Configs;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -33,8 +36,12 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             builder.Register<OptionsBinder>(Lifetime.Singleton);
         }
 
-        public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
+        public async Task<Observable<GameplayExitContext>> BootAsync(GameplayEnterContext gameplayEnterContext)
         {
+            var playerConfigHandle = Addressables.LoadAssetAsync<IPlayerConfig>(gameplayEnterContext.PlayerConfigPath);
+            await playerConfigHandle.Task;
+            gameplayEnterContext.PlayerConfig = playerConfigHandle.Result;
+
             var exitGameplaySignal = new Subject<GameplayExitContext>();
             var exitToHubSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
             var hubEnterContext = new HubEnterContext()

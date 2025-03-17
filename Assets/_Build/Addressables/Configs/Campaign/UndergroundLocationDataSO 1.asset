@@ -16,10 +16,8 @@ MonoBehaviour:
   <Name>k__BackingField: location_name_1
   <AllMissionsDataSO>k__BackingField:
   - {fileID: 11400000, guid: 3afaf6dde8b4cd147b1d292689e4152c, type: 2}
-  - {fileID: 11400000, guid: dff3e727f59ea86448d93fcbd820445b, type: 2}
   - {fileID: 11400000, guid: 023260b38431de44e97299b7e71e5ae5, type: 2}
   - {fileID: 11400000, guid: 11a70e876e7c25146acb2548efdd14d5, type: 2}
-  - {fileID: 11400000, guid: 1029fd930916b014ea43a0e3df02b15f, type: 2}
   - {fileID: 11400000, guid: 019441b97d446a64f84527755f2800ed, type: 2}
   - {fileID: 11400000, guid: 7456dd17d48c0904c9733743ca00b306, type: 2}
   - {fileID: 11400000, guid: d9b0f7203168b1b43a03ed6d728819b2, type: 2}

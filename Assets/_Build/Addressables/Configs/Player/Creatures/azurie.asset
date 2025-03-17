@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bed60146a580d445a1691250533c12d, type: 3}
-  m_Name: yellorie
+  m_Name: azurie
   m_EditorClassIdentifier: 
-  <CreatureBinder>k__BackingField: {fileID: 8212312093941850259, guid: 7b348c61556ae9e4a9bc55750b3454eb, type: 3}
+  <CreatureBinder>k__BackingField: {fileID: 4398842620609776785, guid: c7fdfa564f074c143bc0e833fdfba1c6, type: 3}
   _playerDataSO: {fileID: 11400000, guid: 6e738d01cb6710444a13d040590681e8, type: 2}

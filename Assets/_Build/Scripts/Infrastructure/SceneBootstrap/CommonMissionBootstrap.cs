@@ -11,7 +11,6 @@ using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
 using LostKaiju.Game.World.Player;
 using LostKaiju.Game.World.Player.Behaviour;
-using LostKaiju.Game.World.Player.Data.Configs;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Game.World.Missions.Triggers;
 using LostKaiju.Game.GameData.Settings;
@@ -35,15 +34,14 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
-            var playerConfigPath = gameplayEnterContext.PlayerConfigPath;
-            var playerConfigSO = Resources.Load<PlayerConfigSO>(playerConfigPath);
-            var playerPrefab = playerConfigSO.CreatureBinder;
+            var playerConfig = gameplayEnterContext.PlayerConfig;
+            var playerPrefab = playerConfig.CreatureBinder;
             var spawnPosition = missionEnterContext.FromMissionSceneName == null ? // if from subscene to main
                 missionEnterContext.PlayerPosition ?? _playerInitPosition.position : _playerInitPosition.position;
             var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
             Debug.Log("player instantiated");
 
-            var playerData = playerConfigSO.PlayerData;
+            var playerData = playerConfig.PlayerData;
             var healthState = new HealthState(playerData.PlayerDefenceData.MaxHealth);
             var healthModel = new HealthModel(healthState);
 

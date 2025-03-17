@@ -8,6 +8,9 @@ using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.Constants;
 using System.Threading.Tasks;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace LostKaiju.Infrastructure.Loading
 {
@@ -69,9 +72,10 @@ namespace LostKaiju.Infrastructure.Loading
 
                 var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
                 hubBootstrap.Build();
-                var hubExitSignalRequest = hubBootstrap.BootAsync(hubEnterContext);
-                yield return new WaitUntil(() => hubExitSignalRequest.IsCompleted);
-                var hubExitSignal = hubExitSignalRequest.Result;
+
+                var hubExitSignalTask = hubBootstrap.BootAsync(hubEnterContext);
+                yield return new WaitUntil(() => hubExitSignalTask.IsCompleted);
+                var hubExitSignal = hubExitSignalTask.Result;
                 
                 hubExitSignal.Take(1).Subscribe(hubExitContext =>
                 {
@@ -111,7 +115,10 @@ namespace LostKaiju.Infrastructure.Loading
 
                 var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
                 gameplayBootstrap.Build();
-                var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
+
+                var gameplayExitSignalTask = gameplayBootstrap.BootAsync(gameplayEnterContext);
+                yield return new WaitUntil(() => gameplayExitSignalTask.IsCompleted);
+                var gameplayExitSignal = gameplayExitSignalTask.Result;
 
                 gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
                 {
@@ -129,17 +136,18 @@ namespace LostKaiju.Infrastructure.Loading
         }
 
         private IEnumerator LoadMissionAdditive(LifetimeScope parentScope, MissionEnterContext missionEnterContext,
-            string toMissionSceneName, string fromMissionSceneName = null)
+            string toMissionSceneName, AsyncOperationHandle<SceneInstance>? fromMissionSceneHandle = null)
         {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(Scenes.GAMEPLAY));
-            if (fromMissionSceneName != null)
+            if (fromMissionSceneHandle != null)
             {
-                yield return UnloadSceneAsync(fromMissionSceneName);
+                yield return UnloadSceneAsync(fromMissionSceneHandle.Value);
             }
 
             using (LifetimeScope.EnqueueParent(parentScope))
             {
-                yield return LoadSceneAsync(toMissionSceneName, LoadSceneMode.Additive);
+                var toSceneHandle = LoadSceneAsync(toMissionSceneName, LoadSceneMode.Additive);
+                yield return toSceneHandle;
 
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(toMissionSceneName));
 
@@ -153,21 +161,21 @@ namespace LostKaiju.Infrastructure.Loading
                     var toSceneName = missionExitContext.ToMissionSceneName;
                     var toSceneContext = missionExitContext.MissionEnterContext;
                     _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName: toSceneName,
-                        fromMissionSceneName: toMissionSceneName));
+                        fromMissionSceneHandle: toSceneHandle));
 
                     _loadingScreen.Hide();
                 });
             }
         }
 
-        private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
+        private AsyncOperationHandle<SceneInstance> LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            yield return SceneManager.LoadSceneAsync(sceneName, mode);
+            return Addressables.LoadSceneAsync($"Scenes/{sceneName}", mode);
         }
 
-        private IEnumerator UnloadSceneAsync(string sceneName)
+        private IEnumerator UnloadSceneAsync(AsyncOperationHandle<SceneInstance> sceneHandle)
         {
-            yield return SceneManager.UnloadSceneAsync(sceneName);
+            yield return Addressables.UnloadSceneAsync(sceneHandle);
         }
 
         private YieldInstruction GetRemainFakeLoadTime(float startTime)

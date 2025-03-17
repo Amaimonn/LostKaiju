@@ -14,6 +14,8 @@ using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.GameData.Heroes;
+using System.IO;
+using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -35,7 +37,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var exitToMainMenuSignal = new Subject<Unit>();
             var gameplayEnterContext = new GameplayEnterContext()
             {
-                PlayerConfigPath = $"Gameplay/PlayerConfigs/{gameStateProvider.Heroes.SelectedHeroId}",
+                PlayerConfigPath = $"{Paths.PLAYER_CREATURES}/{gameStateProvider.Heroes.SelectedHeroId}",
             };
             var mainMenuEnterContext = new MainMenuEnterContext();
             var hubExitToMainMenuContext = new HubExitContext(mainMenuEnterContext);
