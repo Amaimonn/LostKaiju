@@ -20,6 +20,7 @@ using LostKaiju.Game.Constants;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.World.Creatures.Features;
+using LostKaiju.Game.UI.MVVM.Shared.Settings;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -55,6 +56,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             var inputProvider = Container.Resolve<IInputProvider>();
             var inputStateProvider = Container.Resolve<InputStateProvider>();
+            inputStateProvider.ClearBlockers();
             var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider);
             inputStateProvider.IsInputEnabled.Subscribe(playerInputPresenter.SetInputEnabled);
             var playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
@@ -81,7 +83,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 #region Death handling
             healthModel.CurrentHealth.Where(x => x == 0).TakeUntil(exitSignal).Subscribe(_ => 
             {
-                playerInputPresenter.SetInputEnabled(false);
+                OnPlayerTransition();
                 player.gameObject.SetActive(false);
                 Observable.Timer(TimeSpan.FromSeconds(1)).TakeUntil(exitSignal).Subscribe(_ =>
                 {
@@ -129,6 +131,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                             toMissionEnterContext.PlayerPosition = player.transform.position;
                             toMissionEnterContext.FromTriggerId = subTrigger.ToSceneName;
                             missionExitContext.ToMissionSceneName = subTrigger.ToSceneName;
+                            OnPlayerTransition();
                             exitSignal.OnNext(Unit.Default);
                         });
                 }
@@ -146,6 +149,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                         toMissionEnterContext.PlayerPosition = missionEnterContext.PlayerPosition;
                         toMissionEnterContext.FromTriggerId = missionEnterContext.FromTriggerId;
                         missionExitContext.ToMissionSceneName = missionEnterContext.FromMissionSceneName;
+                        OnPlayerTransition();
                         exitSignal.OnNext(Unit.Default);
                     });
                 }
@@ -155,6 +159,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                     {
                         Debug.Log("Mission completed signal");
                         missionEnterContext.GameplayEnterContext.MissionCompletionSignal.OnNext(Unit.Default);
+                        OnPlayerTransition();
                         gameplayExitSignal.OnNext(Unit.Default);
                     });
                 }
@@ -169,6 +174,14 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             BindPostProcessing(settingsModel);
 
             return missionExitSignal;
+
+            void OnPlayerTransition()
+            {
+                inputStateProvider.AddBlocker(new FakeBlocker());
+                if (Container.TryResolve<OptionsBinder>(out var optionsBinder))
+                    optionsBinder.CloseAll();
+                playerDefencePresenter.SetInvincible(true);
+            }
         }
 
         private void BindPostProcessing(SettingsModel settingsModel)

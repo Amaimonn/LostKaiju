@@ -27,8 +27,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
             
             ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
+            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding());
         }
 
+        private void OnLoadingCompletedBinding()
+        {
+
+        }
+        
         private void CompleteSelection(ClickEvent clickEvent)
         {
             if (_isStartPressed)

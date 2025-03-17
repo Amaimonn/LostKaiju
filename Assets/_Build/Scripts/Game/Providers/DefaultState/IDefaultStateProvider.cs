@@ -1,4 +1,5 @@
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.GameData.Heroes;
 using LostKaiju.Game.GameData.Settings;
 
 namespace LostKaiju.Game.Providers.DefaultState
@@ -7,5 +8,6 @@ namespace LostKaiju.Game.Providers.DefaultState
     {
         public SettingsState GetSettings();
         public CampaignState GetCampaign();
+        public HeroesState GetHeroes();
     }
 }

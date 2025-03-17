@@ -59,6 +59,14 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             }
         }
 
+        public void CloseAll()
+        {
+            while (_screensStack.TryPeek(out var viewModel))
+            {
+                viewModel.CompleteClosing();
+            }
+        }
+
         private void RegisterInStack(ScreenViewModel viewModel)
         {
             _screensStack.Push(viewModel);

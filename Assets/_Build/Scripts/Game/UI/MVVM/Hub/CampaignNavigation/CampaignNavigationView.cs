@@ -77,14 +77,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         protected override void OnBind(CampaignNavigationViewModel viewModel)
         {
             base.OnBind(viewModel);
-            ViewModel.IsLoaded.Subscribe(isLoaded => {
-                if (isLoaded)
-                    OnLoadingCompletedBinding();
-                // else 
-                // {
-                //     // loading circle animation
-                // }
-            });
+            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding());
         }
 
         private void OnLoadingCompletedBinding()

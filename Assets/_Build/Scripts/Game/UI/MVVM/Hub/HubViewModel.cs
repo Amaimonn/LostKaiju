@@ -18,16 +18,17 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly Subject<Unit> _exitToGameplaySignal;
         private readonly Func<Task<CampaignModel>> _campaignModelFactory;
         private readonly SettingsBinder _settingsBinder;
+        private HeroSelectionBinder _heroSelectionBinder;
         private readonly IRootUIBinder _rootUIBinder;
         private bool _isMissionsOpened = false;
-        private bool _isHeroSelectionOpened = false;
         
         public HubViewModel(Subject<Unit> exitToGameplaySignal, Func<Task<CampaignModel>> campaignModelFactory,
-            SettingsBinder settingsBinder, IRootUIBinder rootUIBinder)
+            SettingsBinder settingsBinder, HeroSelectionBinder heroSelectionBinder, IRootUIBinder rootUIBinder)
         {
             _exitToGameplaySignal = exitToGameplaySignal;
             _campaignModelFactory = campaignModelFactory;
             _settingsBinder = settingsBinder;
+            _heroSelectionBinder = heroSelectionBinder;
             _rootUIBinder = rootUIBinder;
         }
 
@@ -65,23 +66,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         public void OpenHeroSelection()
         {
-            if (_isHeroSelectionOpened)
-                return;
-            
-            var heroSelectionViewPrefab = Resources.Load<HeroSelectionView>(Paths.HERO_SELECTION_VIEW);
-            var heroSelectionView = UnityEngine.Object.Instantiate(heroSelectionViewPrefab);
-
-            var heroSelectionViewModel = new HeroSelectionViewModel();
-            heroSelectionViewModel.OnClosingCompleted.Subscribe(_ =>  {
-                _rootUIBinder.ClearView(heroSelectionView);
-                _isHeroSelectionOpened = false;
-            });
-
-            heroSelectionView.Bind(heroSelectionViewModel);
-            _rootUIBinder.AddView(heroSelectionView);
-            heroSelectionViewModel.Open();
-
-            _isHeroSelectionOpened = true;
+            _heroSelectionBinder.TryBindAndOpen(out _);
         }
 
         public void OpenSettings()

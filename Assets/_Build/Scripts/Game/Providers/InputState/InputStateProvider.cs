@@ -24,5 +24,10 @@ namespace LostKaiju.Game.Providers.InputState
         {
             _inputBlockers.Remove(inputBlocker);
         }
+
+        public void ClearBlockers()
+        {
+            _inputBlockers.Clear();
+        }
     }
 }

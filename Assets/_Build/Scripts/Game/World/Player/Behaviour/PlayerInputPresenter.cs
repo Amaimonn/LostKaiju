@@ -76,22 +76,22 @@ namespace LostKaiju.Game.World.Player.Behaviour
             _jumpInputBufferTimer = new Timer(jumpParameters.InputTimeBufferSize, true);
 
             // dash state (optional)
-            var dashParameters = new DashParameters();
-            var dashState = new DashState();
-            var dashRefreshed = Observable.Merge(
-                Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)
-                    .Skip(1)
-                    .Where(x => x == true && _groundCheck.IsGrounded == true)
-                    .Select(_ => true), // finished on the ground
-                Observable.EveryValueChanged(_groundCheck, x => x.IsGrounded)
-                    .Skip(1)
-                    .Where(x => x == true));  // on grounded signal
-            dashState.Init(dashParameters, _creature.Rigidbody, 
-                Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight),
-                isRefreshed: dashRefreshed);
-            var dashCooldownTimer = new Timer(dashParameters.Cooldown, true);
-            _cooldownTimers.Add(dashCooldownTimer);
-            dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
+            // var dashParameters = new DashParameters();
+            // var dashState = new DashState();
+            // var dashRefreshed = Observable.Merge(
+            //     Observable.EveryValueChanged(dashState, x => x.IsCompleted.CurrentValue)
+            //         .Skip(1)
+            //         .Where(x => x == true && _groundCheck.IsGrounded == true)
+            //         .Select(_ => true), // finished on the ground
+            //     Observable.EveryValueChanged(_groundCheck, x => x.IsGrounded)
+            //         .Skip(1)
+            //         .Where(x => x == true));  // on grounded signal
+            // dashState.Init(dashParameters, _creature.Rigidbody, 
+            //     Observable.EveryValueChanged(flipper, x => x.IsLookingToTheRight),
+            //     isRefreshed: dashRefreshed);
+            // var dashCooldownTimer = new Timer(dashParameters.Cooldown, true);
+            // _cooldownTimers.Add(dashCooldownTimer);
+            // dashState.OnEnter.Subscribe(_ => dashCooldownTimer.Refresh());
 
             // attack state
             // var attackParameters = _controlsData.Attack;
@@ -115,15 +115,16 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 new FiniteTransition<IdleState, WalkState>(() => _inputProvider.GetHorizontal != 0),
                 new FiniteTransition<IdleState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted 
                     && _groundCheck.IsGrounded && jumpCooldownTimer.IsCompleted),
-                new SameForMultipleTransition<DashState>(() => _inputProvider.GetShift && 
-                    dashCooldownTimer.IsCompleted && dashState.IsRefreshed.CurrentValue,
-                    new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState) }),
-                new FiniteTransition<DashState, IdleState>(() => dashState.IsCompleted.CurrentValue),
+                // new SameForMultipleTransition<DashState>(() => _inputProvider.GetShift && 
+                //     dashCooldownTimer.IsCompleted && dashState.IsRefreshed.CurrentValue,
+                //     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState) }),
+                // new FiniteTransition<DashState, IdleState>(() => dashState.IsCompleted.CurrentValue),
                 new FiniteTransition<WalkState, IdleState>(() => _inputProvider.GetHorizontal == 0) // low priority
             };
 
             _finiteStateMachine = new FiniteStateMachine();
-            _finiteStateMachine.AddStates(walkState, jumpState, idleState, dashState, attackState);
+            _finiteStateMachine.AddStates(walkState, jumpState, idleState, attackState);
+            // _finiteStateMachine.AddState(dashState);
             _finiteStateMachine.AddTransitions(transitions);
             
             _finiteStateMachine.Init(typeof(IdleState));

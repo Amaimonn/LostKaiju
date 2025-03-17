@@ -4,16 +4,17 @@ using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.World.Player.Data;
 using LostKaiju.Game.GameData.HealthSystem;
+using LostKaiju.Game.World.Player.Views;
 
 namespace LostKaiju.Game.World.Player.Behaviour
 {
     public class PlayerDefencePresenter : IPlayerDefencePresenter
     {
-        
         public Observable<Unit> OnDeath => _onDeath;
         private readonly HealthModel _healthModel;
         private IDamageReceiver _damageReceiver;
         private readonly Subject<Unit> _onDeath = new();
+        private bool _isInvincible;
 
         public PlayerDefencePresenter(HealthModel healthModel, PlayerDefenceData playerDefenceData)
         {
@@ -27,6 +28,16 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var features = creature.Features;
             _damageReceiver = features.Resolve<IDamageReceiver>();
             _damageReceiver.OnDamageTaken.Subscribe(DecreaseHealth);
+            if (features.TryResolve<PlayerJuicySystem>(out var juicySystem))
+            {
+                _damageReceiver.OnDamageTaken.Where(_ => !_isInvincible)
+                    .Subscribe(x => juicySystem.PlayOnDamaged());
+            }
+        }
+
+        public void SetInvincible(bool isInvincible)
+        {
+            _isInvincible = isInvincible;
         }
 
         private void RestoreHealth(int amount)
@@ -36,7 +47,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         private void DecreaseHealth(int amount)
         {
-            _healthModel.DecreaseHealth(amount);
+            if (!_isInvincible)
+                _healthModel.DecreaseHealth(amount);
         }
     }
 }

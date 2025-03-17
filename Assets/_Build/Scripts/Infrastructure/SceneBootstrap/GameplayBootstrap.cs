@@ -11,6 +11,7 @@ using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Services.Inputs;
+using LostKaiju.Infrastructure.Loading;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -50,7 +51,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
             var optionsBinder  =  Container.Resolve<OptionsBinder>();
-            optionsBinder.BindEscapeSignal(inputProvider.OnEscape);
+            var loadingNotifier = Container.Resolve<ILoadingScreenNotifier>();
+            loadingNotifier.OnFinished.Take(1).Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnEscape));
             var cursorDisposable = optionsBinder.OnOpened.Subscribe(x => 
             {
                 Cursor.visible = true;

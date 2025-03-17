@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class CampaignNavigationViewModel : ScreenViewModel
+    public class CampaignNavigationViewModel : ScreenViewModel, IDelayedBinding
     {
         public Observable<bool> IsLoaded => _isLoaded;
         public ReadOnlyReactiveProperty<ILocationData> SelectedLocation => _selectedLocation;

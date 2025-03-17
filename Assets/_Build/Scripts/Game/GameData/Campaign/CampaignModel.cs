@@ -77,31 +77,30 @@ namespace LostKaiju.Game.GameData.Campaign
             }
             else
             {
-                var locationIdToSelect = campaignState.SelectedLocationId;
-                if (!String.IsNullOrEmpty(locationIdToSelect) &&
-                    LocationsDataMap.TryGetValue(locationIdToSelect, out var locationDataToSelect))
-                {
-                    // from state
-                    SelectedLocation = new ReactiveProperty<ILocationData>(locationDataToSelect);
-                    var missionIdToSelect = campaignState.SelectedMissionId;
-                    if (String.IsNullOrEmpty(missionIdToSelect))
-                    {
-                        SelectedMission = new ReactiveProperty<IMissionData>(null);
-                    }
-                    else
-                    {
-                        var missionDataToSelect = locationDataToSelect.AllMissionsData
-                            .FirstOrDefault(x => x.Id == missionIdToSelect);
-                        SelectedMission = new ReactiveProperty<IMissionData>(missionDataToSelect);
-                    }
-                }
-                else
-                {
-                    // default
-                    var firstLocationData = LocationsDataMap.First().Value;
-                    SelectedLocation = new ReactiveProperty<ILocationData>(firstLocationData);
-                    SelectedMission = new ReactiveProperty<IMissionData>(null);
-                }
+                // var locationIdToSelect = campaignState.SelectedLocationId;
+                // if (!String.IsNullOrEmpty(locationIdToSelect) &&
+                //     LocationsDataMap.TryGetValue(locationIdToSelect, out var locationDataToSelect))
+                // {
+                //     // from state
+                //     SelectedLocation = new ReactiveProperty<ILocationData>(locationDataToSelect);
+                //     var missionIdToSelect = campaignState.SelectedMissionId;
+                //     if (String.IsNullOrEmpty(missionIdToSelect))
+                //     {
+                //         SelectedMission = new ReactiveProperty<IMissionData>(null);
+                //     }
+                //     else
+                //     {
+                //         var missionDataToSelect = locationDataToSelect.AllMissionsData
+                //             .FirstOrDefault(x => x.Id == missionIdToSelect);
+                //         SelectedMission = new ReactiveProperty<IMissionData>(missionDataToSelect);
+                //     }
+                // }
+
+                // default
+                var firstLocationData = LocationsDataMap.FirstOrDefault().Value;
+                SelectedLocation = new ReactiveProperty<ILocationData>(firstLocationData);
+                SelectedMission = new ReactiveProperty<IMissionData>(firstLocationData?.AllMissionsData?
+                        .FirstOrDefault());
             }
         }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using R3;
 
-namespace LostKaiju.Game.UI.MVVM.Gameplay
+namespace LostKaiju.Game.UI.MVVM
 {
     public abstract class PopUpCanvasView<T> : ScreenCanvasView<T> where T : ScreenViewModel
     {

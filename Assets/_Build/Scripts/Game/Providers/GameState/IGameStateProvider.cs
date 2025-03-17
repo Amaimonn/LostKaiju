@@ -1,20 +1,18 @@
 using System.Threading.Tasks;
 
 using LostKaiju.Boilerplates.Locator;
-using LostKaiju.Game.GameData.Campaign;
-using LostKaiju.Game.GameData.Settings;
-
+using LostKaiju.Game.GameData.Default;
 namespace LostKaiju.Game.Providers.GameState
 {
-    public interface IGameStateProvider : IService
+    public interface IGameStateProvider : IDefaultState, IService
     {
-        public SettingsState Settings { get; }
-        public CampaignState Campaign { get; }
+        public Task LoadSettingsAsync();
+        public Task SaveSettingsAsync();
 
         public Task LoadCampaignAsync();
         public Task SaveCampaignAsync();
         
-        public Task LoadSettingsAsync();
-        public Task SaveSettingsAsync();
+        public Task LoadHeroesAsync();
+        public Task SaveHeroesAsync();
     }
 }

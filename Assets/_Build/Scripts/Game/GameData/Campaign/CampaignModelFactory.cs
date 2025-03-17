@@ -8,20 +8,27 @@ using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
-    public class CampaignModelFactory
+    public class CampaignModelFactory : IAsyncModelFactory<CampaignModel>
     {
-        public Subject<CampaignModel> OnProduced { get; } = new Subject<CampaignModel>();
+        public Observable<CampaignModel> OnProduced => _onProduced;
+        private readonly IGameStateProvider _gameStateProvider;
+        private readonly Subject<CampaignModel> _onProduced = new();
 
-        public async Task<CampaignModel> GetModelAsync(IGameStateProvider gameStateProvider)
+        public CampaignModelFactory(IGameStateProvider gameStateProvider)
+        {
+            _gameStateProvider = gameStateProvider;
+        }
+
+        public async Task<CampaignModel> GetModelAsync()
         {
             var locationsDataSORequest = Resources.LoadAsync<LocationsDataSO>(Paths.LOCATIONS_DATA);
             await locationsDataSORequest;
 
             var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;
-            var campaignState = gameStateProvider.Campaign;
+            var campaignState = _gameStateProvider.Campaign;
             var campaignModel = new CampaignModel(campaignState, locationsDataSO);
 
-            OnProduced.OnNext(campaignModel);
+            _onProduced.OnNext(campaignModel);
 
             return campaignModel;
         }

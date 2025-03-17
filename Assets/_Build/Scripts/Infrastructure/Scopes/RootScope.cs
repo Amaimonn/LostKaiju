@@ -35,7 +35,7 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
             // builder.Register<IDefaultStateProvider, DefaultStateSOProvider>(Lifetime.Singleton);
             var defaultStateProvider = new DefaultStateSOProvider();
-#if UNITY_EDITOR || !YG_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
+#if UNITY_EDITOR || !YG_BUILD && !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
             var serizlizer = new JsonUtilitySerializer();
             var storage = new FileStorage(fileExtension: "json");
             var saveSystem = new SimpleSaveSystem(serizlizer, storage);
@@ -51,8 +51,8 @@ namespace LostKaiju.Infrastructure.Scopes
 
             if (gameStateProvider.Campaign.LastUpdateIndex != GameInfo.CampaignUpdateIndex)
             {
-                var campaignModelFactory = new CampaignModelFactory();
-                var campaignModel = await campaignModelFactory.GetModelAsync(gameStateProvider);
+                var campaignModelFactory = new CampaignModelFactory(gameStateProvider);
+                var campaignModel = await campaignModelFactory.GetModelAsync();
                 campaignModel.UpdateAvailableLocationsAndMissions();
                 gameStateProvider.Campaign.LastUpdateIndex = GameInfo.CampaignUpdateIndex;
                 await gameStateProvider.SaveCampaignAsync();
@@ -67,6 +67,8 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.Register<SettingsBinder>(Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
+            builder.RegisterInstance<ILoadingScreenNotifier>(loadingScreen);
+
             var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);
             monoHook.StartCoroutine(sceneLoader.LoadStartScene());
         }

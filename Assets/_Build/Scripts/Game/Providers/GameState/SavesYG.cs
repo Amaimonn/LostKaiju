@@ -1,4 +1,5 @@
 using LostKaiju.Game.GameData.Campaign;
+using LostKaiju.Game.GameData.Heroes;
 using LostKaiju.Game.GameData.Settings;
 
 namespace YG
@@ -7,5 +8,6 @@ namespace YG
     {
         public SettingsState Settings;
         public CampaignState Campaign;
+        public HeroesState Heroes;
     }
 }

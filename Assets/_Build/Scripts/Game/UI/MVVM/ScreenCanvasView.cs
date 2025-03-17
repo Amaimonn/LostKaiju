@@ -2,7 +2,7 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 
-namespace LostKaiju.Game.UI.MVVM.Gameplay
+namespace LostKaiju.Game.UI.MVVM
 {
     public abstract class ScreenCanvasView<T> : CanvasView<T> where T : ScreenViewModel
     {

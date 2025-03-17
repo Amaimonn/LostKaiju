@@ -6,6 +6,7 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Services.Saves;
 using LostKaiju.Game.Constants;
 using LostKaiju.Game.Providers.DefaultState;
+using LostKaiju.Game.GameData.Heroes;
 
 namespace LostKaiju.Game.Providers.GameState
 {
@@ -13,6 +14,7 @@ namespace LostKaiju.Game.Providers.GameState
     {
         public SettingsState Settings { get; private set; }
         public CampaignState Campaign { get; private set; }
+        public HeroesState Heroes { get; private set; }
 
         private readonly ISaveSystem _saveSystem;
         private readonly IDefaultStateProvider _defaultStateProvider;
@@ -51,19 +53,22 @@ namespace LostKaiju.Game.Providers.GameState
             await _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);
         }
 
+        public async Task LoadHeroesAsync()
+        {
+            bool exists = await _saveSystem.ExistsAsync(StateKeys.HEROES);
+            if (exists)
+                Heroes = await _saveSystem.LoadAsync<HeroesState>(StateKeys.HEROES);
+            else
+                InitializeAndSaveHeroes();
+        }
+
+        public async Task SaveHeroesAsync()
+        {
+            await _saveSystem.SaveAsync(StateKeys.HEROES, Heroes);
+        }
+
         private void InitializeAndSaveCampaign()
         {
-            // var missions = new List<MissionState>()
-            // {
-            //     new (id:"1_1", isCompleted: false)
-            // };
-
-            // var location = new LocationState(id: "1", isCompleted: false, openedMissions: missions);
-
-            // Campaign = new CampaignState()
-            // {
-            //     Locations = new List<LocationState> { location }
-            // };
             Campaign = _defaultStateProvider.GetCampaign();
 
             Debug.Log("Campaign load: init");
@@ -72,22 +77,18 @@ namespace LostKaiju.Game.Providers.GameState
 
         private void InitializeAndSaveSettings()
         {
-            // Settings = new SettingsState()
-            // {
-            //     SoundVolume = 60,
-            //     IsSoundEnabled = true,
-            //     SfxVolume = 60,
-            //     IsSfxEnabled = true,
-            //     Brightness = 80,
-            //     IsPostProcessingEnabled = true,
-            //     IsHighBloomQuality = false,
-            //     IsAntiAliasingEnabled = false
-            // };
-
             Settings = _defaultStateProvider.GetSettings();
 
             Debug.Log("Settings load: init");
             _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);
+        }
+
+        private void InitializeAndSaveHeroes()
+        {
+            Heroes = _defaultStateProvider.GetHeroes();
+
+            Debug.Log("Heroes load: init");
+            _saveSystem.SaveAsync(StateKeys.HEROES, Heroes);
         }
         
         private SettingsState MigrateSettings(SettingsState settingsState)

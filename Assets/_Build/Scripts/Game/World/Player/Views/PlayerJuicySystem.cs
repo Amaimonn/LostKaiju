@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using LostKaiju.Game.World.Creatures.Features;
+using LostKaiju.Game.World.VFX;
 
 namespace LostKaiju.Game.World.Player.Views
 {
@@ -12,6 +13,7 @@ namespace LostKaiju.Game.World.Player.Views
         [SerializeField] private AudioClip _attackSound;
         [SerializeField] private AudioClip _hitSound;
         [SerializeField] private ParticleSystem _hitParticles;
+        [SerializeField] private Effect _onDamagedEffect;
 
         public void PlayStep()
         {
@@ -28,6 +30,11 @@ namespace LostKaiju.Game.World.Player.Views
         {
             _hitParticles.transform.position = point;
             _hitParticles.Play();
+        }
+
+        public void PlayOnDamaged()
+        {
+            _onDamagedEffect.PlayEffect();
         }
     }
 }

@@ -7,6 +7,7 @@ using R3;
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.Constants;
+using System.Threading.Tasks;
 
 namespace LostKaiju.Infrastructure.Loading
 {
@@ -68,8 +69,10 @@ namespace LostKaiju.Infrastructure.Loading
 
                 var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
                 hubBootstrap.Build();
-                var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
-
+                var hubExitSignalRequest = hubBootstrap.BootAsync(hubEnterContext);
+                yield return new WaitUntil(() => hubExitSignalRequest.IsCompleted);
+                var hubExitSignal = hubExitSignalRequest.Result;
+                
                 hubExitSignal.Take(1).Subscribe(hubExitContext =>
                 {
                     var toSceneName = hubExitContext.ToSceneContext.SceneName;

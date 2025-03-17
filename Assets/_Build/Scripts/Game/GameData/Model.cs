@@ -1,6 +1,6 @@
 namespace LostKaiju.Game.GameData
 {
-    public abstract class Model<T>
+    public abstract class Model<T> : IModel
     {
         public readonly T State;
 

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using LostKaiju.Game.GameData.Campaign.Locations;
-using System.Linq;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
@@ -15,8 +15,6 @@ namespace LostKaiju.Game.GameData.Campaign
 
         public int LastUpdateIndex = 1; // to update the saved state when new missions are added
         public List<LocationState> Locations;
-        public string SelectedLocationId;
-        public string SelectedMissionId;
         public string LastLaunchedLocationId;
         public string LastLaunchedMissionId;
 
