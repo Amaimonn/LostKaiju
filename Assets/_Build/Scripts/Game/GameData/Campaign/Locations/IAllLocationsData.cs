@@ -1,6 +1,6 @@
 namespace LostKaiju.Game.GameData.Campaign.Locations
 {
-    public interface IAllLocationsData
+    public interface IAllLocationsData : IVersioned
     {
         public ILocationData[] AllData { get; }
     }

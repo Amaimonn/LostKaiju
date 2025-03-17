@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: AllHeroesDataSO
   m_EditorClassIdentifier: 
   _heroesData:
-  - {fileID: 11400000, guid: 820fb5f5a76d1884fa93939268f7edd5, type: 2}
   - {fileID: 11400000, guid: ae450faa8bb40394588fc549fbfddc29, type: 2}
-  - {fileID: 11400000, guid: 67ca6e304e6e6a34a95357b293b98a2c, type: 2}
+  - {fileID: 11400000, guid: 820fb5f5a76d1884fa93939268f7edd5, type: 2}
   - {fileID: 11400000, guid: 473a78678d4c79e45b2800c0326ee9d1, type: 2}
+  - {fileID: 11400000, guid: 67ca6e304e6e6a34a95357b293b98a2c, type: 2}
   - {fileID: 11400000, guid: 7d623978bf243ee49ac028c49c49ea3c, type: 2}

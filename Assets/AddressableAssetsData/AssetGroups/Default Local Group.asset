@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: ac529aee74306734e8eb2bf819f478df
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 2d707286732c0b449abe59e953286a6a
+    m_Address: Configs/Campaign/AllLocationsDataSO
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b62336af3a12c2d4187aca7cea2e8836
+    m_Address: Configs/Heroes/AllHeroesDataSO
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 84f07bf008d597c4fad101c11f19561c, type: 2}
   m_SchemaSet:

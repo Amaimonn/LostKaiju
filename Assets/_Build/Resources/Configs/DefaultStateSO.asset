@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab59dcf32afec1941b72a50c53d0b746, type: 3}
   m_Name: DefaultStateSO
   m_EditorClassIdentifier: 
-  <SettingsState>k__BackingField:
+  <Settings>k__BackingField:
     _version: 1
-    SoundVolume: 60
+    SoundVolume: 75
     IsSoundEnabled: 1
-    SfxVolume: 60
+    SfxVolume: 75
     IsSfxEnabled: 1
-    Brightness: 80
+    Brightness: 75
     IsPostProcessingEnabled: 1
-    IsHighBloomQuality: 1
+    IsHighBloomQuality: 0
     IsAntiAliasingEnabled: 0
-  <CampaignState>k__BackingField:
+  <Campaign>k__BackingField:
     _version: 1
-    LastUpdateIndex: 1
+    CampaignDataVersion: 1
     Locations:
     - Id: 1
       IsCompleted: 0
@@ -32,7 +32,8 @@ MonoBehaviour:
       - Id: 1_1
         IsCompleted: 0
       MaxCompletedMissionId: 
-    SelectedLocationId: 
-    SelectedMissionId: 
     LastLaunchedLocationId: 
     LastLaunchedMissionId: 
+  <Heroes>k__BackingField:
+    _version: 1
+    SelectedHeroId: lost

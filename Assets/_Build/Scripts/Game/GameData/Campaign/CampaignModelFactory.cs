@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
 using R3;
 
 using LostKaiju.Game.Providers.GameState;
@@ -21,12 +21,20 @@ namespace LostKaiju.Game.GameData.Campaign
 
         public async Task<CampaignModel> GetModelAsync()
         {
-            var locationsDataSORequest = Resources.LoadAsync<LocationsDataSO>(Paths.LOCATIONS_DATA);
-            await locationsDataSORequest;
+            var locationsDataSOHandle = Addressables.LoadAssetAsync<AllLocationsDataSO>(Paths.LOCATIONS_DATA);
+            await locationsDataSOHandle.Task;
+            var locationsDataSO = locationsDataSOHandle.Result;
 
-            var locationsDataSO = locationsDataSORequest.asset as LocationsDataSO;
             var campaignState = _gameStateProvider.Campaign;
             var campaignModel = new CampaignModel(campaignState, locationsDataSO);
+
+            // check for new campaign data
+            if (_gameStateProvider.Campaign.CampaignDataVersion != locationsDataSO.Version)
+            {
+                campaignModel.UpdateAvailableLocationsAndMissions();
+                _gameStateProvider.Campaign.CampaignDataVersion = locationsDataSO.Version;
+                await _gameStateProvider.SaveCampaignAsync(); // save new version
+            }
 
             _onProduced.OnNext(campaignModel);
 

@@ -216,26 +216,16 @@ namespace LostKaiju.Game.GameData.Campaign
             {
                 var locationState = State.Locations.FirstOrDefault(x => x.Id == locationData.Id);
 
-                if (locationState == null)
+                if (locationState != null)
+                    continue;
+                
+                var previousLocationIndex = Array.FindIndex(_allLocationsData.AllData, x => x.Id == locationData.Id) - 1;
+                var previousLocationData = _allLocationsData.AllData.ElementAtOrDefault(previousLocationIndex);
+
+                if (previousLocationData != null)
                 {
-                    var previousLocationIndex = Array.FindIndex(_allLocationsData.AllData, x => x.Id == locationData.Id) - 1;
-                    var previousLocationData = _allLocationsData.AllData.ElementAtOrDefault(previousLocationIndex);
-
-                    if (previousLocationData != null)
-                    {
-                        var previousLocationState = State.Locations.FirstOrDefault(x => x.Id == previousLocationData.Id);
-                        if (previousLocationState != null && previousLocationState.IsCompleted)
-                        {
-                            var firstMissionState = new MissionState(locationData.AllMissionsData[0].Id, false);
-                            var newLocationState = new LocationState(locationData.Id, false, new List<MissionState> { firstMissionState });
-
-                            var newLocationModel = new LocationModel(newLocationState, locationData);
-                            AvailableLocationsMap.Add(locationData.Id, newLocationModel);
-
-                            stateChanged = true;
-                        }
-                    }
-                    else if (_allLocationsData.AllData[0].Id == locationData.Id)
+                    var previousLocationState = State.Locations.FirstOrDefault(x => x.Id == previousLocationData.Id);
+                    if (previousLocationState != null && previousLocationState.IsCompleted)
                     {
                         var firstMissionState = new MissionState(locationData.AllMissionsData[0].Id, false);
                         var newLocationState = new LocationState(locationData.Id, false, new List<MissionState> { firstMissionState });
@@ -246,32 +236,53 @@ namespace LostKaiju.Game.GameData.Campaign
                         stateChanged = true;
                     }
                 }
+                else if (_allLocationsData.AllData[0].Id == locationData.Id)
+                {
+                    var firstMissionState = new MissionState(locationData.AllMissionsData[0].Id, false);
+                    var newLocationState = new LocationState(locationData.Id, false, new List<MissionState> { firstMissionState });
+
+                    var newLocationModel = new LocationModel(newLocationState, locationData);
+                    AvailableLocationsMap.Add(locationData.Id, newLocationModel);
+
+                    stateChanged = true;
+                }
+                
             }
 
             foreach (var locationState in State.Locations)
             {
-                var locationData = LocationsDataMap[locationState.Id];
-
                 if (!String.IsNullOrEmpty(locationState.MaxCompletedMissionId))
                 {
-                    var lastCompletedMissionIndex = Array.FindIndex(locationData.AllMissionsData, x => x.Id == locationState.MaxCompletedMissionId);
-
-                    for (int i = 0; i <= lastCompletedMissionIndex + 1; i++)
+                    var locationData = LocationsDataMap[locationState.Id];
+                    
+                    var lastCompletedMissionData = locationData.AllMissionsData.FirstOrDefault(x => x.Id == locationState.MaxCompletedMissionId);
+                    int lastCompletedMissionDataIndex;
+                    if (lastCompletedMissionData == null) // check if last completed mission data no longer exists
                     {
-                        if (i < locationData.AllMissionsData.Length)
+                        lastCompletedMissionDataIndex =  Array.FindLastIndex(locationData.AllMissionsData, 
+                            x => locationState.OpenedMissions.Any(m => m.Id == x.Id));
+                    }
+                    else
+                    {
+                        lastCompletedMissionDataIndex = Array.FindIndex(locationData.AllMissionsData, x => x.Id == locationState.MaxCompletedMissionId);
+                    }
+                    
+                    // open old missions and the new one (if needed)
+                    var allMissionCount = locationData.AllMissionsData.Length;
+                    var lastMissionIndexToOpen = Math.Min(lastCompletedMissionDataIndex + 1, allMissionCount - 1);
+                    for (int i = 0; i <= lastMissionIndexToOpen; i++) 
+                    {
+                        var missionData = locationData.AllMissionsData[i];
+                        var missionState = locationState.OpenedMissions.FirstOrDefault(x => x.Id == missionData.Id);
+
+                        if (missionState == null) // open new mission
                         {
-                            var missionData = locationData.AllMissionsData[i];
-                            var missionState = locationState.OpenedMissions.FirstOrDefault(x => x.Id == missionData.Id);
+                            var newMissionState = new MissionState(missionData.Id, false);
+                            var locationModel = AvailableLocationsMap[locationData.Id];
+                            var newMissionModel = new MissionModel(newMissionState, missionData);
+                            locationModel.AvailableMissionsMap.Add(missionData.Id, newMissionModel);
 
-                            if (missionState == null)
-                            {
-                                var newMissionState = new MissionState(missionData.Id, false);
-                                var locationModel = AvailableLocationsMap[locationData.Id];
-                                var newMissionModel = new MissionModel(newMissionState, missionData);
-                                locationModel.AvailableMissionsMap.Add(missionData.Id, newMissionModel);
-
-                                stateChanged = true;
-                            }
+                            stateChanged = true;
                         }
                     }
                 }

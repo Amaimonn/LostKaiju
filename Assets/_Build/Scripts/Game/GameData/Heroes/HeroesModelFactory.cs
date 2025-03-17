@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
 using R3;
 
 using LostKaiju.Game.Providers.GameState;
@@ -20,14 +20,15 @@ namespace LostKaiju.Game.GameData.Heroes
 
         public async Task<HeroesModel> GetModelAsync()
         {
+            var heroesDataSOHandle = Addressables.LoadAssetAsync<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
             if (_gameStateProvider.Heroes == null)
             {
                 await _gameStateProvider.LoadHeroesAsync();
             }
-            var heroesDataSORequest = Resources.LoadAsync<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
-            await heroesDataSORequest;
 
-            var heroesDataSO = heroesDataSORequest.asset as AllHeroesDataSO;
+            await heroesDataSOHandle.Task;
+            var heroesDataSO = heroesDataSOHandle.Result;
+
             var heroesState = _gameStateProvider.Heroes;
             var heroesModel = new HeroesModel(heroesState, heroesDataSO);
 
