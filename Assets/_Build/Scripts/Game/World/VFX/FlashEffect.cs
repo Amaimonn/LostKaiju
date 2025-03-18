@@ -21,7 +21,7 @@ namespace LostKaiju.Game.World.VFX
             _originalMaterials = new Material[spritesLength];
             for (var i = 0; i < spritesLength; i++)
             {
-                _originalMaterials[i] = _spriteRenderers[i].material;
+                _originalMaterials[i] = _spriteRenderers[i].sharedMaterial;
             }
         }
 

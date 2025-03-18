@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Heroes Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Heroes
+  m_TableCollectionNameGuidString: 7062fbbcba29a2b40aed62e2ab48ea24
+  m_Entries:
+  - m_Id: 5903007744
+    m_Key: lost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 391053361152
+    m_Key: lost_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39117701120
+    m_Key: azurie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 699045298176
+    m_Key: azurie_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23133208576
+    m_Key: orith
+    m_Metadata:
+      m_Items: []
+  - m_Id: 783371780096
+    m_Key: orith_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73573908480
+    m_Key: noctis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 817001709568
+    m_Key: noctis_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 90233683968
+    m_Key: yellorie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 971750555648
+    m_Key: yellorie_description
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1450172693600535306
+  references:
+    version: 2
+    RefIds:
+    - rid: 1450172693600535306
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1742311530351

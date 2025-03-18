@@ -5,7 +5,7 @@
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/LabelStyles.uss?fileID=7433441132597879392&amp;guid=33d8b22ae8b90ba4780c5513c6218f70&amp;type=3#LabelStyles" />
     <engine:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
-    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" class="wrapper-base wrapper">
+    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" picking-mode="Ignore" class="wrapper-base wrapper">
         <engine:VisualElement name="Content" class="hero-selection-content">
             <engine:VisualElement name="TopBar" class="top-bar">
                 <engine:Button text="←" name="ExitButton" class="exit-button" />
@@ -45,7 +45,7 @@
                         <engine:Label text="Strength: 60" name="Stat2" class="stat-text" />
                         <engine:Label text="Defense: 45" name="Stat3" class="stat-text" />
                     </engine:VisualElement>
-                    <engine:Label text="A stealthy assassin trained in the arts of shadow manipulation." name="Description" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="description-text" />
+                    <engine:Label text="A stealthy assassin trained in the arts of shadow manipulation." name="HeroDescription" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="description-text" />
                     <engine:VisualElement name="DecorAccent" class="decor-accent" />
                 </engine:VisualElement>
             </engine:VisualElement>

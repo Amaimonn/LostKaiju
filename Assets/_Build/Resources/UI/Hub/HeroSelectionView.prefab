@@ -46,4 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualTreeAsset: {fileID: 9197481963319205126, guid: c480d4b20f13f3448bec80d3b0d11a1a, type: 3}
   _closeButtonName: ExitButton
+  _closeBackgroundName: OverlayImage
   _completeButtonName: StartButton
+  _heroesListName: HeroesList
+  _heroDescriptionName: HeroDescription
+  _heroSlot: {fileID: 9197481963319205126, guid: 3a52cfac061be96498d7d9c7749e1ed0, type: 3}
+  _heroSlotName: HeroSlot
+  _heroLabelName: HeroName
+  _heroSlotSelectedClass: hero-slot--selected

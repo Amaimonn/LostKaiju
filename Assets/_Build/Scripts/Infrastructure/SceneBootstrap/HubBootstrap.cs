@@ -14,7 +14,6 @@ using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.GameData.Heroes;
-using System.IO;
 using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
@@ -35,10 +34,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitSignal = new Subject<HubExitContext>();
             var exitToGameplaySignal = new Subject<Unit>();
             var exitToMainMenuSignal = new Subject<Unit>();
-            var gameplayEnterContext = new GameplayEnterContext()
-            {
-                PlayerConfigPath = $"{Paths.PLAYER_CREATURES}/{gameStateProvider.Heroes.SelectedHeroId}",
-            };
+            var gameplayEnterContext = new GameplayEnterContext();
             var mainMenuEnterContext = new MainMenuEnterContext();
             var hubExitToMainMenuContext = new HubExitContext(mainMenuEnterContext);
             var hubExitToGameplayContext = new HubExitContext(gameplayEnterContext);
@@ -51,6 +47,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var inputProvider = Container.Resolve<IInputProvider>();
             settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
             var heroesModelFactory = new HeroesModelFactory(gameStateProvider);
+            heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory);
             var hubViewModel = new HubViewModel(exitToGameplaySignal, getCampaignModel, settingsBinder, 
                 heroSelectionBinder, rootUIBinder);
@@ -60,6 +57,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             exitToGameplaySignal.Take(1).Subscribe(_ =>
             {
+                gameplayEnterContext.PlayerConfigPath = $"{Paths.PLAYER_CREATURES}/{gameStateProvider.Heroes.SelectedHeroId}";
                 gameplayEnterContext.LevelSceneName = _campaignModel.SelectedMission.Value.SceneName;
                 var selectedLocationData = _campaignModel.SelectedLocation.Value;
                 var selectedMissionData = _campaignModel.SelectedMission.Value;

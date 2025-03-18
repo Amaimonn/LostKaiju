@@ -20,9 +20,16 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ru
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 25762e720ccf7ff46a3042a2f1241ec7
     m_Address: Campaign_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 353906d52d1793649adcb0a53c232113
+    m_Address: Heroes_ru
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ru

@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7062fbbcba29a2b40aed62e2ab48ea24
+    m_Address: Assets/_Build/ProjectSettings/Localization/Tables/Heroes Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 84f91dfb9ec8ade4b861f1c3998b16b0
     m_Address: Assets/_Build/ProjectSettings/Localization/Tables/Settings Shared
       Data.asset

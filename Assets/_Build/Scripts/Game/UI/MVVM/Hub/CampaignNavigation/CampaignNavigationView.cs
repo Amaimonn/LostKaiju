@@ -77,7 +77,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         protected override void OnBind(CampaignNavigationViewModel viewModel)
         {
             base.OnBind(viewModel);
-            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding());
+            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding()).AddTo(_disposables);
         }
 
         private void OnLoadingCompletedBinding()
@@ -86,9 +86,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
             BindDisplayedLocationsButtons();
             
-            ViewModel.DisplayedMissionsData.Subscribe(BindDisplayedMissionsButtons);
-            ViewModel.SelectedLocation.Subscribe(OnLocationSelected);
-            ViewModel.SelectedMission.Subscribe(OnMissionSelected);
+            ViewModel.DisplayedMissionsData.Subscribe(BindDisplayedMissionsButtons).AddTo(_disposables);
+            ViewModel.SelectedLocation.Subscribe(OnLocationSelected).AddTo(_disposables);
+            ViewModel.SelectedMission.Subscribe(OnMissionSelected).AddTo(_disposables);
         }
 
         private void BindDisplayedLocationsButtons()

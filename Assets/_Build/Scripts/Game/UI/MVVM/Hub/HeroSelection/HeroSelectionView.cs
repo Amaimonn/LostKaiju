@@ -2,80 +2,81 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 
-using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Game.UI.MVVM.Gameplay;
+using LostKaiju.Game.Constants;
+using LostKaiju.Game.UI.Extentions;
+using System.Collections.Generic;
+using LostKaiju.Game.GameData.Heroes;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
-    public class HeroSelectionView : ToolkitView<HeroSelectionViewModel>
+    public class HeroSelectionView : PopUpToolkitView<HeroSelectionViewModel>
     {
-        [SerializeField] private string _closeButtonName;
         [SerializeField] private string _completeButtonName;
+        [SerializeField] private string _heroesListName;
+        [SerializeField] private string _heroDescriptionName;
 
-        private Button _closeButton;
+        [Space(4)]
+        [SerializeField] private VisualTreeAsset _heroSlot;
+        [SerializeField] private string _heroSlotName;
+        [SerializeField] private string _heroLabelName;
+        [SerializeField] private string _heroSlotSelectedClass;
+
         private Button _completeButton;
-        private bool _isStartPressed = false;
+        private ScrollView _heroesList;
+        private Label _heroDescription;
+        private VisualElement _selectedSlot;
+        private Dictionary<string, VisualElement> _heroSlotsMap;
 
         protected override void OnAwake()
         {
-            _closeButton = Root.Q<Button>(name: _closeButtonName);
+            base.OnAwake();
             _completeButton = Root.Q<Button>(name: _completeButtonName);
+            _heroesList = Root.Q<ScrollView>(name: _heroesListName);
+            _heroDescription = Root.Q<Label>(name: _heroDescriptionName);
         }
 
         protected override void OnBind(HeroSelectionViewModel viewModel)
         {
-            _completeButton.RegisterCallbackOnce<ClickEvent>(CompleteSelection);
-            _closeButton.RegisterCallbackOnce<ClickEvent>(Close);
-            
-            ViewModel.OnOpenStateChanged.Skip(1).Subscribe(OnOpenStateChanged);
-            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding());
+            base.OnBind(viewModel);
+            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding()).AddTo(_disposables);
         }
 
         private void OnLoadingCompletedBinding()
         {
+            ViewModel.AllHeroesData.Where(x => x != null).Subscribe(data =>
+            {
+                _heroSlotsMap = new();
+                _heroesList.Clear();
+                foreach (var heroData in data)
+                {
+                    var heroSlot = _heroSlot.CloneTree();
+                    var heroLabel = heroSlot.Q<Label>(name: _heroLabelName);
+                    heroLabel.LocalizeText(Tables.HEROES, heroData.Name);
+                    heroSlot.RegisterCallback<ClickEvent>(_ => ViewModel.PreviewHeroSlot(heroData.Id));
+                    _heroesList.Add(heroSlot);
+                    _heroSlotsMap[heroData.Id] = heroSlot.Q<VisualElement>(name: _heroSlotName);
+                }
+            }).AddTo(_disposables);
 
+            ViewModel.CurrentHeroDataPreview.Subscribe(OnHeroPreviewed).AddTo(_disposables);
+
+            _completeButton.RegisterCallbackOnce<ClickEvent>(CompleteSelection);
         }
         
         private void CompleteSelection(ClickEvent clickEvent)
         {
-            if (_isStartPressed)
-            {
-                return;
-            }
             ViewModel.CompleteSelection();
-            _isStartPressed = true;
         }
 
-        private void Close(ClickEvent clickEvent)
+        private void OnHeroPreviewed(IHeroData heroData)
         {
-            Debug.Log("HeroSelection: close button clicked");
-            ViewModel.StartClosing();
-        }
-
-        private void OnOpenStateChanged(bool isOpened)
-        {
-            if (isOpened)
-                OnOpened();
-            else
-                OnClosed();
-
-            void OnOpened()
+            if (heroData != null)
             {
-                // StartCoroutine(OpenAnimation());
-
-                // IEnumerator OpenAnimation()
-                // {
-                //     yield return null;
-                //     _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
-                //     _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-                // }
-            }
-
-            void OnClosed()
-            {
-                ViewModel.CompleteClosing();
-                // _isClosing = true;
-                // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
-                // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                _selectedSlot?.RemoveFromClassList(_heroSlotSelectedClass);
+                _selectedSlot = _heroSlotsMap[heroData.Id];
+                _selectedSlot.AddToClassList(_heroSlotSelectedClass);
+                _heroDescription.LocalizeText(Tables.HEROES, heroData.Description);
             }
         }
     }

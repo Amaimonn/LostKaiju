@@ -7,6 +7,7 @@ namespace LostKaiju.Game.Constants
     {
         public const string SETTINGS = "Settings";
         public const string CAMPAIGN = "Campaign";
+        public const string HEROES = "Heroes";
         public const string UI = "UI";
     }
 }
