@@ -4,11 +4,22 @@
     <engine:VisualElement name="Wrapper" class="wrapper-base" style="flex-grow: 1;">
         <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Header" _bottom-padding-scale="0" class="header" />
         <engine:VisualElement name="OpenMissions" class="start-gameplay-image">
-            <engine:VisualElement name="PassageImage" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 2px; margin-left: 4px; background-color: rgb(0, 0, 0); border-top-left-radius: 2px; border-top-right-radius: 2px;" />
+            <engine:VisualElement name="PassageImage" class="passage-image">
+                <LostKaiju.Game.UI.CustomElements.DoorElement class="door" />
+            </engine:VisualElement>
+            <engine:Label name="PlayLabel" class="play-label">
+                <Bindings>
+                    <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(8323121152)" />
+                </Bindings>
+            </engine:Label>
         </engine:VisualElement>
         <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Footer" _top-padding-scale="0" _bottom-padding-scale="0" class="footer">
             <engine:VisualElement name="FooterContent" class="footer__content" style="flex-grow: 1;">
-                <engine:Button text="HEROES" name="HeroSelectionButton" class="heroes-button" />
+                <engine:Button name="HeroSelectionButton" class="footer__button">
+                    <Bindings>
+                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(1048095003033600)" />
+                    </Bindings>
+                </engine:Button>
             </engine:VisualElement>
         </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
     </engine:VisualElement>

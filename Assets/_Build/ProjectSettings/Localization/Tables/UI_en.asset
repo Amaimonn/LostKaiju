@@ -66,6 +66,10 @@ MonoBehaviour:
     m_Localized: Cancel
     m_Metadata:
       m_Items: []
+  - m_Id: 1048095003033600
+    m_Localized: HEROES
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -4,15 +4,3 @@
     height: 100%;
     width: 100%;
 }
-
-.selected-preview__frame {
-    width: auto;
-    height: 400px;
-    background-color: rgb(10, 10, 10);
-    border-radius: 14px;
-    margin-bottom: 25px;
-    flex-grow: 1;
-    align-self: stretch;
-    align-items: stretch;
-    -unity-background-scale-mode: scale-to-fit;
-}

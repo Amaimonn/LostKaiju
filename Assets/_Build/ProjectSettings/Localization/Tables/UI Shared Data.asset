@@ -63,6 +63,10 @@ MonoBehaviour:
     m_Key: cancel
     m_Metadata:
       m_Items: []
+  - m_Id: 1048095003033600
+    m_Key: heroes
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -61,6 +61,10 @@
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .exit-button:hover {
@@ -90,9 +94,10 @@
     border-radius: 12px;
     padding: 20px;
     margin-right: 25px;
-    width: 25%;
+    width: 20%;
     padding-top: 0;
     padding-bottom: 0;
+    min-width: 320px;
 }
 
 .hero-list-scrollview .unity-scroll-view__content-viewport {
