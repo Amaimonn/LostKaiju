@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using R3;
 
 using LostKaiju.Utils;
@@ -7,12 +8,20 @@ namespace LostKaiju.Services.Audio
 {
     public class AudioPlayer
     {
+        public readonly ReactiveProperty<float> VolumeMultiplier = new(1.0f);
+
         private readonly AudioSource _musicSource;
         private readonly AudioSource _oneShotSfxSource;
         private readonly NotNullPool<AudioSource> _sfxSourcePool;
+        private readonly ReactiveProperty<float> _musicVolumeFadeScale = new(1.0f);
+        private readonly ReactiveProperty<float> _sfxVolumeFadeScale = new(1.0f);
+        private readonly MonoBehaviourHook _monoHook;
+        private bool _isMusicFading = false;
+        private CompositeDisposable _disposables = new();
 
-        public AudioPlayer(Observable<float> musicVolume, Observable<float> sfxVolume)
+        public AudioPlayer(Observable<float> musicVolume, Observable<float> sfxVolume, MonoBehaviourHook monoHook)
         {
+            _monoHook = monoHook;
             var audioPlayerObject = new GameObject("AudioPlayer");
             _musicSource = audioPlayerObject.AddComponent<AudioSource>();
             _oneShotSfxSource = audioPlayerObject.AddComponent<AudioSource>();
@@ -23,11 +32,12 @@ namespace LostKaiju.Services.Audio
                 createFunc: () => 
                 {
                     var sfxObject = new GameObject("AudioSourceSFX");
+                    sfxObject.transform.SetParent(audioPlayerObject.transform);
                     var audioSource = sfxObject.AddComponent<AudioSource>();
-
                     audioSource.playOnAwake = false;
-                    sfxVolume.TakeUntil(_ => audioSource != null)
-                        .Subscribe(x => audioSource.volume = x);
+                    sfxVolume.CombineLatest(_sfxVolumeFadeScale, VolumeMultiplier, (a, b, c) => a * b * c)
+                        .Subscribe(x => audioSource.volume = x)
+                        .AddTo(_disposables);
 
                     return audioSource;
                 },
@@ -37,8 +47,10 @@ namespace LostKaiju.Services.Audio
                 checkNotNull: x => x != null && x.gameObject != null
             );
 
-            musicVolume.Subscribe(x => _musicSource.volume = x);
-            sfxVolume.Subscribe(x => _oneShotSfxSource.volume = x);
+            musicVolume.CombineLatest(_sfxVolumeFadeScale, VolumeMultiplier, (a, b, c) => a * b * c)
+                .Subscribe(x => _musicSource.volume = x);
+            sfxVolume.CombineLatest(_sfxVolumeFadeScale, VolumeMultiplier, (a, b, c) => a * b * c)
+                .Subscribe(x => _oneShotSfxSource.volume = x);
         }
         
         public void PlayMusic(AudioClip musicClip, bool loop = true)
@@ -46,6 +58,34 @@ namespace LostKaiju.Services.Audio
             _musicSource.clip = musicClip;
             _musicSource.loop = loop;
             _musicSource.Play();
+        }
+
+        public void FadeInMusic(float duration)
+        {
+            if (_musicSource.isPlaying)
+            {
+                if (_isMusicFading == true)
+                {
+                    _monoHook.StopCoroutine(FadeInRoutine());
+                }
+
+                _monoHook.StartCoroutine(FadeInRoutine());
+            }
+
+            IEnumerator FadeInRoutine()
+            {
+                _isMusicFading = true;
+                var currentDuration = 0.0f;
+
+                while (currentDuration < duration)
+                {
+                    _musicVolumeFadeScale.Value += Mathf.Lerp(0, 1, currentDuration / duration);
+                    yield return null;
+                    currentDuration += Time.deltaTime;
+                }
+                _musicVolumeFadeScale.Value = 1;
+                _isMusicFading = false;
+            }
         }
 
         /// <summary>
@@ -61,17 +101,34 @@ namespace LostKaiju.Services.Audio
         /// <summary>
         /// SFX will stop playing automatically if scene is unloaded
         /// </summary>
-        public void PlaySFX(AudioClip clip, float volumeScale = 1.0f, float pitch = 1.0f)
+        public void PlaySFX(AudioClip clip, float pitch = 1.0f)
         {
             var source = _sfxSourcePool.Get();
             source.pitch = pitch;
             source.clip = clip;
             Observable.Timer(System.TimeSpan.FromSeconds(clip.length))
-                .TakeUntil(_ => source != null)
                 .Take(1)
-                .Subscribe(x => _sfxSourcePool.Release(source));
+                .Subscribe(x => _sfxSourcePool.Release(source))
+                .AddTo(_disposables);
             
             source.Play();
+        }
+
+        public void Clear()
+        {
+            _disposables.Dispose();
+            _disposables = new CompositeDisposable();
+            _sfxSourcePool.Clear();
+        }
+
+        public void PauseMusic()
+        {
+            _musicSource.Pause();
+        }
+
+        public void UnauseMusic()
+        {
+            _musicSource.UnPause();
         }
     }
 }

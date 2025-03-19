@@ -11,6 +11,7 @@ namespace LostKaiju.Infrastructure.Loading
         public Observable<Unit> OnStarted => _onStarted;
         public Observable<Unit> OnFinished => _onFinished;
 #endregion
+        public Observable<float> OverlayFillProgress => _overlayFillProgress;
 
         [SerializeField] private GameObject _loadingGameObject;
         [SerializeField] private Image _overlayImage;
@@ -20,7 +21,7 @@ namespace LostKaiju.Infrastructure.Loading
 
         private readonly Subject<Unit> _onStarted = new();
         private readonly Subject<Unit> _onFinished = new();
-        private float _overlayFillProgress = 1;
+        private readonly ReactiveProperty<float> _overlayFillProgress = new(1);
 
 
 #region MonoBehaviour
@@ -51,13 +52,15 @@ namespace LostKaiju.Infrastructure.Loading
             _onStarted.OnNext(Unit.Default);
             _loadingGameObject.SetActive(true);
 
-            while (_overlayFillProgress < 1)
+            while (_overlayFillProgress.Value < 1)
             {
-                SetOverlayFillProgress(_overlayFillProgress + Time.deltaTime / _overlayFillSeconds);
+                var currentProgress = _overlayFillProgress.Value + Time.deltaTime / _overlayFillSeconds;
+                if (currentProgress > 1)
+                    currentProgress = 1;
+                SetOverlayFillProgress(currentProgress);
                 yield return null;
             }
 
-            SetOverlayFillProgress(1);
             _loadingLabel.SetActive(true);
         }
 
@@ -65,21 +68,23 @@ namespace LostKaiju.Infrastructure.Loading
         {
             _loadingLabel.SetActive(false);
 
-            while (_overlayFillProgress > 0)
+            while (_overlayFillProgress.Value > 0)
             {
-                SetOverlayFillProgress(_overlayFillProgress - Time.deltaTime / _overlayFillSeconds);
+                var currentProgress = _overlayFillProgress.Value - Time.deltaTime / _overlayFillSeconds;
+                if (currentProgress < 0)
+                    currentProgress = 0;
+                SetOverlayFillProgress(currentProgress);
                 yield return null;
             }
 
-            SetOverlayFillProgress(0);
             _loadingGameObject.SetActive(false);
             _onFinished.OnNext(Unit.Default);
         }
 
         private void SetOverlayFillProgress(float progress)
         {
-            _overlayFillProgress = progress;
-            _overlayImage.material.SetFloat(_overlayProgressProperty, _overlayFillProgress);
+            _overlayFillProgress.Value = progress;
+            _overlayImage.material.SetFloat(_overlayProgressProperty, _overlayFillProgress.Value);
         }
     }
 }

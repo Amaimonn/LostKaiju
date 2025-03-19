@@ -199,12 +199,18 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             }
             else
             {
-                settingsModel.IsPostProcessingEnabled.Subscribe(x => _volume.enabled = x);
+                settingsModel.IsPostProcessingEnabled.TakeUntil(_ => _volume != null)
+                    .Subscribe(x => _volume.enabled = x);
 
                 if (_volume.profile.TryGet<Bloom>(out var bloom))
-                    settingsModel.IsHighBloomQuality.Subscribe(x => bloom.highQualityFiltering.value = x);
+                {
+                    settingsModel.IsHighBloomQuality.TakeUntil(_ => _volume != null)
+                        .Subscribe(x => bloom.highQualityFiltering.value = x);
+                }
                 else
+                {
                     Debug.LogWarning("No Bloom in VolumeProfile found");   
+                }
             }
         }
     }

@@ -16,10 +16,15 @@ namespace LostKaiju.Infrastructure.Loading
 {
     public class SceneLoader
     {
+        public Observable<Unit> OnLoadingStarted => _onLoadingStarted;
+        public Observable<Unit> OnLoadingFinished => _onLoadingFinished;
+        
         private readonly MonoBehaviour _monoHook;
         private readonly LoadingScreen _loadingScreen;
         private readonly LifetimeScope _rootScope;
         private const float FAKE_LOAD_TIME = 0.1f;
+        private readonly Subject<Unit> _onLoadingStarted = new();
+        private readonly Subject<Unit> _onLoadingFinished = new();
 
         public SceneLoader(MonoBehaviour hook, LoadingScreen loadingScreen, LifetimeScope rootScope)
         {
@@ -37,11 +42,13 @@ namespace LostKaiju.Infrastructure.Loading
         {
             _loadingScreen.Show();
             var startTime = Time.time;
+            _onLoadingStarted.OnNext(Unit.Default);
 
             yield return LoadSceneAsync(Scenes.GAP);
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
                 yield return LoadSceneAsync(Scenes.MAIN_MENU);
+                _onLoadingFinished.OnNext(Unit.Default);
 
                 Debug.Log("Main menu scene loaded");
 
@@ -63,10 +70,12 @@ namespace LostKaiju.Infrastructure.Loading
             yield return _loadingScreen.ShowCoroutine();
             var startTime = Time.time;
 
+            _onLoadingStarted.OnNext(Unit.Default);
             yield return LoadSceneAsync(Scenes.GAP);
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
                 yield return LoadSceneAsync(Scenes.HUB);
+                _onLoadingFinished.OnNext(Unit.Default);
 
                 Debug.Log("Hub scene loaded");
 
@@ -105,8 +114,10 @@ namespace LostKaiju.Infrastructure.Loading
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             var startTime = Time.time;
+            _onLoadingStarted.OnNext(Unit.Default);
 
             yield return LoadSceneAsync(Scenes.GAP);
+
             using (LifetimeScope.EnqueueParent(_rootScope))
             {
                 yield return LoadSceneAsync(Scenes.GAMEPLAY);
@@ -129,6 +140,7 @@ namespace LostKaiju.Infrastructure.Loading
                 var missionEnterContextStub = new MissionEnterContext(gameplayEnterContext);
                 yield return LoadMissionAdditive(gameplayBootstrap, missionEnterContextStub,
                     toMissionSceneName: levelSceneName);
+                _onLoadingFinished.OnNext(Unit.Default);
             }
             
             yield return GetRemainFakeLoadTime(startTime);
@@ -156,14 +168,20 @@ namespace LostKaiju.Infrastructure.Loading
                 var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
                 missionExitSignal.Take(1).Subscribe(missionExitContext =>
                 {
-                    _loadingScreen.Show();
-
                     var toSceneName = missionExitContext.ToMissionSceneName;
                     var toSceneContext = missionExitContext.MissionEnterContext;
-                    _monoHook.StartCoroutine(LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName: toSceneName,
-                        fromMissionSceneHandle: toSceneHandle));
+                    _monoHook.StartCoroutine(MissionSceneTransition());
+                    IEnumerator MissionSceneTransition()
+                    {
+                        _loadingScreen.Show();
+                        _onLoadingStarted.OnNext(Unit.Default);
 
-                    _loadingScreen.Hide();
+                        yield return LoadMissionAdditive(parentScope, toSceneContext, toMissionSceneName: toSceneName,
+                            fromMissionSceneHandle: toSceneHandle);
+
+                        _onLoadingFinished.OnNext(Unit.Default);
+                        _loadingScreen.Hide();
+                    }
                 });
             }
         }

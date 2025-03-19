@@ -57,14 +57,25 @@ namespace LostKaiju.Infrastructure.Scopes
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
             builder.RegisterInstance<ILoadingScreenNotifier>(loadingScreen);
 
+            var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);
             builder.Register<AudioPlayer>(resolver => 
             {
                 var settingsModel = resolver.Resolve<SettingsModel>();
-                return new AudioPlayer(musicVolume: settingsModel.MusicVolume.Select(x => x / 100.0f), 
-                    sfxVolume: settingsModel.SfxVolume.Select(x => x / 100.0f));
+                var audioPlayer = new AudioPlayer(musicVolume: settingsModel.MusicVolume.Select(x => x / 10.0f), 
+                    sfxVolume: settingsModel.SfxVolume.Select(x => x / 10.0f), monoHook);
+                loadingScreen.OverlayFillProgress.Subscribe(x => audioPlayer.VolumeMultiplier.Value = 1 - x);
+                sceneLoader.OnLoadingStarted.Subscribe(_ => 
+                {
+                    audioPlayer.Clear();
+                    audioPlayer.PauseMusic();
+                });
+                sceneLoader.OnLoadingFinished.Subscribe(_ =>
+                {
+                    audioPlayer.UnauseMusic();
+                });
+                return audioPlayer;
             }, Lifetime.Singleton);
 
-            var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);
             monoHook.StartCoroutine(sceneLoader.LoadStartScene());
         }
     }

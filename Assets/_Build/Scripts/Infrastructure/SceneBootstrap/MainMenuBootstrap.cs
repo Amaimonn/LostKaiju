@@ -8,16 +8,21 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.MainMenu;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Services.Inputs;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class MainMenuBootstrap : LifetimeScope
     {
         [SerializeField] private MainMenuView _mainMenuViewPrefab;
+        [SerializeField] private AudioClip _musicClip;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
         {
             var exitSignal = new Subject<Unit>();
+
+            var audioPlayer = Container.Resolve<AudioPlayer>();
+            audioPlayer.PlayMusic(_musicClip, true);
 
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var settingsBinder = Container.Resolve<SettingsBinder>();

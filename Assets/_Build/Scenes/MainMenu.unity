@@ -153,7 +153,7 @@ MonoBehaviour:
   autoRun: 0
   autoInjectGameObjects: []
   _mainMenuViewPrefab: {fileID: 1926783122083912866, guid: d98b7fda68c5e7340a4299b821425c43, type: 3}
-  _settingsDataPath: Configs/Settings/FullSettingsDataSO
+  _musicClip: {fileID: 8300000, guid: 0246f8d483722754bb8eede562314416, type: 3}
 --- !u!4 &472460025
 Transform:
   m_ObjectHideFlags: 0
