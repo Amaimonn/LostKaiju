@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Settings>k__BackingField:
     _version: 1
-    SoundVolume: 75
-    IsSoundEnabled: 1
-    SfxVolume: 75
+    MusicVolume: 8
+    IsMusicEnabled: 1
+    SfxVolume: 8
     IsSfxEnabled: 1
     Brightness: 75
     IsPostProcessingEnabled: 1

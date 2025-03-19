@@ -7,6 +7,7 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -20,16 +21,19 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly SettingsBinder _settingsBinder;
         private HeroSelectionBinder _heroSelectionBinder;
         private readonly IRootUIBinder _rootUIBinder;
+        private readonly AudioPlayer _audioPlayer;
         private bool _isMissionsOpened = false;
         
         public HubViewModel(Subject<Unit> exitToGameplaySignal, Func<Task<CampaignModel>> campaignModelFactory,
-            SettingsBinder settingsBinder, HeroSelectionBinder heroSelectionBinder, IRootUIBinder rootUIBinder)
+            SettingsBinder settingsBinder, HeroSelectionBinder heroSelectionBinder, IRootUIBinder rootUIBinder,
+            AudioPlayer audioPlayer)
         {
             _exitToGameplaySignal = exitToGameplaySignal;
             _campaignModelFactory = campaignModelFactory;
             _settingsBinder = settingsBinder;
             _heroSelectionBinder = heroSelectionBinder;
             _rootUIBinder = rootUIBinder;
+            _audioPlayer = audioPlayer;
         }
 
         public void OpenCampaign()
@@ -39,6 +43,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
             var campaignViewPrefab = Resources.Load<CampaignNavigationView>(Paths.CAMPAIGN_NAVIGATION_VIEW);
             var campaignView = UnityEngine.Object.Instantiate(campaignViewPrefab);
+            campaignView.Construct(_audioPlayer);
 
             var campaignViewModel = new CampaignNavigationViewModel(_exitToGameplaySignal);
             campaignViewModel.OnClosingCompleted.Subscribe(_ =>  {

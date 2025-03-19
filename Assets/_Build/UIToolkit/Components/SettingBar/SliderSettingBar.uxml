@@ -3,8 +3,7 @@
     <engine:VisualElement name="SettingBar" class="setting-bar">
         <engine:Label text="SettingLabel" name="SettingLabel" class="setting-bar__label" />
         <engine:VisualElement name="SettingControlsContainer" class="setting-bar__controls-container">
-            <engine:Label text="Label" name="SettingValue" class="setting-bar__value-label" />
-            <engine:Slider high-value="100" value="0" fill="true" class="setting-bar__slider" />
+            <engine:SliderInt fill="true" show-input-field="true" class="setting-bar__slider" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

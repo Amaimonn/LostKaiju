@@ -9,11 +9,11 @@ namespace LostKaiju.Game.GameData.Settings
         public int Version { get => _version; set => _version = value; }
         [SerializeField] private int _version = 1;
 
-        public float SoundVolume;
-        public bool IsSoundEnabled;
-        public float SfxVolume;
+        [Range(0, 10)] public int MusicVolume;
+        public bool IsMusicEnabled;
+        [Range(0, 10)] public int SfxVolume;
         public bool IsSfxEnabled;
-        public float Brightness;
+        public int Brightness;
         public bool IsPostProcessingEnabled;
         public bool IsHighBloomQuality;
         public bool IsAntiAliasingEnabled;

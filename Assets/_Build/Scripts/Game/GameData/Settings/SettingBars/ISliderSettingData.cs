@@ -2,7 +2,7 @@ namespace LostKaiju.Game.GameData.Settings
 {
     public interface ISliderSettingData : ISettingBarData
     {
-        public float MinValue { get; }
-        public float MaxValue { get; }
+        public int MinValue { get; }
+        public int MaxValue { get; }
     }
 }

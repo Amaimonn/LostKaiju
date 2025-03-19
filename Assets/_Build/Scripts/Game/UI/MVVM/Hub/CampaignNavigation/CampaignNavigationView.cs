@@ -9,6 +9,7 @@ using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -39,6 +40,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private VisualTreeAsset _locationTabButton;
         [SerializeField] private string _locationButtonSelectedClass;
 
+        private AudioPlayer _audioPlayer;
         private Button _startButton;
         private VisualElement _content;
         private VisualElement _locationTabsContainer;
@@ -53,6 +55,11 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private readonly Dictionary<string, VisualElement> _locationTabButtonsMap = new();
         private Button _selectedMissionButton;
         private VisualElement _selectedLocationTab;
+
+        public void Construct(AudioPlayer audioPlayer)
+        {
+            _audioPlayer = audioPlayer;
+        }
 
         protected override void OnAwake()
         {
@@ -239,8 +246,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private void PlayButtonHoverSFX(PointerEnterEvent pointerEnterEvent)
         {
-            _audioSource.pitch = Random.Range(0.9f, 1.1f);
-            _audioSource.PlayOneShot(_buttonHoverSFX);
+            var randomPitch = Random.Range(0.9f, 1.1f);
+            _audioPlayer.PlaySFX(_buttonHoverSFX, pitch: randomPitch);
         }
     }
 }

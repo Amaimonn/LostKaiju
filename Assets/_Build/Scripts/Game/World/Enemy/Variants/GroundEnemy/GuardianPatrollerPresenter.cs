@@ -10,7 +10,7 @@ using LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature;
 
 namespace LostKaiju.Game.World.Enemy
 {
-    public class GuardianPatrollerPresenter : MonoBehaviour
+    public class GuardianPatrollerPresenter : EnemyRootPresenter
     {
         [SerializeField] private CreatureBinder _creatureBinder;
         [SerializeField] private GroundAgent _groundAgent;
@@ -24,9 +24,12 @@ namespace LostKaiju.Game.World.Enemy
 
         private PatrollerAIPresenter _patrollerAIPresenter;
 
-        private void Start()
+        public override void Init()
         {
             _creatureBinder.Init();
+            if (_creatureBinder.Features.TryResolve<EnemyJuicySystem>(out var juicySystem))
+                juicySystem.Construct(_audioPlayer);
+
             BindAI();
             BindDefence();
         }
@@ -57,7 +60,7 @@ namespace LostKaiju.Game.World.Enemy
 
         private void Update()
         {
-            _patrollerAIPresenter.UpdateLogic();
+            _patrollerAIPresenter?.UpdateLogic();
         }
     }
 }

@@ -7,18 +7,18 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SoundSettingsViewModel : SettingsSectionViewModel
     {
-        public Observable<float> SoundVolume => _soundVolume;
+        public Observable<int> MusicVolume => _musicVolume;
         public Observable<bool> IsSoundEnabled => _isSoundEnabled;
-        public Observable<float> SfxVolume => _sfxVolume;
+        public Observable<int> SfxVolume => _sfxVolume;
         public Observable<bool> IsSfxEnabled => _isSfxEnabled;
 
-        private readonly ReactiveProperty<float> _soundVolume;
+        private readonly ReactiveProperty<int> _musicVolume;
         private readonly ReactiveProperty<bool> _isSoundEnabled;
-        private readonly ReactiveProperty<float> _sfxVolume;
+        private readonly ReactiveProperty<int> _sfxVolume;
         private readonly ReactiveProperty<bool> _isSfxEnabled;
-        private float _soundVolumeCached;
+        private int _musicVolumeCached;
         private bool _isSoundEnabledCached;
-        private float _sfxVolumeCached;
+        private int _sfxVolumeCached;
         private bool _isSfxEnabledCached;
 
 
@@ -26,20 +26,20 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             CacheSettings();
             
-            _soundVolume = new ReactiveProperty<float>(_soundVolumeCached);
-            model.SoundVolume.Skip(1).Subscribe(x => _soundVolume.Value = x).AddTo(_disposables);
+            _musicVolume = new ReactiveProperty<int>(_musicVolumeCached);
+            model.MusicVolume.Skip(1).Subscribe(x => _musicVolume.Value = x).AddTo(_disposables);
 
             _isSoundEnabled = new ReactiveProperty<bool>(_isSoundEnabledCached);
-            model.IsSoundEnabled.Skip(1).Subscribe(x => _isSoundEnabled.Value = x).AddTo(_disposables);
+            model.IsMusicEnabled.Skip(1).Subscribe(x => _isSoundEnabled.Value = x).AddTo(_disposables);
 
-            _sfxVolume = new ReactiveProperty<float>(_sfxVolumeCached);
+            _sfxVolume = new ReactiveProperty<int>(_sfxVolumeCached);
             model.SfxVolume.Skip(1).Subscribe(x => _sfxVolume.Value = x).AddTo(_disposables);
 
             _isSfxEnabled = new ReactiveProperty<bool>(_isSfxEnabledCached);
             model.IsSfxEnabled.Skip(1).Subscribe(x => _isSfxEnabled.Value = x).AddTo(_disposables);
 
             IsAnyChanges = Observable.CombineLatest(
-                    _soundVolume.Select(x => x != _soundVolumeCached),
+                    _musicVolume.Select(x => x != _musicVolumeCached),
                     _isSoundEnabled.Select(x => x != _isSoundEnabledCached),
                     _sfxVolume.Select(x => x != _sfxVolumeCached),
                     _isSfxEnabled.Select(x => x != _isSfxEnabledCached)
@@ -56,19 +56,19 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         public override void ResetSettings()
         {
-            _model.SoundVolume.Value = _soundVolumeCached;
-            _model.IsSoundEnabled.Value = _isSoundEnabledCached;
+            _model.MusicVolume.Value = _musicVolumeCached;
+            _model.IsMusicEnabled.Value = _isSoundEnabledCached;
             _model.SfxVolume.Value = _sfxVolumeCached;
             _model.IsSfxEnabled.Value = _isSfxEnabledCached;
         }
 
-        public void SetSoundVolume(float volume)
+        public void SetMusicVolume(int volume)
         {
-            _model.SoundVolume.Value = volume;
+            _model.MusicVolume.Value = volume;
             _isSoundEnabled.Value = volume > 0;
         }
 
-        public void SetSfxVolume(float volume)
+        public void SetSfxVolume(int volume)
         {
             _model.SfxVolume.Value = volume;
             _isSfxEnabled.Value = volume > 0;
@@ -76,8 +76,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         protected override void CacheSettings()
         {
-            _soundVolumeCached = _model.SoundVolume.Value;
-            _isSoundEnabledCached = _model.IsSoundEnabled.Value;
+            _musicVolumeCached = _model.MusicVolume.Value;
+            _isSoundEnabledCached = _model.IsMusicEnabled.Value;
             _sfxVolumeCached = _model.SfxVolume.Value;
             _isSfxEnabledCached = _model.IsSfxEnabled.Value;
         }

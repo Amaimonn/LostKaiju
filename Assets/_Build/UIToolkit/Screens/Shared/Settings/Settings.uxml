@@ -24,7 +24,7 @@
                         </Bindings>
                     </engine:Button>
                     <engine:Button name="ResetButton" class="button-transitions-base reset-button">
-                        <engine:Label text="&lt;u&gt;Reset settings&lt;/u&gt;" name="CancelLabel" enable-rich-text="true" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; color: rgb(180, 180, 180); font-size: 18px;">
+                        <engine:Label text="&lt;u&gt;Reset settings&lt;/u&gt;" name="CancelLabel" enable-rich-text="true" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; color: rgb(180, 180, 180); font-size: 32px;">
                             <Bindings>
                                 <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54183685832704)" />
                             </Bindings>

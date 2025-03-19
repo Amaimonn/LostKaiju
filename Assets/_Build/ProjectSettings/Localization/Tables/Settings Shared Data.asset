@@ -20,7 +20,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 319880216576
-    m_Key: sound_volume
+    m_Key: music_volume
     m_Metadata:
       m_Items: []
   - m_Id: 232701607936

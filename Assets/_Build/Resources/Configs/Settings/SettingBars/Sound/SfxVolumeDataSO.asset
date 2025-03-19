@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Label>k__BackingField: sfx_volume
   <MinValue>k__BackingField: 0
-  <MaxValue>k__BackingField: 100
+  <MaxValue>k__BackingField: 10

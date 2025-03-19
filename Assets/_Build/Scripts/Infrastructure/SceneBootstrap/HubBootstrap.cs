@@ -15,6 +15,7 @@ using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.GameData.Heroes;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -49,8 +50,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var heroesModelFactory = new HeroesModelFactory(gameStateProvider);
             heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory);
+            var audioPlayer = Container.Resolve<AudioPlayer>();
             var hubViewModel = new HubViewModel(exitToGameplaySignal, getCampaignModel, settingsBinder, 
-                heroSelectionBinder, rootUIBinder);
+                heroSelectionBinder, rootUIBinder, audioPlayer);
 
             hubView.Bind(hubViewModel);
             rootUIBinder.SetView(hubView);

@@ -59,11 +59,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
             var scrollView = CreateScrollView(soundSection);
 
-            var soundVolumeSlider = CreateSlider(settingsData.SoundVolumeData, scrollView);
-            BindSlider(soundVolumeSlider, soundViewModel.SetSoundVolume, soundViewModel.SoundVolume);
+            var soundVolumeSlider = CreateSliderInt(settingsData.MusicVolumeData, scrollView);
+            BindSliderInt(soundVolumeSlider, soundViewModel.SetMusicVolume, soundViewModel.MusicVolume);
 
-            var sfxVolumeSlider = CreateSlider(settingsData.SfxVolumeData, scrollView);
-            BindSlider(sfxVolumeSlider, soundViewModel.SetSfxVolume, soundViewModel.SfxVolume);
+            var sfxVolumeSlider = CreateSliderInt(settingsData.SfxVolumeData, scrollView);
+            BindSliderInt(sfxVolumeSlider, soundViewModel.SetSfxVolume, soundViewModel.SfxVolume);
         }
 
         private void InitVideoSection(VisualElement sectionsRoot)
@@ -78,8 +78,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
             var scrollView = CreateScrollView(videoSection);
 
-            var brightnessSlider = CreateSlider(settingsData.BrightnessData, scrollView);
-            BindSlider(brightnessSlider, videoViewModel.SetBrightness, videoViewModel.Brightness);
+            var brightnessSlider = CreateSliderInt(settingsData.BrightnessData, scrollView);
+            BindSliderInt(brightnessSlider, videoViewModel.SetBrightness, videoViewModel.Brightness);
 
             var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, scrollView);
             BindToggle(postProcessingToggle, videoViewModel.SetIsPostProcessingEnabled, videoViewModel.IsPostProcessingEnabled);
@@ -100,12 +100,12 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             return scrollView;
         }
 
-        private Slider CreateSlider(ISliderSettingData sliderSettingData, VisualElement parentSection)
+        private SliderInt CreateSliderInt(ISliderSettingData sliderSettingData, VisualElement parentSection)
         {
             var settingBar = _sliderSettingBarAsset.CloneTree();
             parentSection.Add(settingBar);
 
-            var slider = settingBar.Q<Slider>();
+            var slider = settingBar.Q<SliderInt>();
             slider.lowValue = sliderSettingData.MinValue;
             slider.highValue = sliderSettingData.MaxValue;
 
@@ -115,10 +115,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             return slider;
         }
 
-        private void BindSlider(Slider slider, Action<float> method, Observable<float> observable)
+        private void BindSliderInt(SliderInt slider, Action<int> method, Observable<int> observable)
         {
-            slider.RegisterCallback<ChangeEvent<float>>(e => method(e.newValue));
+            slider.RegisterCallback<ChangeEvent<int>>(e => method(e.newValue));
             observable.Subscribe(x => slider.value = x);
+            //sliderSettingData.PageSize
         }
 
         private Toggle CreateToggle(IToggleSettingData toggleSettingData, VisualElement parentSection)

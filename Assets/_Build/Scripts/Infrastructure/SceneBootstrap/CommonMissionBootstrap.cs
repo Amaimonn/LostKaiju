@@ -20,6 +20,9 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Services.Audio;
+using LostKaiju.Game.World.Player.Views;
+using LostKaiju.Game.World.Enemy;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -30,15 +33,19 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private Volume _volume;
         [SerializeField] private PlayerHeroTrigger _missionExitAreaTrigger;
         [SerializeField] private SubSceneTrigger[] _subSceneTriggers;
+        [SerializeField] private EnemyInjector _enemyInjector;
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
+            var audioPlayer = Container.Resolve<AudioPlayer>();
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
             var playerConfig = gameplayEnterContext.PlayerConfig;
             var playerPrefab = playerConfig.CreatureBinder;
             var spawnPosition = missionEnterContext.FromMissionSceneName == null ? // if from subscene to main
                 missionEnterContext.PlayerPosition ?? _playerInitPosition.position : _playerInitPosition.position;
             var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+            if (player.Features.TryResolve<PlayerJuicySystem>(out var juicySystem))
+                Container.Inject(juicySystem);
             Debug.Log("player instantiated");
 
             var playerData = playerConfig.PlayerData;
@@ -170,6 +177,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             
             var settingsModel = Container.Resolve<SettingsModel>();
             BindPostProcessing(settingsModel);
+            
+            _enemyInjector.InjectAndInitAll(Container);
 
             return missionExitSignal;
 

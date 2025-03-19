@@ -12,6 +12,8 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.DefaultState;
 using System.Threading.Tasks;
+using LostKaiju.Services.Audio;
+using R3;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
@@ -54,6 +56,13 @@ namespace LostKaiju.Infrastructure.Scopes
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
             builder.RegisterInstance<ILoadingScreenNotifier>(loadingScreen);
+
+            builder.Register<AudioPlayer>(resolver => 
+            {
+                var settingsModel = resolver.Resolve<SettingsModel>();
+                return new AudioPlayer(musicVolume: settingsModel.MusicVolume.Select(x => x / 100.0f), 
+                    sfxVolume: settingsModel.SfxVolume.Select(x => x / 100.0f));
+            }, Lifetime.Singleton);
 
             var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);
             monoHook.StartCoroutine(sceneLoader.LoadStartScene());

@@ -18,7 +18,7 @@
     margin-bottom: 6px;
     transition-property: border-left-width;
     transition-duration: 0.13s;
-    height: 50px;
+    height: 64px;
 }
 
 .setting-bar:hover {
@@ -107,4 +107,29 @@
 }
 
 .setting-bar__toggle .unity-toggle__input:checked > .unity-toggle__checkmark {
+}
+
+.setting-bar__slider .unity-base-field__input {
+    flex-direction: row-reverse;
+    margin-right: 4px;
+    -unity-text-align: upper-center;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: normal;
+}
+
+.setting-bar__slider .unity-base-slider__fill {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }

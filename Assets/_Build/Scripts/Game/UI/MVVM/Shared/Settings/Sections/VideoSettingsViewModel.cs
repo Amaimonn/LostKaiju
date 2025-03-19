@@ -7,16 +7,16 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class VideoSettingsViewModel : SettingsSectionViewModel
     {
-        public Observable<float> Brightness => _brightness;
+        public Observable<int> Brightness => _brightness;
         public Observable<bool> IsPostProcessingEnabled => _isPostProcessingEnabled;
         public Observable<bool> IsHighBloomQuality => _isHighBloomQuality;
         public Observable<bool> IsAntiAliasingEnabled => _isAntiAliasingEnabled;
 
-        private readonly ReactiveProperty<float> _brightness;
+        private readonly ReactiveProperty<int> _brightness;
         private readonly ReactiveProperty<bool> _isPostProcessingEnabled;
         private readonly ReactiveProperty<bool> _isHighBloomQuality;
         private readonly ReactiveProperty<bool> _isAntiAliasingEnabled;
-        private float _brightnessCached;
+        private int _brightnessCached;
         private bool _isPostProcessingEnabledCached;
         private bool _isHighBloomQualityCached;
         private bool _isAntiAliasingEnabledCached;
@@ -25,7 +25,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             CacheSettings();
 
-            _brightness = new ReactiveProperty<float>(model.Brightness.Value);
+            _brightness = new ReactiveProperty<int>(model.Brightness.Value);
             model.Brightness.Skip(1).Subscribe(x => _brightness.Value = x).AddTo(_disposables);
             
             _isPostProcessingEnabled = new ReactiveProperty<bool>(model.IsPostProcessingEnabled.Value);
@@ -62,7 +62,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _model.IsAntiAliasingEnabled.OnNext(_isAntiAliasingEnabledCached); 
         }
 
-        public void SetBrightness(float brightness)
+        public void SetBrightness(int brightness)
         {
             _model.Brightness.Value = brightness;
         }
