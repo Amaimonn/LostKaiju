@@ -10,9 +10,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HeroSelectionBinder : Binder<HeroSelectionViewModel>
     {
-        private readonly IAsyncModelFactory<HeroesModel> _factory;
+        private readonly ILoadableModelFactory<HeroesModel> _factory;
 
-        public HeroSelectionBinder(IRootUIBinder rootUIBinder, IAsyncModelFactory<HeroesModel> factory) : 
+        public HeroSelectionBinder(IRootUIBinder rootUIBinder, ILoadableModelFactory<HeroesModel> factory) : 
             base(rootUIBinder)
         {
             _factory = factory;
@@ -34,7 +34,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _currentViewModel.OnClosingCompleted.Subscribe(_ => {
                 _rootUIBinder.ClearView(heroSelectionView);
             });
-            BindHeroesAsync();
+            BindHeroesOnLoaded();
             heroSelectionView.OnDisposed.Take(1).Subscribe(_ => {
                 _currentViewModel?.Dispose();
                 _currentViewModel = null;
@@ -48,13 +48,16 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             viewModel = _currentViewModel;
             return true;
 
-            async void BindHeroesAsync()
+            void BindHeroesOnLoaded()
             {
-                var heroesModel = await _factory.GetModelAsync();
-                if (_currentViewModel != null && heroSelectionView != null)
+                _factory.GetModelOnLoaded(heroesModel =>
                 {
-                    _currentViewModel.Bind(heroesModel);
-                }
+                    if (_currentViewModel != null && heroSelectionView != null)
+                    {
+                        _currentViewModel.Bind(heroesModel);
+                    }
+                });
+                
             }
         }
     }

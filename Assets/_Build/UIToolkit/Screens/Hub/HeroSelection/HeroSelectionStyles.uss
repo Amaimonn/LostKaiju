@@ -190,6 +190,7 @@
 .selected-preview__image {
     border-radius: 14px;
     -unity-background-scale-mode: scale-to-fit;
+    background-color: rgba(47, 47, 47, 0.31);
 }
 
 .selected-name {

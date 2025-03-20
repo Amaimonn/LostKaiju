@@ -76,20 +76,15 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
 
-
 # if MOBILE_BUILD || WEB_BUILD
-    # if !UNITY_EDITOR
            if (SystemInfo.deviceType == DeviceType.Handheld)
-            {
-    #endif      
+            {   
                 var mobileControlsViewPrefab = Resources.Load<MobileControlsView>(Paths.MOBILE_CONTROLS_VIEW);
                 var mobileControls = Instantiate(mobileControlsViewPrefab);
                 var inputStateProvider = Container.Resolve<InputStateProvider>();
                 inputStateProvider.IsInputEnabled.Subscribe(x => mobileControls.gameObject.SetActive(x));
                 rootUIBinder.AddView(mobileControls);
-    # if !UNITY_EDITOR
             }
-    #endif
 # endif
             exitToHubSignal.Take(1).Subscribe(_ => 
             {

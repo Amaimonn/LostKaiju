@@ -33,6 +33,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private PlayerHeroTrigger _missionExitAreaTrigger;
         [SerializeField] private SubSceneTrigger[] _subSceneTriggers;
         [SerializeField] private EnemyInjector _enemyInjector;
+        private CompositeDisposable _disposables = new();
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
@@ -205,6 +206,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 if (Container.TryResolve<OptionsBinder>(out var optionsBinder))
                     optionsBinder.CloseAll();
                 playerDefencePresenter.SetInvincible(true);
+                _disposables?.Dispose();
+                _disposables = null;
             }
         }
 
@@ -216,13 +219,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             }
             else
             {
-                settingsModel.IsPostProcessingEnabled.TakeUntil(_ => _volume != null)
-                    .Subscribe(x => _volume.enabled = x);
+                settingsModel.IsPostProcessingEnabled.Subscribe(x => _volume.enabled = x)
+                    .AddTo(_disposables);
 
                 if (_volume.profile.TryGet<Bloom>(out var bloom))
                 {
-                    settingsModel.IsHighBloomQuality.TakeUntil(_ => _volume != null)
-                        .Subscribe(x => bloom.highQualityFiltering.value = x);
+                    settingsModel.IsHighBloomQuality.Subscribe(x => bloom.highQualityFiltering.value = x)
+                        .AddTo(_disposables);
                 }
                 else
                 {

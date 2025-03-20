@@ -50,7 +50,9 @@ MonoBehaviour:
   _completeButtonName: StartButton
   _heroesListName: HeroesList
   _heroDescriptionName: HeroDescription
+  _selectedImageName: SelectedImage
   _heroSlot: {fileID: 9197481963319205126, guid: 3a52cfac061be96498d7d9c7749e1ed0, type: 3}
   _heroSlotName: HeroSlot
   _heroLabelName: HeroName
   _heroSlotSelectedClass: hero-slot--selected
+  _heroRenderTexture: {fileID: 8400000, guid: 8ade1f3a75f86e84cb8c26ac91457bde, type: 2}

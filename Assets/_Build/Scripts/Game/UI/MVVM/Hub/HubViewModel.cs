@@ -8,6 +8,7 @@ using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Constants;
 using LostKaiju.Services.Audio;
+using LostKaiju.Game.GameData;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -17,14 +18,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         
         private readonly Subject<CampaignNavigationViewModel> _onCampaignOpened = new();
         private readonly Subject<Unit> _exitToGameplaySignal;
-        private readonly Func<Task<CampaignModel>> _campaignModelFactory;
+        private readonly ILoadableModelFactory<CampaignModel> _campaignModelFactory;
         private readonly SettingsBinder _settingsBinder;
         private HeroSelectionBinder _heroSelectionBinder;
         private readonly IRootUIBinder _rootUIBinder;
         private readonly AudioPlayer _audioPlayer;
         private bool _isMissionsOpened = false;
         
-        public HubViewModel(Subject<Unit> exitToGameplaySignal, Func<Task<CampaignModel>> campaignModelFactory,
+        public HubViewModel(Subject<Unit> exitToGameplaySignal, ILoadableModelFactory<CampaignModel> campaignModelFactory,
             SettingsBinder settingsBinder, HeroSelectionBinder heroSelectionBinder, IRootUIBinder rootUIBinder,
             AudioPlayer audioPlayer)
         {
@@ -51,7 +52,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 _isMissionsOpened = false;
             });
 
-            BindCampaignAsync();
+            BindCampaignOnLoaded();
             campaignView.Bind(campaignViewModel);
             _rootUIBinder.AddView(campaignView);
             campaignViewModel.Open();
@@ -59,13 +60,13 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             
             _isMissionsOpened = true;
 
-            async void BindCampaignAsync()
+            void BindCampaignOnLoaded()
             {
-                var campaignModel = await _campaignModelFactory();
-                if (campaignViewModel != null && campaignView != null)
+                _campaignModelFactory.GetModelOnLoaded((campaignModel)=>
                 {
-                    campaignViewModel.Bind(campaignModel);
-                }
+                    if (campaignViewModel != null && campaignView != null)
+                        campaignViewModel.Bind(campaignModel);
+                });
             }
         }
 

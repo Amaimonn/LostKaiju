@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System;
 using UnityEngine.AddressableAssets;
 using R3;
 
@@ -8,7 +8,7 @@ using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.GameData.Campaign
 {
-    public class CampaignModelFactory : IAsyncModelFactory<CampaignModel>
+    public class CampaignModelFactory : ILoadableModelFactory<CampaignModel>
     {
         public Observable<CampaignModel> OnProduced => _onProduced;
         private readonly IGameStateProvider _gameStateProvider;
@@ -19,26 +19,26 @@ namespace LostKaiju.Game.GameData.Campaign
             _gameStateProvider = gameStateProvider;
         }
 
-        public async Task<CampaignModel> GetModelAsync()
+        public void GetModelOnLoaded(Action<CampaignModel> onLoaded)
         {
             var locationsDataSOHandle = Addressables.LoadAssetAsync<AllLocationsDataSO>(Paths.LOCATIONS_DATA);
-            await locationsDataSOHandle.Task;
-            var locationsDataSO = locationsDataSOHandle.Result;
-
-            var campaignState = _gameStateProvider.Campaign;
-            var campaignModel = new CampaignModel(campaignState, locationsDataSO);
-
-            // check for new campaign data
-            if (_gameStateProvider.Campaign.CampaignDataVersion != locationsDataSO.Version)
+            locationsDataSOHandle.Completed += (handler) =>
             {
-                campaignModel.UpdateAvailableLocationsAndMissions();
-                _gameStateProvider.Campaign.CampaignDataVersion = locationsDataSO.Version;
-                await _gameStateProvider.SaveCampaignAsync(); // save new version
-            }
+                var locationsDataSO = handler.Result;
 
-            _onProduced.OnNext(campaignModel);
+                var campaignState = _gameStateProvider.Campaign;
+                var campaignModel = new CampaignModel(campaignState, locationsDataSO);
 
-            return campaignModel;
+                // check for new campaign data
+                if (_gameStateProvider.Campaign.CampaignDataVersion != locationsDataSO.Version)
+                {
+                    campaignModel.UpdateAvailableLocationsAndMissions();
+                    _gameStateProvider.Campaign.CampaignDataVersion = locationsDataSO.Version;
+                    _gameStateProvider.SaveCampaignAsync(); // save new version
+                }
+                onLoaded(campaignModel);
+                _onProduced.OnNext(campaignModel);
+            };
         }
     }
 }

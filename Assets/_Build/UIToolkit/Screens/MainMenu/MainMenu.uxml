@@ -23,7 +23,7 @@
                         <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(36999577600)" />
                     </Bindings>
                 </engine:Button>
-                <engine:Button name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button">
+                <engine:Button name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="menu-button" style="display: none;">
                     <Bindings>
                         <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(550353027072)" />
                     </Bindings>

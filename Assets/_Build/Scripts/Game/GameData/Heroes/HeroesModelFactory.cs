@@ -1,13 +1,13 @@
-using System.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using R3;
 
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.Constants;
+using System;
 
 namespace LostKaiju.Game.GameData.Heroes
 {
-    public class HeroesModelFactory : IAsyncModelFactory<HeroesModel>
+    public class HeroesModelFactory : ILoadableModelFactory<HeroesModel>
     {
         public Observable<HeroesModel> OnProduced => _onProduced;
         private readonly IGameStateProvider _gameStateProvider;
@@ -18,23 +18,17 @@ namespace LostKaiju.Game.GameData.Heroes
             _gameStateProvider = gameStateProvider;
         }
 
-        public async Task<HeroesModel> GetModelAsync()
+        public void GetModelOnLoaded(Action<HeroesModel> onLoaded)
         {
             var heroesDataSOHandle = Addressables.LoadAssetAsync<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
-            if (_gameStateProvider.Heroes == null)
+            heroesDataSOHandle.Completed += (handler) =>
             {
-                await _gameStateProvider.LoadHeroesAsync();
-            }
-
-            await heroesDataSOHandle.Task;
-            var heroesDataSO = heroesDataSOHandle.Result;
-
-            var heroesState = _gameStateProvider.Heroes;
-            var heroesModel = new HeroesModel(heroesState, heroesDataSO);
-
-            _onProduced.OnNext(heroesModel);
-
-            return heroesModel;
+                var heroesDataSO = handler.Result;
+                var heroesState = _gameStateProvider.Heroes;
+                var heroesModel = new HeroesModel(heroesState, heroesDataSO);
+                onLoaded(heroesModel);
+                _onProduced.OnNext(heroesModel);
+            };
         }
     }
 }

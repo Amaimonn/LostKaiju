@@ -42,8 +42,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             var campaignModelFactory = new CampaignModelFactory(gameStateProvider);
             campaignModelFactory.OnProduced.Subscribe(x => _campaignModel = x);
-            var getCampaignModel = new Func<Task<CampaignModel>>(async () => 
-                await campaignModelFactory.GetModelAsync());
             var settingsBinder = Container.Resolve<SettingsBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
             settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
@@ -51,7 +49,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory);
             var audioPlayer = Container.Resolve<AudioPlayer>();
-            var hubViewModel = new HubViewModel(exitToGameplaySignal, getCampaignModel, settingsBinder, 
+            var hubViewModel = new HubViewModel(exitToGameplaySignal, campaignModelFactory, settingsBinder, 
                 heroSelectionBinder, rootUIBinder, audioPlayer);
 
             hubView.Bind(hubViewModel);
