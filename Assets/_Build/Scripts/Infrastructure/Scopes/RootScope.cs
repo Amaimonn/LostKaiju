@@ -66,12 +66,12 @@ namespace LostKaiju.Infrastructure.Scopes
                 loadingScreen.OverlayFillProgress.Subscribe(x => audioPlayer.VolumeMultiplier.Value = 1 - x);
                 sceneLoader.OnLoadingStarted.Subscribe(_ => 
                 {
-                    audioPlayer.Clear();
+                    audioPlayer.ClearSFX();
                     audioPlayer.PauseMusic();
                 });
                 sceneLoader.OnLoadingFinished.Subscribe(_ =>
                 {
-                    audioPlayer.UnauseMusic();
+                    audioPlayer.UnPauseMusic();
                 });
                 return audioPlayer;
             }, Lifetime.Singleton);

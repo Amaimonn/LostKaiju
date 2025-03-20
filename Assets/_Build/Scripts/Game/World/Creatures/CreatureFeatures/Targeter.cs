@@ -4,7 +4,7 @@ namespace LostKaiju.Game.World.Creatures.Features
 {
     public class Targeter : MonoBehaviour, ITargeter
     {
-        public bool IsTargeting => _isTargeting;
+        public bool IsTargeting => _isTargeting && _targetTransform != null;
         private bool _isTargeting = false;
         private Transform _targetTransform = null;
 

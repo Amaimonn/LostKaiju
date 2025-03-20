@@ -114,7 +114,7 @@ namespace LostKaiju.Services.Audio
             source.Play();
         }
 
-        public void Clear()
+        public void ClearSFX()
         {
             _disposables.Dispose();
             _disposables = new CompositeDisposable();
@@ -126,7 +126,7 @@ namespace LostKaiju.Services.Audio
             _musicSource.Pause();
         }
 
-        public void UnauseMusic()
+        public void UnPauseMusic()
         {
             _musicSource.UnPause();
         }

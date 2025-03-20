@@ -78,13 +78,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c39c2dbdbba9f84b890d2b7c3825357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 7419181896745371049}
   _stepParticles: {fileID: 4208414659333474128}
   _stepSound: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}
   _attackSound: {fileID: 0}
-  _hitSound: {fileID: 0}
+  _hitSound: {fileID: 8300000, guid: d09e86f20a52df443888f16c616feecd, type: 3}
   _hitParticles: {fileID: 1137038690365826759}
   _onDamagedEffect: {fileID: 5580638616851360576}
+  _onDamagedSound: {fileID: 8300000, guid: 237f6c9e8364f0d4b88f8bb124a4239a, type: 3}
 --- !u!82 &7419181896745371049
 AudioSource:
   m_ObjectHideFlags: 0

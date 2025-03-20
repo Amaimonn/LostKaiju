@@ -10,7 +10,7 @@
 .settings-content {
     padding: 20px;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgba(0, 0, 0, 0.47);
     align-self: center;
     align-content: stretch;
     align-items: stretch;
@@ -20,8 +20,9 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
-    flex-grow: 1;
+    flex-grow: 0;
     width: 100%;
+    height: 920px;
 }
 
 .settings {
@@ -46,16 +47,16 @@
 .close-button {
     width: 64px;
     height: 64px;
-    font-size: 32px;
+    font-size: 40px;
     background-color: rgb(37, 37, 37);
     color: white;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
     -unity-text-align: middle-center;
     white-space: nowrap;
-    -unity-font-style: normal;
+    -unity-font-style: bold;
     -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
     margin-top: 4px;
 }
@@ -134,14 +135,14 @@
 
 .apply-button {
     padding: 10px 20px;
-    font-size: 40px;
+    font-size: 36px;
     background-color: rgb(37, 37, 37);
     color: white;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    height: 64px;
+    height: 60px;
     padding-top: 2px;
     padding-bottom: 2px;
     margin-bottom: 16px;

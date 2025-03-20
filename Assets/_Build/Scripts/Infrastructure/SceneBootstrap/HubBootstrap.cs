@@ -70,7 +70,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 gameplayEnterContext.MissionCompletionSignal = new Subject<Unit>();
                 gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ => 
                 {
-                    Debug.Log("Campaign - state update");
                     missionCompleteSignal.OnNext(Unit.Default);
                 });
                 hubExitSignal.OnNext(hubExitToGameplayContext);

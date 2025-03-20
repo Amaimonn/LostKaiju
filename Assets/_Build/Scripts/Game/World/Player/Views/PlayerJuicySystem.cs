@@ -15,6 +15,7 @@ namespace LostKaiju.Game.World.Player.Views
         [SerializeField] private AudioClip _hitSound;
         [SerializeField] private ParticleSystem _hitParticles;
         [SerializeField] private Effect _onDamagedEffect;
+        [SerializeField] private AudioClip _onDamagedSound;
         
         [Inject] private AudioPlayer _audioPlayer;
 
@@ -31,6 +32,7 @@ namespace LostKaiju.Game.World.Player.Views
 
         public void PlayHit(Vector3 point)
         {
+            _audioPlayer.PlaySFX(_hitSound, pitch: Random.Range(0.8f, 1.2f));
             _hitParticles.transform.position = point;
             _hitParticles.Play();
         }
@@ -38,6 +40,7 @@ namespace LostKaiju.Game.World.Player.Views
         public void PlayOnDamaged()
         {
             _onDamagedEffect.PlayEffect();
+            _audioPlayer.PlayOneShotSFX(_onDamagedSound);
         }
     }
 }

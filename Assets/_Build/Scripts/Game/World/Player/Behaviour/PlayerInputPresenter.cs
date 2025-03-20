@@ -9,7 +9,6 @@ using LostKaiju.Boilerplates.FSM;
 using LostKaiju.Boilerplates.FSM.FiniteTransitions;
 using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.World.Player.Data;
-using LostKaiju.Game.World.Player.Data.StateParameters;
 using LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates;
 using LostKaiju.Game.World.Creatures.Views;
 using LostKaiju.Game.World.Player.Views;
@@ -17,7 +16,7 @@ using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.World.Player.Behaviour
 {
-    public class PlayerInputPresenter : IPlayerInputPresenter, IDisposable
+    public class PlayerInputPresenter : IPlayerInputPresenter
     {
         protected ICreatureBinder _creature;
         private readonly PlayerControlsData _controlsData;
@@ -25,6 +24,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
         private IInputProvider _inputProvider;
         private readonly IInputProvider _cachedInputProvider;
         private IGroundCheck _groundCheck;
+        private IDamageReceiver _damageReceiver;
         private PlayerJuicySystem _playerJuicySystem;
         private readonly List<Timer> _cooldownTimers = new(3);
         private Timer _jumpInputBufferTimer;
@@ -56,11 +56,14 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var flipper = features.Resolve<IFlipper>();
             var attacker = features.Resolve<IAttacker>();
             _playerJuicySystem = features.Resolve<PlayerJuicySystem>();
-
             attacker.OnHitPositionSent.Subscribe(x => _playerJuicySystem.PlayHit(x));
-
             // idle state
             var idleState = new IdleState();
+
+            _damageReceiver = features.Resolve<IDamageReceiver>();
+            _damageReceiver.OnDamageTaken.Where(_ => _finiteStateMachine.CurrentState == idleState)
+                .Subscribe(_ => _finiteStateMachine.ForceState(typeof(IdleState)));
+            
 
             // walk state
             var walkParameters = _controlsData.Walk;
@@ -134,7 +137,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
         
         public void UpdateLogic()
         {
-            _finiteStateMachine.CurrentState.UpdateLogic();
+            _finiteStateMachine.CurrentState?.UpdateLogic();
             _readJump = _inputProvider.GetJump;
             if (_readJump)
                 _jumpInputBufferTimer.Refresh();
@@ -163,9 +166,9 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var movementOverrideLayer = animator.GetLayerIndex(AnimationLayers.MOVEMENT_OVERRIDE_LAYER);
             var attackOverrideLayer = animator.GetLayerIndex(AnimationLayers.ATTACK_OVERRIDE_LAYER);
 
-            walkState.OnEnter.Subscribe(_ => animator.CrossFade(AnimationClips.WALK, 0.02f));
+            walkState.OnEnter.Subscribe(_ => animator.CrossFade(AnimationClips.WALK, 0.02f)).AddTo(_disposables);
             
-            jumpState.OnEnter.Subscribe(_ => animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f));
+            jumpState.OnEnter.Subscribe(_ => animator.CrossFadeInFixedTime(AnimationClips.IDLE, 0.2f)).AddTo(_disposables);
             Observable.EveryValueChanged(_groundCheck, x => _groundCheck.IsGrounded)
                 .SkipFrame(1)
                 .Where(x => x == true)
@@ -178,7 +181,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
             Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)
                 .SkipFrame(1)
                 .Where(_ => _groundCheck.IsGrounded == false)
-                .Subscribe(x => {
+                .Subscribe(x => 
+                {
                     if (x > 0)
                         animator.Play(AnimationClips.AIR_UP, movementOverrideLayer);
                     else
@@ -186,7 +190,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 })
                 .AddTo(_disposables);
 
-            idleState.OnEnter.Subscribe(_ => {
+            idleState.OnEnter.Subscribe(_ => 
+            {
                 var currentClipHash = animator.GetCurrentAnimatorStateInfo(baseLayer).shortNameHash;
 
                 if (currentClipHash == AnimationClips.SITTING || currentClipHash == AnimationClips.LYING)
@@ -202,24 +207,26 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
                 subscription.Disposable = Observable.Timer(TimeSpan.FromSeconds(4))
                     .TakeUntil(idleState.OnExit)
-                    .Subscribe(_ => {
+                    .Subscribe(_ => 
+                    {
                         animator.CrossFadeInFixedTime(AnimationClips.SITTING, 0.5f);
 
                         subscription.Disposable = Observable.Timer(TimeSpan.FromSeconds(4))
                             .TakeUntil(idleState.OnExit)
-                            .Subscribe(_ => {
+                            .Subscribe(_ => 
+                            {
                                 animator.CrossFadeInFixedTime(AnimationClips.LYING, 0.5f);
                                 animator.Play(AnimationClips.LYING_SCALES, noFadeLayerIndex);
                             }).AddTo(_disposables);
                     }).AddTo(_disposables);
 
                 animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
-            });
+            }).AddTo(_disposables);
 
-            idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex));
-            attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer));
+            idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex)).AddTo(_disposables);
+            attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer)).AddTo(_disposables);
             attackState.IsAttackCompleted.Where(x => x == true)
-                .Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer));
+                .Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer)).AddTo(_disposables);
         }
 
         private void ApplyFriction()
@@ -236,6 +243,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
         public void Dispose()
         {
             _disposables?.Dispose();
+            _finiteStateMachine.Dispose();
         }
     }
 }

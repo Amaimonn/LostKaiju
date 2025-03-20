@@ -15,23 +15,32 @@ namespace LostKaiju.Game.World.Player.Behaviour
         private IDamageReceiver _damageReceiver;
         private readonly Subject<Unit> _onDeath = new();
         private bool _isInvincible;
+        private CompositeDisposable _disposables = new();
 
         public PlayerDefencePresenter(HealthModel healthModel, PlayerDefenceData playerDefenceData)
         {
             _healthModel = healthModel;
             _healthModel.CurrentHealth.Where(x => x == 0)
-                .Subscribe(_ => _onDeath.OnNext(Unit.Default));
+                .Subscribe(_ => _onDeath.OnNext(Unit.Default)).AddTo(_disposables);
         }
 
         public void Bind(ICreatureBinder creature)
         {
             var features = creature.Features;
             _damageReceiver = features.Resolve<IDamageReceiver>();
-            _damageReceiver.OnDamageTaken.Subscribe(DecreaseHealth);
+            var damagedObserver = _damageReceiver.OnDamageTaken.Where(_ => !_isInvincible);
             if (features.TryResolve<PlayerJuicySystem>(out var juicySystem))
             {
-                _damageReceiver.OnDamageTaken.Where(_ => !_isInvincible)
-                    .Subscribe(x => juicySystem.PlayOnDamaged());
+                damagedObserver.Subscribe(x => 
+                {
+                    juicySystem.PlayOnDamaged();
+                    DecreaseHealth(x);
+                })
+                .AddTo(_disposables);
+            }
+            else
+            {
+                damagedObserver.Subscribe(DecreaseHealth).AddTo(_disposables);
             }
         }
 
@@ -47,8 +56,13 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         private void DecreaseHealth(int amount)
         {
-            if (!_isInvincible)
-                _healthModel.DecreaseHealth(amount);
+            _healthModel.DecreaseHealth(amount);
+        }
+
+        public void Dispose()
+        {
+            _disposables?.Dispose();
+            _disposables = null;
         }
     }
 }

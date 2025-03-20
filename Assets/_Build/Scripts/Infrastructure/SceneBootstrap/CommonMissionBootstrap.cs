@@ -20,7 +20,6 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
-using LostKaiju.Services.Audio;
 using LostKaiju.Game.World.Player.Views;
 using LostKaiju.Game.World.Enemy;
 
@@ -37,7 +36,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
-            var audioPlayer = Container.Resolve<AudioPlayer>();
+            // var audioPlayer = Container.Resolve<AudioPlayer>();
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
             var playerConfig = gameplayEnterContext.PlayerConfig;
             var playerPrefab = playerConfig.CreatureBinder;
@@ -88,18 +87,36 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 #region Death handling
             healthModel.CurrentHealth.Where(x => x == 0).TakeUntil(exitSignal).Subscribe(_ => 
             {
-                OnPlayerTransition();
-                player.gameObject.SetActive(false);
+                // OnPlayerTransition();
+                _cinemachineCamera.Follow = null;
+                playerRootPresenter.Dispose();
+                Destroy(player.gameObject);
+
                 Observable.Timer(TimeSpan.FromSeconds(1)).TakeUntil(exitSignal).Subscribe(_ =>
                 {
                     // player.transform.position = _playerInitPosition.position;
                     // healthModel.RestoreFullHealth();
-                    toMissionEnterContext.PlayerPosition = null;
-                    toMissionEnterContext.FromMissionSceneName = null;
-                    toMissionEnterContext.FromTriggerId = null;
-                    missionExitContext.ToMissionSceneName = gameplayEnterContext.LevelSceneName;
+                    // toMissionEnterContext.PlayerPosition = null;
+                    // toMissionEnterContext.FromMissionSceneName = null;
+                    // toMissionEnterContext.FromTriggerId = null;
+                    // missionExitContext.ToMissionSceneName = gameplayEnterContext.LevelSceneName;
 
-                    exitSignal.OnNext(Unit.Default);
+                    // exitSignal.OnNext(Unit.Default);
+                    healthModel.RestoreFullHealth();
+                    player = Instantiate(playerPrefab, _playerInitPosition.position, Quaternion.identity);
+                    playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider);
+                    inputStateProvider.IsInputEnabled.Subscribe(playerInputPresenter.SetInputEnabled);
+                    playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
+                    playerRootPresenter = new PlayerRootPresenter(playerInputPresenter, playerDefencePresenter);
+                    playerRootPresenter.Bind(player);
+                    if (player.Features.TryResolve<PlayerJuicySystem>(out var juicySystem))
+                        Container.Inject(juicySystem);
+                    if (player.Features.TryResolve<ICameraTarget>(out var cameraTarget) && cameraTarget.TargetTransform != null)
+                        _cinemachineCamera.Follow = cameraTarget.TargetTransform;
+                    else
+                        _cinemachineCamera.Follow = player.transform;
+
+                    player.transform.position = _playerInitPosition.position;
                 });
             });
 #endregion

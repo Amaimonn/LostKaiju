@@ -25,9 +25,14 @@ namespace LostKaiju.Game.World.VFX
             }
         }
 
+        private void OnDisable()
+        {
+            SetOriginal();
+        }
+
         public override void PlayEffect()
         {
-            if (!isFlashing)
+            if (!isFlashing && gameObject.activeSelf)
             {
                 StartCoroutine(Flash());
             }
@@ -56,12 +61,17 @@ namespace LostKaiju.Game.World.VFX
             }
             _flashMaterial.SetFloat(_flashPropertyId, 0);
 
+            SetOriginal();
+
+            isFlashing = false;
+        }
+
+        private void SetOriginal()
+        {
             for (var i = 0; i < _spriteRenderers.Length; i++)
             {
                 _spriteRenderers[i].material = _originalMaterials[i];
             }
-
-            isFlashing = false;
         }
     }
 }

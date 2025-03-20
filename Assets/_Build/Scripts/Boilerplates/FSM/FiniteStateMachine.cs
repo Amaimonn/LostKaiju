@@ -10,6 +10,11 @@ namespace LostKaiju.Boilerplates.FSM
             if (_currentStateType == stateType)
                 return;
 
+            ForceState(stateType);
+        }
+
+        public void ForceState(Type stateType)
+        {
             if (_states.TryGetValue(stateType, out var newState))
             {
                 // Debug.Log($"FSM: {_currentStateType.Name} --> {stateType.Name}");

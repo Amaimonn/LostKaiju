@@ -62,19 +62,6 @@ namespace LostKaiju.Boilerplates.FSM
             }
         }
 
-        public virtual void Reset()
-        {
-            foreach (var state in _states.Values)
-            {
-                state.Dispose();
-            }
-            
-            _states.Clear();
-            _transitions.Clear();
-            _disposables.Dispose();
-            _disposables = new CompositeDisposable();
-        }
-
         public virtual void AddTransitions(IEnumerable<IFiniteTransition> transitions)
         {
             _transitions.AddRange(transitions);
@@ -137,7 +124,17 @@ namespace LostKaiju.Boilerplates.FSM
 #region IDisposable
         public virtual void Dispose()
         {
+            foreach (var state in _states.Values)
+            {
+                state.Dispose();
+            }
+            
+            _states.Clear();
+            _transitions.Clear();
+            CurrentState = null;
+            _currentStateType = null;
             _disposables.Dispose();
+            _disposables = new CompositeDisposable();
         }
 #endregion
     }

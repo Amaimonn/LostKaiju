@@ -17,8 +17,6 @@ namespace LostKaiju.Boilerplates.FSM
         public void SetTransitionsWithStates(IObservableCollection<IFiniteTransition> observableTransitions,
             IEnumerable<IFiniteState> states);
 
-        public void Reset();
-
         public void AddTransitions(IEnumerable<IFiniteTransition> transitions);
 
         /// <summary>

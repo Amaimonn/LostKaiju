@@ -1,3 +1,4 @@
+using System;
 using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.World.Creatures.Presenters;
 using LostKaiju.Game.World.Creatures.Views;
@@ -5,7 +6,7 @@ using LostKaiju.Game.World.Player.Behaviour;
 
 namespace LostKaiju.Game.World.Player
 {
-    public class PlayerRootPresenter : CreaturePresenter, IUpdatablePresenter
+    public class PlayerRootPresenter : CreaturePresenter, IUpdatablePresenter, IDisposable
     {
         private readonly IPlayerInputPresenter _inputPresenter;
         private readonly IPlayerDefencePresenter _defencePresenter;
@@ -39,5 +40,10 @@ namespace LostKaiju.Game.World.Player
             _inputPresenter.FixedUpdateLogic();
         }
 #endregion
+        public void Dispose()
+        {
+            _inputPresenter.Dispose();
+            _defencePresenter.Dispose();
+        }
     }
 }

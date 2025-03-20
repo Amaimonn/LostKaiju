@@ -5,6 +5,7 @@ using R3.Triggers;
 
 using LostKaiju.Game.World.Creatures.DamageSystem;
 using LostKaiju.Game.World.Creatures.Features;
+using System.Collections.Generic;
 
 namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
 {
@@ -26,6 +27,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         private readonly Subject<Vector2> _onHitPositionSent = new();
         private readonly Subject<Unit> _onFinish = new();
         private bool _isDamagingModeActive;
+        private readonly HashSet<IDamageable> _attackedSet = new();
 
         // public void Bind(IAttackApplier attackApplier, IAttackPathProcessor attackPathProcessor = null)
         // {
@@ -70,6 +72,14 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
                 _onFinish.OnNext(Unit.Default);
             });
         }
+
+        private void OnDisable()
+        {
+            SetDamagingModeActive(false);
+            _onFinish.OnNext(Unit.Default);
+            _attackGameObject.SetActive(false);
+            StopCoroutine(ProcessAttack());
+        }
 #endregion
 
         private void SetDamagingModeActive(bool isActive)
@@ -77,12 +87,14 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
             _isDamagingModeActive = isActive;
             _attackCollider.enabled = isActive;
             _attackGameObject.SetActive(isActive);
+            _attackedSet.Clear();
         }
 
         private void TryAttack(Collider2D collider)
         {
-            if (collider.gameObject.TryGetComponent(out IDamageable damageable))
+            if (collider.gameObject.TryGetComponent(out IDamageable damageable) && !_attackedSet.Contains(damageable))
             {
+                _attackedSet.Add(damageable);
                 _onTargetAttacked.OnNext(collider.gameObject);
                 _onHitPositionSent.OnNext(collider.ClosestPoint(_attackGameObject.transform.position));
                 damageable.TakeDamage(10);
