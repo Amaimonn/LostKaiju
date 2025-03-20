@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using VContainer;
 using VContainer.Unity;
 using R3;
@@ -12,9 +14,8 @@ using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.Loading;
-using System.Threading.Tasks;
-using UnityEngine.AddressableAssets;
 using LostKaiju.Game.World.Player.Data.Configs;
+using LostKaiju.Game.Constants; // <-- used with web/mobile builds
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -24,9 +25,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     public class GameplayBootstrap : LifetimeScope
     {
         [SerializeField] private GameplayView _gameplayViewPrefab;
-# if MOBILE_BUILD || WEB_BUILD || UNITY_EDITOR
-        [SerializeField] private MobileControlsView _mobileControlsViewPrefab;
-# endif
+
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<InputStateProvider>(Lifetime.Singleton);
@@ -77,9 +76,20 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
 
-# if MOBILE_BUILD || WEB_BUILD || UNITY_EDITOR
-            var mobileControls = Instantiate(_mobileControlsViewPrefab);
-            rootUIBinder.AddView(mobileControls);
+
+# if MOBILE_BUILD || WEB_BUILD
+    # if !UNITY_EDITOR
+           if (SystemInfo.deviceType == DeviceType.Handheld)
+            {
+    #endif      
+                var mobileControlsViewPrefab = Resources.Load<MobileControlsView>(Paths.MOBILE_CONTROLS_VIEW);
+                var mobileControls = Instantiate(mobileControlsViewPrefab);
+                var inputStateProvider = Container.Resolve<InputStateProvider>();
+                inputStateProvider.IsInputEnabled.Subscribe(x => mobileControls.gameObject.SetActive(x));
+                rootUIBinder.AddView(mobileControls);
+    # if !UNITY_EDITOR
+            }
+    #endif
 # endif
             exitToHubSignal.Take(1).Subscribe(_ => 
             {

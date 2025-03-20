@@ -8,6 +8,7 @@ namespace LostKaiju.Game.Constants
         public const string EXIT_POPUP_VIEW = "UI/Gameplay/ExitPopUpView";
         public const string OPTIONS_VIEW = "UI/Gameplay/OptionsView";
         public const string PLAYER_INDICATORS_VIEW = "UI/Gameplay/PlayerIndicatorsView";
+        public const string MOBILE_CONTROLS_VIEW = "UI/Gameplay/MobileControlsView";
 
         public const string FULL_SETTINGS_DATA_SO = "Configs/Settings/FullSettingsDataSO";
         public const string LOCATIONS_DATA = "Configs/Campaign/AllLocationsDataSO";

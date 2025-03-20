@@ -8,14 +8,27 @@ namespace LostKaiju.Services.Inputs
 {
     public class InputSystemProvider : IInputProvider
     {
-        public float GetHorizontal 
+        public float GetHorizontal // raw axis value
         {
             get 
             {
-                var readValueX = Mathf.Round(_onReadMove().x); // raw axis value
-                _horizontalCanceled.Value = readValueX == 0;
-
-                return readValueX;
+                var readValueX = _onReadMove().x; 
+                
+                if (readValueX >= SENSITIVITY )
+                {
+                    _horizontalCanceled.Value = false;
+                    return 1;
+                }
+                else if (readValueX < -SENSITIVITY )
+                {
+                    _horizontalCanceled.Value = false;
+                    return -1;
+                }
+                else
+                {
+                    _horizontalCanceled.Value = true;
+                    return 0;
+                }
             }
         }
 
@@ -25,9 +38,23 @@ namespace LostKaiju.Services.Inputs
         {
             get
             {
-                var readValueY = Mathf.Round(_onReadMove().y); // raw axis value
-                _verticalCanceled.Value = readValueY == 0;
-                return readValueY;
+                var readValueY = _onReadMove().y; 
+                
+                if (readValueY >= SENSITIVITY )
+                {
+                    _verticalCanceled.Value = false;
+                    return 1;
+                }
+                else if (readValueY < -SENSITIVITY )
+                {
+                    _verticalCanceled.Value = false;
+                    return -1;
+                }
+                else
+                {
+                    _verticalCanceled.Value = true;
+                    return 0;
+                }
             }
         }
 
@@ -40,6 +67,7 @@ namespace LostKaiju.Services.Inputs
         public bool GetAttack => _onReadAttack();
         public Observable<Unit> OnEscape => _onEscape;
 
+        private const float SENSITIVITY = 0.5f;
         private readonly Func<Vector2> _onReadMove;
         private readonly Func<bool> _onReadJump;
         private readonly Func<bool> _onReadDash;
@@ -59,15 +87,15 @@ namespace LostKaiju.Services.Inputs
             _onReadMove = moveAction.ReadValue<Vector2>;
             _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
             _onReadAttack = attackAction.WasPressedThisFrame; // () => attackAction.ReadValue<float>() > 0;
-
-            if (SystemInfo.deviceType == DeviceType.Handheld)
-            {
-                _onReadJump = () => moveAction.ReadValue<Vector2>().y > 0.5f;
-            }
-            else
-            {
-                _onReadJump = () => jumpAction.ReadValue<float>() > 0;
-            }
+            _onReadJump = () => jumpAction.ReadValue<float>() > 0 || moveAction.ReadValue<Vector2>().y >= SENSITIVITY;
+            // if (SystemInfo.deviceType == DeviceType.Handheld)
+            // {
+            //     _onReadJump = () => moveAction.ReadValue<Vector2>().y > 0.5f;
+            // }
+            // else
+            // {
+            //     _onReadJump = () => jumpAction.ReadValue<float>() > 0;
+            // }
         }
 
         // private Observable<bool> _moveCanceled = Observable.Create<bool>(sub => {

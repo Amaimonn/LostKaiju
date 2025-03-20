@@ -106,6 +106,8 @@
     border-bottom-left-radius: 4px;
     -unity-background-image-tint-color: rgb(255, 255, 255);
     background-color: rgb(0, 0, 0);
+    width: 42px;
+    height: 42px;
 }
 
 .setting-bar__toggle .unity-toggle__input:checked > .unity-toggle__checkmark {
