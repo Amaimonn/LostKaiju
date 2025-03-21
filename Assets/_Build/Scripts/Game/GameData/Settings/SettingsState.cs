@@ -15,7 +15,7 @@ namespace LostKaiju.Game.GameData.Settings
         public bool IsSfxEnabled;
         public int Brightness;
         public bool IsPostProcessingEnabled;
-        public bool IsHighBloomQuality;
+        public bool IsBloomEnabled;
         public bool IsAntiAliasingEnabled;
 
         public SettingsState Copy()

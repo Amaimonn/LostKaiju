@@ -23,8 +23,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private string _heroLabelName;
         [SerializeField] private string _heroSlotSelectedClass;
 
-        [Space(4)]
-        [SerializeField] private RenderTexture _heroRenderTexture;
+        // [Space(4)]
+        // [SerializeField] private RenderTexture _heroRenderTexture;
 
         private Button _completeButton;
         private ScrollView _heroesList;
@@ -38,7 +38,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _completeButton = Root.Q<Button>(name: _completeButtonName);
             _heroesList = Root.Q<ScrollView>(name: _heroesListName);
             _heroDescription = Root.Q<Label>(name: _heroDescriptionName);
-            InitHeroTexture();
         }
 
         protected override void OnBind(HeroSelectionViewModel viewModel)
@@ -47,10 +46,10 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding()).AddTo(_disposables);
         }
 
-        private void InitHeroTexture()
+        public void SetHeroRenderTexture(RenderTexture heroRenderTexture)
         {
             var selectedImage = Root.Q<VisualElement>(name: _selectedImageName);
-            selectedImage.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(_heroRenderTexture));
+            selectedImage.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(heroRenderTexture));
         }
 
         private void OnLoadingCompletedBinding()

@@ -355,7 +355,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -370,7 +370,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 10
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -385,7 +385,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!4 &286664925
@@ -453,6 +453,7 @@ GameObject:
   - component: {fileID: 1074159506}
   - component: {fileID: 1074159505}
   - component: {fileID: 1074159503}
+  - component: {fileID: 1074159507}
   m_Layer: 5
   m_Name: CameraHeroRender
   m_TagString: Untagged
@@ -473,7 +474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RenderShadows: 0
-  m_RequiresDepthTextureOption: 2
+  m_RequiresDepthTextureOption: 0
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
@@ -540,7 +541,7 @@ Camera:
   field of view: 16
   orthographic: 1
   orthographic size: 2.6
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 32
@@ -570,6 +571,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1022133786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1074159507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074159502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b4694cc1b1c5b44885ca7983b29875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 1074159505}
+  _renderTextureAsset: {fileID: 8400000, guid: 8ade1f3a75f86e84cb8c26ac91457bde, type: 2}
 --- !u!1 &1220696383 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: b0cb0a2d1050cbc49bf4906e7b7bc930, type: 3}
@@ -609,6 +624,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   _hubViewPrefab: {fileID: 8545207686241835542, guid: 2db9ee2821cde734db75700cda5916d2, type: 3}
+  _heroRenderTextureSetter: {fileID: 1074159507}
 --- !u!4 &1736941828
 Transform:
   m_ObjectHideFlags: 0

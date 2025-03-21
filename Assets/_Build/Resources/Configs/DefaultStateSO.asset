@@ -20,7 +20,7 @@ MonoBehaviour:
     IsSfxEnabled: 1
     Brightness: 75
     IsPostProcessingEnabled: 1
-    IsHighBloomQuality: 0
+    IsBloomEnabled: 1
     IsAntiAliasingEnabled: 0
   <Campaign>k__BackingField:
     _version: 1

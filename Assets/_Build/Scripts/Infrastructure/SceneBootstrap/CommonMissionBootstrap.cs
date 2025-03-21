@@ -224,7 +224,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
                 if (_volume.profile.TryGet<Bloom>(out var bloom))
                 {
-                    settingsModel.IsHighBloomQuality.Subscribe(x => bloom.highQualityFiltering.value = x)
+                    settingsModel.IsBloomEnabled.Subscribe(x => bloom.active = x)
                         .AddTo(_disposables);
                 }
                 else

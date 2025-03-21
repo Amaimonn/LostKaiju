@@ -1,16 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using VContainer.Unity;
 using R3;
 
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Game.Constants;
-using System.Threading.Tasks;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace LostKaiju.Infrastructure.Loading
 {
@@ -81,10 +80,7 @@ namespace LostKaiju.Infrastructure.Loading
 
                 var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
                 hubBootstrap.Build();
-
-                var hubExitSignalTask = hubBootstrap.BootAsync(hubEnterContext);
-                yield return new WaitUntil(() => hubExitSignalTask.IsCompleted);
-                var hubExitSignal = hubExitSignalTask.Result;
+                var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
                 
                 hubExitSignal.Take(1).Subscribe(hubExitContext =>
                 {
@@ -126,10 +122,7 @@ namespace LostKaiju.Infrastructure.Loading
 
                 var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
                 gameplayBootstrap.Build();
-
-                var gameplayExitSignalTask = gameplayBootstrap.BootAsync(gameplayEnterContext);
-                yield return new WaitUntil(() => gameplayExitSignalTask.IsCompleted);
-                var gameplayExitSignal = gameplayExitSignalTask.Result;
+                var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
 
                 gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
                 {

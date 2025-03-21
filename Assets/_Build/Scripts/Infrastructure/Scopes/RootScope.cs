@@ -1,19 +1,20 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using VContainer;
 using VContainer.Unity;
+using R3;
 
 using LostKaiju.Utils;
+using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Services.Saves;
-using LostKaiju.Game.Providers.GameState;
-using LostKaiju.Boilerplates.UI.MVVM;
+using LostKaiju.Services.Audio;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.DefaultState;
-using System.Threading.Tasks;
-using LostKaiju.Services.Audio;
-using R3;
+using LostKaiju.Game.Providers.GameState;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
@@ -35,7 +36,7 @@ namespace LostKaiju.Infrastructure.Scopes
             
             builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
             var defaultStateProvider = new DefaultStateSOProvider();
-#if UNITY_EDITOR || !YG_BUILD && !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
+#if UNITY_EDITOR || !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
             var serizlizer = new JsonUtilitySerializer();
             var storage = new FileStorage(fileExtension: "json");
             var saveSystem = new SimpleSaveSystem(serizlizer, storage);
@@ -44,14 +45,21 @@ namespace LostKaiju.Infrastructure.Scopes
             var gameStateProvider = new GameStateProviderYG(defaultStateProvider);  
 #endif
             var campaignTask =  gameStateProvider.LoadCampaignAsync();
-            
             var settingsTask = gameStateProvider.LoadSettingsAsync();
-            await Task.WhenAll(campaignTask, settingsTask);
+            var heroesTask = gameStateProvider.LoadHeroesAsync();
+            await campaignTask; 
+            await settingsTask;
+            await heroesTask;
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
 
-            builder.Register<SettingsModel>(resolver => 
-                new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings), Lifetime.Singleton);
+            builder.Register<SettingsModel>(resolver =>
+            {
+                var settingsModel = new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings);
+                var urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+                settingsModel.IsAntiAliasingEnabled.Subscribe(x => urpAsset.msaaSampleCount = x ? 2 : 1);
+                return settingsModel;
+            }, Lifetime.Singleton);
             builder.Register<SettingsBinder>(Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();

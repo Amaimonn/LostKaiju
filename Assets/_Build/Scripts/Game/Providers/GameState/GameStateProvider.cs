@@ -93,13 +93,13 @@ namespace LostKaiju.Game.Providers.GameState
         
         private SettingsState MigrateSettings(SettingsState settingsState)
         {
-            if (settingsState.Version != 1)
-            {
-                settingsState.Brightness = 80;
-                settingsState.IsHighBloomQuality = false;
-                settingsState.IsAntiAliasingEnabled = false;
-                _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings); 
-            }
+            // if (settingsState.Version == 2)
+            // {
+            //     settingsState.Brightness = 80;
+            //     settingsState.IsBloomEnabled = false;
+            //     settingsState.IsAntiAliasingEnabled = false;
+            //     _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings); 
+            // }
             
             return settingsState;
         }   

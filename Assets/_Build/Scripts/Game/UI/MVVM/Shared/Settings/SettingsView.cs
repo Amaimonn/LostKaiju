@@ -84,8 +84,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, scrollView);
             BindToggle(postProcessingToggle, videoViewModel.SetIsPostProcessingEnabled, videoViewModel.IsPostProcessingEnabled);
 
-            var bloomToggle = CreateToggle(settingsData.IsHighBloomQualityData, scrollView);
-            BindToggle(bloomToggle, videoViewModel.SetIsHighBloomQuality, videoViewModel.IsHighBloomQuality);
+            var bloomToggle = CreateToggle(settingsData.IsBloomEnabledData, scrollView);
+            BindToggle(bloomToggle, videoViewModel.SetIsBloomEnabled, videoViewModel.IsHighBloomQuality);
 
             var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, scrollView);
             BindToggle(antiAliasingToggle, videoViewModel.SetIsAntiAliasingEnabled, videoViewModel.IsAntiAliasingEnabled);

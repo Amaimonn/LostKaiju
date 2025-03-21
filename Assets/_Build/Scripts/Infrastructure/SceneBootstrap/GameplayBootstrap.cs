@@ -15,7 +15,8 @@ using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Game.World.Player.Data.Configs;
-using LostKaiju.Game.Constants; // <-- used with web/mobile builds
+using LostKaiju.Game.Constants;
+using LostKaiju.Game.World.Creatures.Views; // <-- used with web/mobile builds
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -35,11 +36,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             builder.Register<OptionsBinder>(Lifetime.Singleton);
         }
 
-        public async Task<Observable<GameplayExitContext>> BootAsync(GameplayEnterContext gameplayEnterContext)
+        public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
-            var playerConfigHandle = Addressables.LoadAssetAsync<IPlayerConfig>(gameplayEnterContext.PlayerConfigPath);
-            await playerConfigHandle.Task;
-            gameplayEnterContext.PlayerConfig = playerConfigHandle.Result;
+            gameplayEnterContext.PlayerConfig = Resources.Load<PlayerConfigSO>(gameplayEnterContext.PlayerConfigPath);
 
             var exitGameplaySignal = new Subject<GameplayExitContext>();
             var exitToHubSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;

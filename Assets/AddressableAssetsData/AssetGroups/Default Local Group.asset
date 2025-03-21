@@ -20,11 +20,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0d013497d60f2f84ba9f5e74629bd178
-    m_Address: Configs/Player/Creatures/azurie
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d707286732c0b449abe59e953286a6a
     m_Address: Configs/Campaign/AllLocationsDataSO
     m_ReadOnly: 0
@@ -42,11 +37,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77576f4de7795e848a4cb7becab5d4d6
     m_Address: Scenes/Mission_1_6
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 80774153a425122478b63d56bf7387b7
-    m_Address: Configs/Player/Creatures/lost
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -70,28 +60,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8adbf7a5d219e044da33464ac1ddff98
-    m_Address: Configs/Player/Creatures/orith
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
     m_Address: Scenes/Gameplay
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8e71d14c730bf3b449975c240c141f51
-    m_Address: Configs/Player/Creatures/yellorie
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b62336af3a12c2d4187aca7cea2e8836
     m_Address: Configs/Heroes/AllHeroesDataSO
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ddfaeafc4f89e3e40a87a0e5f3445092
-    m_Address: Configs/Player/Creatures/noctis
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

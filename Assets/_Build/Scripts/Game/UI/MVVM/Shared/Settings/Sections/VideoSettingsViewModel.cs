@@ -9,16 +9,16 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
     {
         public Observable<int> Brightness => _brightness;
         public Observable<bool> IsPostProcessingEnabled => _isPostProcessingEnabled;
-        public Observable<bool> IsHighBloomQuality => _isHighBloomQuality;
+        public Observable<bool> IsHighBloomQuality => _isBloomEnabled;
         public Observable<bool> IsAntiAliasingEnabled => _isAntiAliasingEnabled;
 
         private readonly ReactiveProperty<int> _brightness;
         private readonly ReactiveProperty<bool> _isPostProcessingEnabled;
-        private readonly ReactiveProperty<bool> _isHighBloomQuality;
+        private readonly ReactiveProperty<bool> _isBloomEnabled;
         private readonly ReactiveProperty<bool> _isAntiAliasingEnabled;
         private int _brightnessCached;
         private bool _isPostProcessingEnabledCached;
-        private bool _isHighBloomQualityCached;
+        private bool _isBloomEnabledCached;
         private bool _isAntiAliasingEnabledCached;
 
         public VideoSettingsViewModel(SettingsModel model) : base(model)
@@ -31,8 +31,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _isPostProcessingEnabled = new ReactiveProperty<bool>(model.IsPostProcessingEnabled.Value);
             model.IsPostProcessingEnabled.Skip(1).Subscribe(x => _isPostProcessingEnabled.Value = x).AddTo(_disposables);
 
-            _isHighBloomQuality = new ReactiveProperty<bool>(model.IsHighBloomQuality.Value);
-            model.IsHighBloomQuality.Skip(1).Subscribe(x => _isHighBloomQuality.Value = x).AddTo(_disposables);
+            _isBloomEnabled = new ReactiveProperty<bool>(model.IsBloomEnabled.Value);
+            model.IsBloomEnabled.Skip(1).Subscribe(x => _isBloomEnabled.Value = x).AddTo(_disposables);
 
             _isAntiAliasingEnabled = new ReactiveProperty<bool>(model.IsAntiAliasingEnabled.Value);
             model.IsAntiAliasingEnabled.Skip(1).Subscribe(x => _isAntiAliasingEnabled.Value = x).AddTo(_disposables);
@@ -40,7 +40,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             IsAnyChanges = Observable.CombineLatest(
                 _brightness.Select(x => x != _brightnessCached),
                 _isPostProcessingEnabled.Select(x => x != _isPostProcessingEnabledCached),
-                _isHighBloomQuality.Select(x => x != _isHighBloomQualityCached),
+                _isBloomEnabled.Select(x => x != _isBloomEnabledCached),
                 _isAntiAliasingEnabled.Select(x => x != _isAntiAliasingEnabledCached)
             ).Select(x => x.Any(t => t == true))
             .ToReadOnlyReactiveProperty();
@@ -57,7 +57,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             _model.Brightness.Value = _brightnessCached;
             _model.IsPostProcessingEnabled.Value = _isPostProcessingEnabledCached;
-            _model.IsHighBloomQuality.Value = _isHighBloomQualityCached;
+            _model.IsBloomEnabled.Value = _isBloomEnabledCached;
             // force callback even if value in Model hasn't changed to make UI syncronized
             _model.IsAntiAliasingEnabled.OnNext(_isAntiAliasingEnabledCached); 
         }
@@ -72,9 +72,9 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _model.IsPostProcessingEnabled.Value = enabled;
         }
 
-        public void SetIsHighBloomQuality(bool isHighBloomQuality)
+        public void SetIsBloomEnabled(bool isHighBloomQuality)
         {
-            _model.IsHighBloomQuality.Value = isHighBloomQuality;
+            _model.IsBloomEnabled.Value = isHighBloomQuality;
         }
 
         public void SetIsAntiAliasingEnabled(bool enabled) // lazy setting (set only after applying)
@@ -86,7 +86,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             _brightnessCached = _model.Brightness.Value;
             _isPostProcessingEnabledCached = _model.IsPostProcessingEnabled.Value;
-            _isHighBloomQualityCached = _model.IsHighBloomQuality.Value;
+            _isBloomEnabledCached = _model.IsBloomEnabled.Value;
             _isAntiAliasingEnabledCached = _model.IsAntiAliasingEnabled.Value;
         }
     }

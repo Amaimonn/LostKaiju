@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,6 +9,7 @@ using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Hub;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
+using LostKaiju.Game.UI.CustomElements;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Services.Inputs;
@@ -22,15 +22,15 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     public class HubBootstrap : LifetimeScope
     {
         [SerializeField] private HubView _hubViewPrefab;
+        [SerializeField] private CameraRenderTextureSetter _heroRenderTextureSetter;
         private CampaignModel _campaignModel = null;
 
-        public async Task<Observable<HubExitContext>> BootAsync(HubEnterContext hubEnterContext)
+        public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
+            _heroRenderTextureSetter.Init();
             var hubView = Instantiate(_hubViewPrefab);
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
-            if (gameStateProvider.Heroes == null)
-                await gameStateProvider.LoadHeroesAsync();
 
             var hubExitSignal = new Subject<HubExitContext>();
             var exitToGameplaySignal = new Subject<Unit>();
@@ -47,7 +47,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
             var heroesModelFactory = new HeroesModelFactory(gameStateProvider);
             heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
-            var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory);
+            var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory, 
+                _heroRenderTextureSetter.CurrentRenderTexture);
             var audioPlayer = Container.Resolve<AudioPlayer>();
             var hubViewModel = new HubViewModel(exitToGameplaySignal, campaignModelFactory, settingsBinder, 
                 heroSelectionBinder, rootUIBinder, audioPlayer);

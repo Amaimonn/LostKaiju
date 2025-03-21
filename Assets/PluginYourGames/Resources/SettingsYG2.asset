@@ -55,7 +55,7 @@ MonoBehaviour:
     backgroundImgFormat: 0
     gradientBackgroundByLoadGame:
       radial: 0
-      angleInclination: 265
+      angleInclination: 180
       color1: {r: 0, g: 0, b: 0, a: 1}
       color2: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
     customProgressBar: 1

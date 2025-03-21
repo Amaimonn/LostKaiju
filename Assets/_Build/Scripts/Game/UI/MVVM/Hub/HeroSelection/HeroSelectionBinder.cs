@@ -11,11 +11,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
     public class HeroSelectionBinder : Binder<HeroSelectionViewModel>
     {
         private readonly ILoadableModelFactory<HeroesModel> _factory;
+        private readonly RenderTexture _heroRenderTexture;
 
-        public HeroSelectionBinder(IRootUIBinder rootUIBinder, ILoadableModelFactory<HeroesModel> factory) : 
+        public HeroSelectionBinder(IRootUIBinder rootUIBinder, ILoadableModelFactory<HeroesModel> factory, 
+            RenderTexture heroRenderTexture) : 
             base(rootUIBinder)
         {
             _factory = factory;
+            _heroRenderTexture = heroRenderTexture;
         }
 
         public override bool TryBindAndOpen(out HeroSelectionViewModel viewModel)
@@ -28,6 +31,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
             var heroesDataSO = Resources.Load<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
             var heroSelectionView = LoadAndInstantiateView<HeroSelectionView>(Paths.HERO_SELECTION_VIEW);
+            heroSelectionView.SetHeroRenderTexture(_heroRenderTexture);
             
             _currentViewModel = new HeroSelectionViewModel();
             
