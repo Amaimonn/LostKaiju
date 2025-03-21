@@ -3,11 +3,8 @@
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
     <engine:VisualElement name="Wrapper" class="wrapper-base" style="flex-grow: 1;">
         <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Header" _bottom-padding-scale="0" class="header" />
-        <engine:VisualElement name="OpenMissions" class="start-gameplay-image">
-            <engine:VisualElement name="PassageImage" class="passage-image">
-                <LostKaiju.Game.UI.CustomElements.DoorElement class="door" />
-            </engine:VisualElement>
-            <engine:Label name="PlayLabel" class="play-label">
+        <engine:VisualElement name="OpenMissions" enabled="true" class="start-gameplay-image" style="height: 120px; justify-content: center; border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: rgba(255, 255, 255, 0.92); border-left-color: rgba(0, 0, 0, 0.76); border-right-color: rgba(0, 0, 0, 0.76); border-bottom-color: rgba(0, 0, 0, 0.76); border-top-color: rgba(0, 0, 0, 0.76); border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
+            <engine:Label name="PlayLabel" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="play-label" style="position: relative; top: auto;">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(8323121152)" />
                 </Bindings>

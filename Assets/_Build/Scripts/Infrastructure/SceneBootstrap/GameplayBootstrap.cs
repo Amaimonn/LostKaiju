@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using VContainer;
 using VContainer.Unity;
 using R3;
@@ -16,7 +14,6 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Game.World.Player.Data.Configs;
 using LostKaiju.Game.Constants;
-using LostKaiju.Game.World.Creatures.Views; // <-- used with web/mobile builds
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -57,26 +54,16 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var inputProvider = Container.Resolve<IInputProvider>();
             var optionsBinder  =  Container.Resolve<OptionsBinder>();
             var loadingNotifier = Container.Resolve<ILoadingScreenNotifier>();
-            loadingNotifier.OnFinished.Take(1).Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnEscape));
-            var cursorDisposable = optionsBinder.OnOpened.Subscribe(x => 
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+            loadingNotifier.OnFinished.Take(1).Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnOptions));
 
-                x.OnClosingCompleted.Take(1).Subscribe(_ =>
-                {
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
-                });
-            });
             var gameplayViewModel = new GameplayViewModel(optionsBinder);
             var gameplayView = Instantiate(_gameplayViewPrefab);
 
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
-
-# if MOBILE_BUILD || WEB_BUILD
-           if (SystemInfo.deviceType == DeviceType.Handheld)
+            
+# if WEB_BUILD && YG_BUILD
+           if(YG.YG2.envir.isMobile || YG.YG2.envir.isTablet)
             {   
                 var mobileControlsViewPrefab = Resources.Load<MobileControlsView>(Paths.MOBILE_CONTROLS_VIEW);
                 var mobileControls = Instantiate(mobileControlsViewPrefab);
@@ -88,7 +75,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             exitToHubSignal.Take(1).Subscribe(_ => 
             {
                 Debug.Log("Gameplay exit signal");
-                cursorDisposable.Dispose();
                 optionsBinder.Dispose(); // shouldn`t be opened with a loading screen by clicking escape.
                 exitGameplaySignal.OnNext(gameplayExitContext);
             });

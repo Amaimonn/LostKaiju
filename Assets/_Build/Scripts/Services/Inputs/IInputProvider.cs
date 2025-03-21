@@ -14,5 +14,6 @@ namespace LostKaiju.Services.Inputs
         public bool GetShift { get; }
         public bool GetAttack { get; }
         public Observable<Unit> OnEscape { get; }
+        public Observable<Unit> OnOptions { get; }
     }
 }

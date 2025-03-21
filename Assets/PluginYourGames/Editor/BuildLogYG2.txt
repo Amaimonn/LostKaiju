@@ -1,3 +1,3 @@
-Build path: D:/Art/UnityProjects/LocalProjects/LostKaiju/Builds/WindowsDevBuild8_d16unorm/LostKaiju.exe
-Build number: 13
+Build path: D:/Art/UnityProjects/LocalProjects/LostKaiju/Builds/YG_dev_renfix_heroesfix_hubupdate
+Build number: 14
 PluginYG version: 2.0032

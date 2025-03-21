@@ -43,7 +43,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             return onEscape.Subscribe(_ => EscapeButtonHandler()).AddTo(_disposables);
         }
 
-        private void EscapeButtonHandler()
+        private void EscapeButtonHandler() // TODO: Remove closing children popups option
         {
             if (!_nextClosingEnabled)
                 return;

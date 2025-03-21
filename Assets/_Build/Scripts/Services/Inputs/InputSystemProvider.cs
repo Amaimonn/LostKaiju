@@ -66,6 +66,7 @@ namespace LostKaiju.Services.Inputs
 
         public bool GetAttack => _onReadAttack();
         public Observable<Unit> OnEscape => _onEscape;
+        public Observable<Unit> OnOptions => _onOptions;
 
         private const float SENSITIVITY = 0.5f;
         private readonly Func<Vector2> _onReadMove;
@@ -75,6 +76,7 @@ namespace LostKaiju.Services.Inputs
         private readonly ReactiveProperty<bool> _horizontalCanceled = new(true);
         private readonly ReactiveProperty<bool> _verticalCanceled = new(true);
         private readonly Subject<Unit> _onEscape = new();
+        private readonly Subject<Unit> _onOptions = new();
 
         public InputSystemProvider()
         {
@@ -82,7 +84,8 @@ namespace LostKaiju.Services.Inputs
             var jumpAction = InputSystem.actions.FindAction("Jump");
             var dashAction = InputSystem.actions.FindAction("Dash");
             var attackAction = InputSystem.actions.FindAction("Attack");
-            InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
+            // InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
+            InputSystem.actions.FindAction("Options").started += _ => _onOptions.OnNext(Unit.Default);
 
             _onReadMove = moveAction.ReadValue<Vector2>;
             _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;

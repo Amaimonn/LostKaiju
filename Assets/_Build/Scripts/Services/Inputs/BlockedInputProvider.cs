@@ -19,6 +19,7 @@ namespace LostKaiju.Services.Inputs
         public bool GetAttack => false;
 
         public Observable<Unit> OnEscape => new Subject<Unit>();
+        public Observable<Unit> OnOptions => new Subject<Unit>();
 
         private readonly ReactiveProperty<bool> _horizontalCanceled = new(true);
         private readonly ReactiveProperty<bool> _verticalCanceled = new(true);

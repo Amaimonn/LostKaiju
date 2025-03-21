@@ -1,32 +1,30 @@
 .start-gameplay-image {
     flex-grow: 0;
     background-color: rgb(160, 160, 160);
-    width: 230px;
     height: 300px;
     position: absolute;
     top: 50%;
     left: 50%;
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    border-left-color: rgba(255, 255, 255, 0);
-    border-right-color: rgba(255, 255, 255, 0);
-    border-top-color: rgba(255, 255, 255, 0);
-    border-bottom-color: rgba(255, 255, 255, 0);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
     transition-duration: 0.1s;
     translate: -50% -50%;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
+    border-top-color: rgb(255, 255, 255);
+    width: 200px;
+    transition-property: scale;
 }
 
 .start-gameplay-image:hover {
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
-    border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
+    scale: 1.15 1.05;
 }
 
 .header {
@@ -56,8 +54,8 @@
     flex-grow: 1;
     position: relative;
     width: auto;
-    margin-right: 100px;
-    margin-left: 100px;
+    margin-right: 20px;
+    margin-left: 20px;
     flex-shrink: 1;
     justify-content: flex-start;
     margin-bottom: 20px;
@@ -142,4 +140,5 @@
     letter-spacing: 8px;
     scale: 0.9 1.1;
     -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 3px 2px 2px rgb(0, 0, 0);
 }

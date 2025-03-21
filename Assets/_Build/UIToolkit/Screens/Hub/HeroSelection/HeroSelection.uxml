@@ -1,5 +1,4 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <engine:Template name="HeroSlot" src="project://database/Assets/_Build/UIToolkit/Components/HeroSlot/HeroSlot.uxml?fileID=9197481963319205126&amp;guid=3a52cfac061be96498d7d9c7749e1ed0&amp;type=3#HeroSlot" />
     <Style src="project://database/Assets/_Build/UIToolkit/Screens/Hub/HeroSelection/HeroSelectionStyles.uss?fileID=7433441132597879392&amp;guid=25df8ffcff20b614487f7b58aa63c5c4&amp;type=3#HeroSelectionStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/BackgroundStyles.uss?fileID=7433441132597879392&amp;guid=69d87b7304f02224eb50265f2135d43b&amp;type=3#BackgroundStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
@@ -16,21 +15,7 @@
                 </engine:Label>
             </engine:VisualElement>
             <engine:VisualElement name="MainContainer" class="main-container">
-                <engine:ScrollView name="HeroesList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview">
-                    <engine:VisualElement name="HeroSlot" template="HeroSlot" style="height: auto;">
-                        <Style src="project://database/Assets/_Build/UIToolkit/Components/HeroSlot/HeroSlotStyles.uss?fileID=7433441132597879392&amp;guid=c608f5900995c63418884dddfae393da&amp;type=3#HeroSlotStyles" />
-                        <engine:VisualElement name="HeroSlot" class="hero-slot" style="height: 220px;">
-                            <engine:VisualElement name="HeroPreview" class="hero-slot__preview" style="background-image: url(&quot;project://database/Assets/_Build/Art/Images/Gameplay/Sprites/Creatures/noir_kaiju_mono.png?fileID=2800000&amp;guid=f28c2da374646a743912cc3126a19ca2&amp;type=3#noir_kaiju_mono&quot;); background-size: contain; -unity-background-image-tint-color: rgb(231, 136, 49); background-position-y: top 30px;" />
-                            <engine:Label text="ORITH" name="HeroName" class="hero-slot__name" />
-                            <engine:VisualElement name="DecorLine" class="decor-line" />
-                        </engine:VisualElement>
-                    </engine:VisualElement>
-                    <engine:Instance template="HeroSlot" name="HeroSlot" />
-                    <engine:Instance template="HeroSlot" name="HeroSlot" />
-                    <engine:Instance template="HeroSlot" name="HeroSlot" />
-                    <engine:Instance template="HeroSlot" name="HeroSlot" />
-                    <engine:Instance template="HeroSlot" name="HeroSlot" />
-                </engine:ScrollView>
+                <engine:ScrollView name="HeroesList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview" />
                 <engine:VisualElement name="PreviewPanel" class="preview-panel">
                     <engine:Label text="BLANKO" name="SelectedName" class="selected-name" />
                     <engine:VisualElement name="SelectedPreview" class="selected-preview__frame">
