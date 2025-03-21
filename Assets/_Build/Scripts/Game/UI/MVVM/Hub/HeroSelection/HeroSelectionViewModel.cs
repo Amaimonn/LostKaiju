@@ -32,6 +32,12 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             StartClosing();
         }
 
+        public override void CompleteClosing()
+        {
+            base.CompleteClosing();
+            _currentHeroDataPreview.Value = _heroesModel.SelectedHeroData.Value;
+        }
+
         public void PreviewHeroSlot(string heroId)
         {
             _currentHeroDataPreview.Value = _heroesModel.HeroDataMap[heroId];

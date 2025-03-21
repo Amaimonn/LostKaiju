@@ -55,7 +55,7 @@ Material:
     m_Floats:
     - _ColorMask: 15
     - _Edge1: 0.2
-    - _Edge2: 0.5
+    - _Edge2: 0.55
     - _EnableExternalAlpha: 0
     - _Instability: 2
     - _MaxPulseAmplitude: 1.2

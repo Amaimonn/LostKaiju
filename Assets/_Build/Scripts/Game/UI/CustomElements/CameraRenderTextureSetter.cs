@@ -15,6 +15,10 @@ namespace LostKaiju.Game.UI.CustomElements
             {
                 name = $"{name} - RenderTexture"
             };
+            if (_camera.targetTexture != null)
+            {
+                _camera.targetTexture.Release();
+            }
             _camera.targetTexture = newRenderTexture;
             CurrentRenderTexture = newRenderTexture;
         }

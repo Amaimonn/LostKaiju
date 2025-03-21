@@ -14,6 +14,7 @@ namespace LostKaiju.Game.Constants
         public const string LOCATIONS_DATA = "Configs/Campaign/AllLocationsDataSO";
         public const string ALL_HEROES_DATA = "Configs/Heroes/AllHeroesDataSO";
         public const string PLAYER_CREATURES = "Configs/Player/Creatures";
+        public const string HERO_PREVIEWS = "Configs/Player/HeroPreviews";
 
         public const string DEFAULT_STATE_SO = "Configs/DefaultStateSO";
     }

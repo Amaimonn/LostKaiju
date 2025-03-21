@@ -23,15 +23,11 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     {
         [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private CameraRenderTextureSetter _heroRenderTextureSetter;
+        [SerializeField] private Transform _heroPreviewTransform;
         private CampaignModel _campaignModel = null;
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
-            _heroRenderTextureSetter.Init();
-            var hubView = Instantiate(_hubViewPrefab);
-            var rootUIBinder = Container.Resolve<IRootUIBinder>();
-            var gameStateProvider = Container.Resolve<IGameStateProvider>();
-
             var hubExitSignal = new Subject<HubExitContext>();
             var exitToGameplaySignal = new Subject<Unit>();
             var exitToMainMenuSignal = new Subject<Unit>();
@@ -40,6 +36,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitToMainMenuContext = new HubExitContext(mainMenuEnterContext);
             var hubExitToGameplayContext = new HubExitContext(gameplayEnterContext);
 
+            var hubView = Instantiate(_hubViewPrefab);
+            var rootUIBinder = Container.Resolve<IRootUIBinder>();
+            var gameStateProvider = Container.Resolve<IGameStateProvider>();
+
             var campaignModelFactory = new CampaignModelFactory(gameStateProvider);
             campaignModelFactory.OnProduced.Subscribe(x => _campaignModel = x);
             var settingsBinder = Container.Resolve<SettingsBinder>();
@@ -47,11 +47,33 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
             var heroesModelFactory = new HeroesModelFactory(gameStateProvider);
             heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
+            _heroRenderTextureSetter.Init();
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory, 
                 _heroRenderTextureSetter.CurrentRenderTexture);
             var audioPlayer = Container.Resolve<AudioPlayer>();
             var hubViewModel = new HubViewModel(exitToGameplaySignal, campaignModelFactory, settingsBinder, 
                 heroSelectionBinder, rootUIBinder, audioPlayer);
+
+            var heroPreview = new HeroPreview(_heroPreviewTransform, onShowPreview: x => x.SetActive(true), 
+                onHidePreview: x => x.SetActive(false));
+            
+            var heroPreviewSelector = new HeroPreviewSelector();
+            heroPreview.SetPreview(heroPreviewSelector.GetPreviewById(gameStateProvider.Heroes.SelectedHeroId));
+            
+            heroSelectionBinder.OnOpened.Subscribe(vm => 
+            {
+                vm.CurrentHeroDataPreview.Where(value => value != null)
+                    .Skip(1)
+                    .Subscribe(currentHeroData =>
+                    {
+                        heroPreview.SetPreview(heroPreviewSelector.GetPreviewById(currentHeroData.Id));
+                    });
+                    
+                vm.OnClosingCompleted.Take(1).Subscribe(_ => 
+                {
+                    heroPreviewSelector.ClearExceptOne(gameStateProvider.Heroes.SelectedHeroId);
+                });
+            });
 
             hubView.Bind(hubViewModel);
             rootUIBinder.SetView(hubView);
@@ -87,7 +109,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                     Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} exited</color>");
                 hubViewModel.OpenCampaign();
             }
-
+            
             return hubExitSignal;
         }
     }
