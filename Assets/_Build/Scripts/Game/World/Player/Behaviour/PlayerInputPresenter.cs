@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using R3;
 
 using LostKaiju.Utils;
@@ -108,7 +109,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var transitions = new IFiniteTransition[]
             {
                 new SameForMultipleTransition<AttackState>(
-                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue && attackCooldownTimer.IsCompleted, 
+                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue &&  // checks Canvas UI only
+                        attackCooldownTimer.IsCompleted && !EventSystem.current.IsPointerOverGameObject(),
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
                 new FiniteTransition<AttackState, IdleState>(() => true),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 

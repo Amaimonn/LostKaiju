@@ -43,14 +43,16 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var sectionsRoot = Root.Q<VisualElement>(className: _sectionsRootClass);
             sectionsRoot.Clear();
-            InitSoundSection(sectionsRoot);
-            InitVideoSection(sectionsRoot);
+            ViewModel.SettingsData.Where(x => x != null).Subscribe(data =>
+            {
+                InitSoundSection(sectionsRoot, data);
+                InitVideoSection(sectionsRoot, data);
+            }).AddTo(_disposables);
         }
         
-        private void InitSoundSection(VisualElement sectionsRoot)
+        private void InitSoundSection(VisualElement sectionsRoot, IFullSettingsData settingsData)
         {
             var soundViewModel = ViewModel.SoundSettingsViewModel;
-            var settingsData = ViewModel.SettingsData;
             
             var soundSection = new Tab();
             soundSection.LocalizeLabel(Tables.SETTINGS, settingsData.SoundSectionLabel);
@@ -66,10 +68,9 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             BindSliderInt(sfxVolumeSlider, soundViewModel.SetSfxVolume, soundViewModel.SfxVolume);
         }
 
-        private void InitVideoSection(VisualElement sectionsRoot)
+        private void InitVideoSection(VisualElement sectionsRoot, IFullSettingsData settingsData)
         {
             var videoViewModel = ViewModel.VideoSettingsViewModel;
-            var settingsData = ViewModel.SettingsData;
 
             var videoSection = new Tab();
             videoSection.LocalizeLabel(Tables.SETTINGS, settingsData.VideoSectionLabel);

@@ -64,7 +64,7 @@ MonoBehaviour:
       roundAngle: 12
       width: 36
       height: 20
-      color1: {r: 0, g: 0, b: 0, a: 0.95686275}
+      color1: {r: 1, g: 1, b: 1, a: 0.95686275}
       color2: {r: 1, g: 1, b: 1, a: 0.7}
     fixedAspectRatio: 0
     aspectRatio: 16/9

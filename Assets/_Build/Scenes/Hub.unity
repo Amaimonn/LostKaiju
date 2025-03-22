@@ -595,7 +595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentReference:
     TypeName: 
-  autoRun: 1
+  autoRun: 0
   autoInjectGameObjects: []
   _hubViewPrefab: {fileID: 8545207686241835542, guid: 2db9ee2821cde734db75700cda5916d2, type: 3}
   _heroRenderTextureSetter: {fileID: 1074159507}

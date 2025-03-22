@@ -10,14 +10,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HeroSelectionBinder : Binder<HeroSelectionViewModel>
     {
-        private readonly ILoadableModelFactory<HeroesModel> _factory;
+        private readonly ILoadableModelFactory<HeroesModel> _modelFactory;
         private readonly RenderTexture _heroRenderTexture;
 
         public HeroSelectionBinder(IRootUIBinder rootUIBinder, ILoadableModelFactory<HeroesModel> factory, 
             RenderTexture heroRenderTexture) : 
             base(rootUIBinder)
         {
-            _factory = factory;
+            _modelFactory = factory;
             _heroRenderTexture = heroRenderTexture;
         }
 
@@ -29,7 +29,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 return false;
             }
 
-            var heroesDataSO = Resources.Load<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
             var heroSelectionView = LoadAndInstantiateView<HeroSelectionView>(Paths.HERO_SELECTION_VIEW);
             heroSelectionView.SetHeroRenderTexture(_heroRenderTexture);
             
@@ -42,6 +41,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             heroSelectionView.OnDisposed.Take(1).Subscribe(_ => {
                 _currentViewModel?.Dispose();
                 _currentViewModel = null;
+                _modelFactory.Release();
             });
 
             heroSelectionView.Bind(_currentViewModel);
@@ -54,7 +54,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
             void BindHeroesOnLoaded()
             {
-                _factory.GetModelOnLoaded(heroesModel =>
+                _modelFactory.GetModelOnLoaded(heroesModel =>
                 {
                     if (_currentViewModel != null && heroSelectionView != null)
                     {

@@ -20,7 +20,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
 
         public void OpenSettings()
         {
-            _settingsBinder.ShowSettings();
+            _settingsBinder.TryBindAndOpen(out _);
         }
     }
 }

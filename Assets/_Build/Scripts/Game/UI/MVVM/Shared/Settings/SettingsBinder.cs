@@ -6,25 +6,20 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.Constants;
+using UnityEngine.AddressableAssets;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
-    public class SettingsBinder
+    public class SettingsBinder : Binder<SettingsViewModel>
     {
-        public Observable<SettingsViewModel> OnOpened => _onOpened;
-        
-        private readonly Subject<SettingsViewModel> _onOpened = new();
-        private IRootUIBinder _rootUIBinder;
-        private IGameStateProvider _gameStateProvider;
-        private SettingsModel _settingsModel;
+        private readonly IGameStateProvider _gameStateProvider;
+        private readonly SettingsModel _settingsModel;
         // private ApplyPopUpBinder _applyPopUpBinder
-        private SettingsViewModel _currentSettingsViewModel;
         private bool _isClosingEnabled = true;
 
         public SettingsBinder(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
-            SettingsModel settingsModel)
+            SettingsModel settingsModel) : base(rootUIBinder)
         {
-            _rootUIBinder = rootUIBinder;
             _gameStateProvider = gameStateProvider;
             _settingsModel = settingsModel;
         }
@@ -36,9 +31,9 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
                 if (!_isClosingEnabled)
                     return;
 
-                if (_currentSettingsViewModel != null)
+                if (_currentViewModel != null)
                 {
-                    if (_currentSettingsViewModel.IsApplyPopUpOpened) // if _applyPopUpBinder.CurrentViewModel != null
+                    if (_currentViewModel.IsApplyPopUpOpened) // if _applyPopUpBinder.CurrentViewModel != null
                     {
                         // _isClosingEnabled = false;
                         // _applyPopUpBinder.CurrentViewModel.OnClosingCompleted.Take(1).Subscribe(_ => _isClosingEnabled = true);
@@ -47,39 +42,46 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
                     else
                     {
                         _isClosingEnabled = false;
-                        _currentSettingsViewModel.OnClosingCompleted.Take(1).Subscribe(_ => _isClosingEnabled = true);
-                        _currentSettingsViewModel.StartClosing();
+                        _currentViewModel.OnClosingCompleted.Take(1).Subscribe(_ => _isClosingEnabled = true);
+                        _currentViewModel.StartClosing();
                         Debug.Log("SettingsBinder catched esc");
                     }
                 }
             });
         }
 
-        public SettingsViewModel ShowSettings()
+        public override bool TryBindAndOpen(out SettingsViewModel viewModel)
         {
-            if (_currentSettingsViewModel != null) // if already exists
-                return null;
+            if (_currentViewModel != null) // if already exists
+            {
+                viewModel = null;
+                return false;
+            }
 
-            var settingsDataSO = Resources.Load<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
-            var settingsViewPrefab = Resources.Load<SettingsView>(Paths.SETTINGS_VIEW);
-            var settingsView = UnityEngine.Object.Instantiate(settingsViewPrefab);
-            
-            _currentSettingsViewModel = new SettingsViewModel(_settingsModel, settingsDataSO, _gameStateProvider);
-            
-            _currentSettingsViewModel.OnClosingCompleted.Subscribe(_ => {
+            // var settingsDataSO = Resources.Load<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
+            var settingsDataSOHandle = Addressables.LoadAssetAsync<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
+            var settingsView = LoadAndInstantiateView<SettingsView>(Paths.SETTINGS_VIEW);
+            _currentViewModel = new SettingsViewModel(_settingsModel, _gameStateProvider);
+            settingsDataSOHandle.Completed += (handle) =>
+            {
+                _currentViewModel?.BindData(handle.Result);
+            };
+            _currentViewModel.OnClosingCompleted.Subscribe(_ => {
                 _rootUIBinder.ClearView(settingsView);
             });
             settingsView.OnDisposed.Take(1).Subscribe(_ => {
-                _currentSettingsViewModel?.Dispose();
-                _currentSettingsViewModel = null;
+                _currentViewModel?.Dispose();
+                _currentViewModel = null;
+                settingsDataSOHandle.Release();
             });
 
-            settingsView.Bind(_currentSettingsViewModel);
+            settingsView.Bind(_currentViewModel);
             _rootUIBinder.AddView(settingsView);
-            _currentSettingsViewModel.Open();
-            _onOpened.OnNext(_currentSettingsViewModel);
+            _currentViewModel.Open();
+            _onOpened.OnNext(_currentViewModel);
             
-            return _currentSettingsViewModel;
+            viewModel = _currentViewModel;
+            return true;
         }
     }
 }

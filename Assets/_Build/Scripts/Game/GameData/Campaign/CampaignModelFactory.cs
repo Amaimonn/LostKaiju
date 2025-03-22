@@ -1,5 +1,6 @@
 using System;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using R3;
 
 using LostKaiju.Game.Providers.GameState;
@@ -13,6 +14,7 @@ namespace LostKaiju.Game.GameData.Campaign
         public Observable<CampaignModel> OnProduced => _onProduced;
         private readonly IGameStateProvider _gameStateProvider;
         private readonly Subject<CampaignModel> _onProduced = new();
+        private AsyncOperationHandle<AllLocationsDataSO> _handle;
 
         public CampaignModelFactory(IGameStateProvider gameStateProvider)
         {
@@ -21,8 +23,8 @@ namespace LostKaiju.Game.GameData.Campaign
 
         public void GetModelOnLoaded(Action<CampaignModel> onLoaded)
         {
-            var locationsDataSOHandle = Addressables.LoadAssetAsync<AllLocationsDataSO>(Paths.LOCATIONS_DATA);
-            locationsDataSOHandle.Completed += (handler) =>
+            _handle = Addressables.LoadAssetAsync<AllLocationsDataSO>(Paths.LOCATIONS_DATA);
+            _handle.Completed += (handler) =>
             {
                 var locationsDataSO = handler.Result;
 
@@ -39,6 +41,11 @@ namespace LostKaiju.Game.GameData.Campaign
                 onLoaded(campaignModel);
                 _onProduced.OnNext(campaignModel);
             };
+        }
+
+        public void Release()
+        {
+            Addressables.Release(_handle);
         }
     }
 }

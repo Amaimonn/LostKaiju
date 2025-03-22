@@ -348,7 +348,7 @@ MonoBehaviour:
     - line: '|   m_BuildTargetDefaultTextureCompressionFormat:'
     - line: '|   - serializedVersion: 3'
     - line: '|     m_BuildTarget: WebGL'
-    - line: '|     m_Formats: 05000000'
+    - line: '|     m_Formats: 02000000'
     - line: '|   playModeTestRunnerEnabled: 0'
     - line: '|   runPlayModeTestAsEditModeTest: 0'
     - line: '|   actionOnDotNetUnhandledException: 1'
@@ -616,7 +616,7 @@ MonoBehaviour:
     - line: '|   webWasm2023: 0'
     - line: '|   scriptingDefineSymbols:'
     - line: '|     Standalone: MOBILE_BUILD'
-    - line: '|     WebGL: YandexGamesPlatform_yg;PLUGIN_YG_2;TMP_YG2;YG_BUILD;InterstitialAdv_yg;Storage_yg;Authorization_yg;NJSON_YG2;WEB_BUILD'
+    - line: '|     WebGL: YandexGamesPlatform_yg;PLUGIN_YG_2;TMP_YG2;YG_BUILD;InterstitialAdv_yg;Storage_yg;Authorization_yg;NJSON_YG2;WEB_BUILD;EnvirData_yg'
     - line: '|   additionalCompilerArguments: {}'
     - line: '|   platformArchitecture: {}'
     - line: '|   scriptingBackend:'
@@ -766,4 +766,4 @@ MonoBehaviour:
         m_CodeOptimization: 2
         m_WebGLClientBrowserPath: 
         m_WebGLClientBrowserType: 0
-        m_WebGLTextureSubtarget: 0
+        m_WebGLTextureSubtarget: 3

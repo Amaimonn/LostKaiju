@@ -8,5 +8,6 @@ namespace LostKaiju.Game.GameData
         public Observable<T> OnProduced { get; }
 
         public abstract void GetModelOnLoaded(Action<T> onLoaded);
+        public abstract void Release();
     }
 }

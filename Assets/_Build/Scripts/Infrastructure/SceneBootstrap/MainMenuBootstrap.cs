@@ -15,6 +15,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     public class MainMenuBootstrap : LifetimeScope
     {
         [SerializeField] private MainMenuView _mainMenuViewPrefab;
+        // [SerializeField] private MainMenuCanvasView _mainMenuViewPrefab;
         [SerializeField] private AudioClip _musicClip;
 
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)

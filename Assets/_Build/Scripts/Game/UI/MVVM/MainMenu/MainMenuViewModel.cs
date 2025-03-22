@@ -10,7 +10,6 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
     {
         private readonly Subject<Unit> _exitSubject;
         private readonly SettingsBinder _settingsBinder;
-        private bool _isSettingsOpened = false;
 
         public MainMenuViewModel(Subject<Unit> exitSubject, SettingsBinder settingsBinder)
         {
@@ -26,15 +25,7 @@ namespace LostKaiju.Game.UI.MVVM.MainMenu
 
         public void OpenSettings()
         {
-            if (_isSettingsOpened)
-                return;
-
-            var settingsViewModel = _settingsBinder.ShowSettings();
-            settingsViewModel?.OnClosingCompleted.Subscribe(_ =>  {
-                _isSettingsOpened = false;
-            });
-            
-            _isSettingsOpened = true;
+            _settingsBinder.TryBindAndOpen(out _);
         }
     }
 }

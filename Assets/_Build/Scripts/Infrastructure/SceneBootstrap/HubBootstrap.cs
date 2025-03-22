@@ -5,6 +5,7 @@ using VContainer;
 using VContainer.Unity;
 using R3;
 
+using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Hub;
@@ -12,9 +13,10 @@ using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.UI.CustomElements;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.GameData.Campaign;
-using LostKaiju.Services.Inputs;
 using LostKaiju.Game.GameData.Heroes;
 using LostKaiju.Game.Constants;
+using LostKaiju.Game.GameData;
+using LostKaiju.Services.Inputs;
 using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
@@ -25,12 +27,27 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private CameraRenderTextureSetter _heroRenderTextureSetter;
         [SerializeField] private Transform _heroPreviewTransform;
         private CampaignModel _campaignModel = null;
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<CampaignModelFactory>(Lifetime.Singleton).As<ILoadableModelFactory<CampaignModel>>();
+            builder.Register<TypedRegistration<GameplayEnterContext, Subject<Unit>>>(Lifetime.Singleton);
+            builder.Register<TypedRegistration<MainMenuEnterContext, Subject<Unit>>>(Lifetime.Singleton);
+            builder.Register<CampaignNavigationBinder>(resolver => 
+            {
+                var rootUIBinder = Container.Resolve<IRootUIBinder>();
+                var factory = Container.Resolve<ILoadableModelFactory<CampaignModel>>();
+                var audioPlayer = Container.Resolve<AudioPlayer>();
+                var exitToGameplaySignal = Container.Resolve<TypedRegistration<GameplayEnterContext, Subject<Unit>>>().Instance;
+                var binder = new CampaignNavigationBinder(rootUIBinder, factory, audioPlayer, exitToGameplaySignal);
+                return binder;
+            }, Lifetime.Singleton);
+        }
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
         {
             var hubExitSignal = new Subject<HubExitContext>();
-            var exitToGameplaySignal = new Subject<Unit>();
-            var exitToMainMenuSignal = new Subject<Unit>();
+            var exitToGameplaySignal = Container.Resolve<TypedRegistration<GameplayEnterContext, Subject<Unit>>>().Instance;
+            var exitToMainMenuSignal = Container.Resolve<TypedRegistration<MainMenuEnterContext, Subject<Unit>>>().Instance;
             var gameplayEnterContext = new GameplayEnterContext();
             var mainMenuEnterContext = new MainMenuEnterContext();
             var hubExitToMainMenuContext = new HubExitContext(mainMenuEnterContext);
@@ -40,8 +57,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
 
-            var campaignModelFactory = new CampaignModelFactory(gameStateProvider);
+            var campaignModelFactory = Container.Resolve<ILoadableModelFactory<CampaignModel>>();
             campaignModelFactory.OnProduced.Subscribe(x => _campaignModel = x);
+
+            var campaignBinder = Container.Resolve<CampaignNavigationBinder>();
             var settingsBinder = Container.Resolve<SettingsBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
             settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
@@ -50,9 +69,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             _heroRenderTextureSetter.Init();
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory, 
                 _heroRenderTextureSetter.CurrentRenderTexture);
-            var audioPlayer = Container.Resolve<AudioPlayer>();
-            var hubViewModel = new HubViewModel(exitToGameplaySignal, campaignModelFactory, settingsBinder, 
-                heroSelectionBinder, rootUIBinder, audioPlayer);
+            var hubViewModel = new HubViewModel(campaignBinder, settingsBinder, heroSelectionBinder);
 
             var heroPreview = new HeroPreview(_heroPreviewTransform, onShowPreview: x => x.SetActive(true), 
                 onHidePreview: x => x.SetActive(false));

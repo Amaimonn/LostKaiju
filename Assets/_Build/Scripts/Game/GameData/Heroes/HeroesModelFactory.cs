@@ -1,9 +1,10 @@
+using System;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using R3;
 
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.Constants;
-using System;
 
 namespace LostKaiju.Game.GameData.Heroes
 {
@@ -12,6 +13,7 @@ namespace LostKaiju.Game.GameData.Heroes
         public Observable<HeroesModel> OnProduced => _onProduced;
         private readonly IGameStateProvider _gameStateProvider;
         private readonly Subject<HeroesModel> _onProduced = new();
+        private AsyncOperationHandle<AllHeroesDataSO> _handle;
 
         public HeroesModelFactory(IGameStateProvider gameStateProvider)
         {
@@ -20,8 +22,8 @@ namespace LostKaiju.Game.GameData.Heroes
 
         public void GetModelOnLoaded(Action<HeroesModel> onLoaded)
         {
-            var heroesDataSOHandle = Addressables.LoadAssetAsync<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
-            heroesDataSOHandle.Completed += (handler) =>
+            _handle = Addressables.LoadAssetAsync<AllHeroesDataSO>(Paths.ALL_HEROES_DATA);
+            _handle.Completed += (handler) =>
             {
                 var heroesDataSO = handler.Result;
                 var heroesState = _gameStateProvider.Heroes;
@@ -29,6 +31,11 @@ namespace LostKaiju.Game.GameData.Heroes
                 onLoaded(heroesModel);
                 _onProduced.OnNext(heroesModel);
             };
+        }
+
+        public void Release()
+        {
+            Addressables.Release(_handle);
         }
     }
 }
