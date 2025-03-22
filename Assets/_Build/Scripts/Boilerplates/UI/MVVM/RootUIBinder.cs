@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +13,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         [SerializeField] private RectTransform _canvasLastUiRoot;
         [SerializeField] private string _visualElementRootName;
         private VisualElement _visualElementRoot;
+        private readonly HashSet<View> _bindedViews = new();
 
 #region IRootUIBinder
         public void SetView(View view)
@@ -35,6 +37,7 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         public void AddView(View view)
         {
             view.Attach(this);
+            _bindedViews.Add(view);
         }
 
         public void AddViews(params View[] views)
@@ -56,30 +59,20 @@ namespace LostKaiju.Boilerplates.UI.MVVM
         public void ClearView(View view)
         {
             if (view != null)
+            {
                 view.Detach(this);
+            }
+            _bindedViews.Remove(view);
         }
 
         public void ClearViews()
         {
-            ClearToolkitViews();
-            ClearCanvasViews();
-        }
-#endregion
-
-        private void ClearCanvasViews()
-        {
-            int childrenAmount = _canvasFirstUiRoot.childCount;
-
-            for (int i = childrenAmount - 1; i >= 0; i--)
+            foreach (var view in _bindedViews.ToArray())
             {
-                Destroy(_canvasFirstUiRoot.GetChild(i).gameObject);
+                ClearView(view);
             }
         }
-
-        private void ClearToolkitViews()
-        {
-            _visualElementRoot.Clear();
-        }
+#endregion
 
 #region MonoBehaviour
         private void Awake()
