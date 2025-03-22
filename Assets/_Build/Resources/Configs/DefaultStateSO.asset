@@ -21,7 +21,7 @@ MonoBehaviour:
     Brightness: 75
     IsPostProcessingEnabled: 1
     IsBloomEnabled: 1
-    IsAntiAliasingEnabled: 0
+    IsAntiAliasingEnabled: 1
   <Campaign>k__BackingField:
     _version: 1
     CampaignDataVersion: 1
