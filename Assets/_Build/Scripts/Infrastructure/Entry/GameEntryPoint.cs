@@ -1,32 +1,40 @@
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.Constants;
+using LostKaiju.Utils;
 
 namespace LostKaiju.Infrastructure.Entry
 {
     public class GameEntryPoint
     {
         private static GameEntryPoint _instance;
-
-        private GameEntryPoint()
-        {
-        }
+        private const float LOGO_TIME = 0.8f;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static async void EnterTheGame()
+        private static void EnterTheGame()
         {
             _instance = new();
-            await _instance.Run();
+            _instance.Run();
         }
 
-        private async Task Run()
+        private void Run()
         {
-            await SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
-            Object.FindAnyObjectByType<RootScope>().Build();
-            Debug.Log("Entry point scene loaded");
+            var monoHook = new GameObject("EntryMonoHook").AddComponent<MonoBehaviourHook>();
+            Object.DontDestroyOnLoad(monoHook);
+            monoHook.StartCoroutine(LoadEntryScene());
+            
+            IEnumerator LoadEntryScene()
+            {
+                yield return SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
+                yield return new WaitForSeconds(LOGO_TIME);
+                Object.FindAnyObjectByType<RootScope>().Build();
+
+                Debug.Log("Entry point scene loaded");
+                Object.Destroy(monoHook.gameObject);
+            }
         }
     }
 }

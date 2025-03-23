@@ -1,9 +1,11 @@
 using UnityEngine;
 
+using LostKaiju.Game.World.Creatures.DamageSystem;
+
 namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem 
 {
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour, IDamageable
     {
         public Collider2D Collider => _collider;
 
@@ -43,6 +45,12 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
         public void PlaySparks()
         {
             Instantiate(_hitParticles, transform.position, Quaternion.identity);
+        }
+
+        public void TakeDamage(int amount)
+        {
+            PlaySparks();
+            Destroy(gameObject);
         }
     }
 }

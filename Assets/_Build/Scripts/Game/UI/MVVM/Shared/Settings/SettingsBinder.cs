@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.Constants;
-using UnityEngine.AddressableAssets;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {

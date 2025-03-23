@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LostKaiju.Services.Saves
 {
-    public class PlayerPrefsStorage : IDataStorage
+    public class PlayerPrefsStorage : IAsyncDataStorage
     {
         public Task WriteAsync(string key, string serializedData)
         {

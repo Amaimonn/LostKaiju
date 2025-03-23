@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
-
 namespace LostKaiju.Services.Saves
 {
     public interface ISerializer
     {
-        public Task<string> SerializeAsync<T>(T rawData);
-        public Task<T> DeserializeAsync<T>(string serializedData);
+        public string Serialize<T>(T rawData);
+        public T Deserialize<T>(string serializedData);
     }
 }    

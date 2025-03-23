@@ -1,6 +1,5 @@
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace LostKaiju.Services.Saves
@@ -9,7 +8,7 @@ namespace LostKaiju.Services.Saves
     {
         private readonly BinaryFormatter _formatter = new();
         
-        public Task<string> SerializeAsync<T>(T rawData)
+        public string Serialize<T>(T rawData)
         {
             MemoryStream stream = new();
 
@@ -20,17 +19,17 @@ namespace LostKaiju.Services.Saves
             stream.Read(buffer, 0, buffer.Length);
             string serializedData = Encoding.UTF8.GetString(buffer);
 
-            return Task.FromResult(serializedData);
+            return serializedData;
         }
 
-        public Task<T> DeserializeAsync<T>(string serializedData)
+        public T Deserialize<T>(string serializedData)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(serializedData);
 
             MemoryStream stream = new(buffer);
 
             var data = (T)_formatter.Deserialize(stream);
-            return Task.FromResult(data);
+            return data;
         }
     }
 }

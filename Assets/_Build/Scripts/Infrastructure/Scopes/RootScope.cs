@@ -37,8 +37,8 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
             var defaultStateProvider = new DefaultStateSOProvider();
 #if UNITY_EDITOR || !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
-            var serizlizer = new JsonUtilitySerializer();
-            var storage = new FileStorage(fileExtension: "json");
+            var serizlizer = new JsonUtilityAsyncSerializer();
+            var storage = new AsyncFileStorage(fileExtension: "json");
             var saveSystem = new SimpleSaveSystem(serizlizer, storage);
             var gameStateProvider = new GameStateProvider(saveSystem, defaultStateProvider);
 #elif YG_BUILD

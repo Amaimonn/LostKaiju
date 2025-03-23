@@ -61,7 +61,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                         _currentViewModel.Bind(heroesModel);
                     }
                 });
-                
             }
         }
     }

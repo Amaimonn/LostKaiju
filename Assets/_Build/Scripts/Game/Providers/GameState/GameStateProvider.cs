@@ -16,10 +16,10 @@ namespace LostKaiju.Game.Providers.GameState
         public CampaignState Campaign { get; private set; }
         public HeroesState Heroes { get; private set; }
 
-        private readonly ISaveSystem _saveSystem;
+        private readonly IAsyncSaveSystem _saveSystem;
         private readonly IDefaultStateProvider _defaultStateProvider;
 
-        public GameStateProvider(ISaveSystem saveSystem, IDefaultStateProvider defaultStateProvider)
+        public GameStateProvider(IAsyncSaveSystem saveSystem, IDefaultStateProvider defaultStateProvider)
         {
             _saveSystem = saveSystem;
             _defaultStateProvider = defaultStateProvider;

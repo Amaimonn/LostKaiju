@@ -2,12 +2,12 @@ using System.Threading.Tasks;
 
 namespace LostKaiju.Services.Saves
 {
-    public class SimpleSaveSystem : ISaveSystem
+    public class SimpleSaveSystem : IAsyncSaveSystem
     {
-        private readonly ISerializer _serializer;
-        private readonly IDataStorage _storage;
+        private readonly IAsyncSerializer _serializer;
+        private readonly IAsyncDataStorage _storage;
 
-        public SimpleSaveSystem(ISerializer serializer, IDataStorage storage)
+        public SimpleSaveSystem(IAsyncSerializer serializer, IAsyncDataStorage storage)
         {
             _serializer = serializer;
             _storage = storage;

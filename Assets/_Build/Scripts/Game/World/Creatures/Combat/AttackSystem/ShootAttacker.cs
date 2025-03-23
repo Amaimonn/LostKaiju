@@ -39,7 +39,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
                         TryAttackWithProjectile(x.gameObject, projectile);
                         projectile.PlaySparks();
                         Destroy(projectile.gameObject);
-                    });
+                    }).AddTo(projectile);
                     
                 projectile.WithSpeed(_shootData.Speed)
                     .WithDestination(targetPosition)

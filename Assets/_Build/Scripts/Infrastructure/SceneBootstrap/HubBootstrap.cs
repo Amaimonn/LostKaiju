@@ -23,10 +23,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class HubBootstrap : LifetimeScope
     {
-        [SerializeField] private HubView _hubViewPrefab;
+        // [SerializeField] private HubView _hubViewPrefab;
+        [SerializeField] private HubCanvasView _hubViewPrefab;
         [SerializeField] private CameraRenderTextureSetter _heroRenderTextureSetter;
         [SerializeField] private Transform _heroPreviewTransform;
+        [SerializeField] private AudioClip _hubMusic;
         private CampaignModel _campaignModel = null;
+
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<CampaignModelFactory>(Lifetime.Singleton).As<ILoadableModelFactory<CampaignModel>>();
@@ -43,9 +46,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             }, Lifetime.Singleton);
         }
 
-        public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext)
+        public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext = null)
         {
             var hubExitSignal = new Subject<HubExitContext>();
+
+            var audioPlayer = Container.Resolve<AudioPlayer>();
+            audioPlayer.PlayMusic(_hubMusic, true);
+
             var exitToGameplaySignal = Container.Resolve<TypedRegistration<GameplayEnterContext, Subject<Unit>>>().Instance;
             var exitToMainMenuSignal = Container.Resolve<TypedRegistration<MainMenuEnterContext, Subject<Unit>>>().Instance;
             var gameplayEnterContext = new GameplayEnterContext();
@@ -118,13 +125,16 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 hubExitSignal.OnNext(hubExitToMainMenuContext);
             });
 
-            if (!String.IsNullOrEmpty(hubEnterContext.ExitingMissionId))
+            if (hubEnterContext != null) // passed context
             {
-                if (hubEnterContext.IsMissionCompleted)
-                    Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} completed</color>");
-                else
-                    Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} exited</color>");
-                hubViewModel.OpenCampaign();
+                if (!String.IsNullOrEmpty(hubEnterContext.ExitingMissionId))
+                {
+                    if (hubEnterContext.IsMissionCompleted)
+                        Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} completed</color>");
+                    else
+                        Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} exited</color>");
+                    hubViewModel.OpenCampaign();
+                }
             }
             
             return hubExitSignal;

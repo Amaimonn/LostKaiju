@@ -1,18 +1,17 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace LostKaiju.Services.Saves
 {
     public class JsonUtilitySerializer : ISerializer
     {
-        public Task<string> SerializeAsync<T>(T rawData)
+        public string Serialize<T>(T rawData)
         {
-            return Task.FromResult(JsonUtility.ToJson(rawData));
+            return JsonUtility.ToJson(rawData);
         }
 
-        public Task<T> DeserializeAsync<T>(string serializedData)
+        public T Deserialize<T>(string serializedData)
         {
-            return Task.FromResult(JsonUtility.FromJson<T>(serializedData));
+            return JsonUtility.FromJson<T>(serializedData);
         }
     }
 }

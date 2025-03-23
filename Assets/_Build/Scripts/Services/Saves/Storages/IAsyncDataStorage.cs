@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace LostKaiju.Services.Saves
 {
-    public interface IDataStorage
+    public interface IAsyncDataStorage
     {
         public Task WriteAsync(string key, string serializedData);
         public Task<string> ReadAsync(string key);

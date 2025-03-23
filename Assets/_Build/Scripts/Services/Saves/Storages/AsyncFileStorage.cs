@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace LostKaiju.Services.Saves
 {
-    public class FileStorage : IDataStorage
+    public class AsyncFileStorage : IAsyncDataStorage
     {
         private readonly string _basePath;
         private readonly string _fileExtension;
         private readonly ConcurrentDictionary<string, CancellationTokenSource> _ctsMap;
 
-        public FileStorage(string fileExtension)
+        public AsyncFileStorage(string fileExtension)
         {
             _basePath = Application.isEditor ? Path.Combine(Application.dataPath, "SaveData") : Application.persistentDataPath;
             _fileExtension = fileExtension;

@@ -21,9 +21,9 @@ namespace LostKaiju.Infrastructure.Loading
         private readonly MonoBehaviour _monoHook;
         private readonly LoadingScreen _loadingScreen;
         private readonly LifetimeScope _rootScope;
-        private const float FAKE_LOAD_TIME = 0.1f;
         private readonly Subject<Unit> _onLoadingStarted = new();
         private readonly Subject<Unit> _onLoadingFinished = new();
+        private const float FAKE_LOAD_TIME = 1f;
 
         public SceneLoader(MonoBehaviour hook, LoadingScreen loadingScreen, LifetimeScope rootScope)
         {
@@ -34,7 +34,7 @@ namespace LostKaiju.Infrastructure.Loading
 
         public IEnumerator LoadStartScene()
         {
-            yield return LoadMainMenu();
+            yield return LoadHub(fastLoadingShow: true);
         }
 
         private IEnumerator LoadMainMenu(MainMenuEnterContext mainMenuEnterContext = null)
@@ -64,9 +64,12 @@ namespace LostKaiju.Infrastructure.Loading
             yield return _loadingScreen.HideCoroutine();
         }
 
-        private IEnumerator LoadHub(HubEnterContext hubEnterContext)
+        private IEnumerator LoadHub(HubEnterContext hubEnterContext = null, bool fastLoadingShow = false)
         {
-            yield return _loadingScreen.ShowCoroutine();
+            if (fastLoadingShow)
+                _loadingScreen.Show();
+            else
+                yield return _loadingScreen.ShowCoroutine();
             var startTime = Time.time;
 
             _onLoadingStarted.OnNext(Unit.Default);
@@ -86,14 +89,14 @@ namespace LostKaiju.Infrastructure.Loading
                 {
                     var toSceneName = hubExitContext.ToSceneContext.SceneName;
 
-                    if (toSceneName == Scenes.MAIN_MENU)
-                    {
-                        _monoHook.StartCoroutine(LoadMainMenu(hubExitContext.ToSceneContext as MainMenuEnterContext));
-                    }
-                    else if (toSceneName == Scenes.GAMEPLAY)
+                    if (toSceneName == Scenes.GAMEPLAY)
                     {
                         _monoHook.StartCoroutine(LoadGameplay(hubExitContext.ToSceneContext as GameplayEnterContext));
                     }
+                    // else if (toSceneName == Scenes.MAIN_MENU)
+                    // {
+                    //     _monoHook.StartCoroutine(LoadMainMenu(hubExitContext.ToSceneContext as MainMenuEnterContext));
+                    // }
                 });
             }
             yield return GetRemainFakeLoadTime(startTime);

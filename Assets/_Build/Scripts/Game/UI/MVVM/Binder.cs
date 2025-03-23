@@ -2,7 +2,6 @@ using UnityEngine;
 using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
-using LostKaiju.Game.Constants;
 
 namespace LostKaiju.Game.UI.MVVM
 {
