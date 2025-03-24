@@ -48,6 +48,7 @@ MonoBehaviour:
   _visualTreeAsset: {fileID: 9197481963319205126, guid: 443e9133a0f1e56408d2cdf49677fe86, type: 3}
   _closeButtonName: CloseButton
   _closeBackgroundName: OverlayImage
+  _campaignTitleName: CampaignTitle
   _contentName: Content
   _contentClass: missions-content
   _startButtonName: StartButton
@@ -75,7 +76,6 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

@@ -50,7 +50,7 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         public override void Exit()
         {
             base.Exit();
-            _rigidbody.linearVelocityX = 0;
+            _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
             _rigidbody.gravityScale = _startGravity;
         }
 
@@ -67,8 +67,7 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
             var eclapsedTime = Time.fixedDeltaTime;
             var direction = _isRight.CurrentValue ? 1 : -1;
             
-            _rigidbody.linearVelocityY = 0;
-            _rigidbody.linearVelocityX = direction * _parameters.Distance / _parameters.Duration;
+            _rigidbody.velocity = new Vector2(direction * _parameters.Distance / _parameters.Duration, 0);
 
             if (_currentDuration >= _parameters.Duration)
             {

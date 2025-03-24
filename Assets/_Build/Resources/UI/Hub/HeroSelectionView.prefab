@@ -47,7 +47,9 @@ MonoBehaviour:
   _visualTreeAsset: {fileID: 9197481963319205126, guid: c480d4b20f13f3448bec80d3b0d11a1a, type: 3}
   _closeButtonName: ExitButton
   _closeBackgroundName: OverlayImage
+  _heroSelectionTitleName: HeroSelectionTitle
   _completeButtonName: StartButton
+  _selectedHeroLabelName: SelectedHeroName
   _heroesListName: HeroesList
   _heroDescriptionName: HeroDescription
   _selectedImageName: SelectedImage
@@ -55,4 +57,3 @@ MonoBehaviour:
   _heroSlotName: HeroSlot
   _heroLabelName: HeroName
   _heroSlotSelectedClass: hero-slot--selected
-  _heroRenderTexture: {fileID: 8400000, guid: 8ade1f3a75f86e84cb8c26ac91457bde, type: 2}

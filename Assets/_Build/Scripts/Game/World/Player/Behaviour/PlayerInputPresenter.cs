@@ -109,8 +109,8 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var transitions = new IFiniteTransition[]
             {
                 new SameForMultipleTransition<AttackState>(
-                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue &&  // checks Canvas UI only
-                        attackCooldownTimer.IsCompleted && !EventSystem.current.IsPointerOverGameObject(),
+                    () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue && 
+                        attackCooldownTimer.IsCompleted,
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
                 new FiniteTransition<AttackState, IdleState>(() => true),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
@@ -180,7 +180,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 })
                 .AddTo(_disposables);
 
-            Observable.EveryValueChanged(_creature.Rigidbody, s => s.linearVelocityY)
+            Observable.EveryValueChanged(_creature.Rigidbody, s => s.velocity.y)
                 .SkipFrame(1)
                 .Where(_ => _groundCheck.IsGrounded == false)
                 .Subscribe(x => 
@@ -233,11 +233,11 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         private void ApplyFriction()
         {
-            if (Mathf.Abs(_creature.Rigidbody.linearVelocityX) > 0.01f)
+            if (Mathf.Abs(_creature.Rigidbody.velocity.x) > 0.01f)
             {
-                float frictionForce = Mathf.Min(Mathf.Abs(_creature.Rigidbody.linearVelocityX), _controlsData.Walk.FrictionForce);
+                float frictionForce = Mathf.Min(Mathf.Abs(_creature.Rigidbody.velocity.x), _controlsData.Walk.FrictionForce);
 
-                _creature.Rigidbody.AddForceX(frictionForce * -Mathf.Sign(_creature.Rigidbody.linearVelocityX), 
+                _creature.Rigidbody.AddForce(new Vector2(frictionForce * -Mathf.Sign(_creature.Rigidbody.velocity.x), 0), 
                     ForceMode2D.Impulse);
             }
         }

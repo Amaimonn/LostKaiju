@@ -39,7 +39,7 @@ namespace LostKaiju.Game.World.Creatures.Combat.AttackSystem
             var angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
 
             _rigidbody.SetRotation(angle);
-            _rigidbody.linearVelocity = _direction * _speed;
+            _rigidbody.velocity = _direction * _speed;
         }
 
         public void PlaySparks()

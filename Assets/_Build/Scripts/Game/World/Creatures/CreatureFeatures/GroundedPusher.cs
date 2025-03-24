@@ -7,7 +7,7 @@ namespace LostKaiju.Game.World.Creatures.Features
     {
         public override void Push(Vector2 forceOrigin, float force)
         {
-            _rigidbody.linearVelocity = Vector2.zero;
+            _rigidbody.velocity = Vector2.zero;
             var directionVector = (Vector2)_ownOrigin.position - forceOrigin;
             if (directionVector.y < 0)
                 directionVector.y = 0;

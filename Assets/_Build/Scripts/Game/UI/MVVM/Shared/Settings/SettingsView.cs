@@ -12,31 +12,51 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SettingsView : PopUpToolkitView<SettingsViewModel>
     {
+        [Header("UI Elements")]
+        [SerializeField] private string _settingsTitleName;
         [SerializeField] private string _applyButtonName;
-        [SerializeField] private string _resetButtonName;
+        [SerializeField] private string _cancelButtonName;
         [SerializeField] private string _sectionsRootClass;
-        [SerializeField] private string _scrollViewClass;
+        // [SerializeField] private string _scrollViewClass;
         [SerializeField] private string _settingBarLabelClass;
+
+        [Space(4)]
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
 
+        [Space(4)]
+        [SerializeField] private VisualTreeAsset _sectionAsset;
+
         private Button _applyButton;
-        private Button _resetButton;
+        private Button _cancelChangesButton;
         // private bool _isClosing = false;
 
         protected override void OnAwake()
         {
             base.OnAwake();
             _applyButton = Root.Q<Button>(name: _applyButtonName);
-            _resetButton = Root.Q<Button>(name: _resetButtonName);
+            _cancelChangesButton = Root.Q<Button>(name: _cancelButtonName);
+
+            Root.Q<Label>(name: _settingsTitleName).LocalizeText(Tables.UI, "settings")
+                .AddTo(_disposables);
+            
+            _applyButton.LocalizeText(Tables.UI, "apply").AddTo(_disposables);
+            _cancelChangesButton.LocalizeText(Tables.UI, "cancel_changes").AddTo(_disposables);
         }
 
         protected override void OnBind(SettingsViewModel viewModel)
         {
             base.OnBind(viewModel);
             InitSections();
+            
             _applyButton.RegisterCallback<ClickEvent>(ApplyChanges);
-            _resetButton.RegisterCallback<ClickEvent>(ResetSettings);
+            _cancelChangesButton.RegisterCallback<ClickEvent>(CancelChanges);
+
+            ViewModel.IsAnyChanges.Subscribe(x => 
+            {
+                _applyButton.SetEnabled(x);
+                _cancelChangesButton.SetEnabled(x);
+            });
         }
 
         private void InitSections()
@@ -54,17 +74,17 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var soundViewModel = ViewModel.SoundSettingsViewModel;
             
-            var soundSection = new Tab();
-            soundSection.LocalizeLabel(Tables.SETTINGS, settingsData.SoundSectionLabel);
-            soundSection.selected += _ => ViewModel.SelectSoundSection();
+            var soundSection = new VisualElement(); //Tab();
+            // soundSection.LocalizeLabel(Tables.SETTINGS, settingsData.SoundSectionLabel);
+            // soundSection.selected += _ => ViewModel.SelectSoundSection();
             sectionsRoot.Add(soundSection);
 
-            var scrollView = CreateScrollView(soundSection);
+            // var scrollView = CreateScrollView(soundSection);
 
-            var soundVolumeSlider = CreateSliderInt(settingsData.MusicVolumeData, scrollView);
+            var soundVolumeSlider = CreateSliderInt(settingsData.MusicVolumeData, soundSection);
             BindSliderInt(soundVolumeSlider, soundViewModel.SetMusicVolume, soundViewModel.MusicVolume);
 
-            var sfxVolumeSlider = CreateSliderInt(settingsData.SfxVolumeData, scrollView);
+            var sfxVolumeSlider = CreateSliderInt(settingsData.SfxVolumeData, soundSection);
             BindSliderInt(sfxVolumeSlider, soundViewModel.SetSfxVolume, soundViewModel.SfxVolume);
         }
 
@@ -72,34 +92,34 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var videoViewModel = ViewModel.VideoSettingsViewModel;
 
-            var videoSection = new Tab();
-            videoSection.LocalizeLabel(Tables.SETTINGS, settingsData.VideoSectionLabel);
-            videoSection.selected += _ => ViewModel.SelectVideoSection();
+            var videoSection = new VisualElement(); //new Tab();
+            // videoSection.LocalizeLabel(Tables.SETTINGS, settingsData.VideoSectionLabel);
+            // videoSection.selected += _ => ViewModel.SelectVideoSection();
             sectionsRoot.Add(videoSection);
 
-            var scrollView = CreateScrollView(videoSection);
+            // var scrollView = CreateScrollView(videoSection);
 
-            var brightnessSlider = CreateSliderInt(settingsData.BrightnessData, scrollView);
+            var brightnessSlider = CreateSliderInt(settingsData.BrightnessData, videoSection);
             BindSliderInt(brightnessSlider, videoViewModel.SetBrightness, videoViewModel.Brightness);
 
-            var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, scrollView);
+            var postProcessingToggle = CreateToggle(settingsData.IsPostProcessingEnabledData, videoSection);
             BindToggle(postProcessingToggle, videoViewModel.SetIsPostProcessingEnabled, videoViewModel.IsPostProcessingEnabled);
 
-            var bloomToggle = CreateToggle(settingsData.IsBloomEnabledData, scrollView);
+            var bloomToggle = CreateToggle(settingsData.IsBloomEnabledData, videoSection);
             BindToggle(bloomToggle, videoViewModel.SetIsBloomEnabled, videoViewModel.IsHighBloomQuality);
 
-            var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, scrollView);
+            var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, videoSection);
             BindToggle(antiAliasingToggle, videoViewModel.SetIsAntiAliasingEnabled, videoViewModel.IsAntiAliasingEnabled);
         }
 
-        private ScrollView CreateScrollView(VisualElement parentSection)
-        {
-            var scrollView = new ScrollView();
-            scrollView.AddToClassList(_scrollViewClass);
-            parentSection.Add(scrollView);
+        // private ScrollView CreateScrollView(VisualElement parentSection)
+        // {
+        //     var scrollView = new ScrollView();
+        //     scrollView.AddToClassList(_scrollViewClass);
+        //     parentSection.Add(scrollView);
 
-            return scrollView;
-        }
+        //     return scrollView;
+        // }
 
         private SliderInt CreateSliderInt(ISliderSettingData sliderSettingData, VisualElement parentSection)
         {
@@ -111,7 +131,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             slider.highValue = sliderSettingData.MaxValue;
 
             var label = settingBar.Q<Label>(className: _settingBarLabelClass);
-            label.LocalizeText(Tables.SETTINGS, sliderSettingData.Label);
+            label.LocalizeText(Tables.SETTINGS, sliderSettingData.Label).AddTo(_disposables);
 
             return slider;
         }
@@ -131,7 +151,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             var toggle = settingBar.Q<Toggle>();
 
             var label = settingBar.Q<Label>(className: _settingBarLabelClass);
-            label.LocalizeText(Tables.SETTINGS, toggleSettingData.Label);
+            label.LocalizeText(Tables.SETTINGS, toggleSettingData.Label).AddTo(_disposables);
 
             return toggle;
         }
@@ -175,9 +195,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             ViewModel.ApplyChanges();
         }
 
-        private void ResetSettings(ClickEvent clickEvent)
+        private void CancelChanges(ClickEvent clickEvent)
         {
-            ViewModel.ResetCurrentSectionSettings();
+            // ViewModel.ResetCurrentSectionSettings();
+            ViewModel.CancelUnappliedChanges();
         }
     }
 }

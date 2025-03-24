@@ -1,37 +1,26 @@
-<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/_Build/UIToolkit/Screens/Shared/Settings/SettingsStyles.uss?fileID=7433441132597879392&amp;guid=13fa4143d7a2a494c80da9463159de5a&amp;type=3#SettingsStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/BackgroundStyles.uss?fileID=7433441132597879392&amp;guid=69d87b7304f02224eb50265f2135d43b&amp;type=3#BackgroundStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/LabelStyles.uss?fileID=7433441132597879392&amp;guid=33d8b22ae8b90ba4780c5513c6218f70&amp;type=3#LabelStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ScrollViewStyles.uss?fileID=7433441132597879392&amp;guid=702494cf990296343b1a84c82ad0ee75&amp;type=3#ScrollViewStyles" />
-    <engine:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
-    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" class="wrapper-base wrapper">
-        <engine:VisualElement name="Content" class="settings-content">
-            <engine:VisualElement name="Settings" class="settings">
-                <engine:VisualElement name="TopBar" class="settings__top-bar" style="flex-direction: row;">
-                    <engine:Label name="SettingsLabel" class="view__title settings__label">
-                        <Bindings>
-                            <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(36999577600)" />
-                        </Bindings>
-                    </engine:Label>
-                    <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
-                </engine:VisualElement>
-                <engine:TabView name="SettingsTabView" class="settings__tab-view" />
-                <engine:VisualElement name="BottomBar" class="panel__bottom-bar">
-                    <engine:Button name="ApplyButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="apply-button button-transitions-base">
-                        <Bindings>
-                            <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54113250885632)" />
-                        </Bindings>
-                    </engine:Button>
-                    <engine:Button name="ResetButton" class="button-transitions-base reset-button">
-                        <engine:Label text="&lt;u&gt;Reset settings&lt;/u&gt;" name="CancelLabel" enable-rich-text="true" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; color: rgb(180, 180, 180); font-size: 32px;">
-                            <Bindings>
-                                <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54183685832704)" />
-                            </Bindings>
-                        </engine:Label>
-                    </engine:Button>
-                </engine:VisualElement>
-            </engine:VisualElement>
-        </engine:VisualElement>
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ButtonStyles.uss?fileID=7433441132597879392&amp;guid=e542f6a0d82cbbd4e883ca8747cf44a8&amp;type=3#ButtonStyles" />
+    <ui:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
+    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" right-padding-scale="0" left-padding-scale="0" picking-mode="Ignore" class="wrapper-base wrapper">
+        <ui:VisualElement name="Content" class="settings-content">
+            <ui:VisualElement name="Settings" class="settings">
+                <ui:VisualElement name="TopBar" class="settings__top-bar" style="flex-direction: row;">
+                    <ui:Label name="SettingsTitle" text="SETTINGS" class="view__title settings__title" />
+                    <ui:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
+                </ui:VisualElement>
+                <ui:VisualElement name="TabView" class="scroller-wrapper">
+                    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mouse-wheel-scroll-size="400" class="settings-tab__scrollview" />
+                </ui:VisualElement>
+                <ui:VisualElement name="BottomBar" class="panel__bottom-bar">
+                    <ui:Button name="ApplyButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" text="Apply" class="apply-button button-transitions-base" />
+                    <ui:Button name="CancelButton" text="&lt;u&gt;Cancel changes&lt;/u&gt;" class="cancel-button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
-</engine:UXML>
+</ui:UXML>

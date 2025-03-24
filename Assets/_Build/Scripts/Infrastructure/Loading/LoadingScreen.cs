@@ -1,7 +1,7 @@
 using System.Collections;
-using R3;
 using UnityEngine;
 using UnityEngine.UI;
+using R3;
 
 namespace LostKaiju.Infrastructure.Loading
 {
@@ -16,17 +16,19 @@ namespace LostKaiju.Infrastructure.Loading
         [SerializeField] private GameObject _loadingGameObject;
         [SerializeField] private Image _overlayImage;
         [SerializeField] private GameObject _loadingLabel;
-        [SerializeField] private string _overlayProgressProperty;
+        [SerializeField, Min(0)] private float _fadeOutThreshold = 0.1f;
         [SerializeField, Min(0.01f)] private float _overlayFillSeconds = 2f;
 
         private readonly Subject<Unit> _onStarted = new();
         private readonly Subject<Unit> _onFinished = new();
         private readonly ReactiveProperty<float> _overlayFillProgress = new(1);
+        private Color _overlayColor;
 
 
 #region MonoBehaviour
         private void Awake()
         {
+            _overlayColor = _overlayImage.color;
             Hide();
         }
 #endregion
@@ -68,7 +70,7 @@ namespace LostKaiju.Infrastructure.Loading
         {
             _loadingLabel.SetActive(false);
 
-            while (_overlayFillProgress.Value > 0)
+            while (_overlayFillProgress.Value > _fadeOutThreshold)
             {
                 var currentProgress = _overlayFillProgress.Value - Time.deltaTime / _overlayFillSeconds;
                 if (currentProgress < 0)
@@ -76,15 +78,17 @@ namespace LostKaiju.Infrastructure.Loading
                 SetOverlayFillProgress(currentProgress);
                 yield return null;
             }
-
+            SetOverlayFillProgress(0);
             _loadingGameObject.SetActive(false);
             _onFinished.OnNext(Unit.Default);
         }
 
         private void SetOverlayFillProgress(float progress)
         {
+            _overlayColor.a = progress;
+            _overlayImage.color = _overlayColor;
             _overlayFillProgress.Value = progress;
-            _overlayImage.material.SetFloat(_overlayProgressProperty, _overlayFillProgress.Value);
+            // _overlayImage.material.SetFloat(_overlayProgressProperty, _overlayFillProgress.Value);
         }
     }
 }

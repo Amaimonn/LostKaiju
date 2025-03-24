@@ -36,7 +36,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1687231709184
-    m_Key: select_your_hero
+    m_Key: choose_your_hero
     m_Metadata:
       m_Items: []
   - m_Id: 49855898107904

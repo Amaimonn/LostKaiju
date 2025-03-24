@@ -3,6 +3,7 @@ using UnityEngine;
 using R3;
 
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace LostKaiju.Services.Inputs
 {
@@ -68,7 +69,7 @@ namespace LostKaiju.Services.Inputs
         public Observable<Unit> OnEscape => _onEscape;
         public Observable<Unit> OnOptions => _onOptions;
 
-        private const float SENSITIVITY = 0.5f;
+        private const float SENSITIVITY = 0.2f;
         private readonly Func<Vector2> _onReadMove;
         private readonly Func<bool> _onReadJump;
         private readonly Func<bool> _onReadDash;
@@ -84,27 +85,16 @@ namespace LostKaiju.Services.Inputs
             var jumpAction = InputSystem.actions.FindAction("Jump");
             var dashAction = InputSystem.actions.FindAction("Dash");
             var attackAction = InputSystem.actions.FindAction("Attack");
+            var attackButtonAction = InputSystem.actions.FindAction("AttackButton");
+            var optionsAction = InputSystem.actions.FindAction("Options");
             // InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
-            InputSystem.actions.FindAction("Options").started += _ => _onOptions.OnNext(Unit.Default);
 
             _onReadMove = moveAction.ReadValue<Vector2>;
-            _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
-            _onReadAttack = attackAction.WasPressedThisFrame; // () => attackAction.ReadValue<float>() > 0;
+            _onReadDash = dashAction.WasPressedThisFrame;
+            _onReadAttack = () => attackAction.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject()
+                || attackButtonAction.WasPressedThisFrame(); 
             _onReadJump = () => jumpAction.ReadValue<float>() > 0 || moveAction.ReadValue<Vector2>().y >= SENSITIVITY;
-            // if (SystemInfo.deviceType == DeviceType.Handheld)
-            // {
-            //     _onReadJump = () => moveAction.ReadValue<Vector2>().y > 0.5f;
-            // }
-            // else
-            // {
-            //     _onReadJump = () => jumpAction.ReadValue<float>() > 0;
-            // }
+            optionsAction.started += _ => _onOptions.OnNext(Unit.Default);
         }
-
-        // private Observable<bool> _moveCanceled = Observable.Create<bool>(sub => {
-        //     Action<UnityEngine.InputSystem.InputAction.CallbackContext> subObserver = (e) => sub.OnNext(true);
-        //     _playerInput.Player.Move.canceled += subObserver;
-        //     return Disposable.Create(() => _playerInput.Player.Move.canceled -= subObserver);
-        // });
     }
 }

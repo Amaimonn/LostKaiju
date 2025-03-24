@@ -43,10 +43,10 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
         {
             // var airResistanceMultiplier = 1;//_checkIsGrounded() ? 1f : _parameters.AirMultiplier;
             var clearSpeed = xMagnitude * _parameters.WalkSpeed;// * airResistanceMultiplier;
-            var speedDifference = clearSpeed - _rigidbody.linearVelocityX;
+            var speedDifference = clearSpeed - _rigidbody.velocity.x;
             var definedAcceleration = Mathf.Abs(clearSpeed) > 0.01f ? _parameters.Acceleration : _parameters.Deceleration;
             
-            _rigidbody.AddForceX(definedAcceleration * speedDifference);
+            _rigidbody.AddForce(new Vector2(definedAcceleration * speedDifference, 0), ForceMode2D.Force);
         }
     }
 }

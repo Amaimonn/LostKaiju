@@ -12,7 +12,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HeroSelectionView : PopUpToolkitView<HeroSelectionViewModel>
     {
+        [SerializeField] private string _heroSelectionTitleName;
         [SerializeField] private string _completeButtonName;
+        [SerializeField] private string _selectedHeroLabelName;
         [SerializeField] private string _heroesListName;
         [SerializeField] private string _heroDescriptionName;
         [SerializeField] private string _selectedImageName;
@@ -28,9 +30,12 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private Button _completeButton;
         private ScrollView _heroesList;
+        private Label _selectedHeroName;
         private Label _heroDescription;
         private VisualElement _selectedSlot;
         private Dictionary<string, VisualElement> _heroSlotsMap;
+        private SerialDisposable _nameSerialDisposable = new();
+        private SerialDisposable _descriptionSerialDisposable = new();
 
         protected override void OnAwake()
         {
@@ -38,6 +43,11 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _completeButton = Root.Q<Button>(name: _completeButtonName);
             _heroesList = Root.Q<ScrollView>(name: _heroesListName);
             _heroDescription = Root.Q<Label>(name: _heroDescriptionName);
+            _selectedHeroName = Root.Q<Label>(name: _selectedHeroLabelName);
+
+            Root.Q<Label>(name: _heroSelectionTitleName).LocalizeText(Tables.UI, "choose_your_hero");
+
+            _completeButton.LocalizeText(Tables.UI, "pick").AddTo(_disposables);
         }
 
         protected override void OnBind(HeroSelectionViewModel viewModel)
@@ -62,7 +72,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 {
                     var heroSlot = _heroSlot.CloneTree();
                     var heroLabel = heroSlot.Q<Label>(name: _heroLabelName);
-                    heroLabel.LocalizeText(Tables.HEROES, heroData.Name);
+                    heroLabel.LocalizeText(Tables.HEROES, heroData.Name).AddTo(_disposables);
                     heroSlot.RegisterCallback<ClickEvent>(_ => ViewModel.PreviewHeroSlot(heroData.Id));
                     _heroesList.Add(heroSlot);
                     _heroSlotsMap[heroData.Id] = heroSlot.Q<VisualElement>(name: _heroSlotName);
@@ -71,11 +81,12 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
             ViewModel.CurrentHeroDataPreview.Subscribe(OnHeroPreviewed).AddTo(_disposables);
 
-            _completeButton.RegisterCallbackOnce<ClickEvent>(CompleteSelection);
+            _completeButton.RegisterCallback<ClickEvent>(CompleteSelection);
         }
         
         private void CompleteSelection(ClickEvent clickEvent)
         {
+            _completeButton.UnregisterCallback<ClickEvent>(CompleteSelection);
             ViewModel.CompleteSelection();
         }
 
@@ -86,8 +97,15 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 _selectedSlot?.RemoveFromClassList(_heroSlotSelectedClass);
                 _selectedSlot = _heroSlotsMap[heroData.Id];
                 _selectedSlot.AddToClassList(_heroSlotSelectedClass);
-                _heroDescription.LocalizeText(Tables.HEROES, heroData.Description);
+                _nameSerialDisposable.Disposable = _selectedHeroName.LocalizeText(Tables.HEROES, heroData.Name);
+                _descriptionSerialDisposable.Disposable = _heroDescription.LocalizeText(Tables.HEROES, heroData.Description);
             }
+        }
+
+        public override void Dispose()
+        {
+            _descriptionSerialDisposable?.Dispose();
+            base.Dispose();
         }
     }
 }

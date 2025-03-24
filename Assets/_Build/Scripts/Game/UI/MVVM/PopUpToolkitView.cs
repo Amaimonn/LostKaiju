@@ -26,12 +26,14 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
         {
             base.OnBind(viewModel);
 
-            _closeButton?.RegisterCallbackOnce<ClickEvent>(StartClosing);
-            _closeBackground?.RegisterCallbackOnce<ClickEvent>(StartClosing);
+            _closeButton?.RegisterCallback<ClickEvent>(StartClosing);
+            _closeBackground?.RegisterCallback<ClickEvent>(StartClosing);
         }
 
         protected virtual void StartClosing(ClickEvent clickEvent)
         {
+            _closeButton?.UnregisterCallback<ClickEvent>(StartClosing);
+            _closeBackground?.UnregisterCallback<ClickEvent>(StartClosing);
             ViewModel.StartClosing();
         }
     }

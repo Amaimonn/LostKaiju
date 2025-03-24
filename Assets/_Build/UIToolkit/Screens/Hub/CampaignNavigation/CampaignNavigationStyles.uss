@@ -50,7 +50,7 @@
     padding-left: 10px;
 }
 
-.missions-content__label {
+.campaign__title {
     height: 60px;
     font-size: 60px;
     color: rgb(255, 255, 255);
@@ -99,7 +99,7 @@
 }
 
 .close-button {
-    height: 45px;
+    height: 60px;
     width: 70px;
     align-self: flex-end;
     font-size: 40px;
@@ -122,9 +122,10 @@
 }
 
 .panel__bottom-bar {
-    flex-grow: 1;
+    flex-grow: 0;
     align-content: flex-end;
-    max-height: 60px;
+    height: 80px;
+    justify-content: flex-end;
 }
 
 .start-button {
@@ -145,6 +146,7 @@
     border-top-color: rgb(180, 180, 180);
     border-bottom-color: rgb(180, 180, 180);
     text-shadow: 0 3px 0 rgb(0, 0, 0);
+    height: 70px;
 }
 
 .start-button:hover {

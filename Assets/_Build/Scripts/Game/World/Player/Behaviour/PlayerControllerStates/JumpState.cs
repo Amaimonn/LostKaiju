@@ -28,8 +28,8 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
 
         private void Jump()
         {
-            _rigidbody.linearVelocityY = 0;
-            _rigidbody.AddForceY(_parameters.Force, ForceMode2D.Impulse);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+            _rigidbody.AddForce(new Vector2(0, _parameters.Force), ForceMode2D.Impulse);
         }    
     }
 }

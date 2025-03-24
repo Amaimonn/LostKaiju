@@ -54,7 +54,7 @@ namespace LostKaiju.Game.World.Agents
             }
             else
             {
-                _rigidbody.linearVelocityX = _speed * Mathf.Sign(_vectorToDestinationPoint.x);
+                _rigidbody.velocity =  new Vector2(_speed * Mathf.Sign(_vectorToDestinationPoint.x), _rigidbody.velocity.y);
             }
         }
 

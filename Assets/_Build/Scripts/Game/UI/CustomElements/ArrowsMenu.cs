@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace LostKaiju.Game.UI.CustomElements
 {
-    [UxmlElement]
+    // [UxmlElement]
     public partial class ArrowsMenu : VisualElement
     {
         private string[] _options = Array.Empty<string>();
 
-        [UxmlAttribute("options")]
+        // [UxmlAttribute("options")]
         public string[] Options
         {
             get => _options;

@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace LostKaiju.Game.UI.CustomElements
 {
-    [UxmlElement]
+    // [UxmlElement]
     public partial class DoorElement : VisualElement
     {
         public DoorElement()

@@ -1,39 +1,35 @@
-<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/_Build/UIToolkit/Screens/Hub/HeroSelection/HeroSelectionStyles.uss?fileID=7433441132597879392&amp;guid=25df8ffcff20b614487f7b58aa63c5c4&amp;type=3#HeroSelectionStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/BackgroundStyles.uss?fileID=7433441132597879392&amp;guid=69d87b7304f02224eb50265f2135d43b&amp;type=3#BackgroundStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/WrapperStyles.uss?fileID=7433441132597879392&amp;guid=9a9cfa38e9224cf429311315995d9e85&amp;type=3#WrapperStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/LabelStyles.uss?fileID=7433441132597879392&amp;guid=33d8b22ae8b90ba4780c5513c6218f70&amp;type=3#LabelStyles" />
-    <engine:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
+    <ui:VisualElement name="OverlayImage" class="overlay-image background-full-stretch" />
     <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" picking-mode="Ignore" class="wrapper-base wrapper">
-        <engine:VisualElement name="Content" class="hero-selection-content">
-            <engine:VisualElement name="TopBar" class="top-bar">
-                <engine:Button text="←" name="ExitButton" class="exit-button" />
-                <engine:Label name="HeroSelectionTitle" class="view__title hero-selection-title">
-                    <Bindings>
-                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(1687231709184)" />
-                    </Bindings>
-                </engine:Label>
-            </engine:VisualElement>
-            <engine:VisualElement name="MainContainer" class="main-container">
-                <engine:ScrollView name="HeroesList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview" />
-                <engine:VisualElement name="PreviewPanel" class="preview-panel">
-                    <engine:Label text="BLANKO" name="SelectedName" class="selected-name" />
-                    <engine:VisualElement name="SelectedPreview" class="selected-preview__frame">
-                        <engine:VisualElement name="SelectedImage" class="selected-preview__image" style="flex-grow: 1;" />
-                    </engine:VisualElement>
-                    <engine:Button text="START" name="StartButton" class="start-button" />
-                </engine:VisualElement>
-                <engine:VisualElement name="InfoPanel" class="info-panel">
-                    <engine:Label text="STATS" name="InfoTitle" class="info-title" />
-                    <engine:VisualElement name="StatsContainer" class="stats-container">
-                        <engine:Label text="Agility: 85" name="Stat1" class="stat-text" />
-                        <engine:Label text="Strength: 60" name="Stat2" class="stat-text" />
-                        <engine:Label text="Defense: 45" name="Stat3" class="stat-text" />
-                    </engine:VisualElement>
-                    <engine:Label text="A stealthy assassin trained in the arts of shadow manipulation." name="HeroDescription" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="description-text" />
-                    <engine:VisualElement name="DecorAccent" class="decor-accent" />
-                </engine:VisualElement>
-            </engine:VisualElement>
-        </engine:VisualElement>
+        <ui:VisualElement name="Content" class="hero-selection-content">
+            <ui:VisualElement name="TopBar" class="top-bar">
+                <ui:Button text="←" name="ExitButton" class="exit-button" />
+                <ui:Label name="HeroSelectionTitle" text="CHOOSE YOUR HERO" enable-rich-text="false" class="view__title hero-selection-title" />
+            </ui:VisualElement>
+            <ui:VisualElement name="MainContainer" class="main-container">
+                <ui:ScrollView name="HeroesList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview" />
+                <ui:VisualElement name="PreviewPanel" class="preview-panel">
+                    <ui:Label name="SelectedHeroName" enable-rich-text="false" class="selected-name" />
+                    <ui:VisualElement name="SelectedPreview" class="selected-preview__frame">
+                        <ui:VisualElement name="SelectedImage" class="selected-preview__image" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                    <ui:Button text="START" name="StartButton" enable-rich-text="false" class="start-button" />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoPanel" class="info-panel">
+                    <ui:Label text="STATS" name="InfoTitle" class="info-title" />
+                    <ui:VisualElement name="StatsContainer" class="stats-container">
+                        <ui:Label text="Agility: 85" name="Stat1" class="stat-text" />
+                        <ui:Label text="Strength: 60" name="Stat2" class="stat-text" />
+                        <ui:Label text="Defense: 45" name="Stat3" class="stat-text" />
+                    </ui:VisualElement>
+                    <ui:Label text="..." name="HeroDescription" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="description-text" />
+                    <ui:VisualElement name="DecorAccent" class="decor-accent" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
-</engine:UXML>
+</ui:UXML>
