@@ -24,7 +24,7 @@
                             <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54113250885632)" />
                         </Bindings>
                     </engine:Button>
-                    <engine:Button name="ResetButton" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="cancel-button">
+                    <engine:Button name="CancelButton" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="cancel-button">
                         <Bindings>
                             <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(54183685832704)" />
                         </Bindings>

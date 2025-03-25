@@ -68,7 +68,7 @@ namespace LostKaiju.Services.Inputs
         public Observable<Unit> OnEscape => _onEscape;
         public Observable<Unit> OnOptions => _onOptions;
 
-        private const float SENSITIVITY = 0.5f;
+        private const float SENSITIVITY = 0.2f;
         private readonly Func<Vector2> _onReadMove;
         private readonly Func<bool> _onReadJump;
         private readonly Func<bool> _onReadDash;

@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: WorldUI_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: d92bb16e702195c40b2d3e7b7d0ce276, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 8826437632
+    m_Localized: Movement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 473597263872
+    m_Localized: "\rMove using the [A] and [D] keys"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1264823353344
+    m_Localized: Jump
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1314492301312
+    m_Localized: "\rPress [Space] to jump"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9005050675200
+    m_Localized: OR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2143475515392
+    m_Localized: Use the [joystick] to move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3629202849792
+    m_Localized: "\rUse the button to jump"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4598129016832
+    m_Localized: "\rUse the button to attack"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4508983279616
+    m_Localized: Press the [left mouse button] to attack
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -572,6 +572,7 @@ MonoBehaviour:
   _hubViewPrefab: {fileID: 8487078999073905098, guid: 54a37f07a032bed49a3817af16f47388, type: 3}
   _heroRenderTextureSetter: {fileID: 1074159507}
   _heroPreviewTransform: {fileID: 149571723}
+  _hubMusic: {fileID: 8300000, guid: 0246f8d483722754bb8eede562314416, type: 3}
 --- !u!4 &1736941828
 Transform:
   m_ObjectHideFlags: 0

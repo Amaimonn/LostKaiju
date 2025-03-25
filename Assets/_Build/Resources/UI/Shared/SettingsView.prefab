@@ -48,7 +48,7 @@ MonoBehaviour:
   _closeButtonName: CloseButton
   _closeBackgroundName: OverlayImage
   _applyButtonName: ApplyButton
-  _cancelChangesButtonName: CancelBubbot
+  _cancelChangesButtonName: CancelButton
   _sectionsRootClass: settings__tab-view
   _sectionScrollViewAsset: {fileID: 9197481963319205126, guid: 4b0541e5f3f10f54db0677248c37ad02, type: 3}
   _settingBarLabelClass: setting-bar__label

@@ -36,6 +36,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d92bb16e702195c40b2d3e7b7d0ce276
+    m_Address: Assets/_Build/ProjectSettings/Localization/Tables/WorldUI Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 84f07bf008d597c4fad101c11f19561c, type: 2}
   m_SchemaSet:

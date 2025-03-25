@@ -22416,6 +22416,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2483800664717017159, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
+      propertyPath: far clip plane
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3274025506179469849, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
       propertyPath: m_Name
       value: GameplayMainCamera
