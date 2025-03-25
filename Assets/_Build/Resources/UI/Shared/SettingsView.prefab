@@ -46,9 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualTreeAsset: {fileID: 9197481963319205126, guid: 197466a349430b44bafec38582a390d0, type: 3}
   _closeButtonName: CloseButton
+  _closeBackgroundName: OverlayImage
   _applyButtonName: ApplyButton
-  _resetButtonName: ResetButton
+  _cancelChangesButtonName: CancelBubbot
   _sectionsRootClass: settings__tab-view
+  _sectionScrollViewAsset: {fileID: 9197481963319205126, guid: 4b0541e5f3f10f54db0677248c37ad02, type: 3}
   _settingBarLabelClass: setting-bar__label
   _sliderSettingBarAsset: {fileID: 9197481963319205126, guid: 180218f9a08027441a350635e4c7e265, type: 3}
   _toggleSettingBarAsset: {fileID: 9197481963319205126, guid: 07df10da215826f4c85f17e70ac58070, type: 3}

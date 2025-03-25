@@ -12,23 +12,28 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SettingsView : PopUpToolkitView<SettingsViewModel>
     {
+        [Header("UIElements")]
         [SerializeField] private string _applyButtonName;
-        [SerializeField] private string _resetButtonName;
+        [SerializeField] private string _cancelChangesButtonName;
         [SerializeField] private string _sectionsRootClass;
-        [SerializeField] private string _scrollViewClass;
+
+        [Header("Sections"), Space(4)]
+        [SerializeField] private VisualTreeAsset _sectionScrollViewAsset;
+        
+        [Header("Controls"), Space(4)]
         [SerializeField] private string _settingBarLabelClass;
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
 
         private Button _applyButton;
-        private Button _resetButton;
+        private Button _cancelChangesButton;
         // private bool _isClosing = false;
 
         protected override void OnAwake()
         {
             base.OnAwake();
             _applyButton = Root.Q<Button>(name: _applyButtonName);
-            _resetButton = Root.Q<Button>(name: _resetButtonName);
+            _cancelChangesButton = Root.Q<Button>(name: _cancelChangesButtonName);
         }
 
         protected override void OnBind(SettingsViewModel viewModel)
@@ -36,7 +41,12 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             base.OnBind(viewModel);
             InitSections();
             _applyButton.RegisterCallback<ClickEvent>(ApplyChanges);
-            _resetButton.RegisterCallback<ClickEvent>(ResetSettings);
+            _cancelChangesButton.RegisterCallback<ClickEvent>(CancelChanges);
+            ViewModel.IsAnyChanges.Subscribe(x => 
+            {
+                _applyButton.SetEnabled(x);
+                _cancelChangesButton.SetEnabled(x);
+            });
         }
 
         private void InitSections()
@@ -94,8 +104,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private ScrollView CreateScrollView(VisualElement parentSection)
         {
-            var scrollView = new ScrollView();
-            scrollView.AddToClassList(_scrollViewClass);
+            var scrollViewConteiner = _sectionScrollViewAsset.CloneTree();//new ScrollView();
+            var scrollView = scrollViewConteiner.Q<ScrollView>();
             parentSection.Add(scrollView);
 
             return scrollView;
@@ -175,9 +185,10 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             ViewModel.ApplyChanges();
         }
 
-        private void ResetSettings(ClickEvent clickEvent)
+        private void CancelChanges(ClickEvent clickEvent)
         {
-            ViewModel.ResetCurrentSectionSettings();
+            // ViewModel.ResetCurrentSectionSettings();
+            ViewModel.CancelUnappliedChanges();
         }
     }
 }

@@ -7,8 +7,8 @@
     <LostKaiju.Game.UI.CustomElements.SafeAreaRoot name="Wrapper" picking-mode="Ignore" class="wrapper-base wrapper">
         <engine:VisualElement name="Content" class="hero-selection-content">
             <engine:VisualElement name="TopBar" class="top-bar">
-                <engine:Button text="←" name="ExitButton" class="exit-button" />
-                <engine:Label name="HeroSelectionTitle" class="view__title hero-selection-title">
+                <engine:Button text="←" name="ExitButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="exit-button" />
+                <engine:Label name="HeroSelectionTitle" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="view__title hero-selection-title">
                     <Bindings>
                         <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(1687231709184)" />
                     </Bindings>
@@ -17,11 +17,15 @@
             <engine:VisualElement name="MainContainer" class="main-container">
                 <engine:ScrollView name="HeroesList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview" />
                 <engine:VisualElement name="PreviewPanel" class="preview-panel">
-                    <engine:Label text="BLANKO" name="SelectedName" class="selected-name" />
+                    <engine:Label text="BLANKO" name="SelectedName" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="selected-name" />
                     <engine:VisualElement name="SelectedPreview" class="selected-preview__frame">
                         <engine:VisualElement name="SelectedImage" class="selected-preview__image" style="flex-grow: 1;" />
                     </engine:VisualElement>
-                    <engine:Button text="START" name="StartButton" class="start-button" />
+                    <engine:Button text="START" name="StartButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="start-button">
+                        <Bindings>
+                            <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(3552979090718720)" />
+                        </Bindings>
+                    </engine:Button>
                 </engine:VisualElement>
                 <engine:VisualElement name="InfoPanel" class="info-panel">
                     <engine:Label text="STATS" name="InfoTitle" class="info-title" />

@@ -41,9 +41,9 @@
 }
 
 .exit-button {
-    width: 60px;
-    height: 60px;
-    font-size: 32px;
+    width: 120px;
+    height: 64px;
+    font-size: 60px;
     background-color: rgb(100, 100, 100);
     color: rgb(255, 255, 255);
     border-radius: 50%;
@@ -65,11 +65,12 @@
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
+    padding-bottom: 16px;
 }
 
 .exit-button:hover {
     scale: 1.1;
-    font-size: 42px;
+    font-size: 80px;
     border-left-color: rgb(189, 189, 189);
     border-right-color: rgb(189, 189, 189);
     border-top-color: rgb(189, 189, 189);

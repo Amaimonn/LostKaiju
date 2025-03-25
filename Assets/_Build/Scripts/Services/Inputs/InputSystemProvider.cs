@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using R3;
-
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using R3;
 
 namespace LostKaiju.Services.Inputs
 {
@@ -84,27 +84,15 @@ namespace LostKaiju.Services.Inputs
             var jumpAction = InputSystem.actions.FindAction("Jump");
             var dashAction = InputSystem.actions.FindAction("Dash");
             var attackAction = InputSystem.actions.FindAction("Attack");
+            var attackButtonAction = InputSystem.actions.FindAction("AttackButton");
             // InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
             InputSystem.actions.FindAction("Options").started += _ => _onOptions.OnNext(Unit.Default);
 
             _onReadMove = moveAction.ReadValue<Vector2>;
             _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
-            _onReadAttack = attackAction.WasPressedThisFrame; // () => attackAction.ReadValue<float>() > 0;
+            _onReadAttack = () => attackAction.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject()
+                || attackButtonAction.WasPressedThisFrame(); 
             _onReadJump = () => jumpAction.ReadValue<float>() > 0 || moveAction.ReadValue<Vector2>().y >= SENSITIVITY;
-            // if (SystemInfo.deviceType == DeviceType.Handheld)
-            // {
-            //     _onReadJump = () => moveAction.ReadValue<Vector2>().y > 0.5f;
-            // }
-            // else
-            // {
-            //     _onReadJump = () => jumpAction.ReadValue<float>() > 0;
-            // }
         }
-
-        // private Observable<bool> _moveCanceled = Observable.Create<bool>(sub => {
-        //     Action<UnityEngine.InputSystem.InputAction.CallbackContext> subObserver = (e) => sub.OnNext(true);
-        //     _playerInput.Player.Move.canceled += subObserver;
-        //     return Disposable.Create(() => _playerInput.Player.Move.canceled -= subObserver);
-        // });
     }
 }

@@ -14,8 +14,8 @@
     align-self: center;
     align-content: stretch;
     align-items: stretch;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: auto;
+    margin-bottom: auto;
     padding-top: 0;
     padding-right: 0;
     padding-bottom: 0;
@@ -39,7 +39,7 @@
     margin-bottom: 20px;
 }
 
-.settings__label {
+.settings__title {
     -unity-text-align: upper-center;
     min-height: 40px;
 }
@@ -59,6 +59,14 @@
     -unity-font-style: bold;
     -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
     margin-top: 4px;
+    border-left-color: rgb(47, 47, 47);
+    border-right-color: rgb(47, 47, 47);
+    border-top-color: rgb(47, 47, 47);
+    border-bottom-color: rgb(47, 47, 47);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
 }
 
 .settings__tab-view {
@@ -131,6 +139,8 @@
     justify-content: flex-end;
     margin-top: auto;
     align-items: center;
+    height: auto;
+    flex-shrink: 0;
 }
 
 .apply-button {
@@ -147,12 +157,20 @@
     padding-bottom: 2px;
     margin-bottom: 16px;
     min-width: 200px;
+    border-left-color: rgb(47, 47, 47);
+    border-right-color: rgb(47, 47, 47);
+    border-top-color: rgb(47, 47, 47);
+    border-bottom-color: rgb(47, 47, 47);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
 }
 
-.reset-button {
+.cancel-button {
     padding: 10px 20px;
-    font-size: 20px;
-    color: white;
+    font-size: 32px;
+    color: rgb(180, 180, 180);
     background-color: rgba(0, 0, 0, 0);
     border-left-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(0, 0, 0, 0);
@@ -162,4 +180,21 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
+    transition-property: color, scale;
+    transition-duration: 0s, 0.1s;
+    overflow: visible;
+}
+
+.cancel-button:enabled:hover {
+    color: rgb(255, 255, 255);
+    scale: 1.1 1;
+}
+
+.scroller-wrapper {
+    height: 800px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    flex-grow: 1;
 }

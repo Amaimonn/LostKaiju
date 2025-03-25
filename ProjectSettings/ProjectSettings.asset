@@ -583,6 +583,7 @@ PlayerSettings:
   webWasm2023: 0
   scriptingDefineSymbols:
     Standalone: MOBILE_BUILD
+    WebGL: PLUGIN_YG_2;YandexGamesPlatform_yg;Authorization_yg;EnvirData_yg;InterstitialAdv_yg;Storage_yg;TMP_YG2;NJSON_YG2
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

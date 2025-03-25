@@ -1,0 +1,4 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ScrollViewStyles.uss?fileID=7433441132597879392&amp;guid=702494cf990296343b1a84c82ad0ee75&amp;type=3#ScrollViewStyles" />
+    <engine:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview" />
+</engine:UXML>

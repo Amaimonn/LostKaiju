@@ -12,12 +12,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 {
     public class HeroSelectionView : PopUpToolkitView<HeroSelectionViewModel>
     {
+        [Header("UIElements")]
         [SerializeField] private string _completeButtonName;
         [SerializeField] private string _heroesListName;
+        [SerializeField] private string _heroNameName;
         [SerializeField] private string _heroDescriptionName;
         [SerializeField] private string _selectedImageName;
 
-        [Space(4)]
+        [Header("Slots"), Space(4)]
         [SerializeField] private VisualTreeAsset _heroSlot;
         [SerializeField] private string _heroSlotName;
         [SerializeField] private string _heroLabelName;
@@ -28,6 +30,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private Button _completeButton;
         private ScrollView _heroesList;
+        private Label _heroName;
         private Label _heroDescription;
         private VisualElement _selectedSlot;
         private Dictionary<string, VisualElement> _heroSlotsMap;
@@ -37,6 +40,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             base.OnAwake();
             _completeButton = Root.Q<Button>(name: _completeButtonName);
             _heroesList = Root.Q<ScrollView>(name: _heroesListName);
+            _heroName = Root.Q<Label>(name: _heroNameName);
             _heroDescription = Root.Q<Label>(name: _heroDescriptionName);
         }
 
@@ -86,6 +90,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 _selectedSlot?.RemoveFromClassList(_heroSlotSelectedClass);
                 _selectedSlot = _heroSlotsMap[heroData.Id];
                 _selectedSlot.AddToClassList(_heroSlotSelectedClass);
+                _heroName.LocalizeText(Tables.HEROES, heroData.Name);
                 _heroDescription.LocalizeText(Tables.HEROES, heroData.Description);
             }
         }

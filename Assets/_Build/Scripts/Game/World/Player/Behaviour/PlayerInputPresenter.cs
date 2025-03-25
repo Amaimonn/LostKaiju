@@ -110,7 +110,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
             {
                 new SameForMultipleTransition<AttackState>(
                     () => _inputProvider.GetAttack && attackState.IsAttackReady.CurrentValue &&  // checks Canvas UI only
-                        attackCooldownTimer.IsCompleted && !EventSystem.current.IsPointerOverGameObject(),
+                        attackCooldownTimer.IsCompleted,
                     new Type[] { typeof(IdleState), typeof(WalkState), typeof(JumpState), typeof(DashState) }),
                 new FiniteTransition<AttackState, IdleState>(() => true),
                 new FiniteTransition<WalkState, JumpState>(() => !_jumpInputBufferTimer.IsCompleted && 
