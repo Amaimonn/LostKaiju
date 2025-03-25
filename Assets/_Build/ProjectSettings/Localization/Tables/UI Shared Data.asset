@@ -67,6 +67,10 @@ MonoBehaviour:
     m_Key: heroes
     m_Metadata:
       m_Items: []
+  - m_Id: 3333235720896512
+    m_Key: pick
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

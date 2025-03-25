@@ -70,6 +70,10 @@ MonoBehaviour:
     m_Localized: HEROES
     m_Metadata:
       m_Items: []
+  - m_Id: 3333235720896512
+    m_Localized: PICK
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
