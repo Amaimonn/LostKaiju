@@ -28,11 +28,13 @@ namespace LostKaiju.Infrastructure.Entry
             
             IEnumerator LoadEntryScene()
             {
-                yield return SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
+                if (SceneManager.GetActiveScene().name != Scenes.ENTRY_POINT)
+                    yield return SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
+                Debug.Log("Entry point scene loaded");
+                
                 yield return new WaitForSeconds(LOGO_TIME);
                 Object.FindAnyObjectByType<RootScope>().Build();
 
-                Debug.Log("Entry point scene loaded");
                 Object.Destroy(monoHook.gameObject);
             }
         }

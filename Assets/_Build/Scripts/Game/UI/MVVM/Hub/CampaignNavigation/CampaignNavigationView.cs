@@ -27,7 +27,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private string _panelWhiteBackgroundClass;
 
         [Header("SFX")]
-        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _buttonHoverSFX;
 
         [Space(3f)]

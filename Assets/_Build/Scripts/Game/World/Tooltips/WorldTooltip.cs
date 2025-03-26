@@ -25,7 +25,7 @@ public class WorldTooltip : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<IPlayerHero>(out var hero))
+        if (isActiveAndEnabled && collision.TryGetComponent<IPlayerHero>(out var hero))
         {
             if (_enteredHeroes.Count == 0)
             {
@@ -44,7 +44,7 @@ public class WorldTooltip : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<IPlayerHero>(out var hero))
+        if (isActiveAndEnabled && collision.TryGetComponent<IPlayerHero>(out var hero))
         {
             _enteredHeroes.Remove(hero);
             
@@ -54,7 +54,6 @@ public class WorldTooltip : MonoBehaviour
                 {
                     StopCoroutine(_currentFadeCoroutine);
                 }
-                
                 _currentFadeCoroutine = StartCoroutine(Fade(_currentAlpha, 0f, _fadeOutDuration, 
                     () => _activeHolder.SetActive(false)));
             }
