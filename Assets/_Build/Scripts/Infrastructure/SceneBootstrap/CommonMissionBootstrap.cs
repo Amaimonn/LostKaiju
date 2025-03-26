@@ -83,7 +83,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             _playerManager.Init(_sceneTransitionManager.ExitSignal);
 
             _postProcessingManager = new PostProcessingManager(_volume);
-            _postProcessingManager.BindSettings(Container.Resolve<SettingsModel>());
+            _postProcessingManager.BindFromSettings(Container.Resolve<SettingsModel>());
 
             _deathManager = new DeathManager(
                 _playerManager,

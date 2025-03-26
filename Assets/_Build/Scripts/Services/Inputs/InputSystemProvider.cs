@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using R3;
 
@@ -65,7 +64,9 @@ namespace LostKaiju.Services.Inputs
         public bool GetShift => _onReadDash();
 
         public bool GetAttack => _onReadAttack();
+
         public Observable<Unit> OnEscape => _onEscape;
+
         public Observable<Unit> OnOptions => _onOptions;
 
         private const float SENSITIVITY = 0.2f;
@@ -77,22 +78,27 @@ namespace LostKaiju.Services.Inputs
         private readonly ReactiveProperty<bool> _verticalCanceled = new(true);
         private readonly Subject<Unit> _onEscape = new();
         private readonly Subject<Unit> _onOptions = new();
+        private readonly KaijuInputActions _playerInputSystem = new();
 
         public InputSystemProvider()
         {
-            var moveAction = InputSystem.actions.FindAction("Move");
-            var jumpAction = InputSystem.actions.FindAction("Jump");
-            var dashAction = InputSystem.actions.FindAction("Dash");
-            var attackAction = InputSystem.actions.FindAction("Attack");
-            var attackButtonAction = InputSystem.actions.FindAction("AttackButton");
-            // InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
-            InputSystem.actions.FindAction("Options").started += _ => _onOptions.OnNext(Unit.Default);
+            _playerInputSystem.Enable();
+            
+            var gameplayActions = _playerInputSystem.Player;
+            gameplayActions.Options.started += _ => _onOptions.OnNext(Unit.Default);
 
-            _onReadMove = moveAction.ReadValue<Vector2>;
-            _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
-            _onReadAttack = () => attackAction.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject()
-                || attackButtonAction.WasPressedThisFrame(); 
-            _onReadJump = () => jumpAction.ReadValue<float>() > 0 || moveAction.ReadValue<Vector2>().y >= SENSITIVITY;
+            _onReadMove = gameplayActions.Move.ReadValue<Vector2>;
+            _onReadDash = gameplayActions.Dash.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
+
+            _onReadAttack = () => gameplayActions.Attack.WasPressedThisFrame() && 
+                !EventSystem.current.IsPointerOverGameObject() || 
+                gameplayActions.AttackButton.WasPressedThisFrame(); 
+
+            _onReadJump = () => gameplayActions.Jump.ReadValue<float>() > 0 ||
+                gameplayActions.Move.ReadValue<Vector2>().y >= SENSITIVITY;
+
+            // TEST
+            gameplayActions.Attack.started += _ => Debug.Log("Click");
         }
     }
 }

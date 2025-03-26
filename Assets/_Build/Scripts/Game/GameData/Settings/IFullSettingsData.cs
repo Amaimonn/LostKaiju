@@ -10,6 +10,7 @@ namespace LostKaiju.Game.GameData.Settings
         public ISliderSettingData BrightnessData { get; }
         public IToggleSettingData IsPostProcessingEnabledData { get; }
         public IToggleSettingData IsBloomEnabledData { get; }
+        public IToggleSettingData IsFilmGrainEnabledData { get; }
         public IToggleSettingData IsAntiAliasingEnabledData { get; }
     }
 }

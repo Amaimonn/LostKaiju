@@ -15,6 +15,7 @@ namespace LostKaiju.Game.GameData.Settings
         public readonly ReactiveProperty<int> Brightness;
         public readonly ReactiveProperty<bool> IsPostProcessingEnabled;
         public readonly ReactiveProperty<bool> IsBloomEnabled;
+        public readonly ReactiveProperty<bool> IsFilmGrainEnabled;
         public readonly ReactiveProperty<bool> IsAntiAliasingEnabled;
 #endregion
 
@@ -40,6 +41,9 @@ namespace LostKaiju.Game.GameData.Settings
 
             IsBloomEnabled = new ReactiveProperty<bool>(state.IsBloomEnabled);
             IsBloomEnabled.Skip(1).Subscribe(x => state.IsBloomEnabled = x);
+
+            IsFilmGrainEnabled = new ReactiveProperty<bool>(state.IsFilmGrainEnabled);
+            IsFilmGrainEnabled.Skip(1).Subscribe(x => state.IsFilmGrainEnabled = x);
 
             IsAntiAliasingEnabled = new ReactiveProperty<bool>(state.IsAntiAliasingEnabled);
             IsAntiAliasingEnabled.Skip(1).Subscribe(x => state.IsAntiAliasingEnabled = x);

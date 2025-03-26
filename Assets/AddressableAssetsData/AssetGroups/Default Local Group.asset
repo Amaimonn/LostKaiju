@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2194aaa1d066c124a9c2a05bd7a28f9d
+    m_Address: Scenes/Mission_1_5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d707286732c0b449abe59e953286a6a
     m_Address: Configs/Campaign/AllLocationsDataSO
     m_ReadOnly: 0
@@ -36,7 +41,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77576f4de7795e848a4cb7becab5d4d6
-    m_Address: Scenes/Mission_1_6
+    m_Address: Scenes/Mission_2_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -56,7 +61,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 885ee0c864c63a948b89ebb9e0e85ac2
-    m_Address: Scenes/Mission_1_3
+    m_Address: Scenes/Mission_2_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -75,8 +80,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc9812c9d135a5e4084f54c5134abd5c
+    m_Address: Scenes/Mission_1_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c47e89470b39964469074d353e5bd8cb
+    m_Address: Scenes/Mission_1_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cad3c4d2962572846a0d704e44027f7b
+    m_Address: Scenes/Mission_1_6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f222050f8b81e1d40bea52ea1d3ded66
-    m_Address: Scenes/Mission_1_5
+    m_Address: Scenes/Mission_2_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

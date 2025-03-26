@@ -48,6 +48,7 @@
     padding-right: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
+    translate: 0 0;
 }
 
 .missions-content__label {
@@ -95,11 +96,10 @@
     margin-bottom: 10px;
     padding-left: 7px;
     padding-right: 7px;
-    margin-left: 100px;
 }
 
 .close-button {
-    height: 45px;
+    height: 60px;
     width: 70px;
     align-self: flex-end;
     font-size: 40px;
@@ -200,6 +200,14 @@
     margin-right: 10px;
 }
 
+.wrapper {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    -unity-font-definition: url("project://database/Assets/_Build/UIToolkit/Fonts/BalsamiqSans-Regular.ttf?fileID=12800000&guid=3c7338fa8f25e0f4da90e17b96618de3&type=3#BalsamiqSans-Regular");
+}
+
 .missions-slider-button--right {
     margin-left: 10px;
 }
@@ -230,7 +238,7 @@
 
 .panel__white-background--enabled {
     background-color: rgba(255, 255, 255, 0.78);
-    rotate: -2deg;
+    rotate: -5deg;
     transition-property: rotate, background-color;
     transition-duration: 0.2s, 0.2s;
     transition-delay: 0.3s, 0s;
@@ -304,9 +312,16 @@
 
 .locations-tabs {
     flex-grow: 0;
-    width: 180px;
+    width: 300px;
     justify-content: center;
     position: relative;
     height: 100%;
     margin-right: -20px;
+}
+
+.vertical-layout {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }

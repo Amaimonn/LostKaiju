@@ -58,7 +58,7 @@
     height: 100%;
     -unity-text-align: middle-right;
     white-space: normal;
-    font-size: 18px;
+    font-size: 28px;
     color: rgb(255, 255, 255);
     margin-top: 0;
     margin-bottom: 0;

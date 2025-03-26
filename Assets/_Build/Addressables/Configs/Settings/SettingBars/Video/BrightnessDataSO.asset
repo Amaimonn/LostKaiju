@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BrightnessDataSO
   m_EditorClassIdentifier: 
   <Label>k__BackingField: brightness
-  <MinValue>k__BackingField: 0
-  <MaxValue>k__BackingField: 10
+  <MinValue>k__BackingField: -5
+  <MaxValue>k__BackingField: 5

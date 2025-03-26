@@ -31,7 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1314492301312
-    m_Localized: "\rPress [Space] to jump"
+    m_Localized: "\rPress [W] or [SPACE] to jump"
     m_Metadata:
       m_Items: []
   - m_Id: 9005050675200
@@ -39,11 +39,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2143475515392
-    m_Localized: Use the [joystick] to move
+    m_Localized: Use the [JOYSTICK] to move
     m_Metadata:
       m_Items: []
   - m_Id: 3629202849792
-    m_Localized: "\rUse the button to jump"
+    m_Localized: "\rUse the [JOYSTICK] or [BUTTON] to jump"
     m_Metadata:
       m_Items: []
   - m_Id: 4598129016832
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4508983279616
-    m_Localized: Press the [left mouse button] to attack
+    m_Localized: Press the [LEFT MOUSE BUTTON] to attack
     m_Metadata:
       m_Items: []
   references:

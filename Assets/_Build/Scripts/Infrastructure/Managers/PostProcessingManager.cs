@@ -4,6 +4,8 @@ using UnityEngine.Rendering.Universal;
 using R3;
 
 using LostKaiju.Game.GameData.Settings;
+using System.Drawing;
+using UnityEngine;
 
 namespace LostKaiju.Infrastructure.Managers
 {
@@ -17,7 +19,7 @@ namespace LostKaiju.Infrastructure.Managers
             _volume = volume;
         }
 
-        public void BindSettings(SettingsModel settingsModel)
+        public void BindFromSettings(SettingsModel settingsModel)
         {
             if (_volume == null) 
                 return;
@@ -30,6 +32,21 @@ namespace LostKaiju.Infrastructure.Managers
             {
                 settingsModel.IsBloomEnabled
                     .Subscribe(x => bloom.active = x)
+                    .AddTo(_disposables);
+            }
+
+            if (_volume.profile.TryGet<FilmGrain>(out var filmGrain))
+            {
+                settingsModel.IsFilmGrainEnabled
+                    .Subscribe(x => filmGrain.active = x)
+                    .AddTo(_disposables);
+            }
+
+            if (_volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
+            {
+                var volumeColor = colorAdjustments.colorFilter.value;
+                settingsModel.Brightness
+                    .Subscribe(x => colorAdjustments.colorFilter.value = volumeColor * Mathf.Pow(2, x / 5f))
                     .AddTo(_disposables);
             }
         }

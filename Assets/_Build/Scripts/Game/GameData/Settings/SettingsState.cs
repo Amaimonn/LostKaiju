@@ -13,9 +13,10 @@ namespace LostKaiju.Game.GameData.Settings
         public bool IsMusicEnabled;
         [Range(0, 10)] public int SfxVolume;
         public bool IsSfxEnabled;
-        public int Brightness;
+        [Range(-5, 5)] public int Brightness;
         public bool IsPostProcessingEnabled;
         public bool IsBloomEnabled;
+        public bool IsFilmGrainEnabled;
         public bool IsAntiAliasingEnabled;
 
         public SettingsState Copy()

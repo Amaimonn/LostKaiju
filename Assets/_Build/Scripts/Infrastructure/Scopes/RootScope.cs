@@ -26,6 +26,8 @@ namespace LostKaiju.Infrastructure.Scopes
         {
             DontDestroyOnLoad(gameObject);
 
+            builder.RegisterInstance<IInputProvider>(new InputSystemProvider());
+
             var monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
             DontDestroyOnLoad(monoHook);
             builder.RegisterInstance(monoHook);
@@ -34,7 +36,6 @@ namespace LostKaiju.Infrastructure.Scopes
             DontDestroyOnLoad(uiRootBinder);
             builder.RegisterInstance<IRootUIBinder>(uiRootBinder);
             
-            builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
             var defaultStateProvider = new DefaultStateSOProvider();
 #if UNITY_EDITOR || !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
             var serizlizer = new JsonUtilityAsyncSerializer();

@@ -13,6 +13,7 @@ namespace LostKaiju.Game.GameData.Settings
         public ISliderSettingData BrightnessData => _brightnessSliderDataSO;
         public IToggleSettingData IsPostProcessingEnabledData => _IsPostProcessingEnabledToggleDataSO;
         public IToggleSettingData IsBloomEnabledData => _IsBloomEnabledToggleDataSO;
+        public IToggleSettingData IsFilmGrainEnabledData => _IsFilmGrainEnabledToggleDataSO;
         public IToggleSettingData IsAntiAliasingEnabledData => _IsAntiAliasingEnabledToggleDataSO;
 
         [SerializeField] private SliderSettingDataSO _musicVolumeSliderDataSO;
@@ -20,6 +21,7 @@ namespace LostKaiju.Game.GameData.Settings
         [SerializeField] private SliderSettingDataSO _brightnessSliderDataSO;
         [SerializeField] private ToggleSettingDataSO _IsPostProcessingEnabledToggleDataSO;
         [SerializeField] private ToggleSettingDataSO _IsBloomEnabledToggleDataSO;
+        [SerializeField] private ToggleSettingDataSO _IsFilmGrainEnabledToggleDataSO;
         [SerializeField] private ToggleSettingDataSO _IsAntiAliasingEnabledToggleDataSO;
     }
 }
