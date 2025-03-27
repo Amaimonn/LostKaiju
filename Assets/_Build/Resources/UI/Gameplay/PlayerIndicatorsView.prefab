@@ -412,6 +412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5832044697614381678}
   - component: {fileID: 6461702662535342388}
+  - component: {fileID: 5036679463910129583}
   m_Layer: 5
   m_Name: PlayerIndicatorsView
   m_TagString: Untagged
@@ -454,6 +455,22 @@ MonoBehaviour:
   _healthBarImage: {fileID: 4266092405309412591}
   _maxHealthText: {fileID: 5031224469915549947}
   _currentHealthText: {fileID: 5013018005984221205}
+--- !u!114 &5036679463910129583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4916736178721317469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8bccb2d58e3084fa95f74374d46d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _topScale: 1
+  _rightScale: 0
+  _bottomScale: 0
+  _leftScale: 1
 --- !u!1 &5011036027879439201
 GameObject:
   m_ObjectHideFlags: 0

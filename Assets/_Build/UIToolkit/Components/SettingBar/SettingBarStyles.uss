@@ -58,6 +58,12 @@
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
     background-color: rgb(58, 58, 58);
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.setting-bar__slider .unity-base-slider__dragger:hover {
+    scale: 1.07 1.07;
 }
 
 .setting-bar__slider .unity-base-slider__tracker {
@@ -74,6 +80,11 @@
     margin-right: 10px;
     height: 14px;
     margin-top: -7px;
+}
+
+.setting-bar__slider .unity-base-text-field {
+    width: 70px;
+    overflow: visible;
 }
 
 .setting-bar__slider .unity-text-field .unity-text-element {
@@ -109,7 +120,11 @@
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    background-image: url("project://database/Assets/_Build/Art/Images/UI/panel_smooth_edges.png?fileID=2800000&guid=d7e39acfdfda9a94ea0100ebdaed2c6f&type=3#panel_smooth_edges");
+    transition-property: -unity-background-image-tint-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-bounce;
 }
 
 .setting-bar__toggle .unity-toggle__input {
@@ -134,7 +149,7 @@
 }
 
 .setting-bar__toggle .unity-toggle__input:checked > .unity-toggle__checkmark {
-    background-image: url("project://database/Assets/_Build/Art/Images/UI/panel_smooth_edges.png?fileID=2800000&guid=d7e39acfdfda9a94ea0100ebdaed2c6f&type=3#panel_smooth_edges");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .setting-bar__slider .unity-base-field__input {

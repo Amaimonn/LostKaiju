@@ -23,6 +23,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private VisualTreeAsset _heroSlot;
         [SerializeField] private string _heroSlotName;
         [SerializeField] private string _heroLabelName;
+        [SerializeField] private string _heroImageName;
         [SerializeField] private string _heroSlotSelectedClass;
 
         // [Space(4)]
@@ -67,6 +68,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     var heroSlot = _heroSlot.CloneTree();
                     var heroLabel = heroSlot.Q<Label>(name: _heroLabelName);
                     heroLabel.LocalizeText(Tables.HEROES, heroData.Name);
+                    var heroImage = heroSlot.Q<VisualElement>(name: _heroImageName);
+                    heroImage.style.backgroundImage = new StyleBackground(heroData.PreviewSprite); // TODO: individual images
+                    heroImage.style.unityBackgroundImageTintColor = new StyleColor(heroData.Tint); // TODO: don`t use it
                     heroSlot.RegisterCallback<ClickEvent>(_ => ViewModel.PreviewHeroSlot(heroData.Id));
                     _heroesList.Add(heroSlot);
                     _heroSlotsMap[heroData.Id] = heroSlot.Q<VisualElement>(name: _heroSlotName);

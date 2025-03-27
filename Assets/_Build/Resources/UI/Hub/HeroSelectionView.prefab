@@ -55,4 +55,5 @@ MonoBehaviour:
   _heroSlot: {fileID: 9197481963319205126, guid: 3a52cfac061be96498d7d9c7749e1ed0, type: 3}
   _heroSlotName: HeroSlot
   _heroLabelName: HeroName
+  _heroImageName: HeroImagePreview
   _heroSlotSelectedClass: hero-slot--selected

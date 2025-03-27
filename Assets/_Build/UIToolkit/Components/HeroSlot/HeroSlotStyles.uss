@@ -38,6 +38,8 @@
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
+    background-size: cover;
+    background-position-y: top 0;
 }
 
 .hero-slot__preview:hover {
