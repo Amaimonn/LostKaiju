@@ -81,6 +81,10 @@
     border-left-width: 2px;
 }
 
+.exit-button:active {
+    scale: 0.95 0.95;
+}
+
 .main-container {
     display: flex;
     flex-direction: row;
