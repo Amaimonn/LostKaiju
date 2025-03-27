@@ -248,7 +248,7 @@ MonoBehaviour:
   _attackGameObject: {fileID: 8742296510251766752}
   _attackableMask:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 8321
   _attackProvider:
     _attackPaths:
     - {fileID: 11400000, guid: 84e369cb378102d4387f71bff6efba73, type: 2}

@@ -54,6 +54,22 @@ MonoBehaviour:
     m_Localized: Press the [LEFT MOUSE BUTTON] to attack
     m_Metadata:
       m_Items: []
+  - m_Id: 687813017780224
+    m_Localized: Don`t hug the spikes. They can hurt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 688504096473088
+    m_Localized: Spikes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 691429157945344
+    m_Localized: Faith
+    m_Metadata:
+      m_Items: []
+  - m_Id: 691839671255040
+    m_Localized: Believe, believe, believe...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

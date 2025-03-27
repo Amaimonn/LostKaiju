@@ -21,7 +21,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2194aaa1d066c124a9c2a05bd7a28f9d
-    m_Address: Scenes/Mission_1_5
+    m_Address: Scenes/Mission_1_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4b2bfb96f39d72c42b30f38fa01b362e
-    m_Address: Scenes/Mission_1_2
+    m_Address: Scenes/Mission_1_4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -80,13 +80,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bc9812c9d135a5e4084f54c5134abd5c
-    m_Address: Scenes/Mission_1_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c47e89470b39964469074d353e5bd8cb
-    m_Address: Scenes/Mission_1_4
+  - m_GUID: c4f0d67170cc0724f8b793177f1dfda7
+    m_Address: Scenes/Mission_1_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
