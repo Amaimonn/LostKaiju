@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82d8f411bf6bb4d8c263486e53d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackSound: {fileID: 0}
+  _attackSound: {fileID: 8300000, guid: cb2092240448ea140b7c5d8b3a35fbe6, type: 3}
   _deathSound: {fileID: 0}
   _onDamagedEffect: {fileID: 5775197665517268924}
 --- !u!1 &8546916067148935463

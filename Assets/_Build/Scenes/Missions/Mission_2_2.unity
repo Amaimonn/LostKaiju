@@ -1756,6 +1756,7 @@ MonoBehaviour:
   _subSceneTriggers: []
   _enemyInjector:
     _enemies: []
+    _enemiesContainer: {fileID: 590097174}
 --- !u!4 &843688258
 Transform:
   m_ObjectHideFlags: 0

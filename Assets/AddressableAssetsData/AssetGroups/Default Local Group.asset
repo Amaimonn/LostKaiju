@@ -85,8 +85,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cad3c4d2962572846a0d704e44027f7b
-    m_Address: Scenes/Mission_1_6
+  - m_GUID: d4856f33c9f4b2e4d8277453c88897a8
+    m_Address: Scenes/Mission_2_4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

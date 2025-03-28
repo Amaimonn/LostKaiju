@@ -38,7 +38,7 @@ namespace LostKaiju.Game.World.Enemy
             var healthModel = new HealthModel(healthState);
             var defencePresenter = new EnemyDefencePresenter(healthModel, _defenceData);
             defencePresenter.Bind(_creatureBinder);
-            defencePresenter.OnDeath.Take(1).Subscribe(_ => OnDeath());
+            defencePresenter.OnDeath.Take(1).Subscribe(_ => OnDeath()).AddTo(this);
             var healthViewModel = new HealthViewModel(healthModel);
             _healthView.Bind(healthViewModel);
         }

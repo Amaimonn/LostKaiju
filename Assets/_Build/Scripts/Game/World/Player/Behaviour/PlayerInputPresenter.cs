@@ -68,7 +68,10 @@ namespace LostKaiju.Game.World.Player.Behaviour
             // walk state
             var walkParameters = _controlsData.Walk;
             var walkState = new WalkState(walkParameters, _creature.Rigidbody, () => _inputProvider.GetHorizontal);
-            walkState.IsPositiveDirectionX.Subscribe(flipper.LookRight);
+            walkState.MoveDirectionX.Where(x => x != 0).Subscribe( x => 
+            {
+                flipper.LookRight(x > 0);
+            });
 
             // jump state
             var jumpParameters = _controlsData.Jump;

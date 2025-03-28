@@ -8,9 +8,9 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
 {
     public class WalkState : PlayerControllerState
     {
-        public Observable<bool> IsPositiveDirectionX => _isPositiveDirectionX;
+        public Observable<int> MoveDirectionX => _moveDirectionX;
 
-        protected ReactiveProperty<bool> _isPositiveDirectionX = new();
+        protected ReactiveProperty<int> _moveDirectionX = new();
         protected WalkParameters _parameters;
         protected Rigidbody2D _rigidbody;
         private readonly Func<float> _readHorizontalFunc;
@@ -28,7 +28,9 @@ namespace LostKaiju.Game.World.Player.Behaviour.PlayerControllerStates
             _readHorizontal = _readHorizontalFunc();
 
             if (_readHorizontal != 0)
-                _isPositiveDirectionX.Value = _readHorizontal > 0;
+                _moveDirectionX.Value = _readHorizontal > 0 ? 1 : -1;
+            else 
+                _moveDirectionX.Value = 0;
 
             HandleTransitions();
         }
