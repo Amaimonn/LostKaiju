@@ -15,3 +15,5 @@ MonoBehaviour:
   <Id>k__BackingField: yellorie
   <Name>k__BackingField: yellorie
   <Description>k__BackingField: yellorie_description
+  <Tint>k__BackingField: {r: 0.91823894, g: 0.8915395, b: 0.27431658, a: 1}
+  <PreviewSprite>k__BackingField: {fileID: 21300000, guid: f28c2da374646a743912cc3126a19ca2, type: 3}

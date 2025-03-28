@@ -25,7 +25,7 @@ public class WorldTooltip : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameObject.activeSelf && collision.TryGetComponent<IPlayerHero>(out var hero))
+        if (gameObject.activeSelf && enabled && collision.TryGetComponent<IPlayerHero>(out var hero))
         {
             if (_enteredHeroes.Count == 0)
             {
@@ -44,7 +44,7 @@ public class WorldTooltip : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (gameObject.activeSelf && collision.TryGetComponent<IPlayerHero>(out var hero))
+        if (gameObject.activeSelf && enabled && collision.TryGetComponent<IPlayerHero>(out var hero))
         {
             _enteredHeroes.Remove(hero);
             

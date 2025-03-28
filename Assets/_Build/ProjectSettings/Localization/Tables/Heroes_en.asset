@@ -39,23 +39,39 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 391053361152
-    m_Localized: This is Lost
+    m_Localized: "Quiet and enigmatic, Lost seems adrift in this world\u2014yet that
+      very quality makes him unpredictable. He seeks neither power nor destruction,
+      simply walking his own path as if following a call only he can hear. His eyes
+      hold a deep, almost melancholic resolve."
     m_Metadata:
       m_Items: []
   - m_Id: 699045298176
-    m_Localized: This is Azurie
+    m_Localized: "Sad yet deeply caring, Azure carries the weight of the world in
+      his silent gaze. He observes, calculates, and intervenes only when necessary\u2014but
+      when he does, it's always to protect. There's a quiet sorrow in his wisdom,
+      as if he's seen too much yet still chooses to shield others from the same pain."
     m_Metadata:
       m_Items: []
   - m_Id: 783371780096
-    m_Localized: This is Orith
+    m_Localized: "A storm given flesh, Orif burns with unchecked fury. He doesn\u2019t
+      fight for causes or ideals\u2014he fights because rage is the only language
+      left to him. There\u2019s no subtlety in his violence, only the raw, screaming
+      truth of a creature that refuses to be broken."
     m_Metadata:
       m_Items: []
   - m_Id: 817001709568
-    m_Localized: This is Noctis
+    m_Localized: "Dark and inscrutable, Noctis is like a living shadow. He rarely
+      appears, but when he does, an oppressive silence follows. His motives are unclear,
+      his actions seem illogical\u2014yet there\u2019s something terrifyingly deliberate
+      in every move he makes."
     m_Metadata:
       m_Items: []
   - m_Id: 971750555648
-    m_Localized: This is Yellorie
+    m_Localized: "Yellorie laughs where others weep. Jokes when the rest fall silent
+      in horror. His words are honed blades, his sarcasm\u2014a shield against the
+      world\u2019s absurdity. He won\u2019t risk his hide for some \"noble cause,\"
+      but let him see the strong prey on the weak\u2014oh, then you\u2019ll see it.
+      A cold fire ignites behind those yellow eyes."
     m_Metadata:
       m_Items: []
   references:

@@ -194,8 +194,14 @@
 
 .selected-preview__image {
     border-radius: 14px;
+    flex-grow: 0;
+    background-position-y: center 0;
+    height: 100%;
+    width: 800px;
+    background-size: contain;
+    align-items: auto;
+    align-self: center;
     -unity-background-scale-mode: scale-to-fit;
-    background-color: rgba(47, 47, 47, 0.31);
 }
 
 .selected-name {
@@ -285,9 +291,9 @@
 }
 
 .description-text {
-    font-size: 18px;
+    font-size: 24px;
     color: rgb(170, 170, 170);
-    -unity-text-align: upper-left;
+    -unity-text-align: middle-center;
     flex-grow: 1;
     transition-property: color;
     transition-duration: 0.2s;
