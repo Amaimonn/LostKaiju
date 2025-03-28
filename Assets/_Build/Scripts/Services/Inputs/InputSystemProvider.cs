@@ -96,9 +96,6 @@ namespace LostKaiju.Services.Inputs
 
             _onReadJump = () => gameplayActions.Jump.ReadValue<float>() > 0 ||
                 gameplayActions.Move.ReadValue<Vector2>().y >= SENSITIVITY;
-
-            // TEST
-            gameplayActions.Attack.started += _ => Debug.Log("Click");
         }
     }
 }

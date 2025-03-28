@@ -56,13 +56,15 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var flipper = features.Resolve<IFlipper>();
             var attacker = features.Resolve<IAttacker>();
             _playerJuicySystem = features.Resolve<PlayerJuicySystem>();
-            attacker.OnHitPositionSent.Subscribe(x => _playerJuicySystem.PlayHit(x));
+            attacker.OnHitPositionSent.Subscribe(x => _playerJuicySystem.PlayHit(x))
+                .AddTo(_disposables);
             // idle state
             var idleState = new IdleState();
 
             _damageReceiver = features.Resolve<IDamageReceiver>();
             _damageReceiver.OnDamageTaken.Where(_ => _finiteStateMachine.CurrentState == idleState)
-                .Subscribe(_ => _finiteStateMachine.ForceState(typeof(IdleState)));
+                .Subscribe(_ => _finiteStateMachine.ForceState(typeof(IdleState)))
+                    .AddTo(_disposables);
             
 
             // walk state
@@ -71,14 +73,15 @@ namespace LostKaiju.Game.World.Player.Behaviour
             walkState.MoveDirectionX.Where(x => x != 0).Subscribe( x => 
             {
                 flipper.LookRight(x > 0);
-            });
+            }).AddTo(_disposables);
 
             // jump state
             var jumpParameters = _controlsData.Jump;
             var jumpState = new JumpState(jumpParameters, _creature.Rigidbody);
             var jumpCooldownTimer = new Timer(jumpParameters.Cooldown, true);
             _cooldownTimers.Add(jumpCooldownTimer);
-            jumpState.OnEnter.Subscribe( _ => jumpCooldownTimer.Refresh());
+            jumpState.OnEnter.Subscribe( _ => jumpCooldownTimer.Refresh())
+                .AddTo(_disposables);
             _jumpInputBufferTimer = new Timer(jumpParameters.InputTimeBufferSize, true);
 
             // dash state (optional)
@@ -104,7 +107,9 @@ namespace LostKaiju.Game.World.Player.Behaviour
             var attackState = new AttackState(attacker);
             var attackCooldownTimer = new Timer(_controlsData.Attack.Cooldown, true);
             _cooldownTimers.Add(attackCooldownTimer);
-            attackState.IsAttackCompleted.Where(x => x == true).Subscribe(_ => attackCooldownTimer.Refresh());
+            attackState.IsAttackCompleted.Where(x => x == true)
+                .Subscribe(_ => attackCooldownTimer.Refresh())
+                .AddTo(_disposables);
 
             BindAnimations(idleState, walkState, jumpState, attackState);
 
@@ -135,8 +140,6 @@ namespace LostKaiju.Game.World.Player.Behaviour
             _finiteStateMachine.AddTransitions(transitions);
             
             _finiteStateMachine.Init(typeof(IdleState));
-
-            _creature.OnDispose.Take(1).Subscribe(_ => Dispose());
         }
         
         public void UpdateLogic()

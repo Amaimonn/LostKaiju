@@ -36,7 +36,7 @@ namespace LostKaiju.Infrastructure.Managers
         private IPlayerDefencePresenter _playerDefencePresenter;
         private HealthModel _healthModel;
         private PlayerIndicatorsView _playerIndicatorsView;
-        private CompositeDisposable _playerDisposables = new();
+        private CompositeDisposable _playerBindingDisposables = new();
 
         public PlayerManager(
             IObjectResolver container,
@@ -57,7 +57,7 @@ namespace LostKaiju.Infrastructure.Managers
             clearViewsSignal.Take(1).Subscribe(_ => ClearViews());
         }
 
-        public void SpawnPlayer(Vector3 position)
+        public void FirstSpawnPlayer(Vector3 position)
         {
             InitPlayerCreature(position);
             InitHealthSystem();
@@ -93,7 +93,7 @@ namespace LostKaiju.Infrastructure.Managers
                 _inputProvider);
 
             _inputStateProvider.IsInputEnabled.Subscribe(_playerInputPresenter.SetInputEnabled)
-                .AddTo(_playerDisposables);
+                .AddTo(_playerBindingDisposables);
 
             _playerDefencePresenter = new PlayerDefencePresenter(
                 _healthModel,
@@ -122,22 +122,28 @@ namespace LostKaiju.Infrastructure.Managers
 
         private void ClearViews()
         {
-            _rootUIBinder.ClearView(_playerIndicatorsView);
+            if (_playerIndicatorsView != null)
+                _rootUIBinder.ClearView(_playerIndicatorsView);
         }
 
-        public void DisposePlayer()
+        public void DestroyPlayer()
         {
-            _playerRootPresenter?.Dispose();
-            _playerDisposables.Dispose();
-            _playerDisposables = new();
+            DisposePlayer();
 
             if (_playerCreature != null)
                 Object.Destroy(_playerCreature.gameObject);
         }
 
+        public void DisposePlayer()
+        {
+            _playerRootPresenter?.Dispose();
+            _playerBindingDisposables.Dispose();
+            _playerBindingDisposables = new();
+        }
+
         public void Dispose()
         {
-            _playerDisposables.Dispose();
+            _playerBindingDisposables.Dispose();
         }
     }
 }

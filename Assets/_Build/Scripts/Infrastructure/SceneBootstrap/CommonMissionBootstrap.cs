@@ -40,7 +40,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             inputStateProvider.ClearBlockers();
 
             InitializeManagers(gameplayEnterContext);
-            _playerManager.SpawnPlayer(spawnPosition);
+            _playerManager.FirstSpawnPlayer(spawnPosition);
             _cameraManager.FollowCreature(_playerManager.PlayerCreature);
 
             var toMissionEnterContext = new MissionEnterContext(gameplayEnterContext);

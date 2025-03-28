@@ -1,4 +1,6 @@
 using System;
+using R3;
+
 using LostKaiju.Game.World.Creatures.Features;
 using LostKaiju.Game.World.Creatures.Presenters;
 using LostKaiju.Game.World.Creatures.Views;
@@ -10,6 +12,7 @@ namespace LostKaiju.Game.World.Player
     {
         private readonly IPlayerInputPresenter _inputPresenter;
         private readonly IPlayerDefencePresenter _defencePresenter;
+        private IDisposable _disposeSubscription;
 
         public PlayerRootPresenter(IPlayerInputPresenter playerInputPresenter, IPlayerDefencePresenter playerDefencePresenter)
         {
@@ -28,6 +31,8 @@ namespace LostKaiju.Game.World.Player
             var features = _creature.Features;
             var creatureUpdater = features.Resolve<ICreatureUpdater>();
             creatureUpdater.SetUpdatablePresenter(this);
+
+            _disposeSubscription = _creature.OnDispose.Take(1).Subscribe(_ => Dispose());
         }
         
         public void UpdateLogic()
@@ -40,10 +45,16 @@ namespace LostKaiju.Game.World.Player
             _inputPresenter.FixedUpdateLogic();
         }
 #endregion
+
         public void Dispose()
         {
-            _inputPresenter.Dispose();
-            _defencePresenter.Dispose();
+            if (_disposeSubscription != null)
+            {
+                _inputPresenter.Dispose();
+                _defencePresenter.Dispose();
+                _disposeSubscription.Dispose();
+                _disposeSubscription = null;
+            }
         }
     }
 }

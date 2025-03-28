@@ -36,7 +36,7 @@ namespace LostKaiju.Infrastructure.Managers
         private void HandleDeath()
         {
             _cameraManager.StopFollowing();
-            _playerManager.DisposePlayer();
+            _playerManager.DestroyPlayer();
 
             Observable.Timer(TimeSpan.FromSeconds(1))
                 .Subscribe(_ => RespawnPlayer())

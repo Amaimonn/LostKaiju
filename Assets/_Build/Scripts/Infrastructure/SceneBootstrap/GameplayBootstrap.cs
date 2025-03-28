@@ -45,10 +45,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             };
             
             var gameplayExitContext = new GameplayExitContext(hubEnterContext);
-            gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ =>
-            {
-                hubEnterContext.IsMissionCompleted = true;
-            });
+            
 
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
@@ -61,6 +58,14 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
+
+            gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ =>
+            {
+                hubEnterContext.IsMissionCompleted = true;
+                // TODO: PopUp logic with GameplayView
+                gameplayViewModel.OpenMissionCompletionPopUp(); 
+                exitToHubSignal.OnNext(Unit.Default); // replace to PopUp
+            });
             
 # if WEB_BUILD && YG_BUILD
            if(YG.YG2.envir.isMobile || YG.YG2.envir.isTablet)

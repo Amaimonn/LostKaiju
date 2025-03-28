@@ -113,7 +113,7 @@ namespace LostKaiju.Infrastructure.Managers
             PrepareTransition();
             Debug.Log("Mission completed signal");
             _gameplayEnterContext.MissionCompletionSignal.OnNext(Unit.Default);   
-            _exitGameplaySignal.OnNext(Unit.Default);  
+            // _exitGameplaySignal.OnNext(Unit.Default);  
         }
 
         private void PrepareTransition()

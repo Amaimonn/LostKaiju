@@ -7,7 +7,6 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Game.Constants;
-using UnityEngine.EventSystems;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
