@@ -70,6 +70,7 @@
 
 .location-tab-button:disabled {
     opacity: 0.75;
+    border-left-color: rgba(0, 0, 0, 0);
 }
 
 .location-tab-button:disabled .outline {

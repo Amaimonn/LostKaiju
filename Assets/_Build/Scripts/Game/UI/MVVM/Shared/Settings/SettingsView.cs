@@ -7,7 +7,6 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.Constants;
-using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -29,17 +28,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         [Header("SFX"), Space(4)]
         [SerializeField] private AudioClip _closingSFX;
 
-        private AudioPlayer _audioPlayer;
-
         private Button _applyButton;
         private Button _cancelChangesButton;
         // private bool _isClosing = false;
 
-        public void Construct(AudioPlayer audioPlayer)
-        {
-            _audioPlayer = audioPlayer;
-        }
-        
+#region PopUpToolkitView
         protected override void OnAwake()
         {
             base.OnAwake();
@@ -59,6 +52,34 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
                 _cancelChangesButton.SetEnabled(x);
             });
         }
+
+        protected override void OnOpening()
+        {
+            Debug.Log("Settings: opened");
+            // StartCoroutine(OpenAnimation());
+
+            // static IEnumerator OpenAnimation()
+            // {
+            //     yield return null;
+            //     // _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
+            //     // _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                
+            // }
+        }
+
+        protected override void OnClosing()
+        {
+            // _isClosing = true;
+            // Root.SetEnabled(false);
+            // if (_isClosing)
+                 // TODO: replace it to the TransitionEndEvent
+            // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
+            // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+            Debug.Log("Settings: closed");
+            PlayClosingSFX();
+            base.OnClosing();
+        }
+#endregion
 
         private void InitSections()
         {
@@ -165,35 +186,6 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             toggle.RegisterCallback<ChangeEvent<bool>>(e => method(e.newValue));
             observable.Subscribe(x => toggle.value = x);
         }
-        
-#region PopUpToolkitView
-        protected override void OnOpening()
-        {
-            Debug.Log("Settings: opened");
-            // StartCoroutine(OpenAnimation());
-
-            // static IEnumerator OpenAnimation()
-            // {
-            //     yield return null;
-            //     // _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
-            //     // _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-                
-            // }
-        }
-
-        protected override void OnClosing()
-        {
-            // _isClosing = true;
-            // Root.SetEnabled(false);
-            // if (_isClosing)
-                 // TODO: replace it to the TransitionEndEvent
-            // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
-            // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-            Debug.Log("Settings: closed");
-            PlayClosingSFX();
-            base.OnClosing();
-        }
-#endregion
 
         private void ApplyChanges(ClickEvent clickEvent)
         {

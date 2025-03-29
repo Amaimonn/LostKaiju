@@ -28,11 +28,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private string _heroSlotSelectedClass;
 
         [Header("SFX"), Space(4)]
-        [SerializeField] private AudioClip _buttonClickSFX;
-
-        // [Space(4)]
-        // [SerializeField] private RenderTexture _heroRenderTexture;
-        private AudioPlayer _audioPlayer;
+        [SerializeField] private AudioClip _closingSFX; // TODO: another SFX for picking
+        [SerializeField] private AudioClip _slotHoverSFX;
 
         private Button _completeButton;
         private ScrollView _heroesList;
@@ -41,17 +38,13 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _selectedSlot;
         private Dictionary<string, VisualElement> _heroSlotsMap;
 
-        public void Construct(AudioPlayer audioPlayer)
-        {
-            _audioPlayer = audioPlayer;
-        }
-
-        public void SetHeroRenderTexture(RenderTexture heroRenderTexture)
+        public void SetHeroRenderTexture(RenderTexture heroRenderTexture) // TODO: Provider for RenderTexture 
         {
             var selectedImage = Root.Q<VisualElement>(name: _selectedImageName);
             selectedImage.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(heroRenderTexture));
         }
 
+#region PopUpToolkitView
         protected override void OnAwake()
         {
             base.OnAwake();
@@ -60,16 +53,22 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _heroName = Root.Q<Label>(name: _heroNameName);
             _heroDescription = Root.Q<Label>(name: _heroDescriptionName);
 
-            _closeButton?.RegisterCallbackOnce<ClickEvent>(PlayButtonClickSFX);
-            _completeButton.RegisterCallback<ClickEvent>(PlayButtonClickSFX);
+            // _completeButton.RegisterCallback<ClickEvent>(PlaySelectionSFX);
         }
 
         protected override void OnBind(HeroSelectionViewModel viewModel)
         {
             base.OnBind(viewModel);
-            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding()).AddTo(_disposables);
+            ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding())
+                .AddTo(_disposables);
         }
 
+        protected override void OnClosing()
+        {
+            PlayClosingSFX();
+            base.OnClosing();
+        }
+#endregion
 
         private void OnLoadingCompletedBinding()
         {
@@ -81,11 +80,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 {
                     var heroSlot = _heroSlot.CloneTree();
                     var heroLabel = heroSlot.Q<Label>(name: _heroLabelName);
-                    heroLabel.LocalizeText(Tables.HEROES, heroData.Name);
                     var heroImage = heroSlot.Q<VisualElement>(name: _heroImageName);
+
+                    heroLabel.LocalizeText(Tables.HEROES, heroData.Name);
                     heroImage.style.backgroundImage = new StyleBackground(heroData.PreviewSprite); // TODO: individual images
                     heroImage.style.unityBackgroundImageTintColor = new StyleColor(heroData.Tint); // TODO: don`t use it
                     heroSlot.RegisterCallback<ClickEvent>(_ => ViewModel.PreviewHeroSlot(heroData.Id));
+                    heroSlot.RegisterCallback<PointerEnterEvent>(PlaySlotHoverSFX);
+
                     _heroesList.Add(heroSlot);
                     _heroSlotsMap[heroData.Id] = heroSlot.Q<VisualElement>(name: _heroSlotName);
                 }
@@ -113,9 +115,14 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             }
         }
 
-        private void PlayButtonClickSFX(ClickEvent clickEvent)
+        private void PlaySlotHoverSFX(PointerEnterEvent pointerEnterEvent)
         {
-            _audioPlayer.PlayRandomPitchSFX(_buttonClickSFX);
+            _audioPlayer.PlayOneShotSFX(_slotHoverSFX);
+        }
+
+        private void PlayClosingSFX()
+        {
+            _audioPlayer.PlayRandomPitchSFX(_closingSFX);
         }
     }
 }

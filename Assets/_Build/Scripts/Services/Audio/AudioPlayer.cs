@@ -17,7 +17,7 @@ namespace LostKaiju.Services.Audio
         private readonly ReactiveProperty<float> _sfxVolumeFadeScale = new(1.0f);
         private readonly MonoBehaviourHook _monoHook;
         private bool _isMusicFading = false;
-        private CompositeDisposable _disposables = new();
+        private CompositeDisposable _poolDisposables = new();
 
         public AudioPlayer(Observable<float> musicVolume, Observable<float> sfxVolume, MonoBehaviourHook monoHook)
         {
@@ -37,7 +37,7 @@ namespace LostKaiju.Services.Audio
                     audioSource.playOnAwake = false;
                     sfxVolume.CombineLatest(_sfxVolumeFadeScale, VolumeMultiplier, (a, b, c) => a * b * c)
                         .Subscribe(x => audioSource.volume = x)
-                        .AddTo(_disposables);
+                        .AddTo(_poolDisposables);
 
                     return audioSource;
                 },
@@ -89,7 +89,8 @@ namespace LostKaiju.Services.Audio
         }
 
         /// <summary>
-        /// SFX will continue playing even if scene is unloaded until it`s source stopped by script.
+        /// SFX will continue playing even if scene is unloaded until it`s source will be stopped by script.
+        /// No pooling.
         /// </summary>
         /// <param name="clip"></param>
         /// <param name="volumeScale"></param>
@@ -99,7 +100,7 @@ namespace LostKaiju.Services.Audio
         }
 
         /// <summary>
-        /// SFX will stop playing automatically if scene is unloaded
+        /// SFX will stop playing automatically if scene is unloaded. Extends the pool
         /// </summary>
         public void PlaySFX(AudioClip clip, float pitch = 1.0f)
         {
@@ -109,21 +110,25 @@ namespace LostKaiju.Services.Audio
             Observable.Timer(System.TimeSpan.FromSeconds(clip.length))
                 .Take(1)
                 .Subscribe(x => _sfxSourcePool.Release(source))
-                .AddTo(_disposables);
+                .AddTo(_poolDisposables);
             
             source.Play();
         }
 
+        /// <summary>
+        /// Same as <see cref="PlaySFX"/> but with random pitch between 0.9 and 1.1. Also extends the pool
+        /// </summary>
+        /// <param name="clip"></param>
         public void PlayRandomPitchSFX(AudioClip clip)
         {
             var randomPitch = UnityEngine.Random.Range(0.9f, 1.1f);
             PlaySFX(clip, randomPitch);
         }
 
-        public void ClearSFX()
+        public void ClearPoolSFX()
         {
-            _disposables.Dispose();
-            _disposables = new CompositeDisposable();
+            _poolDisposables.Dispose();
+            _poolDisposables = new CompositeDisposable();
             _sfxSourcePool.Clear();
         }
 

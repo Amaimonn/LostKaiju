@@ -53,6 +53,7 @@ MonoBehaviour:
   _closeButton: {fileID: 4851896396920250220}
   _closeBackground: {fileID: 9209566188965233758}
   _confirmExitButton: {fileID: 2918723324163967246}
+  _closingSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}
 --- !u!1 &2255982779246194449
 GameObject:
   m_ObjectHideFlags: 0

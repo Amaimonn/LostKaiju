@@ -57,4 +57,5 @@ MonoBehaviour:
   _heroLabelName: HeroName
   _heroImageName: HeroImagePreview
   _heroSlotSelectedClass: hero-slot--selected
-  _buttonClickSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}
+  _closingSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}
+  _slotHoverSFX: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}

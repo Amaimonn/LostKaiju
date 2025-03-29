@@ -14,6 +14,7 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Game.World.Player.Data.Configs;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -28,8 +29,11 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         {
             builder.Register<InputStateProvider>(Lifetime.Singleton);
             builder.Register<TypedRegistration<GameplayExitContext, Subject<Unit>>>(Lifetime.Singleton);
-            builder.Register<ExitPopUpBinder>(x => new ExitPopUpBinder(x.Resolve<IRootUIBinder>(), 
-                x.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance), Lifetime.Singleton);
+            builder.Register<ExitPopUpBinder>(x => 
+                new ExitPopUpBinder(x.Resolve<IRootUIBinder>(), 
+                    x.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance, 
+                    x.Resolve<AudioPlayer>()), 
+                Lifetime.Singleton);
             builder.Register<OptionsBinder>(Lifetime.Singleton);
         }
 

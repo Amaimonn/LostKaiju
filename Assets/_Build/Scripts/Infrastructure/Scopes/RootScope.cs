@@ -75,7 +75,7 @@ namespace LostKaiju.Infrastructure.Scopes
                 loadingScreen.OverlayFillProgress.Subscribe(x => audioPlayer.VolumeMultiplier.Value = 1 - x);
                 sceneLoader.OnLoadingStarted.Subscribe(_ => 
                 {
-                    audioPlayer.ClearSFX();
+                    audioPlayer.ClearPoolSFX();
                     audioPlayer.PauseMusic();
                 });
                 sceneLoader.OnLoadingFinished.Subscribe(_ =>

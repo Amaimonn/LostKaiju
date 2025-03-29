@@ -7,6 +7,7 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -19,18 +20,20 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         private readonly InputStateProvider _inputStateProvider;
         private readonly SettingsBinder _settingsBinder;
         private readonly ExitPopUpBinder _exitPopUpBinder;
+        private readonly AudioPlayer _audioPlayer;
         private OptionsViewModel _currentOptionsViewModel;
         private readonly Stack<ScreenViewModel> _screensStack = new();
         private CompositeDisposable _disposables = new();
         private bool _nextClosingEnabled = true;
 
         public OptionsBinder(IRootUIBinder rootUIBinder, InputStateProvider inputStateProvider,
-            SettingsBinder settingsBinder, ExitPopUpBinder exitPopUpBinder)
+            SettingsBinder settingsBinder, ExitPopUpBinder exitPopUpBinder, AudioPlayer audioPlayer)
         {
             _rootUIBinder = rootUIBinder;
             _inputStateProvider = inputStateProvider;
             _settingsBinder = settingsBinder;
             _exitPopUpBinder = exitPopUpBinder;
+            _audioPlayer = audioPlayer;
 
             settingsBinder.OnOpened.Subscribe(RegisterInStack).AddTo(_disposables);
             // settingsBinder.OnApplyPopUpOpened.Subscribe(RegisterInStack).AddTo(_disposables);
@@ -80,6 +83,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
                 
             var optionsViewPrefab = Resources.Load<OptionsView>(Paths.OPTIONS_VIEW);
             var optionsView = UnityEngine.Object.Instantiate(optionsViewPrefab);
+            optionsView.Construct(_audioPlayer);
             _inputStateProvider.AddBlocker(optionsView);
 
             _currentOptionsViewModel = new OptionsViewModel(_settingsBinder, _exitPopUpBinder);
