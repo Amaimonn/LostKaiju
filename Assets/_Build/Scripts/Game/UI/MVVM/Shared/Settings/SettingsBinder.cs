@@ -7,6 +7,7 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -14,14 +15,16 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
     {
         private readonly IGameStateProvider _gameStateProvider;
         private readonly SettingsModel _settingsModel;
+        private readonly AudioPlayer _audioPlayer;
         // private ApplyPopUpBinder _applyPopUpBinder
         private bool _isClosingEnabled = true;
 
         public SettingsBinder(IRootUIBinder rootUIBinder, IGameStateProvider gameStateProvider, 
-            SettingsModel settingsModel) : base(rootUIBinder)
+            SettingsModel settingsModel, AudioPlayer audioPlayer) : base(rootUIBinder)
         {
             _gameStateProvider = gameStateProvider;
             _settingsModel = settingsModel;
+            _audioPlayer = audioPlayer;
         }
 
         public IDisposable BindClosingSignal(Observable<Unit> onClose)
@@ -61,6 +64,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             // var settingsDataSO = Resources.Load<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
             var settingsDataSOHandle = Addressables.LoadAssetAsync<FullSettingsDataSO>(Paths.FULL_SETTINGS_DATA_SO);
             var settingsView = LoadAndInstantiateView<SettingsView>(Paths.SETTINGS_VIEW);
+            settingsView.Construct(_audioPlayer);
+            
             _currentViewModel = new SettingsViewModel(_settingsModel, _gameStateProvider);
             settingsDataSOHandle.Completed += (handle) =>
             {

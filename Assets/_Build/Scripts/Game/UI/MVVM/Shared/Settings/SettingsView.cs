@@ -7,6 +7,7 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -25,10 +26,20 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
 
+        [Header("SFX"), Space(4)]
+        [SerializeField] private AudioClip _closingSFX;
+
+        private AudioPlayer _audioPlayer;
+
         private Button _applyButton;
         private Button _cancelChangesButton;
         // private bool _isClosing = false;
 
+        public void Construct(AudioPlayer audioPlayer)
+        {
+            _audioPlayer = audioPlayer;
+        }
+        
         protected override void OnAwake()
         {
             base.OnAwake();
@@ -179,6 +190,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
             // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
             Debug.Log("Settings: closed");
+            PlayClosingSFX();
             base.OnClosing();
         }
 #endregion
@@ -192,6 +204,11 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             // ViewModel.ResetCurrentSectionSettings();
             ViewModel.CancelUnappliedChanges();
+        }
+
+        private void PlayClosingSFX()
+        {
+            _audioPlayer.PlayRandomPitchSFX(_closingSFX);
         }
     }
 }

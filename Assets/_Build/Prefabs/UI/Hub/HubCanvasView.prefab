@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _topScale: 0
   _rightScale: 0
-  _bottomScale: 0.8
+  _bottomScale: 1
   _leftScale: 0
   _minTopInset: 0
   _minRightInset: 0
@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 186611119687651253}
   - component: {fileID: 3425217293678611392}
   - component: {fileID: 1283586321764917277}
+  - component: {fileID: 2417338942247873514}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -188,6 +189,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2417338942247873514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201351283350569108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aeecbea17b637847ac7a301d0d4b895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverScale: 1.1
+  _duration: 0.1
 --- !u!1 &1350842966508327449
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +568,7 @@ GameObject:
   - component: {fileID: 899432507195531498}
   - component: {fileID: 6398922499248485159}
   - component: {fileID: 7471827496708730089}
+  - component: {fileID: 6539482859887417368}
   m_Layer: 5
   m_Name: HeroesButton
   m_TagString: Untagged
@@ -633,6 +649,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6539482859887417368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2327608698349822464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aeecbea17b637847ac7a301d0d4b895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverScale: 1.1
+  _duration: 0.1
 --- !u!1 &2623142016823220415
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +897,7 @@ GameObject:
   - component: {fileID: 1815730315113369961}
   - component: {fileID: 5683496810997010053}
   - component: {fileID: 4188293915607934931}
+  - component: {fileID: 3537180927660614329}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -976,6 +1007,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3537180927660614329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4105901022883463663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aeecbea17b637847ac7a301d0d4b895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverScale: 1.1
+  _duration: 0.1
 --- !u!1 &5072806324740605069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,6 +1075,7 @@ MonoBehaviour:
   _openCampaignElement: {fileID: 1283586321764917277}
   _openHeroSelectionButton: {fileID: 7471827496708730089}
   _openSettingsButton: {fileID: 4188293915607934931}
+  _buttonClickSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}
 --- !u!1 &6987353608036268774
 GameObject:
   m_ObjectHideFlags: 0

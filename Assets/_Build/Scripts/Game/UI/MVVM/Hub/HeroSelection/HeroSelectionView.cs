@@ -7,6 +7,7 @@ using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.Constants;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.GameData.Heroes;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -26,8 +27,12 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private string _heroImageName;
         [SerializeField] private string _heroSlotSelectedClass;
 
+        [Header("SFX"), Space(4)]
+        [SerializeField] private AudioClip _buttonClickSFX;
+
         // [Space(4)]
         // [SerializeField] private RenderTexture _heroRenderTexture;
+        private AudioPlayer _audioPlayer;
 
         private Button _completeButton;
         private ScrollView _heroesList;
@@ -36,6 +41,17 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private VisualElement _selectedSlot;
         private Dictionary<string, VisualElement> _heroSlotsMap;
 
+        public void Construct(AudioPlayer audioPlayer)
+        {
+            _audioPlayer = audioPlayer;
+        }
+
+        public void SetHeroRenderTexture(RenderTexture heroRenderTexture)
+        {
+            var selectedImage = Root.Q<VisualElement>(name: _selectedImageName);
+            selectedImage.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(heroRenderTexture));
+        }
+
         protected override void OnAwake()
         {
             base.OnAwake();
@@ -43,6 +59,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _heroesList = Root.Q<ScrollView>(name: _heroesListName);
             _heroName = Root.Q<Label>(name: _heroNameName);
             _heroDescription = Root.Q<Label>(name: _heroDescriptionName);
+
+            _closeButton?.RegisterCallbackOnce<ClickEvent>(PlayButtonClickSFX);
+            _completeButton.RegisterCallback<ClickEvent>(PlayButtonClickSFX);
         }
 
         protected override void OnBind(HeroSelectionViewModel viewModel)
@@ -51,11 +70,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding()).AddTo(_disposables);
         }
 
-        public void SetHeroRenderTexture(RenderTexture heroRenderTexture)
-        {
-            var selectedImage = Root.Q<VisualElement>(name: _selectedImageName);
-            selectedImage.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(heroRenderTexture));
-        }
 
         private void OnLoadingCompletedBinding()
         {
@@ -97,6 +111,11 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 _heroName.LocalizeText(Tables.HEROES, heroData.Name);
                 _heroDescription.LocalizeText(Tables.HEROES, heroData.Description);
             }
+        }
+
+        private void PlayButtonClickSFX(ClickEvent clickEvent)
+        {
+            _audioPlayer.PlayRandomPitchSFX(_buttonClickSFX);
         }
     }
 }

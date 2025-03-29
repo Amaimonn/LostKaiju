@@ -114,6 +114,12 @@ namespace LostKaiju.Services.Audio
             source.Play();
         }
 
+        public void PlayRandomPitchSFX(AudioClip clip)
+        {
+            var randomPitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            PlaySFX(clip, randomPitch);
+        }
+
         public void ClearSFX()
         {
             _disposables.Dispose();

@@ -61,6 +61,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitToGameplayContext = new HubExitContext(gameplayEnterContext);
 
             var hubView = Instantiate(_hubViewPrefab);
+            hubView.Construct(audioPlayer);
+
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
 
@@ -75,7 +77,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
             _heroRenderTextureSetter.Init();
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory, 
-                _heroRenderTextureSetter.CurrentRenderTexture);
+                _heroRenderTextureSetter.CurrentRenderTexture, audioPlayer);
             var hubViewModel = new HubViewModel(campaignBinder, settingsBinder, heroSelectionBinder);
 
             var heroPreview = new HeroPreview(_heroPreviewTransform, onShowPreview: x => x.SetActive(true), 

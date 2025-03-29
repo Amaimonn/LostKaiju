@@ -57,6 +57,7 @@ MonoBehaviour:
   _missionsGridName: MissionsGrid
   _panelWhiteBackgroundClass: panel__white-background
   _buttonHoverSFX: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}
+  _buttonPressSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}
   _missionButton: {fileID: 9197481963319205126, guid: 679d34c4e598d584abfed56114aba654, type: 3}
   _missionButtonSelectedClass: select-mission-button--selected
   _missionButtonCompletedClass: select-mission-button--completed

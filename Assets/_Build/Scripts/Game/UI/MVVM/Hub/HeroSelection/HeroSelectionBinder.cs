@@ -5,6 +5,7 @@ using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.Constants;
 using LostKaiju.Game.GameData.Heroes;
 using LostKaiju.Game.GameData;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -12,13 +13,15 @@ namespace LostKaiju.Game.UI.MVVM.Hub
     {
         private readonly ILoadableModelFactory<HeroesModel> _modelFactory;
         private readonly RenderTexture _heroRenderTexture;
+        private readonly AudioPlayer _audioPlayer;
 
         public HeroSelectionBinder(IRootUIBinder rootUIBinder, ILoadableModelFactory<HeroesModel> factory, 
-            RenderTexture heroRenderTexture) : 
+            RenderTexture heroRenderTexture, AudioPlayer audioPlayer) : 
             base(rootUIBinder)
         {
             _modelFactory = factory;
             _heroRenderTexture = heroRenderTexture;
+            _audioPlayer = audioPlayer;
         }
 
         public override bool TryBindAndOpen(out HeroSelectionViewModel viewModel)
@@ -30,6 +33,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             }
 
             var heroSelectionView = LoadAndInstantiateView<HeroSelectionView>(Paths.HERO_SELECTION_VIEW);
+            heroSelectionView.Construct(_audioPlayer);
             heroSelectionView.SetHeroRenderTexture(_heroRenderTexture);
             
             _currentViewModel = new HeroSelectionViewModel();

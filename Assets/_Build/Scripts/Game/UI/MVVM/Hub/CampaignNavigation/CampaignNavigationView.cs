@@ -28,6 +28,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         [Header("SFX")]
         [SerializeField] private AudioClip _buttonHoverSFX;
+        [SerializeField] private AudioClip _buttonPressSFX;
 
         [Space(3f)]
         [Header("Assets")]
@@ -78,6 +79,9 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 if (_isClosing)
                     ViewModel.CompleteClosing();
             });
+
+            _closeButton?.RegisterCallbackOnce<ClickEvent>(PlayButtonClickSFX);
+            _startButton.RegisterCallbackOnce<ClickEvent>(PlayButtonClickSFX);
         }
         
         protected override void OnBind(CampaignNavigationViewModel viewModel)
@@ -245,8 +249,13 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private void PlayButtonHoverSFX(PointerEnterEvent pointerEnterEvent)
         {
-            var randomPitch = Random.Range(0.9f, 1.1f);
-            _audioPlayer.PlaySFX(_buttonHoverSFX, pitch: randomPitch);
+            // var randomPitch = Random.Range(0.9f, 1.1f);
+            _audioPlayer.PlayOneShotSFX(_buttonHoverSFX);
+        }
+
+        private void PlayButtonClickSFX(ClickEvent clickEvent)
+        {
+            _audioPlayer.PlayOneShotSFX(_buttonPressSFX);
         }
     }
 }
