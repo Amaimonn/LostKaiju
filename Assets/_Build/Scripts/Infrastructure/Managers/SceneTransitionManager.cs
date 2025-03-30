@@ -8,12 +8,10 @@ using LostKaiju.Infrastructure.SceneBootstrap.Context;
 
 namespace LostKaiju.Infrastructure.Managers
 {
-    public class SceneTransitionManager
+    public class SceneTransitionManager : IDisposable
     {
         public Observable<Unit> ExitSignal => _exitSignal;
 
-        private readonly Subject<Unit> _exitGameplaySignal;
-        private readonly InputStateProvider _inputStateProvider;
         private readonly PlayerManager _playerManager;
         private readonly SubSceneTrigger[] _subSceneTriggers;
         private readonly PlayerHeroTrigger _missionExitAreaTrigger;
@@ -22,16 +20,13 @@ namespace LostKaiju.Infrastructure.Managers
         private MissionEnterContext _missionEnterContext; // send from bootstrap
         private MissionExitContext _missionExitContext; // exit from the current mission to subscene
         private readonly Subject<Unit> _exitSignal = new();
+        private readonly CompositeDisposable _disposables = new();
 
         public SceneTransitionManager(
-            Subject<Unit> exitGameplaySignal,
-            InputStateProvider inputStateProvider,
             PlayerManager playerManager,
             SubSceneTrigger[] subSceneTriggers,
             PlayerHeroTrigger missionExitAreaTrigger)
         {
-            _exitGameplaySignal = exitGameplaySignal;
-            _inputStateProvider = inputStateProvider;
             _playerManager = playerManager;
             _subSceneTriggers = subSceneTriggers;
             _missionExitAreaTrigger = missionExitAreaTrigger;
@@ -66,9 +61,9 @@ namespace LostKaiju.Infrastructure.Managers
                     ? subTrigger.OnEnter.Skip(1)
                     : subTrigger.OnEnter;
 
-                onTriggerEnter
-                    .Take(1)
-                    .Subscribe(_ => HandleSubSceneTransition(subTrigger));
+                onTriggerEnter.Take(1)
+                    .Subscribe(_ => HandleSubSceneTransition(subTrigger))
+                    .AddTo(_disposables);
             }
         }
 
@@ -76,15 +71,15 @@ namespace LostKaiju.Infrastructure.Managers
         {
             if (!String.IsNullOrEmpty(_missionEnterContext.FromMissionSceneName)) // is returning from subscene
             {
-                _missionExitAreaTrigger.OnEnter
-                    .Take(1)
-                    .Subscribe(_ => HandleReturnToMainScene(toMissionEnterContext));
+                _missionExitAreaTrigger.OnEnter.Take(1)
+                    .Subscribe(_ => HandleReturnToMainScene(toMissionEnterContext))
+                    .AddTo(_disposables);
             }
             else
             {
-                _missionExitAreaTrigger.OnEnter
-                    .Take(1)
-                    .Subscribe(_ => HandleMissionComplete());
+                _missionExitAreaTrigger.OnEnter.Take(1)
+                    .Subscribe(_ => HandleMissionComplete())
+                    .AddTo(_disposables);
             }
         }
 
@@ -118,8 +113,13 @@ namespace LostKaiju.Infrastructure.Managers
 
         private void PrepareTransition()
         {
-            _inputStateProvider.AddBlocker(new FakeBlocker());
+            // _playerManager.DisposePlayer();
             _playerManager.SetInvincible(true);
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
         }
     }
 }

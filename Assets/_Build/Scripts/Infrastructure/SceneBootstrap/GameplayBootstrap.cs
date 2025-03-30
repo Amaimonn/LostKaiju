@@ -49,13 +49,21 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             };
             
             var gameplayExitContext = new GameplayExitContext(hubEnterContext);
-            
 
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
             var optionsBinder  =  Container.Resolve<OptionsBinder>();
+            var inputStateProvider = Container.Resolve<InputStateProvider>();
             var loadingNotifier = Container.Resolve<ILoadingScreenNotifier>();
-            loadingNotifier.OnFinished.Take(1).Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnOptions));
+            loadingNotifier.OnFinished.Take(1)
+                .Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnOptions));
+
+            var loadingInputBlocker = new FakeBlocker();
+            inputStateProvider.AddBlocker(loadingInputBlocker);
+            loadingNotifier.OnStarted.TakeUntil(exitGameplaySignal)
+                .Subscribe(_ => inputStateProvider.AddBlocker(loadingInputBlocker));
+            loadingNotifier.OnFinished.TakeUntil(exitGameplaySignal)
+                .Subscribe(_ => inputStateProvider.RemoveBlocker(loadingInputBlocker));
 
             var gameplayViewModel = new GameplayViewModel(optionsBinder);
             var gameplayView = Instantiate(_gameplayViewPrefab);
@@ -76,13 +84,14 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             {   
                 var mobileControlsViewPrefab = Resources.Load<MobileControlsView>(Paths.MOBILE_CONTROLS_VIEW);
                 var mobileControls = Instantiate(mobileControlsViewPrefab);
-                var inputStateProvider = Container.Resolve<InputStateProvider>();
+                // var inputStateProvider = Container.Resolve<InputStateProvider>();
                 inputStateProvider.IsInputEnabled.Subscribe(x => mobileControls.gameObject.SetActive(x));
                 rootUIBinder.AddView(mobileControls);
             }
 # endif
             exitToHubSignal.Take(1).Subscribe(_ => 
             {
+                inputStateProvider.AddBlocker(loadingInputBlocker);
                 Debug.Log("Gameplay exit signal");
                 optionsBinder.Dispose(); // shouldn`t be opened with a loading screen by clicking escape.
                 exitGameplaySignal.OnNext(gameplayExitContext);

@@ -41,6 +41,10 @@ MonoBehaviour:
     m_Key: jump_tooltip_mobile
     m_Metadata:
       m_Items: []
+  - m_Id: 1765195774476288
+    m_Key: attack
+    m_Metadata:
+      m_Items: []
   - m_Id: 4508983279616
     m_Key: attack_tooltip_pc
     m_Metadata:

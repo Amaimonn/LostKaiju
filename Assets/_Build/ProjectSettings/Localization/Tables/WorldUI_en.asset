@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4508983279616
-    m_Localized: Press the [LEFT MOUSE BUTTON] to attack
+    m_Localized: Press the [LEFT MOUSE BUTTON] or [K] to attack
     m_Metadata:
       m_Items: []
   - m_Id: 687813017780224
@@ -68,6 +68,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 691839671255040
     m_Localized: Believe, believe, believe...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1765195774476288
+    m_Localized: Attack
     m_Metadata:
       m_Items: []
   references:

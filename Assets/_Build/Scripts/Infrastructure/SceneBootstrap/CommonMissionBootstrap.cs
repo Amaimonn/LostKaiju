@@ -36,8 +36,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         {
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
             var spawnPosition = GetSpawnPosition(missionEnterContext);
-            var inputStateProvider = Container.Resolve<InputStateProvider>();
-            inputStateProvider.ClearBlockers();
+            var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
 
             InitializeManagers(gameplayEnterContext);
             _playerManager.FirstSpawnPlayer(spawnPosition);
@@ -50,12 +49,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             _deathManager.Initialize();
 
             _enemyInjector.InjectAndInitAll(Container);
-            var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
+            
             _sceneTransitionManager.ExitSignal.Merge(gameplayExitSignal).Subscribe(_ => 
             {
                 _postProcessingManager.Dispose();
                 _deathManager.Dispose();
                 _playerManager.Dispose();
+                _sceneTransitionManager.Dispose();
             });
 
             return _sceneTransitionManager.ExitSignal
@@ -74,8 +74,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             _cameraManager = new CameraManager(_cinemachineCamera);
 
             _sceneTransitionManager = new SceneTransitionManager(
-                Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance,
-                Container.Resolve<InputStateProvider>(),
                 _playerManager,
                 _subSceneTriggers,
                 _missionExitAreaTrigger);

@@ -66,7 +66,6 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 .Subscribe(_ => _finiteStateMachine.ForceState(typeof(IdleState)))
                     .AddTo(_disposables);
             
-
             // walk state
             var walkParameters = _controlsData.Walk;
             var walkState = new WalkState(walkParameters, _creature.Rigidbody, () => _inputProvider.GetHorizontal);
@@ -158,7 +157,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         public void FixedUpdateLogic()
         {
-            _finiteStateMachine.CurrentState.FixedUpdateLogic();
+            _finiteStateMachine.CurrentState?.FixedUpdateLogic();
 
             ApplyFriction();
         }
