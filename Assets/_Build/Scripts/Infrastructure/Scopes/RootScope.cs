@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Localization.Settings;
 using VContainer;
 using VContainer.Unity;
 using R3;
@@ -54,13 +55,16 @@ namespace LostKaiju.Infrastructure.Scopes
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
 
-            builder.Register<SettingsModel>(resolver =>
-            {
-                var settingsModel = new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings);
-                var urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-                settingsModel.IsAntiAliasingEnabled.Subscribe(x => urpAsset.msaaSampleCount = x ? 2 : 1);
-                return settingsModel;
-            }, Lifetime.Singleton);
+            var settingsModel = new SettingsModel(gameStateProvider.Settings);
+            var urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+            settingsModel.IsAntiAliasingEnabled.Subscribe(x => urpAsset.msaaSampleCount = x ? 2 : 1);
+            settingsModel.LanguageIndex
+                .Where(x => x >= 0 && x < LocalizationSettings.AvailableLocales.Locales.Count)
+                .Subscribe(l => 
+                {
+                    LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[l];
+                });
+            builder.RegisterInstance<SettingsModel>(settingsModel);
             builder.Register<SettingsBinder>(Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();

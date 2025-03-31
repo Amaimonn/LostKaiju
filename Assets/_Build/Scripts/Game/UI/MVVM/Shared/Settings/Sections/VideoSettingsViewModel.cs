@@ -61,13 +61,14 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             CacheSettings();
         }
 
-        public override void ResetSettings()
+        public override void CancelChanges()
         {
             _model.Brightness.Value = _brightnessCached;
             _model.IsPostProcessingEnabled.Value = _isPostProcessingEnabledCached;
             _model.IsBloomEnabled.Value = _isBloomEnabledCached;
             // force callback even if value in Model hasn't changed to make UI syncronized
-            _model.IsAntiAliasingEnabled.OnNext(_isAntiAliasingEnabledCached); 
+            _isAntiAliasingEnabled.Value = _isAntiAliasingEnabledCached;
+            // _model.IsAntiAliasingEnabled.OnNext(_isAntiAliasingEnabledCached); 
         }
 
         public void SetBrightness(int brightness)

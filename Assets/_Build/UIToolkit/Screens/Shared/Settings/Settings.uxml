@@ -10,12 +10,12 @@
         <engine:VisualElement name="Content" class="settings-content">
             <engine:VisualElement name="Settings" class="settings">
                 <engine:VisualElement name="TopBar" class="settings__top-bar" style="flex-direction: row;">
-                    <engine:Label name="SettingsTitle" class="view__title settings__title">
+                    <engine:Label name="SettingsTitle" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="view__title settings__title">
                         <Bindings>
                             <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(36999577600)" />
                         </Bindings>
                     </engine:Label>
-                    <engine:Button text="X" name="CloseButton" class="close-button button-transitions-base" />
+                    <engine:Button text="X" name="CloseButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" display-tooltip-when-elided="false" triple-click-selects-line="false" class="close-button button-transitions-base" />
                 </engine:VisualElement>
                 <engine:TabView name="SettingsTabView" class="settings__tab-view" />
                 <engine:VisualElement name="BottomBar" class="panel__bottom-bar">

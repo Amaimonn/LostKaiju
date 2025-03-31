@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
+using R3;
 
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
-using R3;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -14,6 +15,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public Observable<bool> IsAnyChanges => _isAnyChanges;
         public readonly SoundSettingsViewModel SoundSettingsViewModel;
         public readonly VideoSettingsViewModel VideoSettingsViewModel;
+        public readonly LanguageSectionViewModel LanguageSettingsViewModel;
 
         private readonly IGameStateProvider _gameStateProvider;
         private SettingsSectionViewModel _currentSection;
@@ -25,9 +27,14 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _gameStateProvider = gameStateProvider;
             SoundSettingsViewModel = new SoundSettingsViewModel(model);
             VideoSettingsViewModel = new VideoSettingsViewModel(model);
+            LanguageSettingsViewModel = new LanguageSectionViewModel(model);
             _currentSection = SoundSettingsViewModel;
-            _isAnyChanges = Observable.CombineLatest(SoundSettingsViewModel.IsAnyChanges, 
-                VideoSettingsViewModel.IsAnyChanges, (soundChanges, videoChanges) => soundChanges || videoChanges)
+            
+            _isAnyChanges = Observable.CombineLatest(
+                SoundSettingsViewModel.IsAnyChanges, 
+                VideoSettingsViewModel.IsAnyChanges, 
+                LanguageSettingsViewModel.IsAnyChanges)
+                .Select(x => x.Any(t => t == true))
                 .ToReadOnlyReactiveProperty();
         }
 
@@ -52,23 +59,29 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _currentSection = VideoSettingsViewModel;
         }
 
+        public void SelectLanguageSection()
+        {
+            _currentSection = LanguageSettingsViewModel;
+        }
+
         public void ApplyChanges()
         {
             SoundSettingsViewModel.ApplyChanges();
             VideoSettingsViewModel.ApplyChanges();
+            LanguageSettingsViewModel.ApplyChanges();
             SaveSettings();
             base.StartClosing();
         }
 
         public void CancelUnappliedChanges()
         {
-            SoundSettingsViewModel.ResetSettings();
-            VideoSettingsViewModel.ResetSettings();
+            SoundSettingsViewModel.CancelChanges();
+            VideoSettingsViewModel.CancelChanges();
         }
 
         public void ResetCurrentSectionSettings()
         {
-            _currentSection.ResetSettings();
+            _currentSection.CancelChanges();
         }
 
         private void SaveSettings()

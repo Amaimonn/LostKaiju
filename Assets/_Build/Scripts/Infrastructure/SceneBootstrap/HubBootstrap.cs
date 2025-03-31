@@ -23,7 +23,6 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class HubBootstrap : LifetimeScope
     {
-        // [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private HubCanvasView _hubViewPrefab;
         [SerializeField] private CameraRenderTextureSetter _heroRenderTextureSetter;
         [SerializeField] private Transform _heroPreviewTransform;
@@ -132,9 +131,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 if (!String.IsNullOrEmpty(hubEnterContext.ExitingMissionId))
                 {
                     if (hubEnterContext.IsMissionCompleted)
-                        Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} completed</color>");
+                        Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} was completed</color>");
                     else
-                        Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} exited</color>");
+                        Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} was abandoned</color>");
                     hubViewModel.OpenCampaign();
                 }
             }

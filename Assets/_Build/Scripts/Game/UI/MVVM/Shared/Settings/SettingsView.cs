@@ -7,6 +7,7 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.Constants;
+using LostKaiju.Game.UI.CustomElements;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -24,6 +25,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         [SerializeField] private string _settingBarLabelClass;
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
+        [SerializeField] private VisualTreeAsset _arrowsSettingBarAsset;
 
         [Header("SFX"), Space(4)]
         [SerializeField] private AudioClip _closingSFX;
@@ -89,6 +91,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             {
                 InitSoundSection(sectionsRoot, data);
                 InitVideoSection(sectionsRoot, data);
+                InitLanguageSection(sectionsRoot, data);
             }).AddTo(_disposables);
         }
         
@@ -135,6 +138,21 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
             var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, scrollView);
             BindToggle(antiAliasingToggle, videoViewModel.SetIsAntiAliasingEnabled, videoViewModel.IsAntiAliasingEnabled);
+        }
+
+        private void InitLanguageSection(VisualElement sectionsRoot, IFullSettingsData settingsData)
+        {
+            var languageViewModel = ViewModel.LanguageSettingsViewModel;
+
+            var languageSection = new Tab();
+            languageSection.LocalizeLabel(Tables.SETTINGS, settingsData.LanguageSectionLabel);
+            languageSection.selected += _ => ViewModel.SelectLanguageSection();
+            sectionsRoot.Add(languageSection);
+
+            var scrollView = CreateScrollView(languageSection);
+
+            var languageArrows = CreateArrowsMenu(settingsData.LanguageData, scrollView);
+            BindArrowsMenu(languageArrows, languageViewModel.SetLanguage, languageViewModel.LanguageIndex);
         }
 
         private ScrollView CreateScrollView(VisualElement parentSection)
@@ -185,6 +203,26 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             toggle.RegisterCallback<ChangeEvent<bool>>(e => method(e.newValue));
             observable.Subscribe(x => toggle.value = x);
+        }
+
+        private ArrowsMenu CreateArrowsMenu(IArrowsSettingData arrowsSettingData, VisualElement parentSection)
+        {
+            var settingBar = _arrowsSettingBarAsset.CloneTree();
+            parentSection.Add(settingBar);
+
+            var label = settingBar.Q<Label>(className: _settingBarLabelClass);
+            label.LocalizeText(Tables.SETTINGS, arrowsSettingData.Label);
+
+            var arrowsMenu = settingBar.Q<ArrowsMenu>();
+            arrowsMenu.Options = arrowsSettingData.Options;
+
+            return arrowsMenu;
+        }
+
+        private void BindArrowsMenu(ArrowsMenu arrowsMenu, Action<int> method, Observable<int> observable)
+        {
+            arrowsMenu.OnIndexChanged += method;
+            observable.Subscribe(x => arrowsMenu.CurrentIndex = x);
         }
 
         private void ApplyChanges(ClickEvent clickEvent)

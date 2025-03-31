@@ -6,6 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using VContainer.Unity;
 using R3;
+using YG;
 
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
@@ -23,7 +24,7 @@ namespace LostKaiju.Infrastructure.Loading
         private readonly LifetimeScope _rootScope;
         private readonly Subject<Unit> _onLoadingStarted = new();
         private readonly Subject<Unit> _onLoadingFinished = new();
-        private const float FAKE_LOAD_TIME = 1f;
+        private const float MIN_LOADING_TIME = 1f;
 
         public SceneLoader(MonoBehaviour hook, LoadingScreen loadingScreen, LifetimeScope rootScope)
         {
@@ -109,7 +110,7 @@ namespace LostKaiju.Infrastructure.Loading
             
             var startTime = Time.time;
             _onLoadingStarted.OnNext(Unit.Default);
-
+            ShowAdvertising();
             yield return LoadSceneAsync(Scenes.GAP);
 
             using (LifetimeScope.EnqueueParent(_rootScope))
@@ -190,11 +191,18 @@ namespace LostKaiju.Infrastructure.Loading
         private YieldInstruction GetRemainFakeLoadTime(float startTime)
         {
             var currentTime = Time.time;
-            var remainTime = FAKE_LOAD_TIME - (currentTime - startTime);
+            var remainTime = MIN_LOADING_TIME - (currentTime - startTime);
             if (remainTime > 0)
                 return new WaitForSeconds(remainTime);
             else
                 return null;
+        }
+
+        private void ShowAdvertising()
+        {
+# if YG_BUILD
+            YG2.InterstitialAdvShow();
+#endif
         }
     }
 }

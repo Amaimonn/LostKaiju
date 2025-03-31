@@ -21,7 +21,7 @@ public abstract class SettingsSectionViewModel : IViewModel, IDisposable
     {
     }
 
-    public virtual void ResetSettings()
+    public virtual void CancelChanges()
     {
     }
 

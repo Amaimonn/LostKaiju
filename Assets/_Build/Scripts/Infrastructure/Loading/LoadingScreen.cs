@@ -15,7 +15,7 @@ namespace LostKaiju.Infrastructure.Loading
 
         [SerializeField] private GameObject _loadingGameObject;
         [SerializeField] private Image _overlayImage;
-        [SerializeField] private GameObject _loadingLabel;
+        [SerializeField] private GameObject _loadingStub;
         [SerializeField] private string _overlayProgressProperty;
         [SerializeField, Min(0.01f)] private float _overlayFillSeconds = 2f;
 
@@ -34,14 +34,14 @@ namespace LostKaiju.Infrastructure.Loading
         public void Show()
         {
             _loadingGameObject.SetActive(true);
-            _loadingLabel.SetActive(true);
+            _loadingStub.SetActive(true);
             SetOverlayFillProgress(1);
             _onStarted.OnNext(Unit.Default);
         }
 
         public void Hide()
         {
-            _loadingLabel.SetActive(false);
+            _loadingStub.SetActive(false);
             _loadingGameObject.SetActive(false);
             SetOverlayFillProgress(0);
             _onFinished.OnNext(Unit.Default);
@@ -61,12 +61,12 @@ namespace LostKaiju.Infrastructure.Loading
                 yield return null;
             }
 
-            _loadingLabel.SetActive(true);
+            _loadingStub.SetActive(true);
         }
 
         public IEnumerator HideCoroutine()
         {
-            _loadingLabel.SetActive(false);
+            _loadingStub.SetActive(false);
 
             while (_overlayFillProgress.Value > 0)
             {

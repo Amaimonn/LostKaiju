@@ -54,4 +54,5 @@ MonoBehaviour:
   _settingBarLabelClass: setting-bar__label
   _sliderSettingBarAsset: {fileID: 9197481963319205126, guid: 180218f9a08027441a350635e4c7e265, type: 3}
   _toggleSettingBarAsset: {fileID: 9197481963319205126, guid: 07df10da215826f4c85f17e70ac58070, type: 3}
+  _arrowsSettingBarAsset: {fileID: 9197481963319205126, guid: c0d2ef9402425ed45b0af9905747e3ab, type: 3}
   _closingSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}

@@ -19,6 +19,10 @@ namespace LostKaiju.Game.GameData.Settings
         public readonly ReactiveProperty<bool> IsAntiAliasingEnabled;
 #endregion
 
+#region Language settings
+        public ReactiveProperty<int> LanguageIndex { get; }
+#endregion
+
         public SettingsModel(SettingsState state) : base(state)
         {
             MusicVolume = new ReactiveProperty<int>(state.MusicVolume);
@@ -47,6 +51,9 @@ namespace LostKaiju.Game.GameData.Settings
 
             IsAntiAliasingEnabled = new ReactiveProperty<bool>(state.IsAntiAliasingEnabled);
             IsAntiAliasingEnabled.Skip(1).Subscribe(x => state.IsAntiAliasingEnabled = x);
+
+            LanguageIndex = new ReactiveProperty<int>(state.LanguageIndex);
+            LanguageIndex.Skip(1).Subscribe(x => state.LanguageIndex = x);
         }
     }
 }

@@ -59,7 +59,8 @@ namespace LostKaiju.Game.UI.CustomElements
             }
         }
 
-        public event Action<int> OnValueChanged;
+        public event Action<int> OnIndexChanged;
+        public event Action<string> OnValueChanged;
 
         public int CurrentIndex
         {
@@ -71,13 +72,42 @@ namespace LostKaiju.Game.UI.CustomElements
                     if (Options != null && Options.Length > 0)
                     {
                         _currentIndex = Mathf.Clamp(value, 0, Options.Length - 1);
-                        OnValueChanged?.Invoke(_currentIndex);
+                        OnIndexChanged?.Invoke(_currentIndex);
                         UpdateValueLabel();
                     }
                     else
                     {
                         _currentIndex = 0;
                         UpdateValueLabel();
+                    }
+                }
+            }
+        }
+
+        public string CurrentValue
+        {
+            get
+            {
+                if (_currentIndex >= 0 && _currentIndex < _options.Length)
+                    return _options[_currentIndex];
+                else
+                    return null;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    int index = Array.IndexOf(_options, value);
+                    if (index != _currentIndex)
+                    {
+                        if (index >= 0)
+                            CurrentIndex = index;
+                        else
+                        {
+                            Debug.LogError("No such option");
+                            CurrentIndex = 0;
+                        }
+                        OnValueChanged?.Invoke(CurrentValue);
                     }
                 }
             }
