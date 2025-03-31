@@ -1,10 +1,9 @@
 using System;
+using UnityEngine;
+using VContainer.Unity;
 using R3;
 
-using LostKaiju.Game.Providers.InputState;
-using LostKaiju.Game.World.Player.Data.Configs;
-using LostKaiju.Services.Inputs;
-using UnityEngine;
+
 
 namespace LostKaiju.Infrastructure.Managers
 {
@@ -13,7 +12,7 @@ namespace LostKaiju.Infrastructure.Managers
         private readonly PlayerManager _playerManager;
         private readonly CameraManager _cameraManager;
         private readonly Transform _spawnTransform;
-        private readonly CompositeDisposable _disposables = new();
+        private CompositeDisposable _disposables = new();
 
         public DeathManager(
             PlayerManager playerManager,
@@ -25,7 +24,7 @@ namespace LostKaiju.Infrastructure.Managers
             _spawnTransform = spawnTransform;
         }
 
-        public void Initialize()
+        public void Init()
         {
             _playerManager.HealthModel.IsDead
                 .Where(x => x)
@@ -51,7 +50,11 @@ namespace LostKaiju.Infrastructure.Managers
 
         public void Dispose()
         {
-            _disposables.Dispose();
+            if (_disposables != null)
+            {
+                _disposables.Dispose();
+                _disposables = null;
+            }
         }
     }
 }

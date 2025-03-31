@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca283d6cc5cd58841acd80e34cb31e81, type: 3}
   m_Name: LanguageDataSO
   m_EditorClassIdentifier: 
-  <Label>k__BackingField: 
-  <Options>k__BackingField: []
+  <Label>k__BackingField: language
+  <Options>k__BackingField:
+  - English
+  - "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"

@@ -25,68 +25,81 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private SubSceneTrigger[] _subSceneTriggers;
         [SerializeField] private EnemyInjector _enemyInjector;
         
-        // private CompositeDisposable _disposables = new();
-        private PlayerManager _playerManager;
-        private CameraManager _cameraManager;
-        private SceneTransitionManager _sceneTransitionManager;
-        private PostProcessingManager _postProcessingManager;
-        private DeathManager _deathManager;
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<TypedRegistration<MissionExitContext, Subject<Unit>>>(Lifetime.Singleton);
+
+            builder.RegisterInstance<CameraManager>(new CameraManager(_cinemachineCamera));
+
+            builder.RegisterInstance<PostProcessingManager>(new PostProcessingManager(_volume));
+
+            builder.Register<SceneTransitionManager>(resolver => 
+            {
+                return new SceneTransitionManager(
+                    resolver.Resolve<PlayerManager>(),
+                    _subSceneTriggers,
+                    _missionExitAreaTrigger,
+                    resolver.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance);
+            }, Lifetime.Singleton);
+
+            builder.Register<PlayerManager>(resolver =>
+            {
+                return new PlayerManager(
+                    Container,
+                    _missionEnterContext.GameplayEnterContext.PlayerConfig,
+                    resolver.Resolve<IInputProvider>(),
+                    resolver.Resolve<InputStateProvider>(),
+                    resolver.Resolve<IRootUIBinder>(),
+                    resolver.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance);
+            }, Lifetime.Singleton);
+
+            builder.Register<DeathManager>(resolver =>
+            {
+                return new DeathManager(
+                    resolver.Resolve<PlayerManager>(),
+                    resolver.Resolve<CameraManager>(),
+                    _playerInitPosition);
+            }, Lifetime.Singleton);
+        }
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
+            _missionEnterContext = missionEnterContext;
+            Build();
+
+            var missionExitSignal = Container.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance;
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
             var spawnPosition = GetSpawnPosition(missionEnterContext);
             var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
-
-            InitializeManagers(gameplayEnterContext);
-            _playerManager.FirstSpawnPlayer(spawnPosition);
-            _cameraManager.FollowCreature(_playerManager.PlayerCreature);
-
             var toMissionEnterContext = new MissionEnterContext(gameplayEnterContext);
             var missionExitContext = new MissionExitContext(toMissionEnterContext);
 
-            _sceneTransitionManager.Initialize(missionEnterContext, missionExitContext);
-            _deathManager.Initialize();
+            var postProcessingManager = Container.Resolve<PostProcessingManager>();
+            postProcessingManager.BindFromSettings(Container.Resolve<SettingsModel>());
+
+            var playerManager  = Container.Resolve<PlayerManager>();
+            playerManager.FirstSpawnPlayer(spawnPosition);
+
+            var cameraManager = Container.Resolve<CameraManager>();
+            cameraManager.FollowCreature(playerManager.PlayerCreature);
+            
+            var sceneTransitionManager = Container.Resolve<SceneTransitionManager>();
+            sceneTransitionManager.Init(missionEnterContext, missionExitContext);
+
+            var deathManager = Container.Resolve<DeathManager>();
+            deathManager.Init();
 
             _enemyInjector.InjectAndInitAll(Container);
             
-            _sceneTransitionManager.ExitSignal.Merge(gameplayExitSignal).Subscribe(_ => 
+            missionExitSignal.Merge(gameplayExitSignal).Subscribe(_ => 
             {
-                _postProcessingManager.Dispose();
-                _deathManager.Dispose();
-                _playerManager.Dispose();
-                _sceneTransitionManager.Dispose();
+                postProcessingManager.Dispose();
+                deathManager.Dispose();
+                playerManager.Dispose();
+                sceneTransitionManager.Dispose();
             });
 
-            return _sceneTransitionManager.ExitSignal
-                .Select(_ => missionExitContext);
-        }
-
-        private void InitializeManagers(GameplayEnterContext gameplayEnterContext)
-        {
-            _playerManager = new PlayerManager(
-                Container,
-                gameplayEnterContext.PlayerConfig,
-                Container.Resolve<IInputProvider>(),
-                Container.Resolve<InputStateProvider>(),
-                Container.Resolve<IRootUIBinder>());
-
-            _cameraManager = new CameraManager(_cinemachineCamera);
-
-            _sceneTransitionManager = new SceneTransitionManager(
-                _playerManager,
-                _subSceneTriggers,
-                _missionExitAreaTrigger);
-
-            _playerManager.Init(_sceneTransitionManager.ExitSignal);
-
-            _postProcessingManager = new PostProcessingManager(_volume);
-            _postProcessingManager.BindFromSettings(Container.Resolve<SettingsModel>());
-
-            _deathManager = new DeathManager(
-                _playerManager,
-                _cameraManager,
-                _playerInitPosition);
+            return missionExitSignal.Select(_ => missionExitContext);
         }
 
         private Vector3 GetSpawnPosition(MissionEnterContext missionEnterContext)

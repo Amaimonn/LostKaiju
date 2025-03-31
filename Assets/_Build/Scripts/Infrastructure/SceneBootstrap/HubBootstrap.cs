@@ -28,6 +28,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         [SerializeField] private Transform _heroPreviewTransform;
         [SerializeField] private AudioClip _hubMusic;
         private CampaignModel _campaignModel = null;
+        private HubEnterContext _hubEnterContext;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -47,6 +48,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext = null)
         {
+            _hubEnterContext = hubEnterContext;
+            Build();
+            
             var hubExitSignal = new Subject<HubExitContext>();
 
             var audioPlayer = Container.Resolve<AudioPlayer>();

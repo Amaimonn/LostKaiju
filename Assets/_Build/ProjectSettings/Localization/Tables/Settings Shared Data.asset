@@ -51,6 +51,10 @@ MonoBehaviour:
     m_Key: film_grain
     m_Metadata:
       m_Items: []
+  - m_Id: 5725023152685056
+    m_Key: language
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -43,18 +43,15 @@ namespace LostKaiju.Infrastructure.Managers
             IPlayerConfig playerConfig,
             IInputProvider inputProvider,
             InputStateProvider inputStateProvider,
-            IRootUIBinder rootUIBinder)
+            IRootUIBinder rootUIBinder,
+            Subject<Unit> missionExitSignal)
         {
             _container = container;
             _playerConfig = playerConfig;
             _inputProvider = inputProvider;
             _inputStateProvider = inputStateProvider;
             _rootUIBinder = rootUIBinder;
-        }
-
-        public void Init(Observable<Unit> clearViewsSignal)
-        {
-            clearViewsSignal.Take(1).Subscribe(_ => ClearViews());
+            missionExitSignal.Take(1).Subscribe(_ => ClearViews());
         }
 
         public void FirstSpawnPlayer(Vector3 position)

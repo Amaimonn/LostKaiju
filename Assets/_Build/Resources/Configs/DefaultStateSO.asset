@@ -23,6 +23,7 @@ MonoBehaviour:
     IsBloomEnabled: 1
     IsFilmGrainEnabled: 1
     IsAntiAliasingEnabled: 0
+    LanguageIndex: 0
   <Campaign>k__BackingField:
     _version: 1
     CampaignDataVersion: 1

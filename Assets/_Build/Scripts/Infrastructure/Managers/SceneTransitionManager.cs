@@ -10,8 +10,6 @@ namespace LostKaiju.Infrastructure.Managers
 {
     public class SceneTransitionManager : IDisposable
     {
-        public Observable<Unit> ExitSignal => _exitSignal;
-
         private readonly PlayerManager _playerManager;
         private readonly SubSceneTrigger[] _subSceneTriggers;
         private readonly PlayerHeroTrigger _missionExitAreaTrigger;
@@ -19,20 +17,22 @@ namespace LostKaiju.Infrastructure.Managers
         private GameplayEnterContext _gameplayEnterContext;
         private MissionEnterContext _missionEnterContext; // send from bootstrap
         private MissionExitContext _missionExitContext; // exit from the current mission to subscene
-        private readonly Subject<Unit> _exitSignal = new();
+        private readonly Subject<Unit> _exitSignal;
         private readonly CompositeDisposable _disposables = new();
 
         public SceneTransitionManager(
             PlayerManager playerManager,
             SubSceneTrigger[] subSceneTriggers,
-            PlayerHeroTrigger missionExitAreaTrigger)
+            PlayerHeroTrigger missionExitAreaTrigger,
+            Subject<Unit> missionExitSignal)
         {
             _playerManager = playerManager;
             _subSceneTriggers = subSceneTriggers;
             _missionExitAreaTrigger = missionExitAreaTrigger;
+            _exitSignal = missionExitSignal;
         }
 
-        public void Initialize(MissionEnterContext missionEnterContext, MissionExitContext missionExitContext)
+        public void Init(MissionEnterContext missionEnterContext, MissionExitContext missionExitContext)
         {
             _missionEnterContext = missionEnterContext;
             _gameplayEnterContext = missionEnterContext.GameplayEnterContext;

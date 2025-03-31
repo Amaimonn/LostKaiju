@@ -25,6 +25,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     {
         [SerializeField] private GameplayView _gameplayViewPrefab;
 
+        private GameplayEnterContext _gameplayEnterContext;
+
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<InputStateProvider>(Lifetime.Singleton);
@@ -39,6 +41,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
+            _gameplayEnterContext = gameplayEnterContext;
+            Build();
+            
             gameplayEnterContext.PlayerConfig = Resources.Load<PlayerConfigSO>(gameplayEnterContext.PlayerConfigPath);
 
             var exitGameplaySignal = new Subject<GameplayExitContext>();

@@ -53,7 +53,6 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Main menu scene loaded");
 
                 var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
-                mainMenuBootstrap.Build();
                 var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
 
                 exitMainMenuSignal.Take(1).Subscribe(mainMenuExitContext =>
@@ -83,7 +82,6 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Hub scene loaded");
 
                 var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
-                hubBootstrap.Build();
                 var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
                 
                 hubExitSignal.Take(1).Subscribe(hubExitContext =>
@@ -120,7 +118,6 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Gameplay scene loaded");
 
                 var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
-                gameplayBootstrap.Build();
                 var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
 
                 gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
@@ -156,7 +153,6 @@ namespace LostKaiju.Infrastructure.Loading
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(toMissionSceneName));
 
                 var missionBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
-                missionBootstrap.Build();
                 var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
                 missionExitSignal.Take(1).Subscribe(missionExitContext =>
                 {
