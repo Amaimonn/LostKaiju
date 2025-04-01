@@ -28,12 +28,12 @@
 - **Hero Selection**: Hero selection system with hidden behavior implementation from the gameplay.  
 - **Advanced Settings**: Post-processing, audio controls, localization.  
 - **Save/Load System**: Tracks progress, settings, and unlocks (JSON/Yandex Games).
-- **AudioSource Pool**: Unified sound source system with DI.
 
 ### **Architecture**  
 - **MVVM UI**: Hybrid **Canvas** (gameplay) + **UI Toolkit** (menus) with data binding.  
 - **Creature Building**: Creature-Feature system for modular entitiees design (dynamic features registration with simple handmade Container - **Holder**).  
-- **DI & Events**: **VContainer** for dependencies + **R3** for reactive programming.  
+- **DI & Events**: **VContainer** for dependencies + **R3** for reactive programming.
+- **AudioSource Pool**: Unified sound source system with DI.
 
 ### **Quality of Life**  
 - **2D Animation**: Rig-driven animations with blending (code based).  
