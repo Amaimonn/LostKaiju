@@ -1,4 +1,4 @@
-<h1 style="color:#FF0000">LOST KAIJU</h1> 
+# LOST KAIJU
 
 *A noir 2D Platformer about a lost kaiju, built with modern Unity 6 tools.* 
 
