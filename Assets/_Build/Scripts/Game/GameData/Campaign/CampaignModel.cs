@@ -130,7 +130,7 @@ namespace LostKaiju.Game.GameData.Campaign
             var currentMissionIndex = Array.FindIndex(currentLocationMissionsData,
                 x => x.Id == missionId);
 
-            if (currentMissionIndex < currentLocationMissionsData.Length) // open next mission
+            if (currentMissionIndex < currentLocationMissionsData.Length - 1) // open next mission
             {
                 var nextMissionData = currentLocationMissionsData[currentMissionIndex + 1];
                 var nextMissionState = new MissionState(nextMissionData.Id, false);

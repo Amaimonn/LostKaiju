@@ -6,6 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using VContainer.Unity;
 using R3;
+using YG;
 
 using LostKaiju.Infrastructure.SceneBootstrap;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
@@ -23,7 +24,7 @@ namespace LostKaiju.Infrastructure.Loading
         private readonly LifetimeScope _rootScope;
         private readonly Subject<Unit> _onLoadingStarted = new();
         private readonly Subject<Unit> _onLoadingFinished = new();
-        private const float FAKE_LOAD_TIME = 1f;
+        private const float MIN_LOADING_TIME = 1f;
 
         public SceneLoader(MonoBehaviour hook, LoadingScreen loadingScreen, LifetimeScope rootScope)
         {
@@ -52,7 +53,6 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Main menu scene loaded");
 
                 var mainMenuBootstrap = Object.FindAnyObjectByType<MainMenuBootstrap>();
-                mainMenuBootstrap.Build();
                 var exitMainMenuSignal = mainMenuBootstrap.Boot(mainMenuEnterContext);
 
                 exitMainMenuSignal.Take(1).Subscribe(mainMenuExitContext =>
@@ -82,7 +82,6 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Hub scene loaded");
 
                 var hubBootstrap = Object.FindAnyObjectByType<HubBootstrap>();
-                hubBootstrap.Build();
                 var hubExitSignal = hubBootstrap.Boot(hubEnterContext);
                 
                 hubExitSignal.Take(1).Subscribe(hubExitContext =>
@@ -109,7 +108,7 @@ namespace LostKaiju.Infrastructure.Loading
             
             var startTime = Time.time;
             _onLoadingStarted.OnNext(Unit.Default);
-
+            ShowAdvertising();
             yield return LoadSceneAsync(Scenes.GAP);
 
             using (LifetimeScope.EnqueueParent(_rootScope))
@@ -119,7 +118,6 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Gameplay scene loaded");
 
                 var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
-                gameplayBootstrap.Build();
                 var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
 
                 gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
@@ -155,7 +153,6 @@ namespace LostKaiju.Infrastructure.Loading
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(toMissionSceneName));
 
                 var missionBootstrap = Object.FindAnyObjectByType<MissionBootstrap>();
-                missionBootstrap.Build();
                 var missionExitSignal = missionBootstrap.Boot(missionEnterContext);
                 missionExitSignal.Take(1).Subscribe(missionExitContext =>
                 {
@@ -190,11 +187,18 @@ namespace LostKaiju.Infrastructure.Loading
         private YieldInstruction GetRemainFakeLoadTime(float startTime)
         {
             var currentTime = Time.time;
-            var remainTime = FAKE_LOAD_TIME - (currentTime - startTime);
+            var remainTime = MIN_LOADING_TIME - (currentTime - startTime);
             if (remainTime > 0)
                 return new WaitForSeconds(remainTime);
             else
                 return null;
+        }
+
+        private void ShowAdvertising()
+        {
+# if YG_BUILD
+            YG2.InterstitialAdvShow();
+#endif
         }
     }
 }

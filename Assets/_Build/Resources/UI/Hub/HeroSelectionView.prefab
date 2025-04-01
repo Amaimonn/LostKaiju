@@ -49,10 +49,13 @@ MonoBehaviour:
   _closeBackgroundName: OverlayImage
   _completeButtonName: StartButton
   _heroesListName: HeroesList
+  _heroNameName: SelectedName
   _heroDescriptionName: HeroDescription
   _selectedImageName: SelectedImage
   _heroSlot: {fileID: 9197481963319205126, guid: 3a52cfac061be96498d7d9c7749e1ed0, type: 3}
   _heroSlotName: HeroSlot
   _heroLabelName: HeroName
+  _heroImageName: HeroImagePreview
   _heroSlotSelectedClass: hero-slot--selected
-  _heroRenderTexture: {fileID: 8400000, guid: 8ade1f3a75f86e84cb8c26ac91457bde, type: 2}
+  _closingSFX: {fileID: 8300000, guid: ba6b734182ef70c4488a01c4f7cfa160, type: 3}
+  _slotHoverSFX: {fileID: 8300000, guid: 3461eee61709cd94a81a52a2a855d756, type: 3}

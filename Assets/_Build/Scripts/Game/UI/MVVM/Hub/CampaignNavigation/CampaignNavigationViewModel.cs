@@ -76,6 +76,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         public void SelectLocation(ILocationData locationData)
         {
             _campaignModel.SelectedLocation.Value = locationData;
+            _displayedMissionsData.Value = _campaignModel.LocationsDataMap[locationData.Id].AllMissionsData;
             if (_campaignModel.AvailableLocationsMap.TryGetValue(locationData.Id, out var locationModel))
             {
                 if (locationModel.AvailableMissionsMap.Count != 0)
@@ -84,7 +85,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     SelectMission(null);
             }
 
-            _displayedMissionsData.Value = _campaignModel.LocationsDataMap[locationData.Id].AllMissionsData;
         }
 
         public void SelectMission(IMissionData missionData)

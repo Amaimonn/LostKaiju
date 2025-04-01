@@ -4,32 +4,42 @@
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ButtonStyles.uss?fileID=7433441132597879392&amp;guid=e542f6a0d82cbbd4e883ca8747cf44a8&amp;type=3#ButtonStyles" />
     <Style src="project://database/Assets/_Build/UIToolkit/SharedStyles/ScrollViewStyles.uss?fileID=7433441132597879392&amp;guid=702494cf990296343b1a84c82ad0ee75&amp;type=3#ScrollViewStyles" />
     <engine:VisualElement name="OverlayImage" class="overlay-image" />
-    <engine:VisualElement name="Wrapper" picking-mode="Ignore" class="wrapper">
+    <LostKaiju.Game.UI.CustomElements.SafeAreaRoot picking-mode="Ignore" name="Wrapper" class="wrapper">
         <engine:VisualElement name="Content" picking-mode="Ignore" class="missions-content missions-content__transitions">
             <engine:VisualElement name="Panel" picking-mode="Ignore" class="missions-panel">
                 <engine:VisualElement name="HorizontalLayout" picking-mode="Ignore" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; flex-direction: row-reverse;">
-                    <engine:VisualElement name="PanelWhiteBackground" class="panel__white-background" />
-                    <engine:VisualElement name="VerticalLayout" style="flex-grow: 1; width: 100%; height: 100%; position: relative;">
-                        <engine:VisualElement name="PanelBlackBackground" class="panel__black-background" />
-                        <engine:VisualElement name="MissionInfoContainer" class="mission-info-container">
-                            <engine:VisualElement name="MissionInfoSection" class="mission-info" style="width: 800px; max-width: 100%;">
-                                <engine:Label name="MissionInfoLabel" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="mission-info__label" />
-                                <engine:ScrollView name="MissionTextScrollView" horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview mission-info__scrollview">
-                                    <engine:Label name="MissionInfoText" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="mission-info__text" />
-                                </engine:ScrollView>
-                            </engine:VisualElement>
-                        </engine:VisualElement>
-                        <engine:VisualElement name="Slider" class="missions-slider">
-                            <engine:Button text="&lt;" name="SliderLeftButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--left" />
-                            <engine:VisualElement name="MissionsGrid" class="missions-grid" />
-                            <engine:Button text="&gt;" name="SliderRightButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--right" />
-                        </engine:VisualElement>
-                        <engine:VisualElement name="BottomBar" class="panel__bottom-bar" style="margin-right: 16px; margin-left: 16px; margin-bottom: 16px;">
-                            <engine:Button name="StartButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="start-button button-transitions-base">
+                    <engine:VisualElement name="PanelWhiteBackground" picking-mode="Ignore" class="panel__white-background" />
+                    <engine:VisualElement name="VerticalLayout" class="vertical-layout">
+                        <engine:VisualElement name="TopBar" class="content__top-bar">
+                            <engine:Label text="Missions" name="Label" class="missions-content__label">
                                 <Bindings>
-                                    <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(49855898107904)" />
+                                    <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(1665920450560)" />
                                 </Bindings>
-                            </engine:Button>
+                            </engine:Label>
+                            <engine:Button text="X" name="CloseButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="close-button button-transitions-base" />
+                        </engine:VisualElement>
+                        <engine:VisualElement name="VerticalLayout" class="vertical-layout">
+                            <engine:VisualElement name="PanelBlackBackground" class="panel__black-background" />
+                            <engine:VisualElement name="MissionInfoContainer" class="mission-info-container">
+                                <engine:VisualElement name="MissionInfoSection" class="mission-info" style="width: 800px; max-width: 100%;">
+                                    <engine:Label name="MissionInfoLabel" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="mission-info__label" />
+                                    <engine:ScrollView name="MissionTextScrollView" horizontal-scroller-visibility="Hidden" class="settings-tab__scrollview mission-info__scrollview">
+                                        <engine:Label name="MissionInfoText" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="mission-info__text" />
+                                    </engine:ScrollView>
+                                </engine:VisualElement>
+                            </engine:VisualElement>
+                            <engine:VisualElement name="Slider" class="missions-slider">
+                                <engine:Button text="&lt;" name="SliderLeftButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--left" style="display: none;" />
+                                <engine:VisualElement name="MissionsGrid" class="missions-grid" />
+                                <engine:Button text="&gt;" name="SliderRightButton" enable-rich-text="false" emoji-fallback-support="false" class="missions-slider__button missions-slider-button--right" style="display: none;" />
+                            </engine:VisualElement>
+                            <engine:VisualElement name="BottomBar" class="panel__bottom-bar" style="margin-right: 16px; margin-left: 16px; margin-bottom: 16px;">
+                                <engine:Button name="StartButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="start-button button-transitions-base">
+                                    <Bindings>
+                                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(49855898107904)" />
+                                    </Bindings>
+                                </engine:Button>
+                            </engine:VisualElement>
                         </engine:VisualElement>
                     </engine:VisualElement>
                     <engine:VisualElement name="LocationsTabs" class="locations-tabs">
@@ -38,14 +48,6 @@
                     </engine:VisualElement>
                 </engine:VisualElement>
             </engine:VisualElement>
-            <engine:VisualElement name="TopBar" class="content__top-bar">
-                <engine:Label text="Missions" name="Label" class="missions-content__label">
-                    <Bindings>
-                        <UnityEngine.Localization.LocalizedString property="text" table="GUID:53406fac855010a40bab638b98d72d3f" entry="Id(1665920450560)" />
-                    </Bindings>
-                </engine:Label>
-                <engine:Button text="X" name="CloseButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="close-button button-transitions-base" />
-            </engine:VisualElement>
         </engine:VisualElement>
-    </engine:VisualElement>
+    </LostKaiju.Game.UI.CustomElements.SafeAreaRoot>
 </engine:UXML>

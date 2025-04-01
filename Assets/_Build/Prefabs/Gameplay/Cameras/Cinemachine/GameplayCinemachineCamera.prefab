@@ -60,7 +60,7 @@ MonoBehaviour:
     FieldOfView: 34
     OrthographicSize: 6
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 50
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -91,19 +91,19 @@ MonoBehaviour:
   CameraDistance: 10
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: -0.06}
     DeadZone:
-      Enabled: 0
-      Size: {x: 0.2, y: 0}
+      Enabled: 1
+      Size: {x: 0.1, y: 0.13726987}
     HardLimits:
-      Enabled: 0
+      Enabled: 1
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 1, z: 0}
-  Damping: {x: 2, y: 0.5, z: 1}
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 1, y: 0, z: 1}
   Lookahead:
     Enabled: 1
-    Time: 0.2
+    Time: 0.1
     Smoothing: 4
     IgnoreY: 1

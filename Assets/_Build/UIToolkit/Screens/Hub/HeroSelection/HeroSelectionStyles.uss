@@ -41,9 +41,9 @@
 }
 
 .exit-button {
-    width: 60px;
-    height: 60px;
-    font-size: 32px;
+    width: 120px;
+    height: 64px;
+    font-size: 60px;
     background-color: rgb(100, 100, 100);
     color: rgb(255, 255, 255);
     border-radius: 50%;
@@ -65,11 +65,12 @@
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
+    padding-bottom: 16px;
 }
 
 .exit-button:hover {
     scale: 1.1;
-    font-size: 42px;
+    font-size: 80px;
     border-left-color: rgb(189, 189, 189);
     border-right-color: rgb(189, 189, 189);
     border-top-color: rgb(189, 189, 189);
@@ -78,6 +79,10 @@
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
+}
+
+.exit-button:active {
+    scale: 0.95 0.95;
 }
 
 .main-container {
@@ -189,8 +194,14 @@
 
 .selected-preview__image {
     border-radius: 14px;
+    flex-grow: 0;
+    background-position-y: center 0;
+    height: 100%;
+    width: 800px;
+    background-size: contain;
+    align-items: auto;
+    align-self: center;
     -unity-background-scale-mode: scale-to-fit;
-    background-color: rgba(47, 47, 47, 0.31);
 }
 
 .selected-name {
@@ -280,9 +291,9 @@
 }
 
 .description-text {
-    font-size: 18px;
+    font-size: 24px;
     color: rgb(170, 170, 170);
-    -unity-text-align: upper-left;
+    -unity-text-align: middle-center;
     flex-grow: 1;
     transition-property: color;
     transition-duration: 0.2s;

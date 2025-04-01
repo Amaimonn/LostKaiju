@@ -1,7 +1,7 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/_Build/UIToolkit/Components/HeroSlot/HeroSlotStyles.uss?fileID=7433441132597879392&amp;guid=c608f5900995c63418884dddfae393da&amp;type=3#HeroSlotStyles" />
     <engine:VisualElement name="HeroSlot" class="hero-slot">
-        <engine:VisualElement name="HeroPreview" class="hero-slot__preview" style="background-size: contain;" />
+        <engine:VisualElement name="HeroImagePreview" class="hero-slot__preview" />
         <engine:Label text="..." name="HeroName" class="hero-slot__name" />
         <engine:VisualElement name="DecorLine" class="decor-line" />
     </engine:VisualElement>

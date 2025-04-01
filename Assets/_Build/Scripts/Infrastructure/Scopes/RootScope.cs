@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Localization.Settings;
 using VContainer;
 using VContainer.Unity;
 using R3;
@@ -26,6 +27,8 @@ namespace LostKaiju.Infrastructure.Scopes
         {
             DontDestroyOnLoad(gameObject);
 
+            builder.RegisterInstance<IInputProvider>(new InputSystemProvider());
+
             var monoHook = new GameObject("MonoHook").AddComponent<MonoBehaviourHook>();
             DontDestroyOnLoad(monoHook);
             builder.RegisterInstance(monoHook);
@@ -34,7 +37,6 @@ namespace LostKaiju.Infrastructure.Scopes
             DontDestroyOnLoad(uiRootBinder);
             builder.RegisterInstance<IRootUIBinder>(uiRootBinder);
             
-            builder.Register<IInputProvider, InputSystemProvider>(Lifetime.Singleton);
             var defaultStateProvider = new DefaultStateSOProvider();
 #if UNITY_EDITOR || !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
             var serizlizer = new JsonUtilityAsyncSerializer();
@@ -53,13 +55,16 @@ namespace LostKaiju.Infrastructure.Scopes
 
             builder.RegisterInstance<IGameStateProvider>(gameStateProvider);
 
-            builder.Register<SettingsModel>(resolver =>
-            {
-                var settingsModel = new SettingsModel(resolver.Resolve<IGameStateProvider>().Settings);
-                var urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-                settingsModel.IsAntiAliasingEnabled.Subscribe(x => urpAsset.msaaSampleCount = x ? 2 : 1);
-                return settingsModel;
-            }, Lifetime.Singleton);
+            var settingsModel = new SettingsModel(gameStateProvider.Settings);
+            var urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+            settingsModel.IsAntiAliasingEnabled.Subscribe(x => urpAsset.msaaSampleCount = x ? 2 : 1);
+            settingsModel.LanguageIndex
+                .Where(x => x >= 0 && x < LocalizationSettings.AvailableLocales.Locales.Count)
+                .Subscribe(l => 
+                {
+                    LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[l];
+                });
+            builder.RegisterInstance<SettingsModel>(settingsModel);
             builder.Register<SettingsBinder>(Lifetime.Singleton);
 
             var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
@@ -74,7 +79,7 @@ namespace LostKaiju.Infrastructure.Scopes
                 loadingScreen.OverlayFillProgress.Subscribe(x => audioPlayer.VolumeMultiplier.Value = 1 - x);
                 sceneLoader.OnLoadingStarted.Subscribe(_ => 
                 {
-                    audioPlayer.ClearSFX();
+                    audioPlayer.ClearPoolSFX();
                     audioPlayer.PauseMusic();
                 });
                 sceneLoader.OnLoadingFinished.Subscribe(_ =>

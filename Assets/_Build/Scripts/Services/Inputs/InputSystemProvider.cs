@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using R3;
-
-using UnityEngine.InputSystem;
 
 namespace LostKaiju.Services.Inputs
 {
@@ -65,10 +64,12 @@ namespace LostKaiju.Services.Inputs
         public bool GetShift => _onReadDash();
 
         public bool GetAttack => _onReadAttack();
+
         public Observable<Unit> OnEscape => _onEscape;
+
         public Observable<Unit> OnOptions => _onOptions;
 
-        private const float SENSITIVITY = 0.5f;
+        private const float SENSITIVITY = 0.2f;
         private readonly Func<Vector2> _onReadMove;
         private readonly Func<bool> _onReadJump;
         private readonly Func<bool> _onReadDash;
@@ -77,34 +78,24 @@ namespace LostKaiju.Services.Inputs
         private readonly ReactiveProperty<bool> _verticalCanceled = new(true);
         private readonly Subject<Unit> _onEscape = new();
         private readonly Subject<Unit> _onOptions = new();
+        private readonly KaijuInputActions _playerInputSystem = new();
 
         public InputSystemProvider()
         {
-            var moveAction = InputSystem.actions.FindAction("Move");
-            var jumpAction = InputSystem.actions.FindAction("Jump");
-            var dashAction = InputSystem.actions.FindAction("Dash");
-            var attackAction = InputSystem.actions.FindAction("Attack");
-            // InputSystem.actions.FindAction("Cancel").started += _ => _onEscape.OnNext(Unit.Default);
-            InputSystem.actions.FindAction("Options").started += _ => _onOptions.OnNext(Unit.Default);
+            _playerInputSystem.Enable();
+            
+            var gameplayActions = _playerInputSystem.Player;
+            gameplayActions.Options.started += _ => _onOptions.OnNext(Unit.Default);
 
-            _onReadMove = moveAction.ReadValue<Vector2>;
-            _onReadDash = dashAction.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
-            _onReadAttack = attackAction.WasPressedThisFrame; // () => attackAction.ReadValue<float>() > 0;
-            _onReadJump = () => jumpAction.ReadValue<float>() > 0 || moveAction.ReadValue<Vector2>().y >= SENSITIVITY;
-            // if (SystemInfo.deviceType == DeviceType.Handheld)
-            // {
-            //     _onReadJump = () => moveAction.ReadValue<Vector2>().y > 0.5f;
-            // }
-            // else
-            // {
-            //     _onReadJump = () => jumpAction.ReadValue<float>() > 0;
-            // }
+            _onReadMove = gameplayActions.Move.ReadValue<Vector2>;
+            _onReadDash = gameplayActions.Dash.WasPressedThisFrame; //() => dashAction.ReadValue<float>() > 0;
+
+            _onReadAttack = () => gameplayActions.Attack.WasPressedThisFrame() && 
+                !EventSystem.current.IsPointerOverGameObject() || 
+                gameplayActions.AttackButton.WasPressedThisFrame(); 
+
+            _onReadJump = () => gameplayActions.Jump.ReadValue<float>() > 0 ||
+                gameplayActions.Move.ReadValue<Vector2>().y >= SENSITIVITY;
         }
-
-        // private Observable<bool> _moveCanceled = Observable.Create<bool>(sub => {
-        //     Action<UnityEngine.InputSystem.InputAction.CallbackContext> subObserver = (e) => sub.OnNext(true);
-        //     _playerInput.Player.Move.canceled += subObserver;
-        //     return Disposable.Create(() => _playerInput.Player.Move.canceled -= subObserver);
-        // });
     }
 }

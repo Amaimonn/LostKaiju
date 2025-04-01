@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using R3;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM
 {
@@ -8,6 +9,12 @@ namespace LostKaiju.Game.UI.MVVM
     {
         [SerializeField] protected Button _closeButton;
         [SerializeField] protected Button _closeBackground;
+        protected AudioPlayer _audioPlayer;
+
+        public virtual void Construct(AudioPlayer audioPlayer)
+        {
+            _audioPlayer = audioPlayer;
+        }
 
         protected override void OnBind(T viewModel)
         {

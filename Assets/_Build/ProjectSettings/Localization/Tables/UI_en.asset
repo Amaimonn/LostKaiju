@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 54113250885632
-    m_Localized: Apply
+    m_Localized: APPLY
     m_Metadata:
       m_Items: []
   - m_Id: 54183685832704
@@ -68,6 +68,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1048095003033600
     m_Localized: HEROES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3552979090718720
+    m_Localized: PICK
     m_Metadata:
       m_Items: []
   references:

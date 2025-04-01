@@ -7,28 +7,39 @@ using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.Constants;
+using LostKaiju.Game.UI.CustomElements;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
     public class SettingsView : PopUpToolkitView<SettingsViewModel>
     {
+        [Header("UIElements")]
         [SerializeField] private string _applyButtonName;
-        [SerializeField] private string _resetButtonName;
+        [SerializeField] private string _cancelChangesButtonName;
         [SerializeField] private string _sectionsRootClass;
-        [SerializeField] private string _scrollViewClass;
+
+        [Header("Sections"), Space(4)]
+        [SerializeField] private VisualTreeAsset _sectionScrollViewAsset;
+        
+        [Header("Controls"), Space(4)]
         [SerializeField] private string _settingBarLabelClass;
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
+        [SerializeField] private VisualTreeAsset _arrowsSettingBarAsset;
+
+        [Header("SFX"), Space(4)]
+        [SerializeField] private AudioClip _closingSFX;
 
         private Button _applyButton;
-        private Button _resetButton;
+        private Button _cancelChangesButton;
         // private bool _isClosing = false;
 
+#region PopUpToolkitView
         protected override void OnAwake()
         {
             base.OnAwake();
             _applyButton = Root.Q<Button>(name: _applyButtonName);
-            _resetButton = Root.Q<Button>(name: _resetButtonName);
+            _cancelChangesButton = Root.Q<Button>(name: _cancelChangesButtonName);
         }
 
         protected override void OnBind(SettingsViewModel viewModel)
@@ -36,8 +47,41 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             base.OnBind(viewModel);
             InitSections();
             _applyButton.RegisterCallback<ClickEvent>(ApplyChanges);
-            _resetButton.RegisterCallback<ClickEvent>(ResetSettings);
+            _cancelChangesButton.RegisterCallback<ClickEvent>(CancelChanges);
+            ViewModel.IsAnyChanges.Subscribe(x => 
+            {
+                _applyButton.SetEnabled(x);
+                _cancelChangesButton.SetEnabled(x);
+            });
         }
+
+        protected override void OnOpening()
+        {
+            Debug.Log("Settings: opened");
+            // StartCoroutine(OpenAnimation());
+
+            // static IEnumerator OpenAnimation()
+            // {
+            //     yield return null;
+            //     // _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
+            //     // _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+                
+            // }
+        }
+
+        protected override void OnClosing()
+        {
+            // _isClosing = true;
+            // Root.SetEnabled(false);
+            // if (_isClosing)
+                 // TODO: replace it to the TransitionEndEvent
+            // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
+            // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
+            Debug.Log("Settings: closed");
+            PlayClosingSFX();
+            base.OnClosing();
+        }
+#endregion
 
         private void InitSections()
         {
@@ -47,6 +91,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             {
                 InitSoundSection(sectionsRoot, data);
                 InitVideoSection(sectionsRoot, data);
+                InitLanguageSection(sectionsRoot, data);
             }).AddTo(_disposables);
         }
         
@@ -86,16 +131,34 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             BindToggle(postProcessingToggle, videoViewModel.SetIsPostProcessingEnabled, videoViewModel.IsPostProcessingEnabled);
 
             var bloomToggle = CreateToggle(settingsData.IsBloomEnabledData, scrollView);
-            BindToggle(bloomToggle, videoViewModel.SetIsBloomEnabled, videoViewModel.IsHighBloomQuality);
+            BindToggle(bloomToggle, videoViewModel.SetIsBloomEnabled, videoViewModel.IsBloomEnabled);
+
+            var filmGrainToggle = CreateToggle(settingsData.IsFilmGrainEnabledData, scrollView);
+            BindToggle(filmGrainToggle, videoViewModel.SetIsFilmGrainEnabled, videoViewModel.IsFilmGrainEnabled);
 
             var antiAliasingToggle = CreateToggle(settingsData.IsAntiAliasingEnabledData, scrollView);
             BindToggle(antiAliasingToggle, videoViewModel.SetIsAntiAliasingEnabled, videoViewModel.IsAntiAliasingEnabled);
         }
 
+        private void InitLanguageSection(VisualElement sectionsRoot, IFullSettingsData settingsData)
+        {
+            var languageViewModel = ViewModel.LanguageSettingsViewModel;
+
+            var languageSection = new Tab();
+            languageSection.LocalizeLabel(Tables.SETTINGS, settingsData.LanguageSectionLabel);
+            languageSection.selected += _ => ViewModel.SelectLanguageSection();
+            sectionsRoot.Add(languageSection);
+
+            var scrollView = CreateScrollView(languageSection);
+
+            var languageArrows = CreateArrowsMenu(settingsData.LanguageData, scrollView);
+            BindArrowsMenu(languageArrows, languageViewModel.SetLanguage, languageViewModel.LanguageIndex);
+        }
+
         private ScrollView CreateScrollView(VisualElement parentSection)
         {
-            var scrollView = new ScrollView();
-            scrollView.AddToClassList(_scrollViewClass);
+            var scrollViewConteiner = _sectionScrollViewAsset.CloneTree();//new ScrollView();
+            var scrollView = scrollViewConteiner.Q<ScrollView>();
             parentSection.Add(scrollView);
 
             return scrollView;
@@ -141,43 +204,41 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             toggle.RegisterCallback<ChangeEvent<bool>>(e => method(e.newValue));
             observable.Subscribe(x => toggle.value = x);
         }
-        
-#region PopUpToolkitView
-        protected override void OnOpening()
-        {
-            Debug.Log("Settings: opened");
-            // StartCoroutine(OpenAnimation());
 
-            // static IEnumerator OpenAnimation()
-            // {
-            //     yield return null;
-            //     // _contentElement.RemoveFromClassList($"{_contentStyleName}--disabled");
-            //     // _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-                
-            // }
+        private ArrowsMenu CreateArrowsMenu(IArrowsSettingData arrowsSettingData, VisualElement parentSection)
+        {
+            var settingBar = _arrowsSettingBarAsset.CloneTree();
+            parentSection.Add(settingBar);
+
+            var label = settingBar.Q<Label>(className: _settingBarLabelClass);
+            label.LocalizeText(Tables.SETTINGS, arrowsSettingData.Label);
+
+            var arrowsMenu = settingBar.Q<ArrowsMenu>();
+            arrowsMenu.Options = arrowsSettingData.Options;
+
+            return arrowsMenu;
         }
 
-        protected override void OnClosing()
+        private void BindArrowsMenu(ArrowsMenu arrowsMenu, Action<int> method, Observable<int> observable)
         {
-            // _isClosing = true;
-            // Root.SetEnabled(false);
-            // if (_isClosing)
-                 // TODO: replace it to the TransitionEndEvent
-            // _contentElement.AddToClassList($"{_contentStyleName}--disabled");
-            // _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundStyleName}--enabled");
-            Debug.Log("Settings: closed");
-            base.OnClosing();
+            arrowsMenu.OnIndexChanged += method;
+            observable.Subscribe(x => arrowsMenu.CurrentIndex = x);
         }
-#endregion
 
         private void ApplyChanges(ClickEvent clickEvent)
         {
             ViewModel.ApplyChanges();
         }
 
-        private void ResetSettings(ClickEvent clickEvent)
+        private void CancelChanges(ClickEvent clickEvent)
         {
-            ViewModel.ResetCurrentSectionSettings();
+            // ViewModel.ResetCurrentSectionSettings();
+            ViewModel.CancelUnappliedChanges();
+        }
+
+        private void PlayClosingSFX()
+        {
+            _audioPlayer.PlayRandomPitchSFX(_closingSFX);
         }
     }
 }

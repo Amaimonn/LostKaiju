@@ -20,12 +20,14 @@ namespace LostKaiju.Game.World.Enemy
         
         public void PlayAttack()
         {
-            _audioPlayer.PlayOneShotSFX(_attackSound);
+            if (_attackSound != null)
+                _audioPlayer.PlayOneShotSFX(_attackSound);
         }
 
         public void PlayOnDamaged()
         {
-            _onDamagedEffect.PlayEffect();
+            if (_onDamagedEffect != null)
+                _onDamagedEffect.PlayEffect();
         }
     }
 }

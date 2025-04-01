@@ -48,6 +48,7 @@ namespace LostKaiju.Game.World.Enemy
             _targeter = _creature.Features.Resolve<ITargeter>();
             var attacker = _creature.Features.Resolve<IAttacker>();
             var pusher = _creature.Features.Resolve<IPusher>();
+            var juicySystem = _creature.Features.Resolve<EnemyJuicySystem>();
 
             pusher.OnPushed.Subscribe(_ => _attackDelayTimer.Refresh())
                 .AddTo(_disposables);
@@ -86,6 +87,7 @@ namespace LostKaiju.Game.World.Enemy
             
             attackState.OnEnter.Subscribe(x =>
             {
+                juicySystem.PlayAttack();
                 _attackCooldownTimer.Refresh();
             });
 

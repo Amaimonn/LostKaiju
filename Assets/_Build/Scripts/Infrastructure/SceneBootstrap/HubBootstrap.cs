@@ -23,12 +23,12 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class HubBootstrap : LifetimeScope
     {
-        // [SerializeField] private HubView _hubViewPrefab;
         [SerializeField] private HubCanvasView _hubViewPrefab;
         [SerializeField] private CameraRenderTextureSetter _heroRenderTextureSetter;
         [SerializeField] private Transform _heroPreviewTransform;
         [SerializeField] private AudioClip _hubMusic;
         private CampaignModel _campaignModel = null;
+        private HubEnterContext _hubEnterContext;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -48,6 +48,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
         public Observable<HubExitContext> Boot(HubEnterContext hubEnterContext = null)
         {
+            _hubEnterContext = hubEnterContext;
+            Build();
+            
             var hubExitSignal = new Subject<HubExitContext>();
 
             var audioPlayer = Container.Resolve<AudioPlayer>();
@@ -61,6 +64,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var hubExitToGameplayContext = new HubExitContext(gameplayEnterContext);
 
             var hubView = Instantiate(_hubViewPrefab);
+            hubView.Construct(audioPlayer);
+
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var gameStateProvider = Container.Resolve<IGameStateProvider>();
 
@@ -75,7 +80,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
             _heroRenderTextureSetter.Init();
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory, 
-                _heroRenderTextureSetter.CurrentRenderTexture);
+                _heroRenderTextureSetter.CurrentRenderTexture, audioPlayer);
             var hubViewModel = new HubViewModel(campaignBinder, settingsBinder, heroSelectionBinder);
 
             var heroPreview = new HeroPreview(_heroPreviewTransform, onShowPreview: x => x.SetActive(true), 
@@ -130,9 +135,9 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 if (!String.IsNullOrEmpty(hubEnterContext.ExitingMissionId))
                 {
                     if (hubEnterContext.IsMissionCompleted)
-                        Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} completed</color>");
+                        Debug.Log($"<color=#008000>Mission {hubEnterContext.ExitingMissionId} was completed</color>");
                     else
-                        Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} exited</color>");
+                        Debug.Log($"<color=#FFFF00>Mission {hubEnterContext.ExitingMissionId} was abandoned</color>");
                     hubViewModel.OpenCampaign();
                 }
             }

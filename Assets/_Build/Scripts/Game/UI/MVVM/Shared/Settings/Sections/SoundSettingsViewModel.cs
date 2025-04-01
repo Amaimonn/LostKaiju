@@ -54,7 +54,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             CacheSettings();
         }
 
-        public override void ResetSettings()
+        public override void CancelChanges()
         {
             _model.MusicVolume.Value = _musicVolumeCached;
             _model.IsMusicEnabled.Value = _isSoundEnabledCached;

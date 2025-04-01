@@ -1,237 +1,112 @@
-using System;
 using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using VContainer;
 using R3;
 
-using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
-using LostKaiju.Game.UI.MVVM.Gameplay.PlayerCreature;
-using LostKaiju.Game.World.Player;
-using LostKaiju.Game.World.Player.Behaviour;
 using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Game.World.Missions.Triggers;
 using LostKaiju.Game.GameData.Settings;
-using LostKaiju.Game.GameData.HealthSystem;
-using LostKaiju.Game.Constants;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Services.Inputs;
-using LostKaiju.Game.World.Creatures.Features;
-using LostKaiju.Game.UI.MVVM.Shared.Settings;
-using LostKaiju.Game.World.Player.Views;
 using LostKaiju.Game.World.Enemy;
+using LostKaiju.Infrastructure.Managers;
+using LostKaiju.Infrastructure.Scopes;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
     public class CommonMissionBootstrap : MissionBootstrap
     {
-        [SerializeField] private Transform _playerInitPosition; 
+        [SerializeField] private Transform _playerInitPosition;
         [SerializeField] private CinemachineCamera _cinemachineCamera;
         [SerializeField] private Volume _volume;
         [SerializeField] private PlayerHeroTrigger _missionExitAreaTrigger;
         [SerializeField] private SubSceneTrigger[] _subSceneTriggers;
         [SerializeField] private EnemyInjector _enemyInjector;
-        private CompositeDisposable _disposables = new();
+        
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<TypedRegistration<MissionExitContext, Subject<Unit>>>(Lifetime.Singleton);
+
+            builder.RegisterInstance<CameraManager>(new CameraManager(_cinemachineCamera));
+
+            builder.RegisterInstance<PostProcessingManager>(new PostProcessingManager(_volume));
+
+            builder.Register<SceneTransitionManager>(resolver => 
+            {
+                return new SceneTransitionManager(
+                    resolver.Resolve<PlayerManager>(),
+                    _subSceneTriggers,
+                    _missionExitAreaTrigger,
+                    resolver.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance);
+            }, Lifetime.Singleton);
+
+            builder.Register<PlayerManager>(resolver =>
+            {
+                return new PlayerManager(
+                    Container,
+                    _missionEnterContext.GameplayEnterContext.PlayerConfig,
+                    resolver.Resolve<IInputProvider>(),
+                    resolver.Resolve<InputStateProvider>(),
+                    resolver.Resolve<IRootUIBinder>(),
+                    resolver.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance);
+            }, Lifetime.Singleton);
+
+            builder.Register<DeathManager>(resolver =>
+            {
+                return new DeathManager(
+                    resolver.Resolve<PlayerManager>(),
+                    resolver.Resolve<CameraManager>(),
+                    _playerInitPosition);
+            }, Lifetime.Singleton);
+        }
 
         public override R3.Observable<MissionExitContext> Boot(MissionEnterContext missionEnterContext)
         {
-            // var audioPlayer = Container.Resolve<AudioPlayer>();
+            _missionEnterContext = missionEnterContext;
+            Build();
+
+            var missionExitSignal = Container.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance;
             var gameplayEnterContext = missionEnterContext.GameplayEnterContext;
-            var playerConfig = gameplayEnterContext.PlayerConfig;
-            var playerPrefab = playerConfig.CreatureBinder;
-            var spawnPosition = missionEnterContext.FromMissionSceneName == null ? // if from subscene to main
-                missionEnterContext.PlayerPosition ?? _playerInitPosition.position : _playerInitPosition.position;
-            var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-            if (player.Features.TryResolve<PlayerJuicySystem>(out var juicySystem))
-                Container.Inject(juicySystem);
-            Debug.Log("player instantiated");
-
-            var playerData = playerConfig.PlayerData;
-            var healthState = new HealthState(playerData.PlayerDefenceData.MaxHealth);
-            var healthModel = new HealthModel(healthState);
-
-            var playerIndicatorsViewModel = new PlayerIndicatorsViewModel(healthModel);
-            var rootUIBinder = Container.Resolve<IRootUIBinder>();
-            var playerIndicatorsViewPrefab = Resources.Load<PlayerIndicatorsView>(Paths.PLAYER_INDICATORS_VIEW);
-            var playerIndicatorsView = Instantiate(playerIndicatorsViewPrefab);
-            playerIndicatorsView.Bind(playerIndicatorsViewModel);
-            rootUIBinder.AddView(playerIndicatorsView);
-
-            var inputProvider = Container.Resolve<IInputProvider>();
-            var inputStateProvider = Container.Resolve<InputStateProvider>();
-            inputStateProvider.ClearBlockers();
-            var playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider);
-            inputStateProvider.IsInputEnabled.Subscribe(playerInputPresenter.SetInputEnabled);
-            var playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
-            var playerRootPresenter = new PlayerRootPresenter(playerInputPresenter, playerDefencePresenter);
-            playerRootPresenter.Bind(player);
-            Debug.Log("player root presenter binded");
-
-            if (player.Features.TryResolve<ICameraTarget>(out var cameraTarget) && cameraTarget.TargetTransform != null)
-                _cinemachineCamera.Follow = cameraTarget.TargetTransform;
-            else
-                _cinemachineCamera.Follow = player.transform;
-
-            var exitSignal = new Subject<Unit>();
-            
-            exitSignal.Take(1).Subscribe(_ =>
-            {
-                rootUIBinder.ClearView(playerIndicatorsView);
-            });
-            var toMissionEnterContext = new MissionEnterContext(gameplayEnterContext); // add toMissionSceneName
-            var missionExitContext = new MissionExitContext(toMissionEnterContext);
-            var missionExitSignal = exitSignal.Select(_ => missionExitContext); // for transition between one mission scenes
+            var spawnPosition = GetSpawnPosition(missionEnterContext);
             var gameplayExitSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
+            var toMissionEnterContext = new MissionEnterContext(gameplayEnterContext);
+            var missionExitContext = new MissionExitContext(toMissionEnterContext);
+
+            var postProcessingManager = Container.Resolve<PostProcessingManager>();
+            postProcessingManager.BindFromSettings(Container.Resolve<SettingsModel>());
+
+            var playerManager  = Container.Resolve<PlayerManager>();
+            playerManager.FirstSpawnPlayer(spawnPosition);
+
+            var cameraManager = Container.Resolve<CameraManager>();
+            cameraManager.FollowCreature(playerManager.PlayerCreature);
             
-#region Death handling
-            healthModel.CurrentHealth.Where(x => x == 0).TakeUntil(exitSignal).Subscribe(_ => 
-            {
-                // OnPlayerTransition();
-                _cinemachineCamera.Follow = null;
-                playerRootPresenter.Dispose();
-                Destroy(player.gameObject);
+            var sceneTransitionManager = Container.Resolve<SceneTransitionManager>();
+            sceneTransitionManager.Init(missionEnterContext, missionExitContext);
 
-                Observable.Timer(TimeSpan.FromSeconds(1)).TakeUntil(exitSignal).Subscribe(_ =>
-                {
-                    // player.transform.position = _playerInitPosition.position;
-                    // healthModel.RestoreFullHealth();
-                    // toMissionEnterContext.PlayerPosition = null;
-                    // toMissionEnterContext.FromMissionSceneName = null;
-                    // toMissionEnterContext.FromTriggerId = null;
-                    // missionExitContext.ToMissionSceneName = gameplayEnterContext.LevelSceneName;
+            var deathManager = Container.Resolve<DeathManager>();
+            deathManager.Init();
 
-                    // exitSignal.OnNext(Unit.Default);
-                    healthModel.RestoreFullHealth();
-                    player = Instantiate(playerPrefab, _playerInitPosition.position, Quaternion.identity);
-                    playerInputPresenter = new PlayerInputPresenter(playerData.PlayerControlsData, inputProvider);
-                    inputStateProvider.IsInputEnabled.Subscribe(playerInputPresenter.SetInputEnabled);
-                    playerDefencePresenter = new PlayerDefencePresenter(healthModel, playerData.PlayerDefenceData);
-                    playerRootPresenter = new PlayerRootPresenter(playerInputPresenter, playerDefencePresenter);
-                    playerRootPresenter.Bind(player);
-                    if (player.Features.TryResolve<PlayerJuicySystem>(out var juicySystem))
-                        Container.Inject(juicySystem);
-                    if (player.Features.TryResolve<ICameraTarget>(out var cameraTarget) && cameraTarget.TargetTransform != null)
-                        _cinemachineCamera.Follow = cameraTarget.TargetTransform;
-                    else
-                        _cinemachineCamera.Follow = player.transform;
-
-                    player.transform.position = _playerInitPosition.position;
-                });
-            });
-#endregion
-
-            // if (isMultuplayer)
-            // {
-            //     var groupTrigger = new GroupTriggerObserver<IPlayerHero>(_missionExitAreaTrigger);
-            // }
-#region Subscene trigger handling
-            if (_subSceneTriggers != null)
-            {
-                var shouldSkip = !String.IsNullOrEmpty(missionEnterContext.FromTriggerId);
-                foreach (var subTrigger in _subSceneTriggers)
-                {
-                    if (subTrigger == null) 
-                    {
-                        Debug.LogWarning("SubScene trigger is null");
-                        continue;
-                    }
-                    // TODO: not to spawn hero in trigger or add button or another option to approve transitions on trigger stay
-                    var onTriggerEnter = subTrigger.OnEnter;
-                    if (shouldSkip && subTrigger.ToSceneName == missionEnterContext.FromTriggerId)
-                    {
-                        onTriggerEnter = onTriggerEnter.Skip(1);
-                    }
-                    
-                    onTriggerEnter
-                        .Take(1)
-                        .Subscribe(_ =>
-                        {
-                            Debug.Log("SubScene signal");
-                            Debug.Log((subTrigger.transform.position - player.transform.position).magnitude);
-                            toMissionEnterContext.FromMissionSceneName = missionEnterContext.GameplayEnterContext.LevelSceneName;
-                            toMissionEnterContext.PlayerPosition = player.transform.position;
-                            toMissionEnterContext.FromTriggerId = subTrigger.ToSceneName;
-                            missionExitContext.ToMissionSceneName = subTrigger.ToSceneName;
-                            OnPlayerTransition();
-                            exitSignal.OnNext(Unit.Default);
-                        });
-                }
-            }
-#endregion
-
-#region Mission complete area
-            if (_missionExitAreaTrigger != null)
-            {
-                if (!String.IsNullOrEmpty(missionEnterContext.FromMissionSceneName)) // from main mission scene to subscene
-                {
-                    _missionExitAreaTrigger.OnEnter.Take(1).Subscribe(_ =>
-                    {
-                        Debug.Log("Exit SubScene signal");
-                        toMissionEnterContext.PlayerPosition = missionEnterContext.PlayerPosition;
-                        toMissionEnterContext.FromTriggerId = missionEnterContext.FromTriggerId;
-                        missionExitContext.ToMissionSceneName = missionEnterContext.FromMissionSceneName;
-                        OnPlayerTransition();
-                        exitSignal.OnNext(Unit.Default);
-                    });
-                }
-                else
-                {
-                    _missionExitAreaTrigger.OnEnter.Take(1).Subscribe(_ => // current mission scene is main
-                    {
-                        Debug.Log("Mission completed signal");
-                        missionEnterContext.GameplayEnterContext.MissionCompletionSignal.OnNext(Unit.Default);
-                        OnPlayerTransition();
-                        gameplayExitSignal.OnNext(Unit.Default);
-                    });
-                }
-            }
-            else
-            {
-                Debug.LogError("Mission Exit Area Trigger is null");
-            }
-#endregion
-            
-            var settingsModel = Container.Resolve<SettingsModel>();
-            BindPostProcessing(settingsModel);
-            
             _enemyInjector.InjectAndInitAll(Container);
-
-            return missionExitSignal;
-
-            void OnPlayerTransition()
+            
+            missionExitSignal.Merge(gameplayExitSignal).Subscribe(_ => 
             {
-                inputStateProvider.AddBlocker(new FakeBlocker());
-                if (Container.TryResolve<OptionsBinder>(out var optionsBinder))
-                    optionsBinder.CloseAll();
-                playerDefencePresenter.SetInvincible(true);
-                _disposables?.Dispose();
-                _disposables = null;
-            }
+                postProcessingManager.Dispose();
+                deathManager.Dispose();
+                playerManager.Dispose();
+                sceneTransitionManager.Dispose();
+            });
+
+            return missionExitSignal.Select(_ => missionExitContext);
         }
 
-        private void BindPostProcessing(SettingsModel settingsModel)
+        private Vector3 GetSpawnPosition(MissionEnterContext missionEnterContext)
         {
-            if (_volume == null)
-            {
-                Debug.LogWarning("No Volume found");
-            }
-            else
-            {
-                settingsModel.IsPostProcessingEnabled.Subscribe(x => _volume.enabled = x)
-                    .AddTo(_disposables);
-
-                if (_volume.profile.TryGet<Bloom>(out var bloom))
-                {
-                    settingsModel.IsBloomEnabled.Subscribe(x => bloom.active = x)
-                        .AddTo(_disposables);
-                }
-                else
-                {
-                    Debug.LogWarning("No Bloom in VolumeProfile found");   
-                }
-            }
+            return missionEnterContext.FromMissionSceneName == null
+                ? missionEnterContext.PlayerPosition ?? _playerInitPosition.position
+                : _playerInitPosition.position;
         }
     }
 }

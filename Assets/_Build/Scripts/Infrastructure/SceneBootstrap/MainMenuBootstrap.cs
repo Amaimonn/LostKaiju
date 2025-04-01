@@ -18,8 +18,13 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         // [SerializeField] private MainMenuCanvasView _mainMenuViewPrefab;
         [SerializeField] private AudioClip _musicClip;
 
+        private MainMenuEnterContext _mainMenuEnterContext;
+
         public Observable<MainMenuExitContext> Boot(MainMenuEnterContext mainMenuEnterContext = null)
         {
+            _mainMenuEnterContext = mainMenuEnterContext;
+            Build();
+            
             var exitSignal = new Subject<Unit>();
 
             var audioPlayer = Container.Resolve<AudioPlayer>();

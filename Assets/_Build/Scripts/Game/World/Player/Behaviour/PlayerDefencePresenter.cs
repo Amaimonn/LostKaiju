@@ -10,18 +10,14 @@ namespace LostKaiju.Game.World.Player.Behaviour
 {
     public class PlayerDefencePresenter : IPlayerDefencePresenter
     {
-        public Observable<Unit> OnDeath => _onDeath;
         private readonly HealthModel _healthModel;
         private IDamageReceiver _damageReceiver;
-        private readonly Subject<Unit> _onDeath = new();
         private bool _isInvincible;
         private CompositeDisposable _disposables = new();
 
         public PlayerDefencePresenter(HealthModel healthModel, PlayerDefenceData playerDefenceData)
         {
             _healthModel = healthModel;
-            _healthModel.CurrentHealth.Where(x => x == 0)
-                .Subscribe(_ => _onDeath.OnNext(Unit.Default)).AddTo(_disposables);
         }
 
         public void Bind(ICreatureBinder creature)

@@ -3,6 +3,7 @@ using R3;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
@@ -12,13 +13,15 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
         
         private readonly Subject<ExitPopUpViewModel> _onOpened = new();
         private readonly IRootUIBinder _rootUIBinder;
+        private readonly AudioPlayer _audioPlayer;
         private readonly Subject<Unit> _exitSignal;
         private ExitPopUpViewModel _currentExitPopUpViewModel;
 
-        public ExitPopUpBinder(IRootUIBinder rootUIBinder, Subject<Unit> exitSignal)
+        public ExitPopUpBinder(IRootUIBinder rootUIBinder, Subject<Unit> exitSignal, AudioPlayer audioPlayer)
         {
             _rootUIBinder = rootUIBinder;
             _exitSignal = exitSignal;
+            _audioPlayer = audioPlayer;
         }
 
         public ExitPopUpViewModel ShowExitPopUp()
@@ -29,6 +32,7 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay
             _currentExitPopUpViewModel = new ExitPopUpViewModel();
             var exitPopUpPrefab = Resources.Load<ExitPopUpView>(Paths.EXIT_POPUP_VIEW);
             var exitPopUpView = Object.Instantiate<ExitPopUpView>(exitPopUpPrefab);
+            exitPopUpView.Construct(_audioPlayer);
 
             _currentExitPopUpViewModel.OnClosingCompleted.Subscribe(_ =>
             {

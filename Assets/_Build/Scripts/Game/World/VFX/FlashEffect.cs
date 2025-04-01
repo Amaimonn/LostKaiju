@@ -27,7 +27,14 @@ namespace LostKaiju.Game.World.VFX
 
         private void OnDisable()
         {
-            SetOriginal();
+            if (_spriteRenderers != null && _originalMaterials != null)
+            {
+                for (var i = 0; i < _spriteRenderers.Length; i++)
+                {
+                    if (_spriteRenderers[i] != null)
+                        _spriteRenderers[i].material = _originalMaterials[i];
+                }
+            }
         }
 
         public override void PlayEffect()

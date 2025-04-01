@@ -15,9 +15,12 @@ MonoBehaviour:
   <SoundSectionLabel>k__BackingField: sound
   <VideoSectionLabel>k__BackingField: video
   <InputSectionLabel>k__BackingField: input
+  <LanguageSectionLabel>k__BackingField: language
   _musicVolumeSliderDataSO: {fileID: 11400000, guid: 10af5270a61b1364d82a437209dda177, type: 2}
   _sfxVolumeSliderDataSO: {fileID: 11400000, guid: e9572a34633ff7742b58e326a1fa0ddf, type: 2}
   _brightnessSliderDataSO: {fileID: 11400000, guid: 3fe9a9613fa006340857ee9d4f223cb7, type: 2}
   _IsPostProcessingEnabledToggleDataSO: {fileID: 11400000, guid: d35e66200d4cf824dad95d1659311e8f, type: 2}
   _IsBloomEnabledToggleDataSO: {fileID: 11400000, guid: ad39a82d453319d468652bd674f3ea19, type: 2}
+  _IsFilmGrainEnabledToggleDataSO: {fileID: 11400000, guid: bc04f0ecc7396124788fc5ea8dc347d7, type: 2}
   _IsAntiAliasingEnabledToggleDataSO: {fileID: 11400000, guid: aa72f8ebb668fa44cbf0b0c1112720d0, type: 2}
+  _languageDataSO: {fileID: 11400000, guid: 6c0c072ef039d42459d7d78cc6983f2b, type: 2}

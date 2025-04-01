@@ -27,19 +27,20 @@ EditorBuildSettings:
     path: Assets/_Build/Scenes/Missions/Mission_1_1.unity
     guid: 002d29934713ad847955275ef5122da9
   - enabled: 0
-    path: Assets/_Build/Scenes/Missions/Mission_1_2.unity
+    path: Assets/_Build/Scenes/Missions/Mission_1_4.unity
     guid: 4b2bfb96f39d72c42b30f38fa01b362e
   - enabled: 0
-    path: Assets/_Build/Scenes/Missions/Mission_1_3.unity
+    path: Assets/_Build/Scenes/Missions/Mission_2_3.unity
     guid: 885ee0c864c63a948b89ebb9e0e85ac2
   - enabled: 0
-    path: Assets/_Build/Scenes/Missions/Mission_1_5.unity
+    path: Assets/_Build/Scenes/Missions/Mission_2_1.unity
     guid: f222050f8b81e1d40bea52ea1d3ded66
   - enabled: 0
-    path: Assets/_Build/Scenes/Missions/Mission_1_6.unity
+    path: Assets/_Build/Scenes/Missions/Mission_2_2.unity
     guid: 77576f4de7795e848a4cb7becab5d4d6
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 5a7caf7d97ecab5408af1169ed4282b4, type: 2}
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 282e2d3ab0297de488595cf8a7bd2665, type: 3}
+    com.unity.input.settings: {fileID: 11400000, guid: 6f8b834bde8955c44b0fa69f700efdf1, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 034a573e8cd18c3479527913f0d192b5, type: 3}
     com.unity.localization.settings: {fileID: 11400000, guid: d637dd5e785ef16489823e1142ce58ed, type: 2}
   m_UseUCBPForAssetBundles: 0

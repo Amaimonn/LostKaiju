@@ -9,7 +9,6 @@ using LostKaiju.Game.GameData.Campaign.Locations;
 using LostKaiju.Game.UI.MVVM.Gameplay;
 using LostKaiju.Game.UI.Extentions;
 using LostKaiju.Game.Constants;
-using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Game.UI.MVVM.Hub
 {
@@ -26,12 +25,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private string _missionsGridName;
         [SerializeField] private string _panelWhiteBackgroundClass;
 
-        [Header("SFX")]
-        [SerializeField] private AudioSource _audioSource;
-        [SerializeField] private AudioClip _buttonHoverSFX;
-
-        [Space(3f)]
-        [Header("Assets")]
+        [Header("Assets"), Space(4)]
         [SerializeField] private VisualTreeAsset _missionButton;
         [SerializeField] private string _missionButtonSelectedClass;
         [SerializeField] private string _missionButtonCompletedClass;
@@ -40,7 +34,10 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private VisualTreeAsset _locationTabButton;
         [SerializeField] private string _locationButtonSelectedClass;
 
-        private AudioPlayer _audioPlayer;
+        [Header("SFX"), Space(4)]
+        [SerializeField] private AudioClip _buttonHoverSFX;
+        [SerializeField] private AudioClip _closingSFX;
+
         private Button _startButton;
         private VisualElement _content;
         private VisualElement _locationTabsContainer;
@@ -56,11 +53,7 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         private Button _selectedMissionButton;
         private VisualElement _selectedLocationTab;
 
-        public void Construct(AudioPlayer audioPlayer)
-        {
-            _audioPlayer = audioPlayer;
-        }
-
+#region PopUpToolkitView
         protected override void OnAwake()
         {
             base.OnAwake();
@@ -79,6 +72,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                 if (_isClosing)
                     ViewModel.CompleteClosing();
             });
+
+            // _startButton.RegisterCallbackOnce<ClickEvent>(PlayStartSFX);
         }
         
         protected override void OnBind(CampaignNavigationViewModel viewModel)
@@ -86,6 +81,36 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             base.OnBind(viewModel);
             ViewModel.IsLoaded.Where(x => x == true).Take(1).Subscribe(_ => OnLoadingCompletedBinding()).AddTo(_disposables);
         }
+
+
+        protected override void StartClosing(ClickEvent clickEvent)
+        {
+            Debug.Log("Missions: close button clicked");
+            base.StartClosing(clickEvent);
+        }
+
+        protected override void OnOpening()
+        {
+            StartCoroutine(OpenAnimation());
+
+            IEnumerator OpenAnimation()
+            {
+                yield return null;
+                _content.RemoveFromClassList($"{_contentClass}--disabled");
+                _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundClass}--enabled");
+                Debug.Log("Missions: opened");
+            }
+        }
+
+        protected override void OnClosing()
+        {
+            _isClosing = true;
+            PlayClosingSFX();
+            _content.AddToClassList($"{_contentClass}--disabled");
+            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundClass}--enabled");
+            Debug.Log("Missions: closed");
+        }
+#endregion
 
         private void OnLoadingCompletedBinding()
         {
@@ -168,35 +193,6 @@ namespace LostKaiju.Game.UI.MVVM.Hub
             _isGameplayStarted = true;
         }
 
-#region PopUpToolkitView
-        protected override void StartClosing(ClickEvent clickEvent)
-        {
-            Debug.Log("Missions: close button clicked");
-            base.StartClosing(clickEvent);
-        }
-
-        protected override void OnOpening()
-        {
-            StartCoroutine(OpenAnimation());
-
-            IEnumerator OpenAnimation()
-            {
-                yield return null;
-                _content.RemoveFromClassList($"{_contentClass}--disabled");
-                _panelWhiteBackground.AddToClassList($"{_panelWhiteBackgroundClass}--enabled");
-                Debug.Log("Missions: opened");
-            }
-        }
-
-        protected override void OnClosing()
-        {
-            _isClosing = true;
-            _content.AddToClassList($"{_contentClass}--disabled");
-            _panelWhiteBackground.RemoveFromClassList($"{_panelWhiteBackgroundClass}--enabled");
-            Debug.Log("Missions: closed");
-        }
-#endregion
-
         private void OnLocationSelected(ILocationData locationData)
         {
             if (locationData != null)
@@ -246,8 +242,12 @@ namespace LostKaiju.Game.UI.MVVM.Hub
 
         private void PlayButtonHoverSFX(PointerEnterEvent pointerEnterEvent)
         {
-            var randomPitch = Random.Range(0.9f, 1.1f);
-            _audioPlayer.PlaySFX(_buttonHoverSFX, pitch: randomPitch);
+            _audioPlayer.PlayOneShotSFX(_buttonHoverSFX);
+        }
+
+        private void PlayClosingSFX()
+        {
+            _audioPlayer.PlayRandomPitchSFX(_closingSFX);
         }
     }
 }

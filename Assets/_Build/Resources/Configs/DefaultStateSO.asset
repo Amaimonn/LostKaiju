@@ -18,10 +18,12 @@ MonoBehaviour:
     IsMusicEnabled: 1
     SfxVolume: 8
     IsSfxEnabled: 1
-    Brightness: 75
+    Brightness: 0
     IsPostProcessingEnabled: 1
     IsBloomEnabled: 1
-    IsAntiAliasingEnabled: 1
+    IsFilmGrainEnabled: 1
+    IsAntiAliasingEnabled: 0
+    LanguageIndex: 0
   <Campaign>k__BackingField:
     _version: 1
     CampaignDataVersion: 1

@@ -17,7 +17,7 @@ namespace LostKaiju.Game.World.Enemy
         public EnemyDefencePresenter(HealthModel healthModel, IEnemyDefenceData enemyDefenceData)
         {
             _healthModel = healthModel;
-            _healthModel.CurrentHealth.Where(x => x == 0)
+            _healthModel.IsDead.Where(x => x == true)
                 .Subscribe(_ => _onDeath.OnNext(Unit.Default));
         }
 
@@ -32,6 +32,10 @@ namespace LostKaiju.Game.World.Enemy
                     juicySystem.PlayOnDamaged();
                     DecreaseHealth(x);
                 });
+            }
+            else
+            {
+                _damageReceiver.OnDamageTaken.Subscribe(DecreaseHealth);
             }
         }
 

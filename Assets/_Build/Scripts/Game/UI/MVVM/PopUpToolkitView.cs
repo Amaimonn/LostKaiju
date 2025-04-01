@@ -2,14 +2,23 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using LostKaiju.Services.Audio;
+
 namespace LostKaiju.Game.UI.MVVM.Gameplay
 {
     public abstract class PopUpToolkitView<T> : ScreenToolkitView<T> where T : ScreenViewModel
     {
         [SerializeField] protected string _closeButtonName;
         [SerializeField] protected string _closeBackgroundName;
+        
+        protected AudioPlayer _audioPlayer;
         protected Button _closeButton;
         protected VisualElement _closeBackground;
+        
+        public virtual void Construct(AudioPlayer audioPlayer)
+        {
+            _audioPlayer = audioPlayer;
+        }
 
         protected override void OnAwake()
         {

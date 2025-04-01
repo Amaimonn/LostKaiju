@@ -14,6 +14,7 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Game.World.Player.Data.Configs;
 using LostKaiju.Game.Constants;
+using LostKaiju.Services.Audio;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -24,17 +25,25 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
     {
         [SerializeField] private GameplayView _gameplayViewPrefab;
 
+        private GameplayEnterContext _gameplayEnterContext;
+
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<InputStateProvider>(Lifetime.Singleton);
             builder.Register<TypedRegistration<GameplayExitContext, Subject<Unit>>>(Lifetime.Singleton);
-            builder.Register<ExitPopUpBinder>(x => new ExitPopUpBinder(x.Resolve<IRootUIBinder>(), 
-                x.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance), Lifetime.Singleton);
+            builder.Register<ExitPopUpBinder>(x => 
+                new ExitPopUpBinder(x.Resolve<IRootUIBinder>(), 
+                    x.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance, 
+                    x.Resolve<AudioPlayer>()), 
+                Lifetime.Singleton);
             builder.Register<OptionsBinder>(Lifetime.Singleton);
         }
 
         public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
         {
+            _gameplayEnterContext = gameplayEnterContext;
+            Build();
+            
             gameplayEnterContext.PlayerConfig = Resources.Load<PlayerConfigSO>(gameplayEnterContext.PlayerConfigPath);
 
             var exitGameplaySignal = new Subject<GameplayExitContext>();
@@ -45,35 +54,49 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             };
             
             var gameplayExitContext = new GameplayExitContext(hubEnterContext);
-            gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ =>
-            {
-                hubEnterContext.IsMissionCompleted = true;
-            });
 
             var rootUIBinder = Container.Resolve<IRootUIBinder>();
             var inputProvider = Container.Resolve<IInputProvider>();
             var optionsBinder  =  Container.Resolve<OptionsBinder>();
+            var inputStateProvider = Container.Resolve<InputStateProvider>();
             var loadingNotifier = Container.Resolve<ILoadingScreenNotifier>();
-            loadingNotifier.OnFinished.Take(1).Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnOptions));
+            loadingNotifier.OnFinished.Take(1)
+                .Subscribe(_ => optionsBinder.BindEscapeSignal(inputProvider.OnOptions));
+
+            var loadingInputBlocker = new FakeBlocker();
+            inputStateProvider.AddBlocker(loadingInputBlocker);
+            loadingNotifier.OnStarted.TakeUntil(exitGameplaySignal)
+                .Subscribe(_ => inputStateProvider.AddBlocker(loadingInputBlocker));
+            loadingNotifier.OnFinished.TakeUntil(exitGameplaySignal)
+                .Subscribe(_ => inputStateProvider.RemoveBlocker(loadingInputBlocker));
 
             var gameplayViewModel = new GameplayViewModel(optionsBinder);
             var gameplayView = Instantiate(_gameplayViewPrefab);
 
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
+
+            gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ =>
+            {
+                hubEnterContext.IsMissionCompleted = true;
+                // TODO: PopUp logic with GameplayView
+                gameplayViewModel.OpenMissionCompletionPopUp(); 
+                exitToHubSignal.OnNext(Unit.Default); // replace to PopUp
+            });
             
 # if WEB_BUILD && YG_BUILD
            if(YG.YG2.envir.isMobile || YG.YG2.envir.isTablet)
             {   
                 var mobileControlsViewPrefab = Resources.Load<MobileControlsView>(Paths.MOBILE_CONTROLS_VIEW);
                 var mobileControls = Instantiate(mobileControlsViewPrefab);
-                var inputStateProvider = Container.Resolve<InputStateProvider>();
+                // var inputStateProvider = Container.Resolve<InputStateProvider>();
                 inputStateProvider.IsInputEnabled.Subscribe(x => mobileControls.gameObject.SetActive(x));
                 rootUIBinder.AddView(mobileControls);
             }
 # endif
             exitToHubSignal.Take(1).Subscribe(_ => 
             {
+                inputStateProvider.AddBlocker(loadingInputBlocker);
                 Debug.Log("Gameplay exit signal");
                 optionsBinder.Dispose(); // shouldn`t be opened with a loading screen by clicking escape.
                 exitGameplaySignal.OnNext(gameplayExitContext);

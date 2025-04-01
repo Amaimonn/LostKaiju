@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
+using R3;
 
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.GameState;
-using R3;
 
 namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 {
@@ -11,19 +12,30 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         public SettingsSectionViewModel CurrentSection => _currentSection;
         public Observable<IFullSettingsData> SettingsData => _settingsData;
         public bool IsApplyPopUpOpened => false; // TODO: popup
+        public Observable<bool> IsAnyChanges => _isAnyChanges;
         public readonly SoundSettingsViewModel SoundSettingsViewModel;
         public readonly VideoSettingsViewModel VideoSettingsViewModel;
+        public readonly LanguageSectionViewModel LanguageSettingsViewModel;
 
         private readonly IGameStateProvider _gameStateProvider;
         private SettingsSectionViewModel _currentSection;
         private readonly ReactiveProperty<IFullSettingsData> _settingsData = new();
+        private readonly ReadOnlyReactiveProperty<bool> _isAnyChanges;
 
         public SettingsViewModel(SettingsModel model, IGameStateProvider gameStateProvider)
         {
             _gameStateProvider = gameStateProvider;
             SoundSettingsViewModel = new SoundSettingsViewModel(model);
             VideoSettingsViewModel = new VideoSettingsViewModel(model);
+            LanguageSettingsViewModel = new LanguageSectionViewModel(model);
             _currentSection = SoundSettingsViewModel;
+            
+            _isAnyChanges = Observable.CombineLatest(
+                SoundSettingsViewModel.IsAnyChanges, 
+                VideoSettingsViewModel.IsAnyChanges, 
+                LanguageSettingsViewModel.IsAnyChanges)
+                .Select(x => x.Any(t => t == true))
+                .ToReadOnlyReactiveProperty();
         }
 
         public void BindData(IFullSettingsData settingsData)
@@ -33,7 +45,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         public override void StartClosing()
         {
-            ResetUnappliedChanges();
+            CancelUnappliedChanges();
             base.StartClosing();
         }
 
@@ -47,22 +59,29 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _currentSection = VideoSettingsViewModel;
         }
 
+        public void SelectLanguageSection()
+        {
+            _currentSection = LanguageSettingsViewModel;
+        }
+
         public void ApplyChanges()
         {
             SoundSettingsViewModel.ApplyChanges();
             VideoSettingsViewModel.ApplyChanges();
+            LanguageSettingsViewModel.ApplyChanges();
             SaveSettings();
+            base.StartClosing();
         }
 
-        public void ResetUnappliedChanges()
+        public void CancelUnappliedChanges()
         {
-            SoundSettingsViewModel.ResetSettings();
-            VideoSettingsViewModel.ResetSettings();
+            SoundSettingsViewModel.CancelChanges();
+            VideoSettingsViewModel.CancelChanges();
         }
 
         public void ResetCurrentSectionSettings()
         {
-            _currentSection.ResetSettings();
+            _currentSection.CancelChanges();
         }
 
         private void SaveSettings()
