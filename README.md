@@ -1,11 +1,13 @@
-# Lost Kaiju
+<h1 style="color:#FF0000">LOST KAIJU</h1> 
+
 *A noir 2D Platformer about a lost kaiju, built with modern Unity 6 tools.* 
 
 ## 🌍 Supported Platforms (made for WebGL)
-[![WebGL](https://img.shields.io/badge/WebGL-FFCA00?style=plastic&logo=webgl&logoColor=black)](https://unity.com/features/webgl)  
-[![PC](https://img.shields.io/badge/PC-0078D6?style=plastic&logo=pc)](https://www.microsoft.com/store)  
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=plastic&logo=android)](https://www.android.com)  
-[![iOS](https://img.shields.io/badge/iOS-000000?style=plastic&logo=ios)](https://www.apple.com/ios/)  
+
+[![WebGL](https://img.shields.io/badge/WebGL-FFCA00?style=plastic&logo=webgl&logoColor=black)](https://unity.com/features/webgl)
+[![PC](https://img.shields.io/badge/PC-0078D6?style=plastic&logo=pc)](https://www.microsoft.com/store)
+[![Android](https://img.shields.io/badge/Android-black?style=plastic&logo=android)](https://www.android.com)
+[![iOS](https://img.shields.io/badge/iOS-000000?style=plastic&logo=apple)](https://www.apple.com/ios/)
 
 ## 🛠️ Tech Stack
 
@@ -22,16 +24,17 @@
 
 ## 🎮 Features & Implementation
 ### **Game Systems**  
-- **Modular Level Flow**: Acts (locations) + Missions (stages) with ScriptableObject-based design.  
+- **Modular Level Flow**: Locations (Acts) + Missions (stages) with ScriptableObject-based design.  
 - **Hero Selection**: Hero selection system with hidden behavior implementation from the gameplay.  
 - **Advanced Settings**: Post-processing, audio controls, localization.  
-- **Save/Load System**: Tracks progress, settings, and unlocks (JSON/Yandex Games). 
+- **Save/Load System**: Tracks progress, settings, and unlocks (JSON/Yandex Games).
+- **AudioSource Pool**: Unified sound source system with DI.
 
 ### **Architecture**  
 - **MVVM UI**: Hybrid **Canvas** (gameplay) + **UI Toolkit** (menus) with data binding.  
-- **Creature Builder**: Creature-Feature system for modular entitiees design (dynamic features registration with simple handmade Container - **Holder**).  
+- **Creature Building**: Creature-Feature system for modular entitiees design (dynamic features registration with simple handmade Container - **Holder**).  
 - **DI & Events**: **VContainer** for dependencies + **R3** for reactive programming.  
 
 ### **Quality of Life**  
 - **2D Animation**: Rig-driven animations with blending (code based).  
-- **URP Rendering**: Post-processing effects, Canvas shaders with ShaderGraph.  
+- **URP Rendering**: Post-processing effects, Canvas shaders with ShaderGraph. 
