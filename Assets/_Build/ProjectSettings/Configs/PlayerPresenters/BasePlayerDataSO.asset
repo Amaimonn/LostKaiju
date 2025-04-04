@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlayerControlsData>k__BackingField:
     <Walk>k__BackingField:
-      <WalkSpeed>k__BackingField: 15
+      <WalkSpeed>k__BackingField: 13
       <FrictionForce>k__BackingField: 0.7
       <Acceleration>k__BackingField: 7
       <Deceleration>k__BackingField: 7
       <AirMultiplier>k__BackingField: 0.5
     <Jump>k__BackingField:
-      <Force>k__BackingField: 12
+      <Force>k__BackingField: 16
       <CoyotteTime>k__BackingField: 0.1
-      <Cooldown>k__BackingField: 0.2
+      <Cooldown>k__BackingField: 0.5
       <InputTimeBufferSize>k__BackingField: 0.1
     <Attack>k__BackingField:
       <Cooldown>k__BackingField: 0.1

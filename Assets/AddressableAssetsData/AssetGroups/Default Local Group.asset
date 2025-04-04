@@ -60,11 +60,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 885ee0c864c63a948b89ebb9e0e85ac2
-    m_Address: Scenes/Mission_2_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
     m_Address: Scenes/Gameplay
     m_ReadOnly: 0
@@ -85,8 +80,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d4856f33c9f4b2e4d8277453c88897a8
+  - m_GUID: c69dd0ce2d63d344db8a07cd0cc138ea
     m_Address: Scenes/Mission_2_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec4c3e79f13bb2344aa70f9e69cdda4c
+    m_Address: Scenes/Mission_2_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
