@@ -308,6 +308,9 @@
     white-space: normal;
     -unity-font-style: normal;
     overflow: hidden;
+    -unity-paragraph-spacing: 100px;
+    letter-spacing: 10px;
+    word-spacing: 10px;
 }
 
 .locations-tabs {

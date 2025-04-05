@@ -51,7 +51,7 @@ namespace LostKaiju.Game.UI.CustomBehaviours
                     targetScale,
                     elapsedTime / _duration
                 );
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
                 yield return null;
             }
 
