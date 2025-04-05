@@ -2,6 +2,9 @@
 
 *A noir 2D Platformer about a lost kaiju, built with modern Unity 6 tools.* 
 
+<img width="600" alt="Hub scene" src="https://github.com/user-attachments/assets/b6f227cf-a3b2-4adc-a989-ca251b98ae38"></img>
+<img width="600" alt="Gameplay" src="https://github.com/user-attachments/assets/c9751004-8d48-43e4-9ab7-686857ed00a6"></img>
+
 ## 🌍 Supported Platforms (made for WebGL)
 
 [![WebGL](https://img.shields.io/badge/WebGL-FFCA00?style=plastic&logo=webgl&logoColor=black)](https://unity.com/features/webgl)
