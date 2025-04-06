@@ -53,8 +53,6 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             ).Select(x => x.Any(t => t == true))
             .ToReadOnlyReactiveProperty();
         }
-
-
         public override void ApplyChanges()
         {
             _model.IsAntiAliasingEnabled.Value = _isAntiAliasingEnabled.Value;
@@ -66,6 +64,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             _model.Brightness.Value = _brightnessCached;
             _model.IsPostProcessingEnabled.Value = _isPostProcessingEnabledCached;
             _model.IsBloomEnabled.Value = _isBloomEnabledCached;
+            _model.IsFilmGrainEnabled.Value = _isFilmGrainEnabledCached;
             // force callback even if value in Model hasn't changed to make UI syncronized
             _isAntiAliasingEnabled.Value = _isAntiAliasingEnabledCached;
             // _model.IsAntiAliasingEnabled.OnNext(_isAntiAliasingEnabledCached); 

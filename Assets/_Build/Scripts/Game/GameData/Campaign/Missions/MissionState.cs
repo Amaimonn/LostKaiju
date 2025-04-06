@@ -7,6 +7,7 @@ namespace LostKaiju.Game.GameData.Campaign.Missions
     {
         public string Id;
         public bool IsCompleted;
+        public int Stars;
 
         public MissionState(string id, bool isCompleted)
         {

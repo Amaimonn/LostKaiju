@@ -17,7 +17,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap.Context
         public IPlayerConfig PlayerConfig;
         public IMissionData SelectedMissionData;
         public ILocationData SelectedLocationData;
-        public Subject<Unit> MissionCompletionSignal;
+        public Subject<MissionResultsParameters> MissionCompletionSignal;
 
         public GameplayEnterContext() : base(Scenes.GAMEPLAY)
         {

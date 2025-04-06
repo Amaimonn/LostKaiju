@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ff9fe1f958a02cc46bf757f3194d2db1
+guid: 36d2132d51e5b9a4686f8fe275996350
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8843318694889092663
-    second: lost_kaiju_label_0
+      213: -8556023477363794268
+    second: shiny_spark_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,9 +75,9 @@ TextureImporter:
     maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 0
-    crunchedCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lost_kaiju_label_0
+      name: shiny_spark_0
       rect:
         serializedVersion: 2
-        x: 93
-        y: 405
-        width: 1921
-        height: 1239
+        x: 15
+        y: 7
+        width: 994
+        height: 1010
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7367f64cf77c9ba70800000000000000
-      internalID: 8843318694889092663
+      spriteID: 4ae14d5aaf5e24980800000000000000
+      internalID: -8556023477363794268
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lost_kaiju_label_0: 8843318694889092663
+      shiny_spark_0: -8556023477363794268
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

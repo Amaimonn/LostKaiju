@@ -30,6 +30,9 @@ namespace LostKaiju.Game.World.Player.Behaviour
         private Timer _jumpInputBufferTimer;
         private bool _readJump;
         private readonly CompositeDisposable _disposables = new();
+        private int _movementOverrideLayer;
+        private int _attackOverrideLayer;
+        private int _noFadeLayer;
 
         public PlayerInputPresenter(PlayerControlsData controlsData, IInputProvider inputProvider)
         {
@@ -168,9 +171,9 @@ namespace LostKaiju.Game.World.Player.Behaviour
         {
             var animator = _creature.Animator;
             var baseLayer = animator.GetLayerIndex(AnimationLayers.BASE);
-            var noFadeLayerIndex = animator.GetLayerIndex(AnimationLayers.NO_FADE);
-            var movementOverrideLayer = animator.GetLayerIndex(AnimationLayers.MOVEMENT_OVERRIDE_LAYER);
-            var attackOverrideLayer = animator.GetLayerIndex(AnimationLayers.ATTACK_OVERRIDE_LAYER);
+            _noFadeLayer = animator.GetLayerIndex(AnimationLayers.NO_FADE);
+            _movementOverrideLayer = animator.GetLayerIndex(AnimationLayers.MOVEMENT_OVERRIDE_LAYER);
+            _attackOverrideLayer = animator.GetLayerIndex(AnimationLayers.ATTACK_OVERRIDE_LAYER);
 
             walkState.OnEnter.Subscribe(_ => animator.CrossFade(AnimationClips.WALK, 0.02f)).AddTo(_disposables);
             
@@ -179,7 +182,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 .SkipFrame(1)
                 .Where(x => x == true)
                 .Subscribe(_ => {
-                    animator.Play(AnimationClips.EMPTY, movementOverrideLayer);
+                    animator.Play(AnimationClips.EMPTY, _movementOverrideLayer);
                     _playerJuicySystem.PlayStep();
                 })
                 .AddTo(_disposables);
@@ -190,9 +193,9 @@ namespace LostKaiju.Game.World.Player.Behaviour
                 .Subscribe(x => 
                 {
                     if (x > 0)
-                        animator.Play(AnimationClips.AIR_UP, movementOverrideLayer);
+                        animator.Play(AnimationClips.AIR_UP, _movementOverrideLayer);
                     else
-                       animator.Play(AnimationClips.AIR_DOWN, movementOverrideLayer);
+                       animator.Play(AnimationClips.AIR_DOWN, _movementOverrideLayer);
                 })
                 .AddTo(_disposables);
 
@@ -222,17 +225,17 @@ namespace LostKaiju.Game.World.Player.Behaviour
                             .Subscribe(_ => 
                             {
                                 animator.CrossFadeInFixedTime(AnimationClips.LYING, 0.5f);
-                                animator.Play(AnimationClips.LYING_SCALES, noFadeLayerIndex);
+                                animator.Play(AnimationClips.LYING_SCALES, _noFadeLayer);
                             }).AddTo(_disposables);
                     }).AddTo(_disposables);
 
-                animator.Play(AnimationClips.LOOK_AROUND, noFadeLayerIndex);
+                animator.Play(AnimationClips.LOOK_AROUND, _noFadeLayer);
             }).AddTo(_disposables);
 
-            idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, noFadeLayerIndex)).AddTo(_disposables);
-            attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, attackOverrideLayer)).AddTo(_disposables);
+            idleState.OnExit.Subscribe(_ => animator.Play(AnimationClips.EMPTY, _noFadeLayer)).AddTo(_disposables);
+            attackState.OnEnter.Subscribe(_ => animator.Play(AnimationClips.ATTACK_FORWARD, _attackOverrideLayer)).AddTo(_disposables);
             attackState.IsAttackCompleted.Where(x => x == true)
-                .Subscribe(x => animator.Play(AnimationClips.EMPTY, attackOverrideLayer)).AddTo(_disposables);
+                .Subscribe(x => animator.Play(AnimationClips.EMPTY, _attackOverrideLayer)).AddTo(_disposables);
         }
 
         private void ApplyFriction()
@@ -248,6 +251,13 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         public void Dispose()
         {
+            if (_creature != null && _creature.Animator != null)
+            {
+                _creature.Animator.Play(AnimationClips.EMPTY, _movementOverrideLayer);
+                _creature.Animator.Play(AnimationClips.EMPTY, _attackOverrideLayer);
+                _creature.Animator.Play(AnimationClips.EMPTY, _noFadeLayer);
+                _creature.Animator.Play(AnimationClips.IDLE);
+            }
             _disposables?.Dispose();
             _finiteStateMachine.Dispose();
         }

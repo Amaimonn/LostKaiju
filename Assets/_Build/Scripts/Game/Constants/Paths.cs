@@ -9,6 +9,7 @@ namespace LostKaiju.Game.Constants
         public const string OPTIONS_VIEW = "UI/Gameplay/OptionsView";
         public const string PLAYER_INDICATORS_VIEW = "UI/Gameplay/PlayerIndicatorsView";
         public const string MOBILE_CONTROLS_VIEW = "UI/Gameplay/MobileControlsView";
+        public const string MISSION_RESULTS_VIEW = "UI/Gameplay/MissionResultsView";
 
         public const string FULL_SETTINGS_DATA_SO = "Configs/Settings/FullSettingsDataSO";
         public const string LOCATIONS_DATA = "Configs/Campaign/AllLocationsDataSO";
@@ -17,5 +18,7 @@ namespace LostKaiju.Game.Constants
         public const string HERO_PREVIEWS = "Configs/Player/HeroPreviews";
 
         public const string DEFAULT_STATE_SO = "Configs/DefaultStateSO";
+
+        public static string GetPlayerConfigPath(string id) => $"{PLAYER_CREATURES}/{id}";
     }
 }

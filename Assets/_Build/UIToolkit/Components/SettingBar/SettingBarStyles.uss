@@ -109,9 +109,8 @@
 }
 
 .setting-bar__toggle .unity-toggle__checkmark {
-    height: 28px;
-    width: 28px;
-    background-color: rgba(0, 0, 0, 0);
+    height: 24px;
+    width: 24px;
     border-top-width: 0;
     border-right-width: 0;
     border-bottom-width: 0;
@@ -120,11 +119,15 @@
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
-    background-image: url("project://database/Assets/_Build/Art/Images/UI/panel_smooth_edges.png?fileID=2800000&guid=d7e39acfdfda9a94ea0100ebdaed2c6f&type=3#panel_smooth_edges");
-    transition-property: -unity-background-image-tint-color;
+    transition-property: background-color;
     transition-duration: 0.3s;
     transition-timing-function: ease-out-bounce;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    background-color: rgba(255, 255, 255, 0);
+    background-image: none;
 }
 
 .setting-bar__toggle .unity-toggle__input {
@@ -149,7 +152,7 @@
 }
 
 .setting-bar__toggle .unity-toggle__input:checked > .unity-toggle__checkmark {
-    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
 }
 
 .setting-bar__slider .unity-base-field__input {

@@ -104,7 +104,7 @@ namespace LostKaiju.Game.GameData.Campaign
             }
         }
 
-        public Subject<Unit> CreateMissionCompletionSignal(ILocationData locationData, IMissionData missionData, 
+        public Subject<MissionResultsParameters> CreateMissionCompletionSignal(ILocationData locationData, IMissionData missionData, 
             Action saveAction)
         {
             var locationId = locationData.Id;
@@ -112,67 +112,82 @@ namespace LostKaiju.Game.GameData.Campaign
             var currentLocationState = State.Locations.First(x => x.Id == locationId);
             var currentMissionState = currentLocationState.OpenedMissions.First(x => x.Id == missionId);
             
-            var actions = new List<Action>();
-            var dispatcher = new Subject<Unit>();
+            var actions = new List<Action<MissionResultsParameters>>();
+            var dispatcher = new Subject<MissionResultsParameters>();
 
-            if (currentMissionState.IsCompleted) // already completed, no actions needed
+            if (currentMissionState.IsCompleted && currentMissionState.Stars == 3)
                 return dispatcher;
-
-            dispatcher.Subscribe(_ =>
+                
+            dispatcher.Subscribe(x =>
             {
                 foreach (var action in actions)
-                    action?.Invoke();
+                    action?.Invoke(x);
             });
 
-            actions.Add(() => currentMissionState.IsCompleted = true); // mission completed
-
-            var currentLocationMissionsData = locationData.AllMissionsData;
-            var currentMissionIndex = Array.FindIndex(currentLocationMissionsData,
-                x => x.Id == missionId);
-
-            if (currentMissionIndex < currentLocationMissionsData.Length - 1) // open next mission
-            {
-                var nextMissionData = currentLocationMissionsData[currentMissionIndex + 1];
-                var nextMissionState = new MissionState(nextMissionData.Id, false);
-                actions.Add(() => 
+            if (currentMissionState.Stars != 3)
+                actions.Add(x => 
                 {
-                    State.Locations.First(x => x.Id == locationId).OpenedMissions
-                        .Add(nextMissionState);
-                });
-            }
-            else // open next location (+ mission)
+                    currentMissionState.IsCompleted = true;
+                    var totalStars = 0;
+                    if (x.FirstStar)
+                        totalStars++;
+                    if (x.SecondStar)
+                        totalStars++;
+                    if (x.ThirdStar)
+                        totalStars++;
+                    currentMissionState.Stars = Mathf.Max(totalStars, currentMissionState.Stars);
+                }); // mission completed
+            
+            if (!currentMissionState.IsCompleted)
             {
-                actions.Add(() => currentLocationState.IsCompleted = true);
-                var currentLocationIndex = Array.FindIndex(_allLocationsData.AllData, x => x.Id == locationId);
-                if (currentLocationIndex < _allLocationsData.AllData.Length - 1)
+                var currentLocationMissionsData = locationData.AllMissionsData;
+                var currentMissionIndex = Array.FindIndex(currentLocationMissionsData,
+                    x => x.Id == missionId);
+
+                if (currentMissionIndex < currentLocationMissionsData.Length - 1) // open next mission
                 {
-                    var nextLocationData = _allLocationsData.AllData[currentLocationIndex + 1];
-                    var firstMissionState = new MissionState(nextLocationData.AllMissionsData[0].Id, false);
-                    var nextLocationOpenedMissions = new List<MissionState>() { firstMissionState };
-                    var nextLocationState = new LocationState(nextLocationData.Id, isCompleted: false,
-                        nextLocationOpenedMissions);
-                    actions.Add(() => 
+                    var nextMissionData = currentLocationMissionsData[currentMissionIndex + 1];
+                    var nextMissionState = new MissionState(nextMissionData.Id, false);
+                    actions.Add(_ => 
                     {
-                        State.Locations.Add(nextLocationState);
+                        State.Locations.First(x => x.Id == locationId).OpenedMissions
+                            .Add(nextMissionState);
                     });
                 }
-            }
-
-            if (String.IsNullOrEmpty(currentLocationState.MaxCompletedMissionId))
-            {
-                actions.Add(() => currentLocationState.MaxCompletedMissionId = missionId);
-            }
-            else
-            {
-                var maxMissionIndex = Array.FindIndex(currentLocationMissionsData, 
-                    x => x.Id == currentLocationState.MaxCompletedMissionId);
-                if (maxMissionIndex < currentMissionIndex)
+                else // open next location (+ mission)
                 {
-                    actions.Add(() => currentLocationState.MaxCompletedMissionId = missionId);
+                    actions.Add(_ => currentLocationState.IsCompleted = true);
+                    var currentLocationIndex = Array.FindIndex(_allLocationsData.AllData, x => x.Id == locationId);
+                    if (currentLocationIndex < _allLocationsData.AllData.Length - 1)
+                    {
+                        var nextLocationData = _allLocationsData.AllData[currentLocationIndex + 1];
+                        var firstMissionState = new MissionState(nextLocationData.AllMissionsData[0].Id, false);
+                        var nextLocationOpenedMissions = new List<MissionState>() { firstMissionState };
+                        var nextLocationState = new LocationState(nextLocationData.Id, isCompleted: false,
+                            nextLocationOpenedMissions);
+                        actions.Add(_ => 
+                        {
+                            State.Locations.Add(nextLocationState);
+                        });
+                    }
+                }
+
+                if (String.IsNullOrEmpty(currentLocationState.MaxCompletedMissionId))
+                {
+                    actions.Add(_ => currentLocationState.MaxCompletedMissionId = missionId);
+                }
+                else
+                {
+                    var maxMissionIndex = Array.FindIndex(currentLocationMissionsData, 
+                        x => x.Id == currentLocationState.MaxCompletedMissionId);
+                    if (maxMissionIndex < currentMissionIndex)
+                    {
+                        actions.Add(_ => currentLocationState.MaxCompletedMissionId = missionId);
+                    }
                 }
             }
 
-            actions.Add(saveAction);
+            actions.Add(_ => saveAction());
 
             return dispatcher;
         }

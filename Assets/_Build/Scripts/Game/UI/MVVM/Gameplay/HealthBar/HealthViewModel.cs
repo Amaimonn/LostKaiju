@@ -3,7 +3,6 @@ using R3;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.GameData.HealthSystem;
 
-
 namespace LostKaiju.Game.UI.MVVM.Gameplay.EnemyCreature
 {
     public class HealthViewModel : IViewModel

@@ -118,7 +118,10 @@ namespace LostKaiju.Infrastructure.Loading
                 Debug.Log("Gameplay scene loaded");
 
                 var gameplayBootstrap = Object.FindAnyObjectByType<GameplayBootstrap>();
-                var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext);
+                var gameplayExitSignal = gameplayBootstrap.Boot(gameplayEnterContext, out var onLoadedObservable);
+                var isLoaded = false;
+                onLoadedObservable.Where(x => x == true).Take(1).Subscribe(_ => isLoaded = true);
+                yield return new WaitUntil(() => isLoaded == true);  // wait for Addressables configs to finish loading
 
                 gameplayExitSignal.Take(1).Subscribe(gameplayExitContext =>
                 {

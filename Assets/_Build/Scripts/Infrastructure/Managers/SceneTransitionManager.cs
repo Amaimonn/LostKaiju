@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using R3;
 
-using LostKaiju.Game.Providers.InputState;
 using LostKaiju.Game.World.Missions.Triggers;
 using LostKaiju.Infrastructure.SceneBootstrap.Context;
 
@@ -18,18 +17,21 @@ namespace LostKaiju.Infrastructure.Managers
         private MissionEnterContext _missionEnterContext; // send from bootstrap
         private MissionExitContext _missionExitContext; // exit from the current mission to subscene
         private readonly Subject<Unit> _exitSignal;
+        private readonly Subject<Unit> _missionCompletionSignal;
         private readonly CompositeDisposable _disposables = new();
 
         public SceneTransitionManager(
             PlayerManager playerManager,
             SubSceneTrigger[] subSceneTriggers,
             PlayerHeroTrigger missionExitAreaTrigger,
-            Subject<Unit> missionExitSignal)
+            Subject<Unit> missionExitSignal,
+            Subject<Unit> missionCompletionSignal)
         {
             _playerManager = playerManager;
             _subSceneTriggers = subSceneTriggers;
             _missionExitAreaTrigger = missionExitAreaTrigger;
             _exitSignal = missionExitSignal;
+            _missionCompletionSignal = missionCompletionSignal;
         }
 
         public void Init(MissionEnterContext missionEnterContext, MissionExitContext missionExitContext)
@@ -107,7 +109,7 @@ namespace LostKaiju.Infrastructure.Managers
         {
             PrepareTransition();
             Debug.Log("Mission completed signal");
-            _gameplayEnterContext.MissionCompletionSignal.OnNext(Unit.Default);   
+            _missionCompletionSignal.OnNext(Unit.Default);   
             // _exitGameplaySignal.OnNext(Unit.Default);  
         }
 

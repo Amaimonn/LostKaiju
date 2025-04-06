@@ -33,37 +33,53 @@ MonoBehaviour:
       light no longer reaches, and only the faint glimmer of your own presence illuminates
       the path. Here, in this endless void, the ground is no longer beneath your
       feet. Instead, there are only scattered islands of solid surface, floating
-      in the darkness like fragments of a forgotten world.\r\n\r\nJumps. They become
-      the only way forward. Each one is a leap into the unknown. Below you lies the
-      abyss\u2014black and bottomless, like death itself. It doesn\u2019t just wait
-      \u2014 it breathes, shifts, as if alive. Sometimes, it feels as though it\u2019s
-      calling to you, luring you, promising an end to all your doubts and fears.
-      But you know: one misstep, and you\u2019ll vanish into it forever.\r"
+      in the darkness like fragments of a forgotten world.\nJumps. They become the
+      only way forward. Each one is a leap into the unknown. Below you lies the abyss\u2014black
+      and bottomless, like death itself. It doesn\u2019t just wait \u2014 it breathes,
+      shifts, as if alive. Sometimes, it feels as though it\u2019s calling to you,
+      luring you, promising an end to all your doubts and fears. But you know: one
+      misstep, and you\u2019ll vanish into it forever.\r"
     m_Metadata:
       m_Items: []
   - m_Id: 749595049984
-    m_Localized: What?.. No.. No way...
+    m_Localized: "You walk. Beneath your feet \u2014 the crunch of shattered stone,
+      the occasional wet slurp of water seeping through cracks. But the real threat
+      is them. The spikes. Long, cold, like the teeth of a slumbering beast, jutting
+      from the floor and ceiling. Waiting. This is no place for mistakes.\nOne wrong
+      step, and the darkness will close in around you like a final breath. But you
+      walk. Because there\u2019s no way back."
     m_Metadata:
       m_Items: []
   - m_Id: 1477436817408
-    m_Localized: .................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+    m_Localized: "They are not stones. They are petrified dreams.\nFrozen droplets
+      of ancient fear, wrapped in stone. Touch them \u2014 and foreign sorrow seeps
+      through your skin. But a strike... a strike awakens them. For a moment, they
+      crumble into dust, whispering fragments of forgotten nightmares.\nHere, a jump
+      is not just movement. It\u2019s an escape. From the spikes? Or from them?\nShatter
+      the silence. Wake up."
     m_Metadata:
       m_Items: []
   - m_Id: 1492985102336
-    m_Localized: Above an endless sea of dark buildings, beneath a low, smog-choked
-      sky, lies a world where time has stood still. The rooftops, like islands in
-      an ocean of emptiness, are separated by deep chasms that seem bottomless. Silence.
+    m_Localized: "Above the endless sea of dark buildings, beneath a low, smog-choked
+      sky, sprawls a world where time has stopped. Rooftops, like islands in an ocean
+      of void, are separated by deep chasms that seem bottomless. Silence.\r\nAnd
+      suddenly \u2014 you.\r\nEmerging from the underground's belly, you see the
+      city like this for the first time. It isn't asleep. It's frozen. Smoke from
+      nameless pipes drifts through the streets like a ghostly river. Somewhere in
+      the distance, lights flicker \u2014 signals or the last breaths of machines.\nWait..
+      Who is this?"
     m_Metadata:
       m_Items: []
   - m_Id: 1510974472192
-    m_Localized: "Between the rooftops, where streets once lay, there is now only
-      emptiness. But this emptiness is not dead \u2014 it is alive, breathing. Within
-      it hover fragments of something vast, something important, that once collapsed
-      and now hangs suspended in the air, as if time itself decided to halt their
-      fall. These platforms, cracked and marked by the scars of long-forgotten disasters,
-      seem both fragile and eternal. They defy gravity, as if challenging the very
-      laws of this world. It feels as though they are waiting\u2014waiting for someone
-      to step onto them and continue a journey that was interrupted so long ago."
+    m_Localized: "Between the rooftops, where streets once ran, now lies only void.
+      But this void isn't dead\u2014it's breathing...\nOh, it's you.\nThose same
+      mechanical sentinels \u2014 faceless, relentless. Now you recognize them instantly:
+      the cold gleam of their shells, that unnatural fluidity of movement, as if
+      sliding along invisible rails. They're part of this place. Like the spikes
+      in the underground, like these fragments hovering over the abyss.\nThe platforms
+      still beckon, etched with ancient cracks. But now you see the pattern: where
+      fragments float \u2014 sentinels patrol. Where sentinels patrol \u2014 blind
+      spots emerge.\nThey're not allies. Now you know their rules."
     m_Metadata:
       m_Items: []
   - m_Id: 62870869557248
@@ -75,15 +91,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 63161220251648
-    m_Localized: Uncertainty
+    m_Localized: Crunching underfoot
     m_Metadata:
       m_Items: []
   - m_Id: 63176298774528
-    m_Localized: Emptiness
+    m_Localized: Dreamcatchers
     m_Metadata:
       m_Items: []
   - m_Id: 63204396417024
-    m_Localized: Chasms
+    m_Localized: Escape
     m_Metadata:
       m_Items: []
   - m_Id: 63216224354304
@@ -96,6 +112,37 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 75255537778688
     m_Localized: City
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7503333943721984
+    m_Localized: Den in the Walls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7505076492484608
+    m_Localized: "You stepped inside.\nThe building felt cramped, like a tomb for
+      the living. The air was stale, reeking of oil and something rancid. The walls
+      stood too close\u2014as if whispering: \"No room to maneuver here.\"\nBut the
+      enemies already know you're here.\nThey slither from cracks like shadows forgotten
+      by previous occupants. And between you\u2014spikes. Everywhere. On the floor.
+      On the ceiling. Even in doorways, as if they're not traps but part of the building
+      itself.\nEvery step is a balance between attack and fall. Every strike risks
+      impalement on cold steel.\nYou're no guest here. You're an intruder."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7518092323766272
+    m_Localized: "Too many sentinels here.\nThey move along their ancient routes,
+      blind and methodical. Their hulls, coated in centuries of dust, blend with
+      the corridor's half-light. These robots long forgot why they patrol empty halls
+      \u2014 now it's just ritual, meaningless and flawless.\nYou're a ghost in their
+      mechanical ballet.\nFor now, they don't see you. For now, your steps are quieter
+      than falling dust. But one wrong move \u2014 and a hundred blank faces will
+      turn in unison.\nBetween their patrol paths \u2014 familiar spike chasms from
+      the underground. And those stones \u2014 silent witnesses ready to scream at
+      any moment."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7518060795183104
+    m_Localized: Mechanical ballet
     m_Metadata:
       m_Items: []
   references:

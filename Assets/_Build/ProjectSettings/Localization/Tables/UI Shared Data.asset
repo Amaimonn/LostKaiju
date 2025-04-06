@@ -71,6 +71,26 @@ MonoBehaviour:
     m_Key: pick
     m_Metadata:
       m_Items: []
+  - m_Id: 7915183835496448
+    m_Key: mission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7915248427778048
+    m_Key: location
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7915367453736960
+    m_Key: complete_mission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7916125716791296
+    m_Key: one_life
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7915803510358016
+    m_Key: no_damage
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

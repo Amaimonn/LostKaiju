@@ -9,11 +9,13 @@ namespace LostKaiju.Game.GameData.HealthSystem
         public Observable<int> MaxHealth => _maxHealth;
         public Observable<int> CurrentHealth => _currentHealth;
         public Observable<bool> IsDead => _isDead;
+        public Observable<Unit> OnDecreased => _onDecreased;
 
         private readonly ReactiveProperty<int> _maxHealth;
         private readonly ReactiveProperty<int> _currentHealth;
         private readonly ReactiveProperty<bool> _isDead;
         private readonly HealthCalculator _healthCalculator;
+        private readonly Subject<Unit> _onDecreased = new();
 
         public HealthModel(HealthState state) : base(state)
         {
@@ -40,6 +42,7 @@ namespace LostKaiju.Game.GameData.HealthSystem
             _currentHealth.Value = _healthCalculator.CurrentValue;
             UpdateDeathState();
         }
+
         public void Revive()
         {
             RestoreFullHealth();
@@ -60,8 +63,11 @@ namespace LostKaiju.Game.GameData.HealthSystem
 
         public void DecreaseHealth(int amount)
         {
+            if (amount == 0) 
+                return;
             _healthCalculator.Decrease(amount);
             _currentHealth.Value = _healthCalculator.CurrentValue;
+            _onDecreased.OnNext(Unit.Default);
             UpdateDeathState();
         }
 

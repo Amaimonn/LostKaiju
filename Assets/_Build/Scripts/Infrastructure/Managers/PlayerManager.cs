@@ -136,6 +136,10 @@ namespace LostKaiju.Infrastructure.Managers
             _playerRootPresenter?.Dispose();
             _playerBindingDisposables.Dispose();
             _playerBindingDisposables = new();
+            if (_playerCreature != null && _playerCreature.Animator != null)
+            {
+                _playerCreature.Animator.Play(AnimationClips.IDLE);
+            }
         }
 
         public void Dispose()

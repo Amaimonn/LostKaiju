@@ -102192,6 +102192,7 @@ MonoBehaviour:
   _enemyInjector:
     _enemies:
     - {fileID: 416143147}
+    _enemiesContainer: {fileID: 0}
 --- !u!4 &843688258
 Transform:
   m_ObjectHideFlags: 0

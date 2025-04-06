@@ -15,6 +15,9 @@ using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Game.World.Player.Data.Configs;
 using LostKaiju.Game.Constants;
 using LostKaiju.Services.Audio;
+using UnityEngine.AddressableAssets;
+using LostKaiju.Game.UI.MVVM.Gameplay.MissionResults;
+using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -31,20 +34,35 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
         {
             builder.Register<InputStateProvider>(Lifetime.Singleton);
             builder.Register<TypedRegistration<GameplayExitContext, Subject<Unit>>>(Lifetime.Singleton);
+            builder.Register<TypedRegistration<MissionResultsParameters, Subject<Unit>>>(Lifetime.Singleton);
             builder.Register<ExitPopUpBinder>(x => 
                 new ExitPopUpBinder(x.Resolve<IRootUIBinder>(), 
                     x.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance, 
                     x.Resolve<AudioPlayer>()), 
                 Lifetime.Singleton);
             builder.Register<OptionsBinder>(Lifetime.Singleton);
+            builder.Register<MissionResultsParameters>(Lifetime.Singleton);
+            builder.Register<MissionResultsBinder>(x => 
+                new MissionResultsBinder(x.Resolve<IRootUIBinder>(),
+                    x.Resolve<AudioPlayer>(),
+                    _gameplayEnterContext.SelectedLocationData,
+                    _gameplayEnterContext.SelectedMissionData), 
+                Lifetime.Singleton);
         }
 
-        public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext)
+        public Observable<GameplayExitContext> Boot(GameplayEnterContext gameplayEnterContext, out Observable<bool> onLoaded)
         {
             _gameplayEnterContext = gameplayEnterContext;
             Build();
-            
-            gameplayEnterContext.PlayerConfig = Resources.Load<PlayerConfigSO>(gameplayEnterContext.PlayerConfigPath);
+            var onLoadedProperty = new ReactiveProperty<bool>(false);
+            onLoaded = onLoadedProperty;
+            var playerConfigHandle = Addressables.LoadAssetAsync<PlayerConfigSO>(gameplayEnterContext.PlayerConfigPath);
+            playerConfigHandle.Completed += playerConfig =>
+            {
+                gameplayEnterContext.PlayerConfig = playerConfig.Result;
+                onLoadedProperty.Value = true;
+            };
+            // gameplayEnterContext.PlayerConfig = Resources.Load<PlayerConfigSO>(gameplayEnterContext.PlayerConfigPath);
 
             var exitGameplaySignal = new Subject<GameplayExitContext>();
             var exitToHubSignal = Container.Resolve<TypedRegistration<GameplayExitContext, Subject<Unit>>>().Instance;
@@ -75,13 +93,25 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             gameplayView.Bind(gameplayViewModel);
             rootUIBinder.SetView(gameplayView);
-
-            gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ =>
+            var missionResultsBinder = Container.Resolve<MissionResultsBinder>();
+            var completionSignal = Container.Resolve<TypedRegistration<MissionResultsParameters, Subject<Unit>>>().Instance;
+            completionSignal.Take(1).Subscribe(_ => 
             {
+                optionsBinder.CloseAll();
+                optionsBinder.Dispose();
+                
+                var results = Container.Resolve<MissionResultsParameters>();
                 hubEnterContext.IsMissionCompleted = true;
+                missionResultsBinder.SetResults(results);
                 // TODO: PopUp logic with GameplayView
-                gameplayViewModel.OpenMissionCompletionPopUp(); 
-                exitToHubSignal.OnNext(Unit.Default); // replace to PopUp
+                // gameplayViewModel.OpenMissionCompletionPopUp();
+                if (missionResultsBinder.TryBindAndOpen(out var resultsViewModel))
+                {
+                    resultsViewModel.OnOpenStateChanged.Where(isOpened => isOpened == false)
+                        .Take(1)
+                        .Subscribe(_ => exitToHubSignal.OnNext(Unit.Default));
+                }
+                gameplayEnterContext.MissionCompletionSignal.OnNext(results);
             });
             
 # if WEB_BUILD && YG_BUILD

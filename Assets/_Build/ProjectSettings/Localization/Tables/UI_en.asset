@@ -74,6 +74,26 @@ MonoBehaviour:
     m_Localized: PICK
     m_Metadata:
       m_Items: []
+  - m_Id: 7915183835496448
+    m_Localized: Mission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7915248427778048
+    m_Localized: Location
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7915367453736960
+    m_Localized: Complete the mission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7915803510358016
+    m_Localized: Without taking damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7916125716791296
+    m_Localized: One life
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

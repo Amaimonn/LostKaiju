@@ -5,12 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/_Build/Scenes/Gap.unity
-    guid: 878e8c8192d2a324f864f9b74841175f
   - enabled: 1
     path: Assets/_Build/Scenes/EntryPoint.unity
     guid: f10151edd8c20e74f92f512c32a2dd0d
+  - enabled: 0
+    path: Assets/_Build/Scenes/Gap.unity
+    guid: 878e8c8192d2a324f864f9b74841175f
   - enabled: 0
     path: Assets/_Build/Scenes/MainMenu.unity
     guid: 852da09ec8c6de64bae984ca62614c37
@@ -31,7 +31,7 @@ EditorBuildSettings:
     guid: 4b2bfb96f39d72c42b30f38fa01b362e
   - enabled: 0
     path: Assets/_Build/Scenes/Missions/Mission_2_3.unity
-    guid: 885ee0c864c63a948b89ebb9e0e85ac2
+    guid: ec4c3e79f13bb2344aa70f9e69cdda4c
   - enabled: 0
     path: Assets/_Build/Scenes/Missions/Mission_2_1.unity
     guid: f222050f8b81e1d40bea52ea1d3ded66

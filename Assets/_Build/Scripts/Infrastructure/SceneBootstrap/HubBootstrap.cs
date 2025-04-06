@@ -18,6 +18,7 @@ using LostKaiju.Game.Constants;
 using LostKaiju.Game.GameData;
 using LostKaiju.Services.Inputs;
 using LostKaiju.Services.Audio;
+using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -109,7 +110,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             exitToGameplaySignal.Take(1).Subscribe(_ =>
             {
-                gameplayEnterContext.PlayerConfigPath = $"{Paths.PLAYER_CREATURES}/{gameStateProvider.Heroes.SelectedHeroId}";
+                gameplayEnterContext.PlayerConfigPath = Paths.GetPlayerConfigPath(gameStateProvider.Heroes.SelectedHeroId);
                 gameplayEnterContext.LevelSceneName = _campaignModel.SelectedMission.Value.SceneName;
                 var selectedLocationData = _campaignModel.SelectedLocation.Value;
                 var selectedMissionData = _campaignModel.SelectedMission.Value;
@@ -117,10 +118,10 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 gameplayEnterContext.SelectedMissionData = selectedMissionData;
                 var missionCompleteSignal = _campaignModel.CreateMissionCompletionSignal(selectedLocationData,
                     selectedMissionData, () => gameStateProvider.SaveCampaignAsync());
-                gameplayEnterContext.MissionCompletionSignal = new Subject<Unit>();
-                gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(_ => 
+                gameplayEnterContext.MissionCompletionSignal = new Subject<MissionResultsParameters>();
+                gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(x => 
                 {
-                    missionCompleteSignal.OnNext(Unit.Default);
+                    missionCompleteSignal.OnNext(x);
                 });
                 hubExitSignal.OnNext(hubExitToGameplayContext);
             });

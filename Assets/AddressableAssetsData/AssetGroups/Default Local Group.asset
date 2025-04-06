@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d013497d60f2f84ba9f5e74629bd178
+    m_Address: Configs/Player/Creatures/azurie
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2194aaa1d066c124a9c2a05bd7a28f9d
     m_Address: Scenes/Mission_1_3
     m_ReadOnly: 0
@@ -45,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80774153a425122478b63d56bf7387b7
+    m_Address: Configs/Player/Creatures/lost
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 82c3961dd0f86854db89e6d895d33d36
     m_Address: Scenes/VoidRoom
     m_ReadOnly: 0
@@ -60,8 +70,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8adbf7a5d219e044da33464ac1ddff98
+    m_Address: Configs/Player/Creatures/orith
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
     m_Address: Scenes/Gameplay
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e71d14c730bf3b449975c240c141f51
+    m_Address: Configs/Player/Creatures/yellorie
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -82,6 +102,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c69dd0ce2d63d344db8a07cd0cc138ea
     m_Address: Scenes/Mission_2_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ddfaeafc4f89e3e40a87a0e5f3445092
+    m_Address: Configs/Player/Creatures/noctis
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization.Settings;
 
 using LostKaiju.Infrastructure.Scopes;
 using LostKaiju.Game.Constants;
@@ -31,7 +32,7 @@ namespace LostKaiju.Infrastructure.Entry
                 if (SceneManager.GetActiveScene().name != Scenes.ENTRY_POINT)
                     yield return SceneManager.LoadSceneAsync(Scenes.ENTRY_POINT);
                 Debug.Log("Entry point scene loaded");
-                
+                yield return LocalizationSettings.InitializationOperation;
                 yield return new WaitForSeconds(LOGO_TIME);
                 Object.FindAnyObjectByType<RootScope>().Build();
 

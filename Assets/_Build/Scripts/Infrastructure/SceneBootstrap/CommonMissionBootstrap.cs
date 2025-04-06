@@ -13,6 +13,7 @@ using LostKaiju.Services.Inputs;
 using LostKaiju.Game.World.Enemy;
 using LostKaiju.Infrastructure.Managers;
 using LostKaiju.Infrastructure.Scopes;
+using LostKaiju.Game.GameData.Campaign.Missions;
 
 namespace LostKaiju.Infrastructure.SceneBootstrap
 {
@@ -39,7 +40,8 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                     resolver.Resolve<PlayerManager>(),
                     _subSceneTriggers,
                     _missionExitAreaTrigger,
-                    resolver.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance);
+                    resolver.Resolve<TypedRegistration<MissionExitContext, Subject<Unit>>>().Instance,
+                    resolver.Resolve<TypedRegistration<MissionResultsParameters, Subject<Unit>>>().Instance);
             }, Lifetime.Singleton);
 
             builder.Register<PlayerManager>(resolver =>
@@ -80,6 +82,20 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var playerManager  = Container.Resolve<PlayerManager>();
             playerManager.FirstSpawnPlayer(spawnPosition);
 
+            var missionResults = Container.Resolve<MissionResultsParameters>();
+            if (missionResults.SecondStar == true)
+            {
+                playerManager.HealthModel.IsDead.Where(static x => x == true)
+                    .Take(1)
+                    .Subscribe(_ => missionResults.SecondStar = false);
+
+                if (missionResults.ThirdStar == true)
+                {
+                    playerManager.HealthModel.OnDecreased.Take(1)
+                        .Subscribe(_ => missionResults.ThirdStar = false);
+                }
+            }
+
             var cameraManager = Container.Resolve<CameraManager>();
             cameraManager.FollowCreature(playerManager.PlayerCreature);
             
@@ -90,14 +106,18 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             deathManager.Init();
 
             _enemyInjector.InjectAndInitAll(Container);
-            
-            missionExitSignal.Merge(gameplayExitSignal).Subscribe(_ => 
-            {
-                postProcessingManager.Dispose();
-                deathManager.Dispose();
-                playerManager.Dispose();
-                sceneTransitionManager.Dispose();
-            });
+            var completionSignal = Container.Resolve<TypedRegistration<MissionResultsParameters, Subject<Unit>>>().Instance;
+            missionExitSignal.Merge(gameplayExitSignal)
+                .Merge(completionSignal)
+                .Take(1)
+                .Subscribe(_ => 
+                {
+                    postProcessingManager.Dispose();
+                    deathManager.Dispose();
+                    playerManager.DisposePlayer();
+                    playerManager.Dispose();
+                    sceneTransitionManager.Dispose();
+                });
 
             return missionExitSignal.Select(_ => missionExitContext);
         }
