@@ -107,11 +107,14 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
 
             _enemyInjector.InjectAndInitAll(Container);
             var completionSignal = Container.Resolve<TypedRegistration<MissionResultsParameters, Subject<Unit>>>().Instance;
+            var inputStateProvider = Container.Resolve<InputStateProvider>();
+
             missionExitSignal.Merge(gameplayExitSignal)
                 .Merge(completionSignal)
                 .Take(1)
                 .Subscribe(_ => 
                 {
+                    inputStateProvider.AddBlocker(new FakeBlocker());
                     postProcessingManager.Dispose();
                     deathManager.Dispose();
                     playerManager.DisposePlayer();

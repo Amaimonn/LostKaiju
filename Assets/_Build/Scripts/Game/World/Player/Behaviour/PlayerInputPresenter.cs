@@ -251,7 +251,7 @@ namespace LostKaiju.Game.World.Player.Behaviour
 
         public void Dispose()
         {
-            if (_creature != null && _creature.Animator != null)
+            if (_creature != null && _creature.Animator != null && _creature.Animator.enabled)
             {
                 _creature.Animator.Play(AnimationClips.EMPTY, _movementOverrideLayer);
                 _creature.Animator.Play(AnimationClips.EMPTY, _attackOverrideLayer);

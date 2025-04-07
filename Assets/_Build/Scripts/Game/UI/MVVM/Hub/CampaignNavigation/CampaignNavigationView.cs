@@ -29,6 +29,8 @@ namespace LostKaiju.Game.UI.MVVM.Hub
         [SerializeField] private VisualTreeAsset _missionButton;
         [SerializeField] private string _missionButtonSelectedClass;
         [SerializeField] private string _missionButtonCompletedClass;
+        [SerializeField] private VisualTreeAsset _starLi;
+        [SerializeField] private string _starsColumnName;
 
         [Space(2f)]
         [SerializeField] private VisualTreeAsset _locationTabButton;
@@ -170,6 +172,11 @@ namespace LostKaiju.Game.UI.MVVM.Hub
                     if (missionModel.IsCompleted.Value)
                     {
                         missionButton.AddToClassList(_missionButtonCompletedClass);
+                        var starsColumn = missionButtonContainer.Q<VisualElement>(name: _starsColumnName);
+                        for (int i = 0; i < missionModel.Stars; i++)
+                        {
+                            _starLi.CloneTree(starsColumn);
+                        }
                     }
                     _missionButtonsMap[missionData.Id] = missionButton;
                     missionButton.RegisterCallback<PointerEnterEvent>(PlayButtonHoverSFX);

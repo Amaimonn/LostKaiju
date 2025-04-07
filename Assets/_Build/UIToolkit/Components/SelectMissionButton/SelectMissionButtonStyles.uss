@@ -66,3 +66,18 @@
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
 }
+
+.stars-column {
+    flex-grow: 1;
+    width: 12px;
+    justify-content: center;
+    height: 100%;
+    align-content: flex-start;
+    align-items: stretch;
+}
+
+.star {
+    flex-grow: 0;
+    background-image: url("project://database/Assets/_Build/Art/Images/UI/shiny_spark.png?fileID=21300000&guid=36d2132d51e5b9a4686f8fe275996350&type=3#shiny_spark");
+    height: 12px;
+}
