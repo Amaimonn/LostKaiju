@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
 using LostKaiju.Game.GameData.Campaign;
@@ -16,55 +15,55 @@ namespace LostKaiju.Game.Providers.GameState
         public CampaignState Campaign { get; private set; }
         public HeroesState Heroes { get; private set; }
 
-        private readonly IAsyncSaveSystem _saveSystem;
+        private readonly ISaveSystem _saveSystem;
         private readonly IDefaultStateProvider _defaultStateProvider;
 
-        public GameStateProvider(IAsyncSaveSystem saveSystem, IDefaultStateProvider defaultStateProvider)
+        public GameStateProvider(ISaveSystem saveSystem, IDefaultStateProvider defaultStateProvider)
         {
             _saveSystem = saveSystem;
             _defaultStateProvider = defaultStateProvider;
         }
 
-        public async Task LoadCampaignAsync()
+        public void LoadCampaign()
         {
-            bool exists = await _saveSystem.ExistsAsync(StateKeys.CAMPAIGN);
+            bool exists = _saveSystem.Exists(StateKeys.CAMPAIGN);
             if (exists)
-                Campaign = await _saveSystem.LoadAsync<CampaignState>(StateKeys.CAMPAIGN);
+                Campaign = _saveSystem.Load<CampaignState>(StateKeys.CAMPAIGN);
             else
                 InitializeAndSaveCampaign();
         }
 
-        public async Task SaveCampaignAsync()
+        public void SaveCampaign()
         {
-            await _saveSystem.SaveAsync(StateKeys.CAMPAIGN, Campaign);
+            _saveSystem.Save(StateKeys.CAMPAIGN, Campaign);
         }
 
-        public async Task LoadSettingsAsync()
+        public void LoadSettings()
         {
-            bool exists = await _saveSystem.ExistsAsync(StateKeys.SETTINGS);
+            bool exists = _saveSystem.Exists(StateKeys.SETTINGS);
             if (exists)
-                Settings = MigrateSettings(await _saveSystem.LoadAsync<SettingsState>(StateKeys.SETTINGS));
+                Settings = MigrateSettings(_saveSystem.Load<SettingsState>(StateKeys.SETTINGS));
             else
                 InitializeAndSaveSettings();
         }
 
-        public async Task SaveSettingsAsync()
+        public void SaveSettings()
         {
-            await _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);
+            _saveSystem.Save(StateKeys.SETTINGS, Settings);
         }
 
-        public async Task LoadHeroesAsync()
+        public void LoadHeroes()
         {
-            bool exists = await _saveSystem.ExistsAsync(StateKeys.HEROES);
+            bool exists = _saveSystem.Exists(StateKeys.HEROES);
             if (exists)
-                Heroes = await _saveSystem.LoadAsync<HeroesState>(StateKeys.HEROES);
+                Heroes = _saveSystem.Load<HeroesState>(StateKeys.HEROES);
             else
                 InitializeAndSaveHeroes();
         }
 
-        public async Task SaveHeroesAsync()
+        public void SaveHeroes()
         {
-            await _saveSystem.SaveAsync(StateKeys.HEROES, Heroes);
+            _saveSystem.Save(StateKeys.HEROES, Heroes);
         }
 
         private void InitializeAndSaveCampaign()
@@ -72,7 +71,7 @@ namespace LostKaiju.Game.Providers.GameState
             Campaign = _defaultStateProvider.GetCampaign();
 
             Debug.Log("Campaign load: init");
-            _saveSystem.SaveAsync(StateKeys.CAMPAIGN, Campaign);
+            _saveSystem.Save(StateKeys.CAMPAIGN, Campaign);
         }
 
         private void InitializeAndSaveSettings()
@@ -80,7 +79,7 @@ namespace LostKaiju.Game.Providers.GameState
             Settings = _defaultStateProvider.GetSettings();
 
             Debug.Log("Settings load: init");
-            _saveSystem.SaveAsync(StateKeys.SETTINGS, Settings);
+            _saveSystem.Save(StateKeys.SETTINGS, Settings);
         }
 
         private void InitializeAndSaveHeroes()
@@ -88,7 +87,7 @@ namespace LostKaiju.Game.Providers.GameState
             Heroes = _defaultStateProvider.GetHeroes();
 
             Debug.Log("Heroes load: init");
-            _saveSystem.SaveAsync(StateKeys.HEROES, Heroes);
+            _saveSystem.Save(StateKeys.HEROES, Heroes);
         }
         
         private SettingsState MigrateSettings(SettingsState settingsState)

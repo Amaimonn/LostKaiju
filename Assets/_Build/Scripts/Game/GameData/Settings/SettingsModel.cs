@@ -21,6 +21,7 @@ namespace LostKaiju.Game.GameData.Settings
 
 #region Language settings
         public ReactiveProperty<int> LanguageIndex { get; }
+        public ReactiveProperty<bool> IsLanguageSelected { get; }
 #endregion
 
         public SettingsModel(SettingsState state) : base(state)
@@ -54,6 +55,9 @@ namespace LostKaiju.Game.GameData.Settings
 
             LanguageIndex = new ReactiveProperty<int>(state.LanguageIndex);
             LanguageIndex.Skip(1).Subscribe(x => state.LanguageIndex = x);
+
+            IsLanguageSelected = new ReactiveProperty<bool>(state.IsLanguageSelected);
+            IsLanguageSelected.Skip(1).Subscribe(x => state.IsLanguageSelected = x);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace LostKaiju.Game.GameData.Settings
         public bool IsAntiAliasingEnabled;
 
         public int LanguageIndex;
+        public bool IsLanguageSelected;
 
         public SettingsState Copy()
         {

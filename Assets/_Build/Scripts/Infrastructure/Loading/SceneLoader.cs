@@ -36,6 +36,9 @@ namespace LostKaiju.Infrastructure.Loading
         public IEnumerator LoadStartScene()
         {
             yield return LoadHub(fastLoadingShow: true);
+#if YG_BUILD
+            YG2.GameReadyAPI();
+#endif
         }
 
         private IEnumerator LoadMainMenu(MainMenuEnterContext mainMenuEnterContext = null)
@@ -104,11 +107,11 @@ namespace LostKaiju.Infrastructure.Loading
 
         private IEnumerator LoadGameplay(GameplayEnterContext gameplayEnterContext)
         {
+            ShowAdvertising();
             yield return _loadingScreen.ShowCoroutine();
             
             var startTime = Time.time;
             _onLoadingStarted.OnNext(Unit.Default);
-            ShowAdvertising();
             yield return LoadSceneAsync(Scenes.GAP);
 
             using (LifetimeScope.EnqueueParent(_rootScope))

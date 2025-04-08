@@ -78,7 +78,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
             var inputProvider = Container.Resolve<IInputProvider>();
             settingsBinder.BindClosingSignal(inputProvider.OnEscape.TakeUntil(hubExitSignal));
             var heroesModelFactory = new HeroesModelFactory(gameStateProvider);
-            heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroesAsync()));
+            heroesModelFactory.OnProduced.Subscribe(x => x.SelectedHeroData.Skip(1).Subscribe(_ => gameStateProvider.SaveHeroes()));
             _heroRenderTextureSetter.Init();
             var heroSelectionBinder = new HeroSelectionBinder(rootUIBinder, heroesModelFactory, 
                 _heroRenderTextureSetter.CurrentRenderTexture, audioPlayer);
@@ -117,7 +117,7 @@ namespace LostKaiju.Infrastructure.SceneBootstrap
                 gameplayEnterContext.SelectedLocationData = selectedLocationData;
                 gameplayEnterContext.SelectedMissionData = selectedMissionData;
                 var missionCompleteSignal = _campaignModel.CreateMissionCompletionSignal(selectedLocationData,
-                    selectedMissionData, () => gameStateProvider.SaveCampaignAsync());
+                    selectedMissionData, () => gameStateProvider.SaveCampaign());
                 gameplayEnterContext.MissionCompletionSignal = new Subject<MissionResultsParameters>();
                 gameplayEnterContext.MissionCompletionSignal.Take(1).Subscribe(x => 
                 {

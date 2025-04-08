@@ -86,7 +86,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private void SaveSettings()
         {
-            _gameStateProvider.SaveSettingsAsync();
+            _gameStateProvider.SaveSettings();
         }
 
         public void Dispose()

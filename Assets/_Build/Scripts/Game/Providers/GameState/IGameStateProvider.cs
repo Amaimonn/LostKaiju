@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using LostKaiju.Boilerplates.Locator;
 using LostKaiju.Game.GameData.Default;
 
@@ -7,13 +5,13 @@ namespace LostKaiju.Game.Providers.GameState
 {
     public interface IGameStateProvider : IDefaultState, IService
     {
-        public Task LoadSettingsAsync();
-        public Task SaveSettingsAsync();
+        public void LoadSettings();
+        public void SaveSettings();
 
-        public Task LoadCampaignAsync();
-        public Task SaveCampaignAsync();
+        public void LoadCampaign();
+        public void SaveCampaign();
         
-        public Task LoadHeroesAsync();
-        public Task SaveHeroesAsync();
+        public void LoadHeroes();
+        public void SaveHeroes();
     }
 }

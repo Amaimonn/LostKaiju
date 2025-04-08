@@ -6,6 +6,7 @@ using TMPro;
 
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Game.Constants;
+using R3;
 
 namespace LostKaiju.Game.UI.MVVM.Gameplay.MissionResults
 {
@@ -80,8 +81,14 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.MissionResults
             _condition2.color = _lockedConditionColor;
             _condition3.color = _lockedConditionColor;
 
-            _missionName.SetText(new LocalizedString(Tables.CAMPAIGN, viewModel.MissionData.Name).GetLocalizedString());
-            _locationName.SetText(new LocalizedString(Tables.CAMPAIGN, viewModel.LocationData.Name).GetLocalizedString());
+            var missionNameLocalized = new LocalizedString(Tables.CAMPAIGN, viewModel.MissionData.Name);
+            var locationNameLocalized = new LocalizedString(Tables.CAMPAIGN, viewModel.LocationData.Name);
+
+            missionNameLocalized.StringChanged += UpdateMissionName;
+            locationNameLocalized.StringChanged += UpdateLocationName;
+
+            _disposables.Add(Disposable.Create(() => missionNameLocalized.StringChanged -= UpdateMissionName));
+            _disposables.Add(Disposable.Create(() => locationNameLocalized.StringChanged -= UpdateLocationName));
         }
 
         protected override void OnOpening()
@@ -116,6 +123,16 @@ namespace LostKaiju.Game.UI.MVVM.Gameplay.MissionResults
             yield return new WaitForSeconds(_buttonAppearDelay);
             
             yield return AnimateButtonAppearance();
+        }
+
+        private void UpdateMissionName(string newValue)
+        {
+            _missionName.SetText(newValue);
+        }
+
+        private void UpdateLocationName(string newValue)
+        {
+            _locationName.SetText(newValue);
         }
 
         private IEnumerator AnimatePanelScale()

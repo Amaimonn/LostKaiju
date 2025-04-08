@@ -36,7 +36,7 @@ namespace LostKaiju.Game.GameData.Campaign
                 {
                     campaignModel.UpdateAvailableLocationsAndMissions();
                     _gameStateProvider.Campaign.CampaignDataVersion = locationsDataSO.Version;
-                    _gameStateProvider.SaveCampaignAsync(); // save new version
+                    _gameStateProvider.SaveCampaign(); // save new version
                 }
                 onLoaded(campaignModel);
                 _onProduced.OnNext(campaignModel);

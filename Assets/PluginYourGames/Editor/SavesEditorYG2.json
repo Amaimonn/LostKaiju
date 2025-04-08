@@ -1,0 +1,54 @@
+{
+    "intExample": 5,
+    "strExample": "Hello!",
+    "boolExample": [
+        false,
+        false,
+        false,
+        false
+    ],
+    "idSave": 5,
+    "Settings": {
+        "_version": 1,
+        "MusicVolume": 8,
+        "IsMusicEnabled": true,
+        "SfxVolume": 8,
+        "IsSfxEnabled": true,
+        "Brightness": 0,
+        "IsPostProcessingEnabled": true,
+        "IsBloomEnabled": true,
+        "IsFilmGrainEnabled": true,
+        "IsAntiAliasingEnabled": false,
+        "LanguageIndex": 1,
+        "IsLanguageSelected": true
+    },
+    "Campaign": {
+        "_version": 1,
+        "CampaignDataVersion": 1,
+        "Locations": [
+            {
+                "Id": "1",
+                "IsCompleted": false,
+                "OpenedMissions": [
+                    {
+                        "Id": "1_1",
+                        "IsCompleted": true,
+                        "Stars": 3
+                    },
+                    {
+                        "Id": "1_2",
+                        "IsCompleted": false,
+                        "Stars": 0
+                    }
+                ],
+                "MaxCompletedMissionId": "1_1"
+            }
+        ],
+        "LastLaunchedLocationId": "1",
+        "LastLaunchedMissionId": "1_1"
+    },
+    "Heroes": {
+        "_version": 1,
+        "SelectedHeroId": "lost"
+    }
+}

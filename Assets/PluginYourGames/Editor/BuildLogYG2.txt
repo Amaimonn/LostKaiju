@@ -1,3 +1,3 @@
-Build path: D:/Art/UnityProjects/LocalProjects/LostKaiju1/Builds/YG_PROD_loc_siz
-Build number: 23
+Build path: D:/Art/UnityProjects/LocalProjects/LostKaiju1/Builds/YG_PROD_star
+Build number: 25
 PluginYG version: 2.0032

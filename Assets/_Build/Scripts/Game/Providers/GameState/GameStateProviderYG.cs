@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using YG;
 
@@ -6,6 +5,7 @@ using LostKaiju.Game.GameData.Campaign;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.Providers.DefaultState;
 using LostKaiju.Game.GameData.Heroes;
+using LostKaiju.Utils;
 
 namespace LostKaiju.Game.Providers.GameState
 {
@@ -22,43 +22,40 @@ namespace LostKaiju.Game.Providers.GameState
             _defaultStateProvider = defaultStateProvider;
         }
 
-        public Task LoadCampaignAsync()
+        public void LoadCampaign()
         {
             if (YG2.saves.Campaign == null)
                 InitializeAndSaveCampaign();
-            return Task.CompletedTask;
         }
 
-        public Task LoadSettingsAsync()
+        public void LoadSettings()
         {
             if (YG2.saves.Settings == null)
                 InitializeAndSaveSettings();
-            return Task.CompletedTask;
+
+            if (!YG2.saves.Settings.IsLanguageSelected)
+                Settings.LanguageIndex = LocaleHelper.GetLanguageIndexByCode(YG2.lang);
         }
 
-        public Task LoadHeroesAsync()
+        public void LoadHeroes()
         {
             if (YG2.saves.Heroes == null)
                 InitializeAndSaveHeroes();
-            return Task.CompletedTask;
         }
 
-        public Task SaveCampaignAsync()
+        public void SaveCampaign()
         {
             YG2.SaveProgress();
-            return Task.CompletedTask;
         }
 
-        public Task SaveSettingsAsync()
+        public void SaveSettings()
         {
             YG2.SaveProgress();
-            return Task.CompletedTask;
         }
 
-        public Task SaveHeroesAsync()
+        public void SaveHeroes()
         {
             YG2.SaveProgress();
-            return Task.CompletedTask;
         }
 
         private void InitializeAndSaveCampaign()

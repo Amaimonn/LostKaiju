@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace LostKaiju.Game.GameData.Settings
 {
     public interface IFullSettingsData
@@ -6,6 +8,12 @@ namespace LostKaiju.Game.GameData.Settings
         public string VideoSectionLabel { get; }
         public string InputSectionLabel { get; }
         public string LanguageSectionLabel { get; }
+
+        public Sprite SoundIcon { get; }
+        public Sprite VideoIcon { get; }
+        public Sprite InputIcon { get; }
+        public Sprite LanguageIcon { get; }
+        
         public ISliderSettingData MusicVolumeData { get; }
         public ISliderSettingData SfxVolumeData { get; }
         public ISliderSettingData BrightnessData { get; }

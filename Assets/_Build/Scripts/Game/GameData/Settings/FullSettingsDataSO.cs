@@ -10,6 +10,11 @@ namespace LostKaiju.Game.GameData.Settings
         [field: SerializeField] public string InputSectionLabel { get; private set; }
         [field: SerializeField] public string LanguageSectionLabel { get; private set; }
 
+        [field: SerializeField] public Sprite SoundIcon { get; private set; }
+        [field: SerializeField] public Sprite VideoIcon { get; private set; }
+        [field: SerializeField] public Sprite InputIcon { get; private set; }
+        [field: SerializeField] public Sprite LanguageIcon { get; private set; }
+
         public ISliderSettingData MusicVolumeData => _musicVolumeSliderDataSO;
         public ISliderSettingData SfxVolumeData => _sfxVolumeSliderDataSO;
         public ISliderSettingData BrightnessData => _brightnessSliderDataSO;
