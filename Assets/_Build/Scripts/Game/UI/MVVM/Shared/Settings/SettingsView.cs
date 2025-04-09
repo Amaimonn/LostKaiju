@@ -23,6 +23,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         
         [Header("Controls"), Space(4)]
         [SerializeField] private string _settingBarLabelClass;
+        [SerializeField] private string _settingBarBackgroundClass;
+        [SerializeField] private Color _evenBarColor = new(1f, 1f, 1f, 0.1f);
         [SerializeField] private VisualTreeAsset _sliderSettingBarAsset;
         [SerializeField] private VisualTreeAsset _toggleSettingBarAsset;
         [SerializeField] private VisualTreeAsset _arrowsSettingBarAsset;
@@ -32,6 +34,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private Button _applyButton;
         private Button _cancelChangesButton;
+        private int _currentBarIndex;
         // private bool _isClosing = false;
 
 #region PopUpToolkitView
@@ -91,7 +94,9 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             {
                 InitSoundSection(sectionsRoot, data);
                 InitVideoSection(sectionsRoot, data);
+#if !YG_BUILD
                 InitLanguageSection(sectionsRoot, data);
+#endif
             }).AddTo(_disposables);
         }
         
@@ -99,11 +104,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var soundViewModel = ViewModel.SoundSettingsViewModel;
             
-            var soundSection = new Tab();
-            soundSection.LocalizeLabel(Tables.SETTINGS, settingsData.SoundSectionLabel);
-            soundSection.selected += _ => ViewModel.SelectSoundSection();
-            sectionsRoot.Add(soundSection);
-
+            var soundSection = CreateAndInitTab(sectionsRoot, settingsData.SoundSectionLabel,
+                _ => ViewModel.SelectSoundSection());
             var scrollView = CreateScrollView(soundSection);
 
             var soundVolumeSlider = CreateSliderInt(settingsData.MusicVolumeData, scrollView);
@@ -117,11 +119,8 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var videoViewModel = ViewModel.VideoSettingsViewModel;
 
-            var videoSection = new Tab();
-            videoSection.LocalizeLabel(Tables.SETTINGS, settingsData.VideoSectionLabel);
-            videoSection.selected += _ => ViewModel.SelectVideoSection();
-            sectionsRoot.Add(videoSection);
-
+            var videoSection = CreateAndInitTab(sectionsRoot, settingsData.VideoSectionLabel, 
+                _ => ViewModel.SelectVideoSection());
             var scrollView = CreateScrollView(videoSection);
 
             var brightnessSlider = CreateSliderInt(settingsData.BrightnessData, scrollView);
@@ -144,15 +143,23 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
         {
             var languageViewModel = ViewModel.LanguageSettingsViewModel;
 
-            var languageSection = new Tab();
-            languageSection.LocalizeLabel(Tables.SETTINGS, settingsData.LanguageSectionLabel);
-            languageSection.selected += _ => ViewModel.SelectLanguageSection();
-            sectionsRoot.Add(languageSection);
-
+            var languageSection = CreateAndInitTab(sectionsRoot, settingsData.LanguageSectionLabel,
+                _ => ViewModel.SelectLanguageSection());
             var scrollView = CreateScrollView(languageSection);
 
             var languageArrows = CreateArrowsMenu(settingsData.LanguageData, scrollView);
             BindArrowsMenu(languageArrows, languageViewModel.SetLanguage, languageViewModel.LanguageIndex);
+        }
+
+        private Tab CreateAndInitTab(VisualElement sectionsRoot, string labelEntry, Action<Tab> selectAction)
+        {
+            _currentBarIndex = 0;
+            var tab = new Tab();
+            tab.LocalizeLabel(Tables.SETTINGS, labelEntry);
+            tab.selected += selectAction;
+            sectionsRoot.Add(tab);
+
+            return tab;
         }
 
         private ScrollView CreateScrollView(VisualElement parentSection)
@@ -166,7 +173,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private SliderInt CreateSliderInt(ISliderSettingData sliderSettingData, VisualElement parentSection)
         {
-            var settingBar = _sliderSettingBarAsset.CloneTree();
+            var settingBar = GetBarCustomClone(_sliderSettingBarAsset);
             parentSection.Add(settingBar);
 
             var slider = settingBar.Q<SliderInt>();
@@ -188,7 +195,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private Toggle CreateToggle(IToggleSettingData toggleSettingData, VisualElement parentSection)
         {
-            var settingBar = _toggleSettingBarAsset.CloneTree();
+            var settingBar = GetBarCustomClone(_toggleSettingBarAsset);
             parentSection.Add(settingBar);
 
             var toggle = settingBar.Q<Toggle>();
@@ -199,6 +206,23 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
             return toggle;
         }
 
+        private VisualElement GetBarCustomClone(VisualTreeAsset barAsset)
+        {
+            var clonedBar = barAsset.CloneTree();
+            CrossColorEvenBar(clonedBar);
+            return clonedBar;
+        }
+
+        private void CrossColorEvenBar(VisualElement element)
+        {
+            if (_currentBarIndex % 2 == 1)
+            {
+                var backgroundElement = element.Q(className: _settingBarBackgroundClass);
+                backgroundElement.style.backgroundColor = _evenBarColor;
+            }
+            _currentBarIndex++;
+        }
+
         private void BindToggle(Toggle toggle, Action<bool> method, Observable<bool> observable)
         {
             toggle.RegisterCallback<ChangeEvent<bool>>(e => method(e.newValue));
@@ -207,7 +231,7 @@ namespace LostKaiju.Game.UI.MVVM.Shared.Settings
 
         private ArrowsMenu CreateArrowsMenu(IArrowsSettingData arrowsSettingData, VisualElement parentSection)
         {
-            var settingBar = _arrowsSettingBarAsset.CloneTree();
+            var settingBar = GetBarCustomClone(_arrowsSettingBarAsset);
             parentSection.Add(settingBar);
 
             var label = settingBar.Q<Label>(className: _settingBarLabelClass);

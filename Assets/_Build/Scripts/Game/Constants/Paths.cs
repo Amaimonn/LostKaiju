@@ -2,6 +2,7 @@ namespace LostKaiju.Game.Constants
 {
     public static class Paths
     {
+        public const string ROOT_UI_BINDER = "UI/Shared/RootUIBinder";
         public const string SETTINGS_VIEW = "UI/Shared/SettingsView";
         public const string CAMPAIGN_NAVIGATION_VIEW = "UI/Hub/CampaignNavigationView";
         public const string HERO_SELECTION_VIEW = "UI/Hub/HeroSelectionView";

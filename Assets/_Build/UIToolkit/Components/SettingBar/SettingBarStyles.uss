@@ -7,7 +7,7 @@
     border-right-color: rgb(104, 104, 104);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgb(180, 180, 180);
-    border-top-width: 1px;
+    border-top-width: 0;
     border-right-width: 0.5px;
     border-bottom-width: 0.8px;
     border-left-width: 6px;

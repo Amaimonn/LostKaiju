@@ -52,6 +52,8 @@ MonoBehaviour:
   _sectionsRootClass: settings__tab-view
   _sectionScrollViewAsset: {fileID: 9197481963319205126, guid: 4b0541e5f3f10f54db0677248c37ad02, type: 3}
   _settingBarLabelClass: setting-bar__label
+  _settingBarBackgroundClass: setting-bar
+  _evenBarColor: {r: 1, g: 1, b: 1, a: 0.1}
   _sliderSettingBarAsset: {fileID: 9197481963319205126, guid: 180218f9a08027441a350635e4c7e265, type: 3}
   _toggleSettingBarAsset: {fileID: 9197481963319205126, guid: 07df10da215826f4c85f17e70ac58070, type: 3}
   _arrowsSettingBarAsset: {fileID: 9197481963319205126, guid: c0d2ef9402425ed45b0af9905747e3ab, type: 3}

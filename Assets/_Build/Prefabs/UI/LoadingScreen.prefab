@@ -52,6 +52,7 @@ MonoBehaviour:
   _loadingGameObject: {fileID: 3078366638079649755}
   _overlayImage: {fileID: 2132432390763644894}
   _loadingStub: {fileID: 711264514738884816}
+  _loadingText: {fileID: 3325423526893681900}
   _overlayProgressProperty: _Progress
   _overlayFillSeconds: 1.2
 --- !u!1 &711264514738884816
@@ -162,7 +163,7 @@ GameObject:
   - component: {fileID: 696518046138005970}
   - component: {fileID: 6669829650162032772}
   m_Layer: 5
-  m_Name: LoadingLabel
+  m_Name: LoadingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 20.432953, y: 0, z: 0, w: 0}
+  m_margin: {x: 20, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

@@ -16,6 +16,7 @@ namespace LostKaiju.Infrastructure.Loading
         [SerializeField] private GameObject _loadingGameObject;
         [SerializeField] private Image _overlayImage;
         [SerializeField] private GameObject _loadingStub;
+        [SerializeField] private GameObject _loadingText;
         [SerializeField] private string _overlayProgressProperty;
         [SerializeField, Min(0.01f)] private float _overlayFillSeconds = 2f;
 
@@ -31,10 +32,12 @@ namespace LostKaiju.Infrastructure.Loading
         }
 #endregion
 
-        public void Show()
+        public void Show(bool showText = true)
         {
             _loadingGameObject.SetActive(true);
             _loadingStub.SetActive(true);
+            if (showText)
+                _loadingText.SetActive(true);
             SetOverlayFillProgress(1);
             _onStarted.OnNext(Unit.Default);
         }
@@ -42,6 +45,7 @@ namespace LostKaiju.Infrastructure.Loading
         public void Hide()
         {
             _loadingStub.SetActive(false);
+            _loadingText.SetActive(false);
             _loadingGameObject.SetActive(false);
             SetOverlayFillProgress(0);
             _onFinished.OnNext(Unit.Default);

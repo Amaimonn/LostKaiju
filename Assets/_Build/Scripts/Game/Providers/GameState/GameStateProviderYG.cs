@@ -33,8 +33,8 @@ namespace LostKaiju.Game.Providers.GameState
             if (YG2.saves.Settings == null)
                 InitializeAndSaveSettings();
 
-            if (!YG2.saves.Settings.IsLanguageSelected)
-                Settings.LanguageIndex = LocaleHelper.GetLanguageIndexByCode(YG2.lang);
+            // if (!YG2.saves.Settings.IsLanguageSelected)
+            Settings.LanguageIndex = LocaleHelper.GetLanguageIndexByCode(YG2.lang);
         }
 
         public void LoadHeroes()

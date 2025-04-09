@@ -26,6 +26,8 @@ MonoBehaviour:
     postponeCallByFail: 0
     postponeCallTimer: 10
     labelAdvSimLabel: 0
+  Localization:
+    setLanguageMod: 1
   Storage:
     saveLocal: 0
     saveCloud: 1
@@ -36,7 +38,7 @@ MonoBehaviour:
     autoApplySettings: 1
     autoPauseGame: 1
     editEventSystem: 1
-    autoGRA: 1
+    autoGRA: 0
     logInEditor: 1
     archivingBuild: 1
     syncInitSDK: 0
@@ -45,7 +47,7 @@ MonoBehaviour:
     simulationLoadScene: 0
   Simulation:
     device: 1
-    language: ru
+    language: en
     advIntervalSimulation: 0
     durationAdv: 0.5
     loadAdv: 0

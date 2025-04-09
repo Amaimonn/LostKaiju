@@ -5,25 +5,32 @@ using UnityEngine.Localization.Settings;
 using VContainer;
 using VContainer.Unity;
 using R3;
+using YG;
 
 using LostKaiju.Utils;
 using LostKaiju.Boilerplates.UI.MVVM;
 using LostKaiju.Infrastructure.Loading;
 using LostKaiju.Services.Inputs;
-using LostKaiju.Services.Saves;
+using LostKaiju.Services.Saves; // !WEB_BUILD
 using LostKaiju.Services.Audio;
 using LostKaiju.Game.GameData.Settings;
 using LostKaiju.Game.UI.MVVM.Shared.Settings;
 using LostKaiju.Game.Providers.DefaultState;
 using LostKaiju.Game.Providers.GameState;
-using YG;
-using System;
 
 namespace LostKaiju.Infrastructure.Scopes
 {
     public class RootScope : LifetimeScope
     {
         [SerializeField] private RootUIBinder _uiRootBinderPrefab;
+        private RootUIBinder _uiRootBinder;
+        private LoadingScreen _loadingScreen;
+
+        public void SetDependencies(RootUIBinder uiRootBinder, LoadingScreen loadingScreen)
+        {
+            _uiRootBinder = uiRootBinder;
+            _loadingScreen = loadingScreen;
+        }
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -35,9 +42,7 @@ namespace LostKaiju.Infrastructure.Scopes
             DontDestroyOnLoad(monoHook);
             builder.RegisterInstance(monoHook);
 
-            var uiRootBinder = Instantiate(_uiRootBinderPrefab);
-            DontDestroyOnLoad(uiRootBinder);
-            builder.RegisterInstance<IRootUIBinder>(uiRootBinder);
+            builder.RegisterInstance<IRootUIBinder>(_uiRootBinder);
             
             var defaultStateProvider = new DefaultStateSOProvider();
 #if !WEB_BUILD && (DESKTOP_BUILD || MOBILE_BUILD)
@@ -60,11 +65,11 @@ namespace LostKaiju.Infrastructure.Scopes
 #if YG_BUILD
             YG2.onSwitchLang += newCode =>
             {
-                if (!settingsModel.IsLanguageSelected.Value)
-                {
-                    Debug.Log("language was changed from external tools, because it wasn`t specified in settings");
-                    settingsModel.LanguageIndex.Value = LocaleHelper.GetLanguageIndexByCode(newCode);
-                }
+                // if (!settingsModel.IsLanguageSelected.Value)
+                // {
+                //     Debug.Log("language was changed from external tools, because it wasn`t specified in settings");
+                settingsModel.LanguageIndex.Value = LocaleHelper.GetLanguageIndexByCode(newCode);
+                // }
             };
             settingsModel.LanguageIndex.Subscribe(newIndex => 
             {
@@ -80,16 +85,15 @@ namespace LostKaiju.Infrastructure.Scopes
             builder.RegisterInstance<SettingsModel>(settingsModel);
             builder.Register<SettingsBinder>(Lifetime.Singleton);
 
-            var loadingScreen = uiRootBinder.GetComponentInChildren<LoadingScreen>();
-            builder.RegisterInstance<ILoadingScreenNotifier>(loadingScreen);
+            builder.RegisterInstance<ILoadingScreenNotifier>(_loadingScreen);
 
-            var sceneLoader = new SceneLoader(monoHook, loadingScreen, this);
+            var sceneLoader = new SceneLoader(monoHook, _loadingScreen, this);
             builder.Register<AudioPlayer>(resolver => 
             {
                 var settingsModel = resolver.Resolve<SettingsModel>();
                 var audioPlayer = new AudioPlayer(musicVolume: settingsModel.MusicVolume.Select(x => x / 10.0f), 
                     sfxVolume: settingsModel.SfxVolume.Select(x => x / 10.0f), monoHook);
-                loadingScreen.OverlayFillProgress.Subscribe(x => audioPlayer.VolumeMultiplier.Value = 1 - x);
+                _loadingScreen.OverlayFillProgress.Subscribe(x => audioPlayer.VolumeMultiplier.Value = 1 - x);
                 sceneLoader.OnLoadingStarted.Subscribe(_ => 
                 {
                     audioPlayer.ClearPoolSFX();
@@ -105,7 +109,7 @@ namespace LostKaiju.Infrastructure.Scopes
             monoHook.StartCoroutine(sceneLoader.LoadStartScene());
         }
 
-        private void SelectLanguageByIndex(int index)
+        private static void SelectLanguageByIndex(int index)
         {
             if (index >= 0 && index < LocalizationSettings.AvailableLocales.Locales.Count)
                 LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
