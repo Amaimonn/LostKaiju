@@ -217563,7 +217563,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000a723009fa57742587b137d28b94a755217f76d1751c4a5bc
+  m_ApplyToSortingLayers: 00000000a723009fa57742587b137d28b94a755217f76d1751c4a5bc1fb1bc55
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -217863,6 +217863,14 @@ PrefabInstance:
     - target: {fileID: 2483800664717017159, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
       propertyPath: far clip plane
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483800664717017159, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483800664717017159, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3274025506179469849, guid: a1ff40ecc19c4434c930bd3847729c59, type: 3}
       propertyPath: m_Name

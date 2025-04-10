@@ -59,5 +59,8 @@ TagManager:
   - name: WorldForeground
     uniqueID: 679285627
     locked: 0
+  - name: SafeVingette
+    uniqueID: 1438429471
+    locked: 0
   m_RenderingLayers:
   - Default
