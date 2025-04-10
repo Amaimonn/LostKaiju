@@ -7,7 +7,7 @@
         false,
         false
     ],
-    "idSave": 5,
+    "idSave": 15,
     "Settings": {
         "_version": 1,
         "MusicVolume": 8,
@@ -19,7 +19,7 @@
         "IsBloomEnabled": true,
         "IsFilmGrainEnabled": true,
         "IsAntiAliasingEnabled": false,
-        "LanguageIndex": 1,
+        "LanguageIndex": 0,
         "IsLanguageSelected": true
     },
     "Campaign": {
@@ -28,7 +28,7 @@
         "Locations": [
             {
                 "Id": "1",
-                "IsCompleted": false,
+                "IsCompleted": true,
                 "OpenedMissions": [
                     {
                         "Id": "1_1",
@@ -37,15 +37,37 @@
                     },
                     {
                         "Id": "1_2",
+                        "IsCompleted": true,
+                        "Stars": 3
+                    },
+                    {
+                        "Id": "1_3",
+                        "IsCompleted": true,
+                        "Stars": 3
+                    },
+                    {
+                        "Id": "1_4",
+                        "IsCompleted": true,
+                        "Stars": 1
+                    }
+                ],
+                "MaxCompletedMissionId": "1_4"
+            },
+            {
+                "Id": "2",
+                "IsCompleted": false,
+                "OpenedMissions": [
+                    {
+                        "Id": "2_1",
                         "IsCompleted": false,
                         "Stars": 0
                     }
                 ],
-                "MaxCompletedMissionId": "1_1"
+                "MaxCompletedMissionId": ""
             }
         ],
         "LastLaunchedLocationId": "1",
-        "LastLaunchedMissionId": "1_1"
+        "LastLaunchedMissionId": "1_4"
     },
     "Heroes": {
         "_version": 1,

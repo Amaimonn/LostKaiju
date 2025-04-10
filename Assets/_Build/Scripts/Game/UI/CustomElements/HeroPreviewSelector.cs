@@ -7,11 +7,11 @@ namespace LostKaiju.Game.UI.CustomElements
 {
     public class HeroPreviewSelector
     {
-        private readonly Dictionary<string, GameObject> _heroPreviewCache = new();
+        private readonly Dictionary<string, GameObject> _heroPreviewContainersCache = new();
 
         public GameObject GetPreviewById(string heroId)
         {
-            if (_heroPreviewCache.TryGetValue(heroId, out var cachedPreview) && cachedPreview != null)
+            if (_heroPreviewContainersCache.TryGetValue(heroId, out var cachedPreview) && cachedPreview != null)
                 return cachedPreview;
             else
                 return CreateById(heroId);
@@ -21,25 +21,28 @@ namespace LostKaiju.Game.UI.CustomElements
         {
             var heroPreviewPrefab = Resources.Load<GameObject>($"{Paths.HERO_PREVIEWS}/{heroId}");
             var heroPreview = UnityEngine.Object.Instantiate(heroPreviewPrefab);
-            _heroPreviewCache[heroId] = heroPreview;
+            var previewParent = new GameObject($"{heroPreview.name} Container");
+            var parentRectTransform = previewParent.AddComponent<RectTransform>();
+            heroPreview.transform.SetParent(parentRectTransform, false);
+            _heroPreviewContainersCache[heroId] = previewParent;
             
-            return heroPreview;
+            return previewParent;
         }
 
         public void ClearExceptOne(string id)
         {
-            if (_heroPreviewCache.TryGetValue(id, out var savedPreview))
+            if (_heroPreviewContainersCache.TryGetValue(id, out var savedPreview))
             {
-                _heroPreviewCache.Remove(id);
+                _heroPreviewContainersCache.Remove(id);
 
-                foreach (var preview in _heroPreviewCache.Values)
+                foreach (var preview in _heroPreviewContainersCache.Values)
                 {
                     if (preview != null)
                         UnityEngine.Object.Destroy(preview);
                 }
 
-                _heroPreviewCache.Clear();
-                _heroPreviewCache[id] = savedPreview;
+                _heroPreviewContainersCache.Clear();
+                _heroPreviewContainersCache[id] = savedPreview;
             }
             else
             {

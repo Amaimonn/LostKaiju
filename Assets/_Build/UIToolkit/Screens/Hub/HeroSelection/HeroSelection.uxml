@@ -17,7 +17,7 @@
             <engine:VisualElement name="MainContainer" class="main-container">
                 <engine:ScrollView name="HeroesList" horizontal-scroller-visibility="Hidden" class="hero-list-scrollview" />
                 <engine:VisualElement name="PreviewPanel" class="preview-panel">
-                    <engine:Label text="BLANKO" name="SelectedName" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="selected-name" />
+                    <engine:Label name="SelectedName" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="selected-name" />
                     <engine:VisualElement name="SelectedPreview" class="selected-preview__frame">
                         <engine:VisualElement name="PreviewBackground" style="flex-grow: 1; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; border-bottom-left-radius: 14px; background-color: rgba(47, 47, 47, 0.31); justify-content: center; overflow: hidden;">
                             <engine:VisualElement name="SelectedImage" class="selected-preview__image" />

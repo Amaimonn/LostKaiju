@@ -23,7 +23,7 @@ namespace LostKaiju.Game.UI.CustomElements
             {
                 _onHidePreview(_currentPreview);
             }
-            hero.transform.parent = _heroTransform;
+            hero.transform.SetParent(_heroTransform, false);
             hero.transform.localPosition = Vector3.zero;
             _currentPreview = hero;
             _onShowPreview(_currentPreview);
