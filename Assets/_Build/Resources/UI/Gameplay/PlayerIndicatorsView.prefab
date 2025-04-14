@@ -174,6 +174,57 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2617277909021049172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8028360027719708081}
+  - component: {fileID: 7505053611424031548}
+  m_Layer: 5
+  m_Name: MaxWidth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8028360027719708081
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2617277909021049172}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6744596703655135417}
+  m_Father: {fileID: 5832044697614381678}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7505053611424031548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2617277909021049172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baccc5bf9710f71409aac5e1646be280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxWidth: 3440
+  _rectTransform: {fileID: 8028360027719708081}
 --- !u!1 &2950066606768302208
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +257,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7847200143807211883}
-  m_Father: {fileID: 5832044697614381678}
+  m_Father: {fileID: 8028360027719708081}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -412,7 +463,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5832044697614381678}
   - component: {fileID: 6461702662535342388}
-  - component: {fileID: 5036679463910129583}
+  - component: {fileID: 193661477820865143}
   m_Layer: 5
   m_Name: PlayerIndicatorsView
   m_TagString: Untagged
@@ -432,7 +483,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6744596703655135417}
+  - {fileID: 8028360027719708081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -455,7 +506,7 @@ MonoBehaviour:
   _healthBarImage: {fileID: 4266092405309412591}
   _maxHealthText: {fileID: 5031224469915549947}
   _currentHealthText: {fileID: 5013018005984221205}
---- !u!114 &5036679463910129583
+--- !u!114 &193661477820865143
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -471,6 +522,10 @@ MonoBehaviour:
   _rightScale: 0
   _bottomScale: 0
   _leftScale: 1
+  _minTopInset: 0
+  _minRightInset: 0
+  _minBottomInset: 0
+  _minLeftInset: 0
 --- !u!1 &5011036027879439201
 GameObject:
   m_ObjectHideFlags: 0
