@@ -11,11 +11,13 @@ namespace LostKaiju.Game.UI.CustomBehaviours
         [SerializeField, Min(0)] private float _bottomScale = 1f;
         [SerializeField, Min(0)] private float _leftScale = 1f;
 
-        [Header("Minimum Inset")]
+        [Header("Minimum Inset (in reference resolution units)")]
         [SerializeField, Min(0)] private float _minTopInset = 0f;
         [SerializeField, Min(0)] private float _minRightInset = 0f;
         [SerializeField, Min(0)] private float _minBottomInset = 0f;
         [SerializeField, Min(0)] private float _minLeftInset = 0f;
+
+        private static Vector2 ReferenceResolution = new(1920, 1080);
 
         private RectTransform _rectTransform;
         private Rect _lastSafeArea;
@@ -24,6 +26,12 @@ namespace LostKaiju.Game.UI.CustomBehaviours
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
+            ApplySafeAreaIfNeeded();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
             ApplySafeAreaIfNeeded();
         }
 
@@ -38,41 +46,53 @@ namespace LostKaiju.Game.UI.CustomBehaviours
                     _rectTransform = GetComponent<RectTransform>();
                 _lastSafeArea = safeArea;
                 _lastScreenSize = screenSize;
-                ApplySafeArea();
+                ApplySafeArea(screenSize);
             }
         }
 
-        private void ApplySafeArea()
+        private void ApplySafeArea(Vector2 screenSize)
         {
             var safeMin = _lastSafeArea.min;
             var safeMax = _lastSafeArea.max;
 
-            float screenWidth = Screen.width;
-            float screenHeight = Screen.height;
+            var screenWidth = screenSize.x;
+            var screenHeight = screenSize.y;
+
+            // Calculate the scale factor based on the current screen size vs reference resolution
+            var widthRatio = screenWidth / ReferenceResolution.x;
+            var heightRatio = screenHeight / ReferenceResolution.y;
+            var scaleFactor = Mathf.Min(widthRatio, heightRatio);
+            // Or use Mathf.Lerp(widthRatio, heightRatio, 0.5f) for mixed scaling
+
+            // Scale the minimum insets according to the reference resolution
+            var scaledMinTopInset = _minTopInset * scaleFactor;
+            var scaledMinRightInset = _minRightInset * scaleFactor;
+            var scaledMinBottomInset = _minBottomInset * scaleFactor;
+            var scaledMinLeftInset = _minLeftInset * scaleFactor;
 
             // Calculate left bound with scale and minimum inset
-            float leftBound = safeMin.x;
+            var leftBound = safeMin.x;
             if (_leftScale > 0)
                 leftBound = Mathf.Lerp(0, safeMin.x, _leftScale);
-            leftBound = Mathf.Max(leftBound, _minLeftInset);
+            leftBound = Mathf.Max(leftBound, scaledMinLeftInset);
 
             // Calculate right bound with scale and minimum inset
-            float rightBound = safeMax.x;
+            var rightBound = safeMax.x;
             if (_rightScale > 0)
                 rightBound = Mathf.Lerp(screenWidth, safeMax.x, _rightScale);
-            rightBound = Mathf.Min(rightBound, screenWidth - _minRightInset);
+            rightBound = Mathf.Min(rightBound, screenWidth - scaledMinRightInset);
 
             // Calculate bottom bound with scale and minimum inset
-            float bottomBound = safeMin.y;
+            var bottomBound = safeMin.y;
             if (_bottomScale > 0)
                 bottomBound = Mathf.Lerp(0, safeMin.y, _bottomScale);
-            bottomBound = Mathf.Max(bottomBound, _minBottomInset);
+            bottomBound = Mathf.Max(bottomBound, scaledMinBottomInset);
 
             // Calculate top bound with scale and minimum inset
-            float topBound = safeMax.y;
+            var topBound = safeMax.y;
             if (_topScale > 0)
                 topBound = Mathf.Lerp(screenHeight, safeMax.y, _topScale);
-            topBound = Mathf.Min(topBound, screenHeight - _minTopInset);
+            topBound = Mathf.Min(topBound, screenHeight - scaledMinTopInset);
 
             // Ensure bounds are valid (left < right, bottom < top)
             leftBound = Mathf.Min(leftBound, rightBound - 1); // -1 to ensure at least 1 pixel width
