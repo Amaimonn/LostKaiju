@@ -1,4 +1,4 @@
-![cover_opt](https://github.com/user-attachments/assets/279d5608-9d50-4afe-a458-8fdc64f86c0e)
+![lost_kaiju_banner_1280_640](https://github.com/user-attachments/assets/db71138b-b44d-4d74-8ebf-3c461e3d68af)
 # LOST KAIJU
 *A noir 2D Platformer about a lost kaiju, built with modern Unity 6 tools.* 
 <img width="600" alt="Hub scene" src="https://github.com/user-attachments/assets/b6f227cf-a3b2-4adc-a989-ca251b98ae38"></img>
